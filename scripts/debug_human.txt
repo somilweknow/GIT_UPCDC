@@ -1,0 +1,144 @@
+Array
+(
+    [apex_type] => शीर्ष सहकारी संस्था (APEX)
+    [apex_name] => उत्तर प्रदेश राज्य निर्माण सहकारी संघ लि०, उ०प्र०
+    [apex_code] => 1
+    [committee_status] => yes
+    [email_id] => somil@weknowtech.in
+    [society_registration_no] => 123456
+    [society_registration_date] => 2025-11-01
+    [prakhand_name] => 
+    [members_no] => 1
+    [active_members_no] => 2
+    [inactive_members_no] => 3
+    [new_members] => 4
+    [share_capital] => 5
+    [inactive_to_active_no] => 6
+    [total_members] => 7
+    [sec_6_2_mgt_committee_is_elected] => yes
+    [sec_6_2_election_year] => 2024
+    [sec_6_2_end_year] => 2024
+    [sec_6_2_designation_1] => अध्यक्ष
+    [sec_6_2_name_1] => somil
+    [sec_6_2_father_name_1] => jaiswal
+    [sec_6_2__mob_no_1] => 9554969722
+    [sec_6_2_id] => 1
+    [sec_3_santulan_patra] => 2018-2019
+    [sec_3_profit_loss_1] => profit
+    [sec_3_profit_loss_amount_1] => 4
+    [sec_3_accumulated_1] => profit
+    [sec_3_accumulated_amount_1] => 2
+    [sec_3_profit_loss_2] => loss
+    [sec_3_profit_loss_amount_2] => 4
+    [sec_3_accumulated_2] => profit
+    [sec_3_accumulated_amount_2] => 45
+    [sec_3_profit_loss_3] => loss
+    [sec_3_profit_loss_amount_3] => 54
+    [sec_3_accumulated_3] => loss
+    [sec_3_accumulated_amount_3] => 65
+    [sec_3_financial_audit_year] => 2023-2024
+    [sec_3_audit_grading] => A
+    [sec_3_compliance_status] => no
+    [sec_3_agm_year] => 2021-2022
+    [sec_3_dividend_year] => 
+    [sec_3_dividend_per] => 10
+    [sec_3_dividend_amt] => 10
+    [sec_2_1_2_business_description_1] => 1
+    [sec_2_1_2_value_1] => 2
+    [sec_2_1_2_business_description_2] => 3
+    [sec_2_1_2_value_2] => 4
+    [sec_2_1_2_business_description_3] => 5
+    [sec_2_1_2_value_3] => 6
+    [other_business_id] => 3
+    [post_id] => Array
+        (
+            [0] => 29
+            [1] => 9
+            [2] => 16
+        )
+
+    [sanctioned_post] => Array
+        (
+            [0] => 1
+            [1] => 2
+            [2] => 3
+        )
+
+    [vacant_post] => Array
+        (
+            [0] => 2
+            [1] => 3
+            [2] => 4
+        )
+
+    [human_resource_id] => 3
+    [sec_3_ownership] => 
+    [sec_3_building_rent] => 
+    [sec_3_building_area] => 
+    [sec_3_remark] => 
+    [sec_new_plot_area] => 1
+    [sec_new_plot_revenue_status] => no
+    [sec_new_plot_reason_for_not_record] => 1
+    [sec_new_plot_practices_if_not] => 24
+    [sec_new_plot_gata_no] => 2
+    [sec_new_remarks] => 3
+    [sec_3_a_land_chauhaddi_east] => &lt;br /&gt;&lt;b&gt;Warning&lt;/b&gt;:  Undefined variable $row_3_1 in &lt;b&gt;D:\htdocs\upcdc\upcdc.in\visit_uprnss.php&lt;/b&gt; on line &lt;b&gt;1355&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;&lt;b&gt;Warning&lt;/b&gt;:  Trying to access array offset on value of type null in &lt;b&gt;D:\htdocs\upcdc\upcdc.in\visit_uprnss.php&lt;/b&gt; on line &lt;b&gt;1355&lt;/b&gt;&lt;br /&gt;
+    [sec_3_a_land_chauhaddi_west] => &lt;br /&gt;&lt;b&gt;Warning&lt;/b&gt;:  Undefined variable $row_3_1 in &lt;b&gt;D:\htdocs\upcdc\upcdc.in\visit_uprnss.php&lt;/b&gt; on line &lt;b&gt;1362&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;&lt;b&gt;Warning&lt;/b&gt;:  Trying to access array offset on value of type null in &lt;b&gt;D:\htdocs\upcdc\upcdc.in\visit_uprnss.php&lt;/b&gt; on line &lt;b&gt;1362&lt;/b&gt;&lt;br /&gt;
+    [sec_3_a_land_chauhaddi_north] => &lt;br /&gt;&lt;b&gt;Warning&lt;/b&gt;:  Undefined variable $row_3_1 in &lt;b&gt;D:\htdocs\upcdc\upcdc.in\visit_uprnss.php&lt;/b&gt; on line &lt;b&gt;1369&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;&lt;b&gt;Warning&lt;/b&gt;:  Trying to access array offset on value of type null in &lt;b&gt;D:\htdocs\upcdc\upcdc.in\visit_uprnss.php&lt;/b&gt; on line &lt;b&gt;1369&lt;/b&gt;&lt;br /&gt;
+    [sec_3_a_land_chauhaddi_south] => &lt;br /&gt;&lt;b&gt;Warning&lt;/b&gt;:  Undefined variable $row_3_1 in &lt;b&gt;D:\htdocs\upcdc\upcdc.in\visit_uprnss.php&lt;/b&gt; on line &lt;b&gt;1376&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;&lt;b&gt;Warning&lt;/b&gt;:  Trying to access array offset on value of type null in &lt;b&gt;D:\htdocs\upcdc\upcdc.in\visit_uprnss.php&lt;/b&gt; on line &lt;b&gt;1376&lt;/b&gt;&lt;br /&gt;
+    [sec_3_a_land_on_road] => &lt;br /&gt;&lt;b&gt;Warning&lt;/b&gt;:  Undefined variable $row_3_1 in &lt;b&gt;D:\htdocs\upcdc\upcdc.in\visit_uprnss.php&lt;/b&gt; on line &lt;b&gt;1385&lt;/b&gt;&lt;br /&gt;&lt;br /&gt;&lt;b&gt;Warning&lt;/b&gt;:  Trying to access array offset on value of type null in &lt;b&gt;D:\htdocs\upcdc\upcdc.in\visit_uprnss.php&lt;/b&gt; on line &lt;b&gt;1385&lt;/b&gt;&lt;br /&gt;
+    [sec_3_a_land_frontage] => east
+    [sec_3_b_storage_capacity_1] => 5
+    [sec_3_b_godown_year_1] => 1999
+    [sec_3_b_wdra_certified_1] => yes
+    [sec_3_b_godown_type_of_fund_1] => 56
+    [sec_3_b_godown_status_1] => good
+    [sec_3_b_godown_comment_1] => cgfh gjh
+    [sec_3_b_storage_capacity_2] => 0
+    [sec_3_b_godown_year_2] => 2001
+    [sec_3_b_wdra_certified_2] => no
+    [sec_3_b_godown_type_of_fund_2] => dxcgfhgvjh
+    [sec_3_b_godown_status_2] => repairable
+    [sec_3_b_godown_comment_2] => dxtcfygvubhinj
+    [sec_2_nirmit_godown_id] => 2
+    [sec_3_c_length_1] => 1
+    [sec_3_c_vacant_land_status_1] => fertile
+    [sec_3_c_land_location_1] => inpremise
+    [sec_3_c_suitable_godown_1] => yes
+    [sec_3_c_rak_distance_1] => 32
+    [sec_3_c_paved_road_1] => ordinary
+    [sec_3_c_id] => 1
+    [sec_6_access_road] => proper
+    [sec_6_paved_road] => nh
+    [sec_6_2_truck_not_reach] => 
+    [sec_8_plot_frontage] => 34
+    [sec_8_electrical_connection] => yes
+    [sec_8_electrical_connection_working] => yes
+    [sec_8_bill_paid_yes_no] => yes
+    [sec_8_electricity_not_available_reason] => 
+    [sec_8_electricity_not_available_remark] => कोइ प्रस्ताव नहीं है 
+    [sec_8_bill_not_paid_month] => 
+    [sec_8_outstanding_amount] => 
+    [sec_8_solar_connection] => yes
+    [sec_8_solar_work_status] => yes
+    [sec_8_solar_bill_paid] => good
+    [sec_8_internet_connection] => yes
+    [sec_8_internet_service_provider] => bsnl
+    [sec_8_internet_bill_paid] => yes
+    [sec_8_internet_active] => yes
+    [sec_8_select_internet_operator] => Array
+        (
+            [0] => bsnl
+        )
+
+    [sec_8_narrow_tubes] => no
+    [sec_8_water_tank] => yes
+    [sec_8_samarsabel] => yes
+    [sec_8_handpump] => no
+    [term] => a
+    [latitude] => 26.842684501991783
+    [longitude] => 80.94119288299079
+    [id] => submit_form_uprnss
+    [current_step_count] => 2
+    [survey_id] => 1
+)

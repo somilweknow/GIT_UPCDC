@@ -1,0 +1,676 @@
+<?php
+include("scripts/settings.php");
+session_start();
+
+page_header_start();
+page_header_end();
+
+page_sidebar();
+
+/** helpers */
+function h($v) {
+  return htmlspecialchars((string) ($v ?? ''), ENT_QUOTES, 'UTF-8');
+}
+function e($db, $v) {
+  return mysqli_real_escape_string($db, trim((string) ($v ?? '')));
+}
+
+/**
+ * Normalize various possible stored values into canonical codes:
+ * returns 'active' | 'non-active' | 'closed' | ''
+ */
+function status_code($v) {
+  $v = trim((string)$v);
+  if ($v === '') return '';
+  // match known English codes first
+  $lc = $v;
+  // Hindi synonyms
+  $active_syn = ['सक्रिय', 'सक्रिय ', 'सक्रिया', 'active'];
+  $non_syn = ['निष्क्रिय', 'non-active', 'non active', 'non_active'];
+  $closed_syn = ['परिसमापनाधीन', 'परिसमापनाधीन ', 'परिसमापन', 'closed'];
+  if (in_array($v, $active_syn, true)) return 'active';
+  if (in_array($v, $non_syn, true)) return 'non-active';
+  if (in_array($v, $closed_syn, true)) return 'closed';
+  // fallback: try case-insensitive english match
+  $vl = mb_strtolower($v);
+  if ($vl === 'active' || $vl === 'सक्रिय') return 'active';
+  if ($vl === 'non-active' || $vl === 'non active' || $vl === 'निष्क्रिय') return 'non-active';
+  if ($vl === 'closed' || $vl === 'परिसमापनाधीन') return 'closed';
+  return $v; // unknown, return as-is
+}
+
+/** Display label for status (Hindi friendly) */
+function status_label($v) {
+  $code = status_code($v);
+  if ($code === 'active') return 'सक्रिय';
+  if ($code === 'non-active') return 'निष्क्रिय';
+  if ($code === 'closed') return 'परिसमापनाधीन';
+  return h($v);
+}
+
+$msg = '';
+$msg_class = 'success';
+
+$form = [
+  'mandal_name' => '',
+  'janpad_name' => '',
+  'society_status' => '',
+  'sachiv_type' => '',
+  'sachiv_name' => '',
+  'sachiv_no' => '',
+  'sachiv_mail' => '',
+  'society_chairamin_name' => '',
+  'society_chairamin_no' => '',
+  'society_name' => '',
+  'ncd_id' => '',
+  'liquidator_name' => '',
+  'liquidator_no' => '',
+  'liquidation_from_date' => '',
+  'bhumi_area' => '',
+  'arrived_road' => '',
+  'land_status' => '',
+  'land_type' => '',
+  'godown_suitable' => '',
+  'raik_distance_km' => '',
+  'kabja_vivadit' => '',
+  'is_kabja_vivadit' => '',
+  'rajswa_abhilekh' => '',
+  'business_type' => '',
+  'business_status' => '',
+  'business_status_amt' => '',
+  'balance_sheet_year' => '',
+  'last_audit_date' => '',
+  'liquidation_type' => '',
+  'samiti_sthiti' => '',
+  'any_sampatti_details' => '',
+  'latitude' => '',
+  'longitude' => ''
+];
+
+$edit_id = isset($_GET['edit']) ? (int) $_GET['edit'] : 0;
+$is_edit = $edit_id > 0;
+
+if ($is_edit) {
+  $sql = "SELECT j.*, mdv.division_name AS mandal_label, md.district_name AS janpad_label
+            FROM jila_sehkari j
+            LEFT JOIN master_division mdv ON mdv.sno=j.mandal_name
+            LEFT JOIN master_district md ON md.sno=j.janpad_name
+            WHERE j.sno=" . $edit_id . " LIMIT 1";
+  if ($res = mysqli_query($db, $sql)) {
+    if ($row = mysqli_fetch_assoc($res)) {
+      foreach ($form as $k => $_) {
+        if (array_key_exists($k, $row))
+          $form[$k] = (string) $row[$k];
+      }
+      // normalize society_status so UI and logic use canonical codes
+      $form['society_status'] = status_code($form['society_status']);
+      $mandal_label = (string) ($row['mandal_label'] ?? '');
+      $janpad_label = (string) ($row['janpad_label'] ?? '');
+    } else {
+      $msg = "Record not found for edit #" . $edit_id;
+      $msg_class = 'error';
+    }
+    mysqli_free_result($res);
+  } else {
+    $msg = 'Edit load error: ' . h(mysqli_error($db));
+    $msg_class = 'error';
+  }
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  // populate form from POST
+  foreach ($form as $k => $v) {
+    $form[$k] = isset($_POST[$k]) ? trim((string) $_POST[$k]) : '';
+  }
+
+  // Normalize society_status in case legacy Hindi value was submitted
+  $form['society_status'] = status_code($form['society_status']);
+
+  $is_update = isset($_POST['update_sno']) && ctype_digit($_POST['update_sno']);
+  $update_id = $is_update ? (int) $_POST['update_sno'] : 0;
+
+  // if not closed, clear liquidation-only fields
+  if ($form['society_status'] !== 'closed') {
+    $form['society_name'] = '';
+    $form['liquidator_name'] = '';
+    $form['liquidation_from_date'] = '';
+  }
+
+  // last_audit_date must be YYYY-MM-DD or cleared
+  if ($form['last_audit_date'] && !preg_match('/^\d{4}-\d{2}-\d{2}$/', $form['last_audit_date'])) {
+    $form['last_audit_date'] = '';
+  }
+
+  // validation for closed
+  if (
+    $form['society_status'] === 'closed' &&
+    ($form['society_name'] === '' || $form['liquidator_name'] === '' || $form['liquidation_from_date'] === '')
+  ) {
+    $msg = 'परिसमापनाधीन के लिए समिति का नाम, परिसमापक का नाम और तारीख आवश्यक है.';
+    $msg_class = 'error';
+  } else {
+    if ($is_update) {
+      $sql = "UPDATE jila_sehkari SET
+      mandal_name='" . e($db, $form['mandal_name']) . "',
+      janpad_name='" . e($db, $form['janpad_name']) . "',
+      society_status='" . e($db, $form['society_status']) . "',
+      sachiv_type='" . e($db, $form['sachiv_type']) . "',
+      sachiv_name='" . e($db, $form['sachiv_name']) . "',
+      sachiv_no='" . e($db, $form['sachiv_no']) . "',
+      sachiv_mail='" . e($db, $form['sachiv_mail']) . "',
+      society_chairamin_name='" . e($db, $form['society_chairamin_name']) . "',
+      society_chairamin_no='" . e($db, $form['society_chairamin_no']) . "',
+      society_name='" . e($db, $form['society_name']) . "',
+      ncd_id='" . e($db, $form['ncd_id']) . "',
+      liquidator_name='" . e($db, $form['liquidator_name']) . "',
+      liquidator_no='" . e($db, $form['liquidator_no']) . "',
+      liquidation_from_date=" . ($form['liquidation_from_date'] ? "'" . e($db, $form['liquidation_from_date']) . "'" : "NULL") . ",
+      bhumi_area='" . e($db, $form['bhumi_area']) . "',
+      arrived_road='" . e($db, $form['arrived_road']) . "',
+      land_status='" . e($db, $form['land_status']) . "',
+      land_type='" . e($db, $form['land_type']) . "',
+      godown_suitable='" . e($db, $form['godown_suitable']) . "',
+      raik_distance_km='" . e($db, $form['raik_distance_km']) . "',
+      kabja_vivadit='" . e($db, $form['kabja_vivadit']) . "',
+      is_kabja_vivadit='" . e($db, $form['is_kabja_vivadit']) . "',
+      rajswa_abhilekh='" . e($db, $form['rajswa_abhilekh']) . "',
+      business_type='" . e($db, $form['business_type']) . "',
+      business_status='" . e($db, $form['business_status']) . "',
+      business_status_amt='" . e($db, $form['business_status_amt']) . "',
+      balance_sheet_year='" . e($db, $form['balance_sheet_year']) . "',
+      last_audit_date=" . ($form['last_audit_date'] ? "'" . e($db, $form['last_audit_date']) . "'" : "NULL") . ",
+      liquidation_type='" . e($db, $form['liquidation_type']) . "',
+      samiti_sthiti='" . e($db, $form['samiti_sthiti']) . "',
+      any_sampatti_details='" . e($db, $form['any_sampatti_details']) . "',
+      latitude='" . e($db, $form['latitude']) . "',
+      longitude='" . e($db, $form['longitude']) . "'
+    WHERE sno=" . $update_id;
+
+      if (mysqli_query($db, $sql)) {
+        $msg = "Record #" . $update_id . " updated successfully.";
+        $msg_class = 'success';
+      } else {
+        $msg = 'Update error: ' . h(mysqli_error($db));
+        $msg_class = 'error';
+      }
+
+    } else {
+      $sql = "INSERT INTO jila_sehkari
+            (mandal_name,janpad_name,society_status,sachiv_type,sachiv_name,sachiv_no,sachiv_mail,society_chairamin_name,society_chairamin_no,
+            society_name,ncd_id,liquidator_name,liquidator_no,liquidation_from_date,
+            bhumi_area,arrived_road,land_status,land_type,godown_suitable,
+            raik_distance_km,kabja_vivadit,is_kabja_vivadit,rajswa_abhilekh,business_type,business_status,business_status_amt,
+            balance_sheet_year,last_audit_date,liquidation_type,samiti_sthiti,any_sampatti_details,latitude,longitude)
+            VALUES(
+            '" . e($db, $form['mandal_name']) . "','" . e($db, $form['janpad_name']) . "','" . e($db, $form['society_status']) . "',
+            '" . e($db, $form['sachiv_type']) . "','" . e($db, $form['sachiv_name']) . "','" . e($db, $form['sachiv_no']) . "','" . e($db, $form['sachiv_mail']) . "','" . e($db, $form['society_chairamin_name']) . "','" . e($db, $form['society_chairamin_no']) . "',
+            '" . e($db, $form['society_name']) . "','" . e($db, $form['ncd_id']) . "','" . e($db, $form['liquidator_name']) . "','" . e($db, $form['liquidator_no']) . "'," . ($form['liquidation_from_date'] ? "'" . e($db, $form['liquidation_from_date']) . "'" : "NULL") . ",
+            '" . e($db, $form['bhumi_area']) . "','" . e($db, $form['arrived_road']) . "','" . e($db, $form['land_status']) . "',
+            '" . e($db, $form['land_type']) . "','" . e($db, $form['godown_suitable']) . "',
+            '" . e($db, $form['raik_distance_km']) . "','" . e($db, $form['kabja_vivadit']) . "','" . e($db, $form['is_kabja_vivadit']) . "','" . e($db, $form['rajswa_abhilekh']) . "',
+            '" . e($db, $form['business_type']) . "','" . e($db, $form['business_status']) . "','" . e($db, $form['business_status_amt']) . "',
+            '" . e($db, $form['balance_sheet_year']) . "'," .
+        ($form['last_audit_date'] ? "'" . e($db, $form['last_audit_date']) . "'" : "NULL") . ",
+            '" . e($db, $form['liquidation_type']) . "','" . e($db, $form['samiti_sthiti']) . "','" . e($db, $form['any_sampatti_details']) . "',
+            '" . e($db, $form['latitude']) . "','" . e($db, $form['longitude']) . "'
+            )";
+
+      if (mysqli_query($db, $sql)) {
+        $msg = '✅ Inserted successfully!';
+        $msg_class = 'success';
+        $form = array_map(fn($x) => '', $form);
+      } else {
+        $msg = 'Insert error: ' . h(mysqli_error($db));
+        $msg_class = 'error';
+      }
+    }
+  }
+}
+?>
+
+<style>
+  /* same CSS as before (kept concise) */
+  .card { background: #f9f9f9; border: 1px solid #ddd; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 1px 4px rgba(0,0,0,.08) }
+  .section-heading { background:#4a90e2; color:#fff; padding:10px 15px; border-radius:5px; margin-bottom:15px; font-weight:700; font-size:1.1em }
+  .form-label { font-weight:700; margin-bottom:5px }
+  .form-control, .form-select, textarea { width:100%; padding:8px 10px; border:1px solid #ccc; border-radius:5px; box-sizing:border-box; font-size:.95em }
+  .form-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:15px 20px }
+  .btn-primary { background:#4a90e2; color:#fff; border:none; padding:10px 20px; border-radius:5px; cursor:pointer }
+  .btn-primary:hover { background:#357ab8 }
+  @media (max-width:768px) { .form-grid { grid-template-columns:1fr } }
+  .alert { margin:12px 0; padding:10px 12px; border-radius:8px; font-weight:700 }
+  .alert.success { background:#e8f7ee; color:#11634a; border:1px solid #b7ebc6 }
+  .alert.error { background:#fdecea; color:#8a1c22; border:1px solid #f5c2c7 }
+  .table-wrap { overflow:auto; margin-top:18px }
+  .report-table { width:100%; border-collapse:collapse }
+  .report-table th, .report-table td { border:1px solid #e1e5ee; padding:8px 10px; font-size:13px; white-space:nowrap }
+  .report-table th { background:#f1f5ff; text-align:left }
+  #map_container { height:280px }
+</style>
+
+<!-- Report (kept original layout) -->
+<div class="card" style="margin-top: 40px;">
+  <h3 class="section-heading">📋 रिपोर्ट</h3>
+  <div class="table-wrap">
+    <table class="report-table">
+      <thead>
+        <tr>
+          <th>Action</th><th>S.No.</th><th>NCD ID</th><th>समिति अध्यक्ष</th><th>सचिव का प्रकार</th>
+          <th>क्या समिति सक्रिय है</th><th>परिसमापक का नाम</th><th>कब से परिसमापक है</th><th>भूमि क्षेत्रफल</th>
+          <th>पहुच मार्ग का प्रकार</th><th>भूमि स्थिति</th><th>स्थान</th><th>गोदाम उपयुक्त</th><th>रेल दूरी (किमी)</th>
+          <th>कब्जा/विवादित</th><th>व्यवसाय स्थिति</th><th>व्यवसाय ₹ (लाख)</th><th>संतुलन पत्र</th><th>अन्तिम आडिट</th>
+          <th>परिसम्पत्ति</th><th>समिति की स्थिति</th><th>अन्य सम्पत्ति</th>
+        </tr>
+      </thead>
+      <tbody>
+      <?php
+      $sql = "SELECT j.*, dt.district_name FROM jila_sehkari j LEFT JOIN master_district dt ON j.janpad_name = dt.sno WHERE 1=1";
+      if (!empty($_SESSION['division_id'])) {
+        $div_ids = array_map('intval', (array) $_SESSION['division_id']);
+        if ($div_ids) $sql .= " AND j.mandal_name IN (" . implode(',', $div_ids) . ")";
+      }
+      if (!empty($_SESSION['district_id'])) {
+        $dis_ids = array_map('intval', (array) $_SESSION['district_id']);
+        if ($dis_ids) $sql .= " AND j.janpad_name IN (" . implode(',', $dis_ids) . ")";
+      }
+      $sql .= " ORDER BY dt.district_name, j.sno DESC";
+
+      if ($res = mysqli_query($db, $sql)) {
+        $i = 1; $last = null;
+        while ($row = mysqli_fetch_assoc($res)) {
+          $dist = $row['district_name'] ?? 'N/A';
+          if ($dist !== $last) {
+            echo '<tr><th colspan="22" style="background:#e9f3ff;color:#0a3d8f;font-weight:700;">जनपद: ' . h($dist) . '</th></tr>';
+            $last = $dist;
+          }
+        ?>
+        <tr>
+          <td class="action-cell"><a href="?edit=<?= (int)$row['sno'] ?>">Edit</a></td>
+          <td><?= $i++ ?></td>
+          <td><?= h($row['ncd_id']) ?></td>
+          <td><?= h($row['society_chairamin_name'] ?? $row['samiti_adhyaksh_name'] ?? '') ?></td>
+          <td><?= h($row['sachiv_type']) ?></td>
+          <td><?= h(status_label($row['society_status'] ?? '')) ?></td>
+          <td><?= h($row['liquidator_name']) ?></td>
+          <td><?= h($row['liquidation_from_date']) ?></td>
+          <td><?= h($row['bhumi_area']) ?></td>
+          <td><?= h($row['arrived_road'] ?? $row['pahuch_marg_prakar'] ?? '') ?></td>
+          <td><?= h($row['land_status']) ?></td>
+          <td><?= h($row['land_type']) ?></td>
+          <td><?= h($row['godown_suitable']) ?></td>
+          <td><?= h($row['raik_distance_km']) ?></td>
+          <td><?= h($row['kabja_vivadit']) ?></td>
+          <td><?= h($row['business_status'] ?? $row['business_sthiti'] ?? '') ?></td>
+          <td><?= h($row['business_status_amt'] ?? $row['business_sthiti_rupees'] ?? '') ?></td>
+          <td><?= h($row['balance_sheet_year'] ?? $row['santulan_patra_year'] ?? '') ?></td>
+          <td><?= h($row['last_audit_date'] ?? $row['antim_audit_date'] ?? '') ?></td>
+          <td><?= h($row['liquidation_type'] ?? $row['parismapti_type'] ?? '') ?></td>
+          <td><?= h($row['samiti_sthiti']) ?></td>
+          <td><?= h($row['any_sampatti_details']) ?></td>
+        </tr>
+        <?php
+        }
+        mysqli_free_result($res);
+      }
+      ?>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<?php if ($msg): ?>
+  <div class="alert <?= h($msg_class) ?>"><?= h($msg) ?></div>
+<?php endif; ?>
+
+<form method="post" action="">
+  <?php if ($is_edit): ?><input type="hidden" name="update_sno" value="<?= (int)$edit_id ?>"><?php endif; ?>
+
+  <h2 style="text-align:center;font-size:28px;color:#357ab8;font-weight:600;padding:10px;border-radius:5px;margin-bottom:20px;">
+    जिला सहकारी संघों से संबंधित सूचना
+  </h2>
+
+  <div class="card">
+    <h3 class="section-heading">📍 लोकेशन</h3>
+    <div class="form-grid" style="grid-template-columns: 1fr 3fr;">
+      <div>
+        <label>Latitude</label>
+        <input type="text" id="lat_show" class="form-control" value="<?= h($form['latitude']) ?>" readonly>
+        <label style="margin-top:10px;">Longitude</label>
+        <input type="text" id="long_show" class="form-control" value="<?= h($form['longitude']) ?>" readonly>
+        <input type="hidden" name="latitude" id="lat" value="<?= h($form['latitude']) ?>">
+        <input type="hidden" name="longitude" id="long" value="<?= h($form['longitude']) ?>">
+        <button type="button" class="btn btn-primary" style="margin-top:10px;" onclick="getLocation();">लोकेशन रिफ्रेश करें</button>
+        <div class="blinking-text">(लोकेशन मोबाईल से भरे)*</div>
+      </div>
+      <div id="map_container">
+        <iframe id="googlemap"
+          src="https://maps.google.com/maps?q=<?= h($form['latitude'] ?: '0') . ',' . h($form['longitude'] ?: '0') ?>&hl=hi&z=13&output=embed"
+          width="100%" height="100%" style="border:1px solid; border-radius:10px;" allowfullscreen="" loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 class="section-heading">📑 मूलभूत जानकारी</h3>
+    <div class="form-grid">
+      <?php if ($is_edit): ?>
+        <div>
+          <label class="form-label">मण्डल</label>
+          <input type="text" class="form-control" value="<?= h($mandal_label ?? '') ?>" readonly>
+          <input type="hidden" name="mandal_name" value="<?= h($form['mandal_name']) ?>">
+        </div>
+        <div>
+          <label class="form-label">जनपद</label>
+          <input type="text" class="form-control" value="<?= h($janpad_label ?? '') ?>" readonly>
+          <input type="hidden" name="janpad_name" value="<?= h($form['janpad_name']) ?>">
+        </div>
+      <?php else: ?>
+        <div>
+          <label class="form-label">मण्डल</label>
+          <select name="mandal_name" id="mandal_name" class="form-control" style="height:35px;">
+            <?php
+            if ($_SESSION['user_type'] == 'ar' && !empty($_SESSION['division_id'])) {
+              $ids = array_map('intval', (array) $_SESSION['division_id']);
+              $sql = 'SELECT * FROM master_division WHERE sno IN (' . implode(',', $ids) . ') ORDER BY division_name';
+            } else {
+              $sql = 'SELECT * FROM master_division ORDER BY division_name';
+            }
+            $resDiv = mysqli_query($db, $sql);
+            while ($r = mysqli_fetch_assoc($resDiv)) {
+              $sel = ((string)$form['mandal_name'] === (string)$r['sno']) ? 'selected' : '';
+              echo '<option value="' . h($r['sno']) . '" ' . $sel . '>' . h($r['division_name']) . '</option>';
+            }
+            ?>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">जनपद</label>
+          <select name="janpad_name" id="janpad_name" class="form-control" style="height:35px;">
+            <?php
+            if ($_SESSION['user_type'] == 'ar' && !empty($_SESSION['district_id'])) {
+              $ids = array_map('intval', (array) $_SESSION['district_id']);
+              $sql = 'SELECT * FROM master_district WHERE sno IN (' . implode(',', $ids) . ') ORDER BY district_name';
+            } else {
+              $sql = 'SELECT * FROM master_district ORDER BY district_name';
+            }
+            $resDis = mysqli_query($db, $sql);
+            while ($r = mysqli_fetch_assoc($resDis)) {
+              $sel = ((string)$form['janpad_name'] === (string)$r['sno']) ? 'selected' : '';
+              echo '<option value="' . h($r['sno']) . '" ' . $sel . '>' . h($r['district_name']) . '</option>';
+            }
+            ?>
+          </select>
+        </div>
+      <?php endif; ?>
+
+      <div>
+        <label class="form-label">समिति की स्थिति</label>
+        <select name="society_status" class="form-select" onchange="onSocietyStatusChange(this)">
+          <option value="">--चुनें--</option>
+          <option value="active"     <?= ($form['society_status'] === 'active') ? 'selected' : '' ?>>सक्रिय</option>
+          <option value="non-active" <?= ($form['society_status'] === 'non-active') ? 'selected' : '' ?>>निष्क्रिय</option>
+          <option value="closed"     <?= ($form['society_status'] === 'closed') ? 'selected' : '' ?>>परिसमापनाधीन</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="section-heading">🏢 समिति विवरण</h3>
+  <div id="samiti-details" class="card" style="display:none;">
+    <div class="form-grid">
+      <div id="group-ncd-id" style="display:none;">
+        <label class="form-label">NCD ID</label>
+        <input type="text" name="ncd_id" class="form-control" value="<?= h($form['ncd_id']) ?>" placeholder="NCD ID दर्ज करें">
+      </div>
+
+      <div id="group-samiti-naam" style="display:none;">
+        <label class="form-label">समिति का नाम</label>
+        <!-- corrected name to society_name -->
+        <input type="text" name="sachiv_name" class="form-control" value="<?= h($form['sachiv_name']) ?>">
+      </div>
+
+      <div id="group-active-1" style="display:none;">
+        <label class="form-label">सचिव का प्रकार / ADO / ADCO</label>
+        <select name="sachiv_type" class="form-select">
+          <option value="">--select--</option>
+          <option value="ADO"  <?= ($form['sachiv_type'] === 'ADO') ? 'selected' : ''; ?>>ADO</option>
+          <option value="ADCO" <?= ($form['sachiv_type'] === 'ADCO') ? 'selected' : ''; ?>>ADCO</option>
+        </select>
+      </div>
+
+      <div id="group-active-2" style="display:none;">
+        <label class="form-label">सचिव का नाम</label>
+        <input type="text" name="sachiv_name" class="form-control" value="<?= h($form['sachiv_name']) ?>">
+      </div>
+
+      <div id="group-active-3" style="display:none;">
+        <label class="form-label">सचिव का मो० न०</label>
+        <input type="text" name="sachiv_no" class="form-control" value="<?= h($form['sachiv_no']) ?>">
+      </div>
+
+      <div id="group-active-4" style="display:none;">
+        <label class="form-label">सचिव का मेल-आईडी</label>
+        <input type="text" name="sachiv_mail" class="form-control" value="<?= h($form['sachiv_mail']) ?>">
+      </div>
+
+      <div id="group-active-5" style="display:none;">
+        <label class="form-label">समिति के अध्यक्ष का नाम</label>
+        <input type="text" name="society_chairamin_name" class="form-control" value="<?= h($form['society_chairamin_name']) ?>">
+      </div>
+
+      <div id="group-active-6" style="display:none;">
+        <label class="form-label">अध्यक्ष का मो० न०</label>
+        <input type="text" name="society_chairamin_no" class="form-control" value="<?= h($form['society_chairamin_no']) ?>">
+      </div>
+    </div>
+  </div>
+
+  <div id="society-liquidation" class="card" style="display:none;">
+    <div class="form-grid">
+      <div id="group-liq-1" style="display:none;">
+        <label class="form-label">परिसमापक का नाम</label>
+        <input type="text" name="liquidator_name" class="form-control" value="<?= h($form['liquidator_name']) ?>">
+      </div>
+
+      <div id="group-liq-2" style="display:none;">
+        <label class="form-label">परिसमापक का मो० न०</label>
+        <input type="text" name="liquidator_no" class="form-control" value="<?= h($form['liquidator_no']) ?>">
+      </div>
+
+      <div id="group-liq-3" style="display:none;">
+        <label class="form-label">परिसमापक नियुक्त किये जाने की स्थिति</label>
+        <input type="date" name="liquidation_from_date" class="form-control" value="<?= h($form['liquidation_from_date']) ?>">
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 class="section-heading">🏡 खाली भूमि का विवरण</h3>
+    <div class="form-grid">
+      <div><label class="form-label">भूमि का क्षेत्रफल (हेक्टेयर में)</label>
+        <input type="text" name="bhumi_area" class="form-control" value="<?= h($form['bhumi_area']) ?>"></div>
+
+      <div><label class="form-label">भूमि की स्थिति</label>
+        <select name="land_status" class="form-select">
+          <option value="">--select--</option>
+          <option value="उपजाऊ" <?= ($form['land_status'] === 'उपजाऊ') ? 'selected' : ''; ?>>उपजाऊ</option>
+          <option value="बंजर" <?= ($form['land_status'] === 'बंजर') ? 'selected' : ''; ?>>बंजर</option>
+        </select></div>
+
+      <div><label class="form-label">स्थान (समिति प्रांगण या अन्य)</label>
+        <select name="land_type" class="form-select">
+          <option value="">--select--</option>
+          <option value="समिति प्रांगण" <?= ($form['land_type'] === 'समिति प्रांगण') ? 'selected' : ''; ?>>समिति प्रांगण</option>
+          <option value="अन्य स्थान" <?= ($form['land_type'] === 'अन्य स्थान') ? 'selected' : ''; ?>>अन्य स्थान</option>
+        </select></div>
+
+      <div><label class="form-label">गोदाम के लिए उपयुक्त?</label>
+        <select name="godown_suitable" class="form-select">
+          <option value="">--select--</option>
+          <option value="हाँ" <?= ($form['godown_suitable'] === 'हाँ') ? 'selected' : ''; ?>>हाँ</option>
+          <option value="नहीं" <?= ($form['godown_suitable'] === 'नहीं') ? 'selected' : ''; ?>>नहीं</option>
+        </select></div>
+
+      <div><label class="form-label">जनपद के रैक प्वाइंट से दूरी (किमी)</label>
+        <input type="text" name="raik_distance_km" class="form-control" value="<?= h($form['raik_distance_km']) ?>"></div>
+
+      <div><label class="form-label">पहुच मार्ग का प्रकार</label>
+        <select name="arrived_road" class="form-select">
+          <option value="">--select--</option>
+          <option value="ordinary" <?= ($form['arrived_road'] === 'ordinary') ? 'selected' : ''; ?>>कच्ची सड़क</option>
+          <option value="nh" <?= ($form['arrived_road'] === 'nh') ? 'selected' : ''; ?>>नेशनल हाईवे</option>
+          <option value="sh" <?= ($form['arrived_road'] === 'sh') ? 'selected' : ''; ?>>स्टेट हाईवे</option>
+          <option value="mdr" <?= ($form['arrived_road'] === 'mdr') ? 'selected' : ''; ?>>एम.डी.आर.</option>
+          <option value="odr" <?= ($form['arrived_road'] === 'odr') ? 'selected' : ''; ?>>ओ.डी.आर.</option>
+          <option value="rural" <?= ($form['arrived_road'] === 'rural') ? 'selected' : ''; ?>>ग्रामीण सड़क</option>
+          <option value="other" <?= ($form['arrived_road'] === 'other') ? 'selected' : ''; ?>>अन्य</option>
+        </select></div>
+
+      <div><label class="form-label">कब्जा / विवादित</label>
+        <select name="kabja_vivadit" class="form-select" onchange="onKabjaChange(this)">
+          <option value="">-- चुनें --</option>
+          <option value="हाँ" <?= ($form['kabja_vivadit'] === 'हाँ') ? 'selected' : ''; ?>>हाँ</option>
+          <option value="नहीं" <?= ($form['kabja_vivadit'] === 'नहीं') ? 'selected' : ''; ?>>नहीं</option>
+        </select></div>
+
+      <div id="is_kabja_vivadit_is" style="display: none;">
+        <label class="form-label">किये गए प्रयास दर्ज करें</label>
+        <textarea name="is_kabja_vivadit" class="form-control" rows="2"><?= h($form['is_kabja_vivadit']) ?></textarea>
+      </div>
+
+      <div><label class="form-label">राजस्व अभिलेखों में दर्ज स्थिति</label>
+        <select name="rajswa_abhilekh" class="form-select">
+          <option value="">-- चुनें --</option>
+          <option value="हाँ" <?= ($form['rajswa_abhilekh'] === 'हाँ') ? 'selected' : ''; ?>>हाँ</option>
+          <option value="नहीं" <?= ($form['rajswa_abhilekh'] === 'नहीं') ? 'selected' : ''; ?>>नहीं</option>
+        </select></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 class="section-heading">📊 व्यवसाय</h3>
+    <div class="form-grid">
+      <div><label class="form-label">व्यवसाय का प्रकार</label>
+        <input type="text" name="business_type" class="form-control" value="<?= h($form['business_type']) ?>"></div>
+
+      <div><label class="form-label">व्यवसाय ₹ (लाख)</label>
+        <input type="text" name="business_status_amt" class="form-control" value="<?= h($form['business_status_amt']) ?>"></div>
+
+      <div><label class="form-label">संतुलन पत्र किस वर्ष तक</label>
+        <input type="text" name="balance_sheet_year" class="form-control" value="<?= h($form['balance_sheet_year']) ?>"></div>
+
+      <div><label class="form-label">अन्तिम आडिट कब तक</label>
+        <input type="date" name="last_audit_date" class="form-control" value="<?= h($form['last_audit_date']) ?>"></div>
+
+      <div><label class="form-label">परिसम्पत्ति</label>
+        <select name="liquidation_type" class="form-select">
+          <option value="">--चुनें--</option>
+          <option value="स्वयं" <?= ($form['liquidation_type'] === 'स्वयं') ? 'selected' : ''; ?>>स्वयं</option>
+          <option value="किराये का" <?= ($form['liquidation_type'] === 'किराये का') ? 'selected' : ''; ?>>किराये का</option>
+        </select></div>
+
+      <div><label class="form-label">समिति की स्थिति</label>
+        <select name="samiti_sthiti" class="form-select">
+          <option value="">--चुनें--</option>
+          <option value="परिसमापनाधीन" <?= ($form['samiti_sthiti'] === 'परिसमापनाधीन') ? 'selected' : ''; ?>>परिसमापनाधीन</option>
+          <option value="प्रबन्ध कमेटी गठित" <?= ($form['samiti_sthiti'] === 'प्रबन्ध कमेटी गठित') ? 'selected' : ''; ?>>प्रबन्ध कमेटी गठित</option>
+          <option value="प्रबन्ध कमेटी गठित नही" <?= ($form['samiti_sthiti'] === 'प्रबन्ध कमेटी गठित नही') ? 'selected' : ''; ?>>प्रबन्ध कमेटी गठित नही</option>
+        </select></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 class="section-heading">📦 अन्य जानकारी</h3>
+    <div>
+      <label class="form-label">अन्य सम्पत्ति का विवरण (चल/अचल)</label>
+      <textarea name="any_sampatti_details" class="form-control" rows="4"><?= h($form['any_sampatti_details']) ?></textarea>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:20px;">
+    <button type="submit" class="btn-primary"><?= $is_edit ? 'Update' : 'Submit' ?></button>
+  </div>
+</form>
+
+<script>
+  // JS normalization mirrors PHP: accept both codes and Hindi values defensively
+  function normalizeStatusJS(s) {
+    if (!s) return '';
+    if (s === 'active' || s === 'सक्रिय' || s === 'सक्रिया') return 'active';
+    if (s === 'non-active' || s === 'निष्क्रिय') return 'non-active';
+    if (s === 'closed' || s === 'परिसमापनाधीन' || s === 'परिसमापन') return 'closed';
+    return s;
+  }
+
+  function showHideBySocietyStatus(statusRaw) {
+    var status = normalizeStatusJS(statusRaw);
+    var samitiCard = document.getElementById('samiti-details');
+    var liqCard = document.getElementById('society-liquidation');
+
+    // hide everything
+    if (samitiCard) samitiCard.style.display = 'none';
+    if (liqCard) liqCard.style.display = 'none';
+    document.querySelectorAll('#samiti-details .form-grid > div').forEach(d => d.style.display = 'none');
+    document.querySelectorAll('#society-liquidation .form-grid > div').forEach(d => d.style.display = 'none');
+
+    // active / non-active => show samiti card + active groups + common fields
+    if (status === 'active' || status === 'non-active') {
+      if (samitiCard) samitiCard.style.display = 'block';
+      ['group-active-1','group-active-2','group-active-3','group-active-4','group-active-5','group-active-6','group-ncd-id','group-samiti-naam'].forEach(id=>{
+        var el = document.getElementById(id); if (el) el.style.display = 'block';
+      });
+    }
+
+    // closed => show samiti card + ONLY common fields + liquidation groups (do NOT show active-only)
+    if (status === 'closed') {
+      if (samitiCard) samitiCard.style.display = 'block';
+      if (liqCard) liqCard.style.display = 'block';
+      ['group-ncd-id','group-samiti-naam','group-liq-1','group-liq-2','group-liq-3'].forEach(id=>{
+        var el = document.getElementById(id); if (el) el.style.display = 'block';
+      });
+    }
+  }
+
+  function onSocietyStatusChange(el) {
+    var v = (el && el.value) ? el.value : '';
+    showHideBySocietyStatus(v);
+  }
+
+  function onKabjaChange(el) {
+    var v = (el && el.value) ? el.value : '';
+    var elc = document.querySelector('#is_kabja_vivadit_is');
+    if (!elc) return;
+    elc.style.display = (v === 'हाँ') ? 'block' : 'none';
+  }
+
+  // Geolocation
+  function getLocation() {
+    if (!navigator.geolocation) { alert('Geolocation unsupported'); return; }
+    navigator.geolocation.getCurrentPosition(function (pos) {
+      var lat = pos.coords.latitude.toFixed(6);
+      var lng = pos.coords.longitude.toFixed(6);
+      document.getElementById('lat_show').value = lat;
+      document.getElementById('long_show').value = lng;
+      document.getElementById('lat').value = lat;
+      document.getElementById('long').value = lng;
+      var iframe = document.getElementById('googlemap');
+      if (iframe) iframe.src = 'https://maps.google.com/maps?q=' + lat + ',' + lng + '&hl=hi&z=13&output=embed';
+    }, function (err) {
+      alert('लोकेशन नहीं मिली: ' + (err.message || err.code));
+    }, { enableHighAccuracy: true, timeout: 10000 });
+  }
+
+  // initial state
+  document.addEventListener('DOMContentLoaded', function () {
+    var sel = document.querySelector('select[name="society_status"]');
+    if (sel) showHideBySocietyStatus(sel.value || sel.options[sel.selectedIndex].value);
+    var kabja = document.querySelector('select[name="kabja_vivadit"]');
+    if (kabja) onKabjaChange(kabja);
+  });
+</script>
+
+<?php
+page_footer_start();
+page_footer_end();
+?>

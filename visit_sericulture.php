@@ -908,7 +908,7 @@ page_sidebar();
                                                     id="sec_1_profit_loss_amount_2022" tabindex="5"
                                                     class="form-control">
                                             </div>
-                                            <div class="col-sm-3 form-group">
+                                            <!-- <div class="col-sm-3 form-group">
                                                 <label>संचित लाभ/हानि की स्थिति</label>
                                                 <select name="sec_1_accumulated_2022" id="sec_1_accumulated_2022"
                                                     tabindex="4" class="form-control"
@@ -917,13 +917,13 @@ page_sidebar();
                                                     <option value="profit">लाभ</option>
                                                     <option value="loss">हानि</option>
                                                 </select>
-                                            </div>
-                                            <div class="col-sm-3 form-group">
+                                            </div> -->
+                                            <!-- <div class="col-sm-3 form-group">
                                                 <label>(धनराशि रु० लाख मे)</label>
                                                 <input type="text" name="sec_1_accumulated_amount_2022"
                                                     id="sec_1_accumulated_amount_2022" tabindex="5"
                                                     class="form-control">
-                                            </div>
+                                            </div> -->
                                         </div>
                                         <small><b>(II) वित्तीय वर्ष 2022-23</b></small>
                                         <div class="row">
@@ -943,7 +943,7 @@ page_sidebar();
                                                     id="sec_1_profit_loss_amount_2023" tabindex="7"
                                                     class="form-control">
                                             </div>
-                                            <div class="col-sm-3 form-group">
+                                            <!-- <div class="col-sm-3 form-group">
                                                 <label>संचित लाभ/हानि की स्थिति</label>
                                                 <select name="sec_1_accumulated_2023" id="sec_1_accumulated_2023"
                                                     tabindex="6" class="form-control"
@@ -952,13 +952,13 @@ page_sidebar();
                                                     <option value="profit">लाभ</option>
                                                     <option value="loss">हानि</option>
                                                 </select>
-                                            </div>
-                                            <div class="col-sm-3 form-group">
+                                            </div> -->
+                                            <!-- <div class="col-sm-3 form-group">
                                                 <label>(धनराशि रु० लाख मे)</label>
                                                 <input type="text" name="sec_1_accumulated_amount_2023"
                                                     id="sec_1_accumulated_amount_2023" tabindex="7"
                                                     class="form-control">
-                                            </div>
+                                            </div> -->
                                         </div>
                                         <small><b>(III) वित्तीय वर्ष 2023-24</b></small>
                                         <div class="row">
@@ -978,7 +978,7 @@ page_sidebar();
                                                     id="sec_1_profit_loss_amount_2024" tabindex="9"
                                                     class="form-control">
                                             </div>
-                                            <div class="col-sm-3 form-group">
+                                            <!-- <div class="col-sm-3 form-group">
                                                 <label>संचित लाभ/हानि की स्थिति</label>
                                                 <select name="sec_1_accumulated_2024" id="sec_1_accumulated_2024"
                                                     tabindex="8" class="form-control"
@@ -987,13 +987,13 @@ page_sidebar();
                                                     <option value="profit">लाभ</option>
                                                     <option value="loss">हानि</option>
                                                 </select>
-                                            </div>
-                                            <div class="col-sm-3 form-group">
+                                            </div> -->
+                                            <!-- <div class="col-sm-3 form-group">
                                                 <label>(धनराशि रु० लाख मे)</label>
                                                 <input type="text" name="sec_1_accumulated_amount_2024"
                                                     id="sec_1_accumulated_amount_2024" tabindex="9"
                                                     class="form-control">
-                                            </div>
+                                            </div> -->
                                         </div>
                                         <small><b>(IV) आडिट</b></small>
                                         <div class="row">
@@ -1675,7 +1675,39 @@ page_sidebar();
                                                             </div>
                                                         <?php } ?>
                                                     </div>
-                                                    <h5> (V) खाली पड़ी भूमि का विवरण </h5>
+                                                    <h5> (v) शहतूत / टसर/एरी से वृक्षारोपित भूमि का विवरण </h5>
+                                                    <div class="row">
+                                                        <div class="col-sm-3 form-group">
+                                                            <label>क्षेत्रफल एकड़  में </label>
+                                                            <input type="text" name="sec_3_a_land_chauhaddi_east"
+                                                                id="sec_3_a_land_chauhaddi_east"
+                                                                tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                                value="<?php echo $row_3_1['east_side']; ?>">
+                                                        </div>
+                                                        <div class="col-sm-3 form-group">
+                                                            <label>शहतूत / टसर/एरी</label><input
+                                                                type="text" name="sec_3_a_land_chauhaddi_west"
+                                                                id="sec_3_a_land_chauhaddi_west"
+                                                                tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                                value="<?php echo $row_3_1['west_side']; ?>">
+                                                        </div>
+                                                        <div class="col-sm-3 form-group">
+                                                            <label>उपलब्ध पौधों की संख्या </label><input
+                                                                type="text" name="sec_3_a_land_chauhaddi_north"
+                                                                id="sec_3_a_land_chauhaddi_north"
+                                                                tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                                value="<?php echo $row_3_1['north_side']; ?>">
+                                                        </div>
+                                                        <div class="col-sm-3 form-group">
+                                                            <label>भूखण्ड की दक्षिण दिशा का विवरण</label><input
+                                                                type="text" name="sec_3_a_land_chauhaddi_south"
+                                                                id="sec_3_a_land_chauhaddi_south"
+                                                                tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                                value="<?php echo $row_3_1['south_side']; ?>">
+                                                        </div>
+                                                    </div>
+                                                    <h5> (VI) खाली पड़ी भूमि का विवरण </h5>
+                                                    
                                                     <div id="sec_3_c">
                                                         <?php
                                                         $count_3c = !empty($row_3_5['sec_3_c_id']) ? (int)$row_3_5['sec_3_c_id'] : 1;
@@ -1829,7 +1861,7 @@ page_sidebar();
                                                         <?php } ?>
                                                     </div>
 
-                                                    <h5>(VI) पहुंच मार्ग का विवरण</h5>
+                                                    <h5>(VII) पहुंच मार्ग का विवरण</h5>
                                                     <div class="row">
                                                         <div class="col-sm-4 form-group">
                                                             <label>पहुंच मार्ग -</label>
@@ -2171,30 +2203,8 @@ page_sidebar();
                                                         नहीं</option>
                                                 </select>
                                             </div>
-                                            <div class="col-sm-3 form-group">
-                                                <label> सबमर्सिबल </label>
-                                                <select name="sec_6_samarsabel" id="ec_6_samarsabel"
-                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                    onchange="color_change(this, 'yes', '#42ecf5', 'no', '#f28546');">
-                                                    <option value="">--select-- </option>
-                                                    <option value="yes" <?php echo $row_2_1['sec_6_samarsabel'] == 'yes' ? 'selected="selected"' : ''; ?>>
-                                                        हाँ </option>
-                                                    <option value="no" <?php echo $row_2_1['sec_6_samarsabel'] == 'no' ? 'selected="selected"' : ''; ?>>
-                                                        नहीं</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-3 form-group">
-                                                <label> हैंड पंप </label>
-                                                <select name="sec_6_handpump" id="ec_6_handpump"
-                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                    onchange="color_change(this, 'yes', '#42ecf5', 'no', '#f28546');">
-                                                    <option value="">--select-- </option>
-                                                    <option value="yes" <?php echo $row_2_1['sec_6_handpump'] == 'yes' ? 'selected="selected"' : ''; ?>>
-                                                        हाँ </option>
-                                                    <option value="no" <?php echo $row_2_1['sec_6_handpump'] == 'no' ? 'selected="selected"' : ''; ?>>
-                                                        नहीं</option>
-                                                </select>
-                                            </div>
+                                           
+                                            
                                         </div>
                                     </div>
                                 </div>

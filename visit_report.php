@@ -31,6 +31,7 @@ if (isset($_GET['act'])) {
     execute_query($sql);
     $msg .= '<p class="text-success">Society Activated</p>';
 }
+// echo $sql;
 ?>
 <style>
     #general_stat_table {
@@ -71,7 +72,7 @@ if (isset($_GET['act'])) {
                                 <label>District Name</label>
 
                                 <select name="district_name" id="district_name" tabindex="<?php echo $tab++; ?>"
-                                        class="form-control" onChange="fill_block(this.value)">
+                                        class="form-control">
                                     <option value="ALL">ALL</option>
                                     <?php
                                     $sql = 'SELECT * FROM master_district';
@@ -88,15 +89,6 @@ if (isset($_GET['act'])) {
                                     }
                                     ?>
                                 </select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 pr-1">
-                            <div class="form-group">
-                                <label>Block Name</label>
-                                <select name="block_name" id="block_name" tabindex="<?php echo $tab++; ?>"
-									class="form-control">
-								</select>
                             </div>
                         </div>
 						<!-- Add Society Type filter -->
@@ -153,11 +145,6 @@ if (isset($_SESSION['sale_district_name']) && $_SESSION['sale_district_name'] !=
     $district_filter = addslashes($_SESSION['sale_district_name']);
     $sql .= " AND district_code = '" . $district_filter . "' ";
 }
-
-if (isset($_SESSION['sale_block_name']) && $_SESSION['sale_block_name'] != '' && $_SESSION['sale_block_name'] != 'ALL') {
-    $block_filter = addslashes($_SESSION['sale_block_name']);
-    $sql .= " AND block_code = '" . $block_filter . "' ";
-}
 if (isset($_SESSION['sale_society_type']) && $_SESSION['sale_society_type'] != '' && $_SESSION['sale_society_type'] != 'ALL') {
     $stype = addslashes($_SESSION['sale_society_type']);
     $sql .= " AND sector_of_operation = '" . $stype . "' ";
@@ -168,7 +155,7 @@ if (isset($_SESSION['sale_functional_status']) && $_SESSION['sale_functional_sta
     $sql .= " AND functional_status = " . $fstatus . " ";
 }
 
-$sql .= ' ORDER BY district_code, block_code, sector_of_operation, id ';
+$sql .= ' ORDER BY district_code, sector_of_operation, id ';
 // echo $sql;
 $result_data = execute_query($sql);
 ?>
@@ -228,10 +215,6 @@ $result_data = execute_query($sql);
                         $q = mysqli_fetch_assoc(execute_query("SELECT tehseel_name FROM master_tehseel WHERE tehseel_lgd_code = '" . addslashes($_SESSION['sale_tehseel_name']) . "' LIMIT 1"));
                         if ($q) $mandal_text .= 'Tehseel - ' . $q['tehseel_name'] . ', ';
                     }
-                    if (isset($_SESSION['sale_block_name']) && $_SESSION['sale_block_name'] != '' && $_SESSION['sale_block_name'] != 'ALL') {
-                        $q = mysqli_fetch_assoc(execute_query("SELECT block_name FROM master_block WHERE block_lgd_code = '" . addslashes($_SESSION['sale_block_name']) . "' LIMIT 1"));
-                        if ($q) $mandal_text .= 'Block - ' . $q['block_name'];
-                    }
                     $mandal_text = rtrim($mandal_text, ', ');
                     ?>
 
@@ -255,7 +238,6 @@ $result_data = execute_query($sql);
                             <th>Society Type</th>
                             <th>Society Name</th>
                             <th>District Name</th>
-                            <th>Block Name</th>
                             <th>Functional Status</th>
                             <th></th>
                         </tr>
@@ -283,13 +265,6 @@ $result_data = execute_query($sql);
                             $sql_type = 'SELECT * FROM master_society_type WHERE society_type_id = "' . addslashes($row['sector_of_operation']) . '" LIMIT 1';
                             $result_type = mysqli_fetch_array(execute_query($sql_type));
 
-                            $sql_block = 'SELECT * FROM master_block WHERE block_lgd_code = "' . addslashes($row['block_code']) . '" LIMIT 1';
-                            $result_block = mysqli_fetch_array(execute_query($sql_block));
-                            if (!isset($result_block['block_name'])) {
-                                $result_block['block_name'] = '';
-                                $result_block['sno'] = '';
-                            }
-
                             // functional status mapping
                             switch ($row['functional_status']) {
                                 case 1:
@@ -311,7 +286,6 @@ $result_data = execute_query($sql);
                                 <td><?php echo htmlspecialchars($result_type['society_type_name']) . ' <small>(' . htmlspecialchars($result_type['society_type_id']) . ')</small>'; ?></td>
                                 <td><?php echo htmlspecialchars($row['cooperative_society_name']) . ' <small>(' . htmlspecialchars($row['id']) . ')</small>'; ?></td>
                                 <td><?php echo htmlspecialchars($result_district['district_name']) . ' <small>(' . htmlspecialchars($result_district['dist_lgd_code']) . ')</small>'; ?></td>
-                                <td><?php echo htmlspecialchars($result_block['block_name']) . ' <small>(' . htmlspecialchars($result_block['sno']) . ')</small>'; ?></td>
                                 <td><?php echo $functional_text; ?></td>
                             </tr>
                             <?php
@@ -332,30 +306,6 @@ page_footer_start();
 ?>
 
 <script src="js/light-bootstrap-dashboard.js?v=1.4.0"></script>
-
-
-<script>
-	var actionUrl = 'scripts/ajax.php';
-
-	function fill_block(val) {
-		var data = { term: "b", id: "block_id", val: val };
-		$.ajax({
-			type: "POST",
-			url: actionUrl,
-			data: data, // serializes the form's elements.
-			success: function (data) {
-				var txt = '<option value="">--Select--</option>';
-				data = JSON.parse(data);
-				$.each(data, function (key, value) {
-					txt += '<option value="' + value.id + '">' + value.block_name + '</option>';
-
-				});
-				$("#block_name").html(txt);
-			}
-		});
-	}
-
-</script>
 
 <?php
 page_footer_end();

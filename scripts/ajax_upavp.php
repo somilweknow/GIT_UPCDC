@@ -3,27 +3,25 @@ date_default_timezone_set('Asia/Calcutta');
 $time = mktime(true);
 include("settings.php");
 include("setting_sms.php");
-
-
-$q = htmlspecialchars(urldecode(strtoupper($_REQUEST["term"])), ENT_QUOTES);
-if (!$q) return;
-
-if(isset($_REQUEST['id'])){
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+$q = isset($_REQUEST["term"]) ? htmlspecialchars(urldecode(strtoupper($_REQUEST["term"])), ENT_QUOTES) : '';
+if (!$q)
+	return;
+if (isset($_REQUEST['id'])) {
 	$id = $_REQUEST['id'];
-}
-else {
-	$id='';
+} else {
+	$id = '';
 }
 
-foreach($_POST as $k=>$v){
-	if(is_array($v)){
-		foreach($v as $key=>$val){
+foreach ($_POST as $k => $v) {
+	if (is_array($v)) {
+		foreach ($v as $key => $val) {
 			$_POST[$k][$key] = htmlspecialchars($val);
 		}
+	} else {
+		$_POST[$k] = htmlspecialchars($v);
 	}
-	else{
-		$_POST[$k] = htmlspecialchars($v);	
-	}	
 }
 
 $data = array();
@@ -48,9 +46,11 @@ elseif($id=='society'){
 elseif($id=='submit_form_upavp'){
 	// print_r($_POST);
 	//print_r($_SERVER);
-	echo $_POST['apex_code'];
+	// echo $_POST['apex_code'];
+	// echo $_POST['survey_id'];
+	
 	if ($_POST['survey_id'] == '') {
-        echo $sql = 'INSERT INTO `apex_si_1_1` (`apex_id`,`longitude`,`latitude`,`committee_status`,`email_id`,`photo_id`,`society_registration_no`,`society_registration_date`,`members_no`,`inactive_members_no`,`new_members`,`share_capital`,`inactive_to_active_no`,`total_members`,`division_name`,`district_name`,`tehseel_name`,`mobile_number`,`nagar_nigam`,`liquidation`,`liquidation_date`,`liquidation_status`,`litigation`,`litigation_remark`) VALUES ("' . $_POST['apex_code'] . '","' . $_POST['longitude'] . '","' . $_POST['latitude'] . '","' . $_POST['committee_status'] . '","' . $_POST['email_id'] . '","' . $_POST['photo_id'] . '","' . $_POST['society_registration_no'] . '","' . $_POST['society_registration_date'] . '","' . $_POST['members_no'] . '","' . $_POST['inactive_members_no'] . '","' . $_POST['new_members'] . '","' . $_POST['share_capital'] . '","' . $_POST['inactive_to_active_no'] . '","' . $_POST['total_members'] . '","' . $_POST['division_name'] . '","' . $_POST['district_name'] . '","' . $_POST['tehseel_name'] . '","' . $_POST['mobile_number'] . '","' . $_POST['nagar_nigam'] . '","' . $_POST['liquidation'] . '","' . $_POST['liquidation_date'] . '","' . $_POST['liquidation_status'] . '","' . $_POST['litigation'] . '","' . $_POST['litigation_remark'] . '")';
+        echo $sql = 'INSERT INTO `apex_si_1_1` (`apex_id`,`longitude`,`latitude`,`committee_status`,`email_id`,`photo_id`,`society_registration_no`,`society_registration_date`,`division_name`,`district_name`,`tehseel_name`,`mobile_number`,`nagar_nigam`,`liquidation`,`liquidation_date`,`liquidation_status`,`litigation`,`litigation_remark`) VALUES ("' . $_POST['apex_code'] . '","' . $_POST['longitude'] . '","' . $_POST['latitude'] . '","' . $_POST['committee_status'] . '","' . $_POST['email_id'] . '","' . $_POST['photo_id'] . '","' . $_POST['society_registration_no'] . '","' . $_POST['society_registration_date'] . '","' . $_POST['division_name'] . '","' . $_POST['district_name'] . '","' . $_POST['tehseel_name'] . '","' . $_POST['mobile_number'] . '","' . $_POST['nagar_nigam'] . '","' . $_POST['liquidation'] . '","' . $_POST['liquidation_date'] . '","' . $_POST['liquidation_status'] . '","' . $_POST['litigation'] . '","' . $_POST['litigation_remark'] . '")';
 
         execute_query($sql);
         if (mysqli_error($db)) {
@@ -84,11 +84,11 @@ elseif($id=='submit_form_upavp'){
 
         switch ($_POST['current_step_count']) {
             case 0: {
-                $sql = 'SELECT * FROM apex_si_1_1 WHERE sno="' . $_POST['survey_id'] . '"';
-                $apex_si_1_1 = mysqli_fetch_assoc(execute_query($sql));
+                echo $sql = 'select * from apex_si_1_1 where sno="' . $_POST['survey_id'] . '"';
+				$survey_invoice = mysqli_fetch_assoc(execute_query($sql));
 
-                $sql = 'SELECT * FROM apex WHERE sno="' . $apex_si_1_1['apex_id'] . '"';
-                $society = mysqli_fetch_assoc(execute_query($sql));
+				$sql = 'select * from apex where sno="' . $survey_invoice['apex_id'] . '"';
+				$society = mysqli_fetch_assoc(execute_query($sql));
 
                 if ($_FILES['society_photo']['name'] != '') {
                     $society_image = upload_img($_FILES['society_photo'], $society, "society_name_" . $apex_si_1_1['sno']);
@@ -112,13 +112,6 @@ elseif($id=='submit_form_upavp'){
                     photo_id = "' . $_POST['photo_id'] . '",
                     society_registration_no = "' . $_POST['society_registration_no'] . '",
                     society_registration_date = "' . $_POST['society_registration_date'] . '",
-                    members_no = "' . $_POST['members_no'] . '",
-                    inactive_members_no = "' . $_POST['inactive_members_no'] . '",
-                    active_members_no = "' . $_POST['active_members_no'] . '",
-                    new_members = "' . $_POST['new_members'] . '",
-                    share_capital = "' . $_POST['share_capital'] . '",
-                    inactive_to_active_no = "' . $_POST['inactive_to_active_no'] . '",
-                    total_members = "' . $_POST['total_members'] . '",
                     division_name = "' . $_POST['division_name'] . '",
                     district_name = "' . $_POST['district_name'] . '",
                     tehseel_name = "' . $_POST['tehseel_name'] . '",
@@ -142,9 +135,9 @@ elseif($id=='submit_form_upavp'){
                 break;
             }
 			case 1:{
-				$sql = 'select * from apex_si_1_1 where sno="'.$_POST['survey_id'].'"';
+				echo $sql = 'select * from apex_si_1_1 where sno="'.$_POST['survey_id'].'"';
 				$survey_invoice = mysqli_fetch_assoc(execute_query($sql));
-				$sql = 'select * from apex where sno="'.$survey_invoice['apex_id'].'"';
+				echo $sql = 'select * from apex where sno="'.$survey_invoice['apex_id'].'"';
 				$society = mysqli_fetch_assoc(execute_query($sql));
 
 				$sql = 'select * from survey_invoice_sec_3_new_1 where survey_id="' . $_POST['survey_id'] . '"';
@@ -199,10 +192,49 @@ elseif($id=='submit_form_upavp'){
 				break;
 			}
 			case 2: {
-				$sql = 'select * from apex_si_1_1 where sno="'.$_POST['survey_id'].'"';
+				echo $sql = 'select * from apex_si_1_1 where sno="' . $_POST['survey_id'] . '"';
 				$survey_invoice = mysqli_fetch_assoc(execute_query($sql));
-				$sql = 'select * from apex where sno="'.$survey_invoice['apex_id'].'"';
+				echo $sql = 'select * from apex where sno="' . $survey_invoice['apex_id'] . '"';
 				$society = mysqli_fetch_assoc(execute_query($sql));
+
+				$sql = 'select * from survey_invoice_plot_details where survey_id="'.$_POST['survey_id'].'"';
+				$res_new_plot = execute_query($sql);
+				if(mysqli_num_rows($res_new_plot)==1){
+					$row_new_plot = mysqli_fetch_assoc($res_new_plot);
+				}
+				else{
+					$sql = 'insert into survey_invoice_plot_details (survey_id) values("'.$_POST['survey_id'].'")';
+					execute_query($sql);
+					if(mysqli_error($db)){
+						//echo mysqli_error($db);
+						$data[] = array("id"=>"error", "error"=>"3.1.123.Unable to save data.");
+					}
+					else{
+						$data[] = array("id"=>"Update", "msg"=>"sec-3.1.123.Data Saved");	
+					}
+					$row_new_plot['sno'] = mysqli_insert_id($db);
+				}
+				$sql = 'update  survey_invoice_plot_details set
+				plot_area = "'.$_POST['sec_new_plot_area'].'",
+				plot_revenue_status = "'.$_POST['sec_new_plot_revenue_status'].'",
+				plot_reason_for_not_record = "'.$_POST['sec_new_plot_reason_for_not_record'].'",
+				plot_practices_if_not = "'.$_POST['sec_new_plot_practices_if_not'].'",
+				plot_gata_no = "'.$_POST['sec_new_plot_gata_no'].'",
+				sec_3_building_area = "'.$_POST['sec_3_building_area'].'",
+				sec_3_building_rent = "'.$_POST['sec_3_building_rent'].'",
+				sec_3_remark = "'.$_POST['society_building_remark'].'",
+				remarks = "'.$_POST['sec_new_remarks'].'",
+				is_map = "'.$_POST['sec_3_is_map'].'",
+				map_accept = "'.$_POST['sec_3_map_accept'].'"
+				where sno="'.$row_new_plot['sno'].'"';
+				execute_query($sql);
+				if(mysqli_error($db)){
+					//echo mysqli_error($db).$sql;
+					$data[] = array("id"=>"error", "error"=>"3.1.124.Unable to save data.");
+				}
+				else{
+					$data[] = array("id"=>"Update", "msg"=>"sec-3.1.124. Data Saved");	
+				}
 
 				$sql_delete = 'DELETE FROM survey_invoice_new_sec_3_9 WHERE survey_id = "'.$_POST['survey_id'].'"';
 				execute_query($sql_delete);
@@ -238,43 +270,20 @@ elseif($id=='submit_form_upavp'){
 					}
 				}
 
-				$sql = 'select * from  survey_invoice_plot_details where survey_id="'.$_POST['survey_id'].'"';
-				$res_new_plot = execute_query($sql);
-				if(mysqli_num_rows($res_new_plot)==1){
-					$row_new_plot = mysqli_fetch_assoc($res_new_plot);
-				}
-				else{
-					$sql = 'insert into  survey_invoice_plot_details (survey_id) values("'.$_POST['survey_id'].'")';
-					execute_query($sql);
-					if(mysqli_error($db)){
-						//echo mysqli_error($db);
-						$data[] = array("id"=>"error", "error"=>"3.1.123.Unable to save data.");
-					}
-					else{
-						$data[] = array("id"=>"Update", "msg"=>"sec-3.1.123.Data Saved");	
-					}
-					$row_new_plot['sno'] = mysqli_insert_id($db);
-				}
-				$sql = 'update  survey_invoice_plot_details set
-				plot_area = "'.$_POST['sec_new_plot_area'].'",
-				plot_revenue_status = "'.$_POST['sec_new_plot_revenue_status'].'",
-				plot_reason_for_not_record = "'.$_POST['sec_new_plot_reason_for_not_record'].'",
-				plot_practices_if_not = "'.$_POST['sec_new_plot_practices_if_not'].'",
-				plot_gata_no = "'.$_POST['sec_new_plot_gata_no'].'",
-				sec_3_building_area = "'.$_POST['sec_3_building_area'].'",
-				sec_3_building_rent = "'.$_POST['sec_3_building_rent'].'",
-				sec_3_remark = "'.$_POST['society_building_remark'].'",
-				remarks = "'.$_POST['sec_new_remarks'].'",
-				is_map = "'.$_POST['sec_3_is_map'].'",
-				map_accept = "'.$_POST['sec_3_map_accept'].'"
-				where sno="'.$row_new_plot['sno'].'"';
+				$sql = 'delete from survey_invoice_sec_3_5 where survey_id="' . $_POST['survey_id'] . '"';
 				execute_query($sql);
-				if(mysqli_error($db)){
-					//echo mysqli_error($db).$sql;
-					$data[] = array("id"=>"error", "error"=>"3.1.124.Unable to save data.");
-				}
-				else{
-					$data[] = array("id"=>"Update", "msg"=>"sec-3.1.124. Data Saved");	
+				for ($i = 1; $i <= $_POST['sec_3_c_id']; $i++) {
+					if ($_POST['sec_3_c_length_1'] != "" && $_POST['sec_3_c_length_1'] != "0") {
+						$sql = 'insert into survey_invoice_sec_3_5 (survey_id, land_type, location, total_area, edition_time) values("' . $_POST['survey_id'] . '", "' . $_POST['sec_3_c_vacant_land_status_' . $i] . '", "' . $_POST['sec_3_c_land_location_' . $i] . '", "' . $_POST['sec_3_c_length_' . $i] . '", "' . date("Y-m-d H:i:s") . '")';
+						// echo $sql;
+						execute_query($sql);
+						if (mysqli_error($db)) {
+							//echo mysqli_error($db);
+							$data[] = array("id" => "error", "error" => "7.7.Unable to save data.");
+						} else {
+							$data[] = array("id" => "Update", "msg" => "7.7.Data Saved");
+						}
+					}
 				}
 
 				// $sql = 'UPDATE survey_invoice SET society_building_ownership="' . $sec_3_ownership . '", society_building_rent_amount="' . $society_building_rent_amount . '", society_building_area="' . $society_building_area . '", edition_time="' . date("Y-m-d H:i:s") . '" WHERE sno="'.$_POST['survey_id'].'"';
@@ -324,12 +333,14 @@ elseif($id=='submit_form_upavp'){
 				$sec_6_2_truck_not_reach = mysqli_real_escape_string($db, $_POST['sec_6_2_truck_not_reach'] ?? '');
 				$sec_6_paved_road = mysqli_real_escape_string($db, $_POST['sec_6_paved_road'] ?? '');
 				$sec_8_plot_frontage = mysqli_real_escape_string($db, $_POST['sec_8_plot_frontage'] ?? '');
+				$sec_8_school_hosp_status = mysqli_real_escape_string($db, $_POST['sec_8_school_hosp_status'] ?? '');
 				$sno_2_1 = $row_2_1['sno'];
 				$sql = 'UPDATE survey_invoice_sec_2_1 SET 
 							sec_6_road="' . $sec_6_access_road . '",
 							distance_from_approach_road="' . $sec_6_2_truck_not_reach . '",
 							approach_road="' . $sec_6_paved_road . '",
-							plot_frontage="' . $sec_8_plot_frontage . '"
+							plot_frontage="' . $sec_8_plot_frontage . '",
+							school_hosp_status="' . $sec_8_school_hosp_status . '"
 						WHERE sno=' . mysqli_real_escape_string($db, $sno_2_1);
 				execute_query($sql);
 				if (mysqli_error($db)) {

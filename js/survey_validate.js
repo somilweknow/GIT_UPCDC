@@ -1,6 +1,7 @@
 // JavaScript Document
 
-var actionUrl = 'scripts/survey_form_ajax.php';
+// var actionUrl = 'scripts/survey_form_ajax.php';
+var actionUrl = 'scripts/ajax_upcldf.php';
 	
 x = document.getElementById("map_container");
 function getLocation() {
@@ -104,6 +105,203 @@ function hide_show(val, id, result){
 		}
 	}
 	
+}
+
+function verify_otp_upcldf(val){
+	var data = {"term":"b", "id":"verify_otp_upcldf", "val":val};
+	$.ajax({
+        type: "POST",
+        url: 'scripts/ajax_upcldf.php',
+        data: data, // serializes the form's elements.
+        success: function(data){
+			data = JSON.parse(data);
+			data = data[0];
+			console.log(data);
+			if(data.status=='error'){
+				alert("Some error occurred please retry");
+			}
+			else if(data.status=='notfound'){
+				alert("Data not found");
+			}
+			else if(data.status=='completed'){
+				alert("You have already filled the survey");
+			}else if(data.status=='pre_completed'){
+				alert("अग्रिम कार्यवाही हेतु आपका परिपत्र प्रेषित किया जा चुका है");
+			}
+			else if(data.status=='verified'){
+				alert(data.msg);
+				$("#otp_form").submit();
+			}
+        }
+    });
+}
+function verify_otp_uprnss(val){
+	var data = {"term":"b", "id":"verify_otp_uprnss", "val":val};
+	$.ajax({
+        type: "POST",
+        url: 'scripts/ajax_uprnss.php',
+        data: data, // serializes the form's elements.
+        success: function(data){
+			data = JSON.parse(data);
+			data = data[0];
+			console.log(data);
+			if(data.status=='error'){
+				alert("Some error occurred please retry");
+			}
+			else if(data.status=='notfound'){
+				alert("Data not found");
+			}
+			else if(data.status=='completed'){
+				alert("You have already filled the survey");
+			}else if(data.status=='pre_completed'){
+				alert("अग्रिम कार्यवाही हेतु आपका परिपत्र प्रेषित किया जा चुका है");
+			}
+			else if(data.status=='verified'){
+				alert(data.msg);
+				$("#otp_form").submit();
+			}
+        }
+    });
+}
+function verify_otp_pcu(val){
+	var data = {"term":"b", "id":"verify_otp_pcu", "val":val};
+	$.ajax({
+        type: "POST",
+        url: 'scripts/ajax_pcu.php',
+        data: data, // serializes the form's elements.
+        success: function(data){
+			data = JSON.parse(data);
+			data = data[0];
+			console.log(data);
+			if(data.status=='error'){
+				alert("Some error occurred please retry");
+			}
+			else if(data.status=='notfound'){
+				alert("Data not found");
+			}
+			else if(data.status=='completed'){
+				alert("You have already filled the survey");
+			}else if(data.status=='pre_completed'){
+				alert("अग्रिम कार्यवाही हेतु आपका परिपत्र प्रेषित किया जा चुका है");
+			}
+			else if(data.status=='verified'){
+				alert(data.msg);
+				$("#otp_form").submit();
+			}
+        }
+    });
+}
+function verify_otp_pcf(val){
+	var data = {"term":"b", "id":"verify_otp_pcf", "val":val};
+	$.ajax({
+        type: "POST",
+        url: 'scripts/ajax_pcf.php',
+        data: data, // serializes the form's elements.
+        success: function(data){
+			data = JSON.parse(data);
+			data = data[0];
+			console.log(data);
+			if(data.status=='error'){
+				alert("Some error occurred please retry");
+			}
+			else if(data.status=='notfound'){
+				alert("Data not found");
+			}
+			else if(data.status=='completed'){
+				alert("You have already filled the survey");
+			}else if(data.status=='pre_completed'){
+				alert("अग्रिम कार्यवाही हेतु आपका परिपत्र प्रेषित किया जा चुका है");
+			}
+			else if(data.status=='verified'){
+				alert(data.msg);
+				$("#otp_form").submit();
+			}
+        }
+    });
+}
+function verify_otp_ldb(val){
+	var data = {"term":"b", "id":"verify_otp_ldb", "val":val};
+	$.ajax({
+        type: "POST",
+        url: 'scripts/ajax_ldb.php',
+        data: data, // serializes the form's elements.
+        success: function(data){
+			data = JSON.parse(data);
+			data = data[0];
+			console.log(data);
+			if(data.status=='error'){
+				alert("Some error occurred please retry");
+			}
+			else if(data.status=='notfound'){
+				alert("Data not found");
+			}
+			else if(data.status=='completed'){
+				alert("You have already filled the survey");
+			}else if(data.status=='pre_completed'){
+				alert("अग्रिम कार्यवाही हेतु आपका परिपत्र प्रेषित किया जा चुका है");
+			}
+			else if(data.status=='verified'){
+				alert(data.msg);
+				$("#otp_form").submit();
+			}
+        }
+    });
+}
+function verify_otp_jefed(val){
+	var data = {"term":"b", "id":"verify_otp_jefed", "val":val};
+	$.ajax({
+        type: "POST",
+        url: 'scripts/ajax_jefed.php',
+        data: data, // serializes the form's elements.
+        success: function(data){
+			data = JSON.parse(data);
+			data = data[0];
+			console.log(data);
+			if(data.status=='error'){
+				alert("Some error occurred please retry");
+			}
+			else if(data.status=='notfound'){
+				alert("Data not found");
+			}
+			else if(data.status=='completed'){
+				alert("You have already filled the survey");
+			}else if(data.status=='pre_completed'){
+				alert("अग्रिम कार्यवाही हेतु आपका परिपत्र प्रेषित किया जा चुका है");
+			}
+			else if(data.status=='verified'){
+				alert(data.msg);
+				$("#otp_form").submit();
+			}
+        }
+    });
+}
+function verify_otp_upss(val){
+	var data = {"term":"b", "id":"verify_otp_upss", "val":val};
+	$.ajax({
+        type: "POST",
+        url: 'scripts/ajax_upss.php',
+        data: data, // serializes the form's elements.
+        success: function(data){
+			data = JSON.parse(data);
+			data = data[0];
+			console.log(data);
+			if(data.status=='error'){
+				alert("Some error occurred please retry");
+			}
+			else if(data.status=='notfound'){
+				alert("Data not found");
+			}
+			else if(data.status=='completed'){
+				alert("You have already filled the survey");
+			}else if(data.status=='pre_completed'){
+				alert("अग्रिम कार्यवाही हेतु आपका परिपत्र प्रेषित किया जा चुका है");
+			}
+			else if(data.status=='verified'){
+				alert(data.msg);
+				$("#otp_form").submit();
+			}
+        }
+    });
 }
 
 function form_validate(){

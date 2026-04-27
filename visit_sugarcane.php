@@ -490,11 +490,7 @@ page_sidebar();
                                             role="progressbar" style="width: 0%">
                                         </div>
                                     </div>
-                                    <form action="scripts/ajax.php" method="post" enctype="multipart/form-data" id="user_form"
-                                        name="user_form">
-                                        <div id="steps-container">
-                                            <!-------------------1st start--------------------------------------------------------------------->
-                                <div class="step">
+                                    <div class="step">
                                     <marquee style="font-size: 18px; color: red;">
                                         नोट: समस्त विवरण ADO अथवा (ADO विकास खंड के तैनात न होने पर ADCO द्वारा)
                                         प्रत्येक माह की पांच (5) तारीख तक भरना अनिवार्य है, जिसके उपरांत AR अथवा CEO
@@ -796,6 +792,12 @@ page_sidebar();
 
                                     </div>
                                 </div>
+</div>
+                                    <form action="scripts/ajax.php" method="post" enctype="multipart/form-data" id="user_form"
+                                        name="user_form">
+                                      
+                                            <!-------------------1st start--------------------------------------------------------------------->
+                                
                                 <!----------------2.1 start-------------------------------------------------------->
                                             <div class="step">
                                                 <h4> <img src="images/logo/4.png" alt="text" class="img-fluid stat-icon"
@@ -1789,7 +1791,7 @@ page_sidebar();
                                 <!----------------5th start-------------------------------------------------------->
                                             <div class="step">
                                                 <h4><img src="images/logo/6.png" alt="text" class="img-fluid stat-icon"
-                                                        style="height:50px; width:50px;"> 6 (I) मानव सम्पदा</h4>
+                                                        style="height:50px; width:50px;"> 5 (I) मानव सम्पदा</h4>
                                                 <div class="col-sm-12">
                                                     <table class="table table-bordered table-striped table-hover">
                                                         <thead>
@@ -2560,7 +2562,7 @@ page_sidebar();
 
                                 <div class="step">
                                     <h4><img src="images/logo/11.png" alt="text" class="img-fluid stat-icon"
-                                            style="height:50px; width:50px;"> 7. समिति भवन/सम्पत्ति का विवरण</h2>
+                                            style="height:50px; width:50px;"> 6. समिति भवन/सम्पत्ति का विवरण</h2>
                                         <div class="col-sm-12">
                                             <div class="row">
                                                 <div class="col-sm-12">
@@ -3127,8 +3129,8 @@ page_sidebar();
                                                                 value="<?php echo $row_2_1['sec_6_2_truck_not_reach']; ?>">
                                                         </div>
                                                     </div>
-                                                    <h5>(VII)अन्य</h5>
-                                                    <div class="row">
+                                                    <!-- <h5>(VII)अन्य</h5> -->
+                                                    <!-- <div class="row">
                                                         <div class="col-sm-4 form-group" id="access_road_truck">
                                                             <label>खाली पड़ी भूमि मे हरे पेड़ों की संख्या</label>
                                                             <input type="number" name="sec_6_2_truck_not_reach"
@@ -3156,7 +3158,7 @@ page_sidebar();
                                                                     नहीं</option>
                                                             </select>
                                                         </div>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                             </div>
                                         </div>
@@ -3164,7 +3166,7 @@ page_sidebar();
                                 <!---------------7th Start---------------------------------------------------------------->
                                             <div class="step">
                                                 <h4><img src="images/logo/8.png" alt="text" class="img-fluid stat-icon"
-                                                        style="height:50px; width:50px;"> 8. सुविधाएं </h4>
+                                                        style="height:50px; width:50px;"> 7. सुविधाएं </h4>
                                                 <h5>(II) विद्युत कनेक्शन</h5>
                                                 <div class="col-sm-12">
                                                     <div class="row">
@@ -3481,7 +3483,7 @@ page_sidebar();
                                 <!----------9th start-------------------------------------------------------->
                                 <div class="step">
                                     <h4><img src="images/logo/12.png" alt="text" class="img-fluid stat-icon"
-                                            style="height:50px; width:50px;"> 9. कंप्यूटरीकरण की स्थिति </h4>
+                                            style="height:50px; width:50px;"> 8. कंप्यूटरीकरण की स्थिति </h4>
                                     <div class="col-sm-12">
                                         <div class="row">
                                             <div class="col-sm-12">
@@ -3551,7 +3553,7 @@ page_sidebar();
                                                     </div>
                                                 </div>
                                                 <h4><img src="images/logo/10.png" alt="text" class="img-fluid stat-icon"
-                                                        style="height:50px; width:50px;"> 10. निरीक्षण स्थिति</h4>
+                                                        style="height:50px; width:50px;"> 9. निरीक्षण स्थिति</h4>
                                                 <div class="row">
                                                     <div class="col-sm-2 form-group">
                                                         <label>वित्तीय वर्ष</label>
@@ -3904,7 +3906,7 @@ page_sidebar();
                 }
             </script>
 
-            <script type="text/javascript" src="js/multistepform.js?v=1">
+            <script type="text/javascript" src="js/multistepform_sugarcane.js?v=1">
                 <!-- Light Bootstrap Table Core javascript and methods for Demo purpose -->
                 < script src="js/light-bootstrap-dashboard.js?v=1.4.0">
             </script>

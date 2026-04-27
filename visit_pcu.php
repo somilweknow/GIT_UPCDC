@@ -3,8 +3,8 @@ include("scripts/settings.php");
 $msg = '';
 $response = 1;
 $tab = 1;
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// error_reporting(E_ALL);
+// ini_set('display_errors', 1);
 // var_dump($_POST);
 
 $row_invoice = [
@@ -17,59 +17,54 @@ $row_invoice = [
     'photo_id' => '',
     'society_registration_no' => '',
     'society_registration_date' => '',
-    'prakhand_name' => '',
-    'members_no' => '',
-    'inactive_members_no' => '',
-    'active_members_no' => '',
-    'new_members' => '',
-    'share_capital' => '',
-    'inactive_to_active_no' => '',
-    'total_members' => '',
+    'committee_date' => '',
     'address' => '',
     'pincode' => '',
     'pan_no' => '',
     'tan_no' => '',
-    'mobile_no' => '',
+    'mobile_number' => '',
     'website' => '',
+    'hq_ownership' => '',
     'membership_fee' => '',
     'nominal_member' => '',
-    'lifetime_member' => ''
+    'lifetime_member' => '',
+    'total_members' => '',
+    'liquidation' => '',
+    'liquidation_date' => '',
+    'liquidation_status' => ''
 ];
-// echo '-------------------------------------', $_GET['exdid'];
+
 if (isset($_GET['exdid'])) {
-    $sql = 'SELECT apex_si_1_1.*, apex.* FROM `apex_si_1_1` LEFT JOIN apex ON apex.sno = apex_si_1_1.apex_id WHERE apex_si_1_1.apex_id="' . $_GET['exdid'] . '" ';
+    $sql = 'SELECT apex_si_1_1.*, apex_si_1_1.sno AS sno, apex_si_1_1.apex_id AS apex_id, CONCAT("/user_data/", apex_si_1_1.apex_id, "/", photo_id) AS photo_id FROM apex_si_1_1 LEFT JOIN apex ON apex.sno = apex_si_1_1.apex_id WHERE apex_si_1_1.apex_id="' . $_GET['exdid'] . '"';
+
     $result_invoice = execute_query($sql);
     if ($result_invoice && mysqli_num_rows($result_invoice) >= 1) {
         $row_invoice = mysqli_fetch_assoc($result_invoice);
 
         $_SESSION['survey_id'] = $row_invoice['sno'];
-        $row_invoice['latitude'] = $row_invoice['latitude'];
-        $row_invoice['longitude'] = $row_invoice['longitude'];
-        $row_invoice['committee_status'] = $row_invoice['committee_status'];
-        $row_invoice['email_id'] = $row_invoice['email_id'];
-        $row_invoice['photo_id'] = $row_invoice['photo_id'];
-        $row_invoice['society_registration_no'] = $row_invoice['society_registration_no'];
-        $row_invoice['society_registration_date'] = $row_invoice['society_registration_date'];
-        $row_invoice['prakhand_name'] = $row_invoice['prakhand_name'];
-        $row_invoice['members_no'] = $row_invoice['members_no'];
-        $row_invoice['active_members_no'] = $row_invoice['active_members_no'];
-        $row_invoice['inactive_members_no'] = $row_invoice['inactive_members_no'];
-        $row_invoice['new_members'] = $row_invoice['new_members'];
-        $row_invoice['share_capital'] = $row_invoice['share_capital'];
-        $row_invoice['inactive_to_active_no'] = $row_invoice['inactive_to_active_no'];
-        $row_invoice['total_members'] = $row_invoice['total_members'];
-        $row_invoice['address'] = $row_invoice['address'];
-        $row_invoice['pincode'] = $row_invoice['pincode'];
-        $row_invoice['pan_no'] = $row_invoice['pan_no'];
-        $row_invoice['tan_no'] = $row_invoice['tan_no'];
-        $row_invoice['mobile_no'] = $row_invoice['mobile_no'];
-        $row_invoice['website'] = $row_invoice['website'];
-        $row_invoice['lifetime_member'] = $row_invoice['lifetime_member'];
-        $row_invoice['nominal_member'] = $row_invoice['nominal_member'];
-        $row_invoice['membership_fee'] = $row_invoice['membership_fee'];
+        $row_invoice['latitude'] = $row_invoice['latitude'] ?? '';
+        $row_invoice['longitude'] = $row_invoice['longitude'] ?? '';
+        $row_invoice['committee_status'] = $row_invoice['committee_status'] ?? '';
+        $row_invoice['email_id'] = $row_invoice['email_id'] ?? '';
+        $row_invoice['photo_id'] = $row_invoice['photo_id'] ?? '';
+        $row_invoice['society_registration_no'] = $row_invoice['society_registration_no'] ?? '';
+        $row_invoice['society_registration_date'] = $row_invoice['society_registration_date'] ?? '';
+        $row_invoice['committee_date'] = $row_invoice['committee_date'] ?? '';
+        $row_invoice['total_members'] = $row_invoice['total_members'] ?? '';
+        $row_invoice['address'] = $row_invoice['address'] ?? '';
+        $row_invoice['pincode'] = $row_invoice['pincode'] ?? '';
+        $row_invoice['pan_no'] = $row_invoice['pan_no'] ?? '';
+        $row_invoice['tan_no'] = $row_invoice['tan_no'] ?? '';
+        $row_invoice['mobile_number'] = $row_invoice['mobile_number'] ?? '';
+        $row_invoice['website'] = $row_invoice['website'] ?? '';
+        $row_invoice['hq_ownership'] = $row_invoice['hq_ownership'] ?? '';
+        $row_invoice['lifetime_member'] = $row_invoice['lifetime_member'] ?? '';
+        $row_invoice['nominal_member'] = $row_invoice['nominal_member'] ?? '';
+        $row_invoice['membership_fee'] = $row_invoice['membership_fee'] ?? '';
+        $row_invoice['liquidation'] = $row_invoice['liquidation'] ?? '';
+        $row_invoice['liquidation_date'] = $row_invoice['liquidation_date'] ?? '';
+        $row_invoice['liquidation_status'] = $row_invoice['liquidation_status'] ?? '';
     }
-    // print_r($row_invoice);
-    // print_r($row_invoice['sno']);
 
     $sql = 'SELECT * FROM apex_si_2_2 WHERE survey_id="' . $row_invoice['sno'] . '"';
     $result_sec_2_b = execute_query($sql);
@@ -107,6 +102,8 @@ if (isset($_GET['exdid'])) {
         $row_2_b['sec_2_b_longitude_1'] = '';
     }
 
+
+
     $sql = 'select * from survey_invoice_new_sec_6_2 where survey_id="' . $row_invoice['sno'] . '"';
     $res_6_2 = execute_query($sql);
     if (mysqli_num_rows($res_6_2) != 0) {
@@ -124,7 +121,6 @@ if (isset($_GET['exdid'])) {
 
 
     $sql = 'select * from survey_invoice_new_sec_6_2_1 where survey_id="' . $row_invoice['sno'] . '"';
-    // echo $sql;
     $result_sec_6_2_1 = execute_query($sql);
     $row_6_2 = array();
     $d = 1;
@@ -135,7 +131,7 @@ if (isset($_GET['exdid'])) {
             $row_6_2['sec_6_2_designation_' . $d] = $row_section_6_2_1['designation'];
             $row_6_2['sec_6_2_name_' . $d] = $row_section_6_2_1['full_name'];
             $row_6_2['sec_6_2_father_name_' . $d] = $row_section_6_2_1['father_name'];
-            $row_6_2['sec_6_2__mob_no_' . $d] = $row_section_6_2_1['mobile_no'];
+            $row_6_2['sec_6_2__mob_no_' . $d] = $row_section_6_2_1['mobile_no'] ?? '';
 
             $d++;
         }
@@ -148,7 +144,6 @@ if (isset($_GET['exdid'])) {
     }
 
     $sql = 'select * from survey_trans_new_sec_2_stock where survey_id="' . $row_invoice['sno'] . '"';
-    // echo $sql;
     $result_sec_2 = execute_query($sql);
     $row_sec_2 = array();
     $j = 1;
@@ -185,6 +180,40 @@ if (isset($_GET['exdid'])) {
         $row_sec_2['book_value_1_1'] = "";
         $row_sec_2['closing_stock_2_1'] = "";
         $row_sec_2['book_value_2_1'] = "";
+    }
+
+    $sql = 'select * from survey_invoice_new_sec_2_1 where survey_id="' . $row_invoice['sno'] . '"';
+    $result_sec_2_1 = execute_query($sql);
+    $row_sec_2_1 = array();
+    $a = 1;
+    if (mysqli_num_rows($result_sec_2_1) > 0) {
+        while ($row_section_2_1 = mysqli_fetch_assoc($result_sec_2_1)) {
+            $row_sec_2_1['scraped_item_name_' . $a] = $row_section_2_1['item_name'];
+            $row_sec_2_1['scraped_item_description_' . $a] = $row_section_2_1['item_description'];
+            $row_sec_2_1['book_value_' . $a] = $row_section_2_1['book_value'];
+            $a++;
+        }
+    } else {
+        $row_sec_2_1['scraped_item_name_1'] = "";
+        $row_sec_2_1['scraped_item_description_1'] = "";
+        $row_sec_2_1['book_value_1'] = "";
+    }
+
+
+    $sql = 'select * from survey_invoice_new_sec_2_2 where survey_id="' . $row_invoice['sno'] . '"';
+    $result_sec_2_2 = execute_query($sql);
+    $row_sec_2_2 = array();
+    $b = 1;
+    if (mysqli_num_rows($result_sec_2_2) > 0) {
+        while ($row_section_2_2 = mysqli_fetch_assoc($result_sec_2_2)) {
+            $row_sec_2_2['item_name_' . $b] = $row_section_2_2['item_name'];
+            $row_sec_2_2['item_description_' . $b] = $row_section_2_2['item_description'];
+            $row_sec_2_2['scheme_name_' . $b] = $row_section_2_2['scheme_name'];
+            $row_sec_2_2['date_' . $b] = $row_section_2_2['date'];
+            $row_sec_2_2['purchase_value_' . $b] = $row_section_2_2['purchase_value'];
+            $row_sec_2_2['quantity_' . $b] = $row_section_2_2['quantity'];
+            $b++;
+        }
     }
 
     $sql = 'SELECT * FROM msy_data WHERE survey_id = "' . $row_invoice['sno'] . '"';
@@ -302,57 +331,120 @@ if (isset($_GET['exdid'])) {
         $row_2_1_2['count'] = 1;
         $row_2_1_2['sec_2_1_2_business_description_' . $i] = '';
         $row_2_1_2['sec_2_1_2_value_' . $i] = '';
+        $row_2_1_2['sec_2_1_2_profit_loss_' . $i] = '';
     }
+
+    $row_3_3 = [];
 
     $sql = 'SELECT * FROM training_centers WHERE survey_id = "' . $row_invoice['sno'] . '"';
-    $res_centers = execute_query($sql);
+    $res_3_3 = execute_query($sql);
 
-    if ($res_centers && mysqli_num_rows($res_centers) > 0) {
+    if (mysqli_num_rows($res_3_3) != 0) {
+        $i = 1;
+        while ($row_3_3_temp = mysqli_fetch_assoc($res_3_3)) {
 
-        $tr = mysqli_fetch_assoc($res_centers);
+            $row_3_3['sec_3_cpmt_' . $i] = $row_3_3_temp['cpmt_name'];              // नाम
+            $row_3_3['sec_3_address_' . $i] = $row_3_3_temp['address'];                // पता
+            $row_3_3['sec_3_principal_name_' . $i] = $row_3_3_temp['principal_name'];         // प्रधानाचार्य नाम
+            $row_3_3['sec_3_post_' . $i] = $row_3_3_temp['post'];              // मूलपद
 
+            $row_3_3['sec_3_principal_house_' . $i] = $row_3_3_temp['principal_house'];        // yes/no
+            $row_3_3['sec_3_principal_house_no_' . $i] = $row_3_3_temp['principal_house_no'];     // संख्या
+
+            $row_3_3['sec_3_principal_office_' . $i] = $row_3_3_temp['principal_office'];       // yes/no
+            $row_3_3['sec_3_principal_office_no_' . $i] = $row_3_3_temp['principal_office_no'];    // संख्या
+
+            $row_3_3['sec_3_class_no_' . $i] = $row_3_3_temp['class_no'];
+            $row_3_3['sec_3_class_capacity_' . $i] = $row_3_3_temp['class_capacity'];
+
+            $row_3_3['sec_3_hostel_no_' . $i] = $row_3_3_temp['hostel_no'];
+            $row_3_3['sec_3_hostel_capacity_' . $i] = $row_3_3_temp['hostel_capacity'];
+
+            $row_3_3['sec_3_library_no_' . $i] = $row_3_3_temp['library_no'];
+            $row_3_3['sec_3_library_capacity_' . $i] = $row_3_3_temp['library_capacity'];
+
+            $row_3_3['sec_3_computer_lab_no_' . $i] = $row_3_3_temp['computer_lab_no'];
+            $row_3_3['sec_3_computer_lab_capacity_' . $i] = $row_3_3_temp['computer_lab_capacity'];
+
+            $row_3_3['sec_3_teacher_no_' . $i] = $row_3_3_temp['teacher_no'];
+            $row_3_3['sec_3_employee_remarks_' . $i] = $row_3_3_temp['employee_remarks'];
+
+            $row_3_3['sec_3_training_sessions_no_' . $i] = $row_3_3_temp['training_sessions_no'];
+            $row_3_3['sec_3_training_subject_name_' . $i] = $row_3_3_temp['training_subject_name'];
+            $row_3_3['sec_3_training_sessions_duration_' . $i] = $row_3_3_temp['training_sessions_duration'];
+
+            $row_3_3['sec_3_departmental_trainees_no_' . $i] = $row_3_3_temp['departmental_trainees_no'];
+            $row_3_3['sec_3_non_departmental_trainees_no_' . $i] = $row_3_3_temp['non_departmental_trainees_no'];
+            $row_3_3['sec_3_trainees_no_' . $i] = $row_3_3_temp['trainees_no'];
+
+            $row_3_3['sec_3_departmental_trainees_fee_' . $i] = $row_3_3_temp['departmental_trainees_fee'];
+            $row_3_3['sec_3_non_departmental_trainees_fee_' . $i] = $row_3_3_temp['non_departmental_trainees_fee'];
+            $row_3_3['sec_3_trainees_fee_' . $i] = $row_3_3_temp['trainees_fee'];
+
+            $row_3_3['sec_3_departmental_hostel_fee_' . $i] = $row_3_3_temp['departmental_hostel_fee'];
+            $row_3_3['sec_3_non_departmental_hostel_fee_' . $i] = $row_3_3_temp['non_departmental_hostel_fee'];
+            $row_3_3['sec_3_hostel_fee_' . $i] = $row_3_3_temp['hostel_fee'];
+
+            $row_3_3['sec_3_build_year_' . $i] = $row_3_3_temp['construction_year'];             // निर्माण वर्ष
+            $row_3_3['sec_3_operation_year_' . $i] = $row_3_3_temp['operational_year'];         // संचालन वर्ष
+
+            $row_3_3['sec_3_training_center_' . $i] = $row_3_3_temp['center_ref_id'];        // मेरठ/वाराणसी...
+            $row_3_3['sec_3_staff_type_' . $i] = $row_3_3_temp['staff_count'];             // उ० प्र० कोआपरेटिव यूनियन / सहकारी संघ...
+
+            $row_3_3['sec_3_training_course_benefits_' . $i] = $row_3_3_temp['training_course_benefits'];
+            $row_3_3['sec_3_building_hostel_status_' . $i] = $row_3_3_temp['building_hostel_status'];
+
+            $i++;
+        }
+        $row_3_3['count'] = $i - 1;
     } else {
-        $tr = [
-            'cpmt_name' => '',
-            'address' => '',
-            'principal_name' => '',
-            'post' => '',
-            'principal_house' => '',
-            'principal_house_no' => '',
-            'principal_office' => '',
-            'principal_office_no' => '',
-            'class_no' => '',
-            'class_capacity' => '',
-            'hostel_no' => '',
-            'hostel_capacity' => '',
-            'library_no' => '',
-            'library_capacity' => '',
-            'computer_lab_no' => '',
-            'computer_lab_capacity' => '',
-            'teacher_no' => '',
-            'employee_remarks' => '',
-            'training_sessions_no' => '',
-            'training_subject_name' => '',
-            'training_sessions_duration' => '',
-            'departmental_trainees_no' => '',
-            'non_departmental_trainees_no' => '',
-            'trainees_no' => '',
-            'departmental_trainees_fee' => '',
-            'non_departmental_trainees_fee' => '',
-            'trainees_fee' => '',
-            'departmental_hostel_fee' => '',
-            'non_departmental_hostel_fee' => '',
-            'hostel_fee' => '',
-            'construction_year' => '',
-            'operational_year' => '',
-            'center_ref_id' => '',
-            'staff_count' => '',
-            'training_course_benefits' => '',
-            'building_hostel_status' => ''
-        ];
-    }
+        // default empty 1 row
+        $i = 1;
+        $row_3_3['count'] = 1;
 
-    // $r = $training_rows[0];
+        $fields = [
+            'sec_3_cpmt_',
+            'sec_3_address_',
+            'sec_3_principal_name_',
+            'sec_3_post_',
+            'sec_3_principal_house_',
+            'sec_3_principal_house_no_',
+            'sec_3_principal_office_',
+            'sec_3_principal_office_no_',
+            'sec_3_class_no_',
+            'sec_3_class_capacity_',
+            'sec_3_hostel_no_',
+            'sec_3_hostel_capacity_',
+            'sec_3_library_no_',
+            'sec_3_library_capacity_',
+            'sec_3_computer_lab_no_',
+            'sec_3_computer_lab_capacity_',
+            'sec_3_teacher_no_',
+            'sec_3_employee_remarks_',
+            'sec_3_training_sessions_no_',
+            'sec_3_training_subject_name_',
+            'sec_3_training_sessions_duration_',
+            'sec_3_departmental_trainees_no_',
+            'sec_3_non_departmental_trainees_no_',
+            'sec_3_trainees_no_',
+            'sec_3_departmental_trainees_fee_',
+            'sec_3_non_departmental_trainees_fee_',
+            'sec_3_trainees_fee_',
+            'sec_3_departmental_hostel_fee_',
+            'sec_3_non_departmental_hostel_fee_',
+            'sec_3_hostel_fee_',
+            'sec_3_build_year_',
+            'sec_3_operation_year_',
+            'sec_3_training_center_',
+            'sec_3_staff_type_',
+            'sec_3_training_course_benefits_',
+            'sec_3_building_hostel_status_',
+        ];
+
+        foreach ($fields as $f) {
+            $row_3_3[$f . $i] = '';
+        }
+    }
 
     $sql_human = "SELECT * FROM apex_si_6_3 WHERE survey_id = '" . $row_invoice['sno'] . "'";
     $result_human = execute_query($sql_human);
@@ -389,27 +481,26 @@ if (isset($_GET['exdid'])) {
     if ($result_pcu && mysqli_num_rows($result_pcu) > 0) {
         while ($row_p = mysqli_fetch_assoc($result_pcu)) {
             $pcu_rows[] = [
-                'pcu_post_id'     => $row_p['pcu_post_id'],
-                'pcu_sanctioned'  => $row_p['pcu_sanctioned'],
-                'pcu_working'     => $row_p['pcu_working'],
-                'pcu_vacant'      => $row_p['pcu_vacant'],
+                'pcu_post_id' => $row_p['pcu_post_id'],
+                'pcu_sanctioned' => $row_p['pcu_sanctioned'],
+                'pcu_working' => $row_p['pcu_working'],
+                'pcu_vacant' => $row_p['pcu_vacant'],
                 'auth_sanctioned' => $row_p['auth_sanctioned'],
-                'auth_working'    => $row_p['auth_working'],
-                'auth_vacant'     => $row_p['auth_vacant'],
-                'pcu_other_detail'=> $row_p['pcu_other_detail']
+                'auth_working' => $row_p['auth_working'],
+                'auth_vacant' => $row_p['auth_vacant'],
+                'pcu_other_detail' => $row_p['pcu_other_detail']
             ];
         }
     } else {
-        // Default empty row for first load
         $pcu_rows[] = [
-            'pcu_post_id'     => '',
-            'pcu_sanctioned'  => '',
-            'pcu_working'     => '',
-            'pcu_vacant'      => '',
+            'pcu_post_id' => '',
+            'pcu_sanctioned' => '',
+            'pcu_working' => '',
+            'pcu_vacant' => '',
             'auth_sanctioned' => '',
-            'auth_working'    => '',
-            'auth_vacant'     => '',
-            'pcu_other_detail'=> ''
+            'auth_working' => '',
+            'auth_vacant' => '',
+            'pcu_other_detail' => ''
         ];
     }
 
@@ -417,27 +508,29 @@ if (isset($_GET['exdid'])) {
     $res_new_plot = execute_query($sql);
     if (mysqli_num_rows($res_new_plot) != 0) {
         $row_new_plot = mysqli_fetch_assoc($res_new_plot);
-        $row_new_plot['sec_new_plot_area'] = $row_new_plot['plot_area'];
-        $row_new_plot['sec_new_plot_revenue_status'] = $row_new_plot['plot_revenue_status'];
-        $row_new_plot['sec_new_plot_reason_for_not_record'] = $row_new_plot['plot_reason_for_not_record'];
-        $row_new_plot['sec_new_plot_practices_if_not'] = $row_new_plot['plot_practices_if_not'];
-        $row_new_plot['sec_new_plot_gata_no'] = $row_new_plot['plot_gata_no'];
-        $row_new_plot['sec_3_ownership'] = $row_new_plot['sec_3_ownership'];
-        $row_new_plot['sec_3_building_area'] = $row_new_plot['society_building_area'];
-        $row_new_plot['sec_3_building_rent'] = $row_new_plot['society_building_rent_amount'];
-        $row_new_plot['sec_3_remark'] = $row_new_plot['society_building_remark'];
-        $row_new_plot['sec_new_remarks'] = $row_new_plot['remarks'];
+        $row_new_plot['sec_new_plot_area'] = $row_new_plot['plot_area'] ?? '';
+        $row_new_plot['sec_new_plot_revenue_status'] = $row_new_plot['plot_revenue_status'] ?? '';
+        $row_new_plot['sec_new_plot_reason_for_not_record'] = $row_new_plot['plot_reason_for_not_record'] ?? '';
+        $row_new_plot['sec_new_plot_practices_if_not'] = $row_new_plot['plot_practices_if_not'] ?? '';
+        $row_new_plot['sec_new_plot_gata_no'] = $row_new_plot['plot_gata_no'] ?? '';
+        $row_new_plot['sec_3_ownership'] = $row_new_plot['sec_3_ownership'] ?? '';
+        $row_new_plot['sec_3_building_area'] = $row_new_plot['society_building_area'] ?? '';
+        $row_new_plot['sec_3_building_rent'] = $row_new_plot['society_building_rent_amount'] ?? '';
+        $row_new_plot['sec_3_remark'] = $row_new_plot['society_building_remark'] ?? '';
+        $row_new_plot['sec_new_remarks'] = $row_new_plot['remarks'] ?? '';
+        $row_new_plot['society_building_remark'] = $row_new_plot['society_building_remark'] ?? '';
     } else {
-
         $row_new_plot['sec_new_plot_area'] = '';
         $row_new_plot['sec_new_plot_revenue_status'] = '';
         $row_new_plot['sec_new_plot_reason_for_not_record'] = '';
         $row_new_plot['sec_new_plot_practices_if_not'] = '';
         $row_new_plot['sec_new_plot_gata_no'] = '';
+        $row_new_plot['sec_3_ownership'] = '';
         $row_new_plot['sec_3_building_area'] = '';
         $row_new_plot['sec_3_building_rent'] = '';
         $row_new_plot['sec_3_remark'] = '';
         $row_new_plot['sec_new_remarks'] = '';
+        $row_new_plot['society_building_remark'] = '';
     }
 
     $sql = 'SELECT * FROM survey_invoice_sec_3_1 WHERE survey_id="' . $row_invoice['sno'] . '"';
@@ -555,6 +648,7 @@ if (isset($_GET['exdid'])) {
         $row_2_1['sec_8_plot_frontage'] = '';
         $row_2_1['sec_6_paved_road'] = '';
     }
+
     $sql = 'select * from survey_invoice_new_sec_8 where survey_id="' . $row_invoice['sno'] . '"';
     // $sql = 'SELECT *, 
     // 	 CONCAT("user_data/' . $row_invoice['col2'] . '/' . $row_invoice['col6'] . '/" , toilet_available_image) AS toilet_available_image_new, 
@@ -621,6 +715,135 @@ if (isset($_GET['exdid'])) {
 
 if (empty($row_invoice['apex_id']) && isset($_GET['exdid'])) {
     $row_invoice['apex_id'] = $_GET['exdid'];
+}
+
+?>
+<?php
+$financial_data = [];
+
+$sql_financial = "SELECT * FROM apex_financial_info 
+                  WHERE survey_id='" . $row_invoice['sno'] . "' 
+                  ORDER BY financial_year ASC";
+
+$res_financial = execute_query($sql_financial);
+
+if ($res_financial && mysqli_num_rows($res_financial) > 0) {
+    while ($row = mysqli_fetch_assoc($res_financial)) {
+        $financial_data[] = $row;
+    }
+}
+
+// Structure Properly According To Your Real Columns
+$structured_financial = [];
+
+foreach ($financial_data as $row) {
+
+    $year = $row['financial_year'];
+
+    $structured_financial[$year] = [
+            'annual' => [
+                    'status'       => $row['annual_status'] ?? '',
+                    'gross_amount' => $row['annual_gross'] ?? '',
+                    'net_amount'   => $row['annual_net'] ?? ''
+            ],
+            'accumulated' => [
+                    'status'       => $row['accumulated_status'] ?? '',
+                    'gross_amount' => $row['accumulated_gross'] ?? '',
+                    'net_amount'   => $row['accumulated_net'] ?? ''
+            ]
+    ];
+}
+
+
+/* ===============================
+   EMPTY LAND DATA
+================================ */
+
+$empty_land_data = [];
+
+$sql = "SELECT * 
+        FROM apex_empty_land_info
+        WHERE survey_id = '" . $row_invoice['sno'] . "'
+        ORDER BY id ASC";
+
+$res = execute_query($sql);
+
+if ($res && mysqli_num_rows($res) > 0) {
+
+    while ($row = mysqli_fetch_assoc($res)) {
+
+        $empty_land_data[] = $row;
+
+    }
+}
+
+//Management comitee data
+$data_6_2 = [];
+$survey_id =  $row_invoice['sno'];
+$query = execute_query("SELECT * FROM survey_management_committee WHERE survey_id='$survey_id'");
+
+while($row = mysqli_fetch_assoc($query)){
+    $data_6_2[] = $row;
+}
+?>
+
+<!--Human Resource Data for Prefilled-->
+<?php
+$existing_hr = [];
+$sql_hr = "SELECT * FROM apex_human_resource_info WHERE survey_id='" . $row_invoice['sno'] . "'";
+$res_hr = execute_query($sql_hr);
+
+if ($res_hr && mysqli_num_rows($res_hr) > 0) {
+    while ($row = mysqli_fetch_assoc($res_hr)) {
+        $existing_hr[] = $row;
+    }
+}
+
+$prefillData = [];
+
+$sql = "SELECT * FROM apex_human_resource_info 
+        WHERE survey_id='" . $row_invoice['sno'] . "'";
+$res = execute_query($sql);
+
+if ($res && mysqli_num_rows($res) > 0) {
+
+    while ($row = mysqli_fetch_assoc($res)) {
+
+        $post_id = $row['hr_post_id'];
+
+        if (!isset($prefillData[$post_id])) {
+            $prefillData[$post_id] = [
+                    'staff_type' => $row['staff_type'],
+                    'hr_post_id' => $row['hr_post_id'],
+                    'sanctioned_post' => $row['sanctioned_post'],
+                    'vacant_post' => $row['vacant_post'],
+                    'staff_members' => []
+            ];
+        }
+
+        $prefillData[$post_id]['staff_members'][] = $row;
+    }
+}
+
+$zone_data = [];
+$prakhand_data = [];
+$other_data = [];
+
+$sql = "SELECT * FROM apex_zone_details WHERE survey_id='" . $survey_id . "'";
+$res = execute_query($sql);
+
+while ($row = mysqli_fetch_assoc($res)) {
+
+    if ($row['office_type'] == 1) {
+        $zone_data[] = $row;
+    }
+    elseif ($row['office_type'] == 2) {
+        $prakhand_data[] = $row;
+    }
+    elseif ($row['office_type'] == 3) {
+        $other_data[] = $row;
+    }
+
 }
 
 ?>
@@ -691,17 +914,26 @@ page_header_start();
     }
 
     .step h4 {
-        color: #FFFFFF;
-        background: #FF8E00;
+        color: white;
+        background: #4a90e2;
         border-radius: 15px;
         padding: 10px 10px 6px 20px;
+        font-weight: 700;
+        /* Bold */
+        font-size: 1.5rem;
+        /* Increased size */
+        margin-top: 0;
     }
 
     .step h5 {
-        color: #000000;
-        background: #FFDB44;
+        color: blue ;
+        background: #a4cbf8ff;
         border-radius: 15px;
         padding: 10px 10px 6px 20px;
+        font-weight: 700;
+        /* Bold */
+        font-size: 1.25rem;
+        /* Increased size */
     }
 </style>
 <style>
@@ -709,8 +941,13 @@ page_header_start();
         background-color: white;
     }
 
-    .card label {
-        font-size: 0.80rem;
+    .card label,
+    .form-group label {
+        font-size: 1.1rem;
+        /* Increased size */
+        font-weight: 700;
+        /* Bold */
+        color: #333;
     }
 </style>
 
@@ -793,6 +1030,30 @@ page_header_start();
         margin: 5px 0;
     }
 </style>
+
+<style>
+    .highlight-text {
+        padding: 8px 10px;
+        background: #d7eee3;
+        border: 1px solid #eee8d5;
+        border-radius: 4px;
+        font-weight: bold;
+        color: #2c3e50;
+    }
+
+    .blinking-text {
+        color: red;
+        font-size: 13px;
+        font-weight: bold;
+        animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+        50% {
+            opacity: 0;
+        }
+    }
+</style>
 <?php
 page_header_end();
 page_sidebar();
@@ -802,7 +1063,7 @@ page_sidebar();
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <div class="row d-flex my-auto">
+                <div class="row">
                     <div class="col-md-12">
                         <div class="progress">
                             <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="50"
@@ -812,89 +1073,95 @@ page_sidebar();
                         </div>
                         <form action="scripts/ajax_pcu.php" method="post" enctype="multipart/form-data" id="user_form"
                             name="user_form">
+                            <?php echo $msg; ?>
                             <div id="steps-container">
                                 <!-------------------1st start--------------------------------------------------------------------->
                                 <div class="step">
-                                    <?php echo $msg; ?>
-
-                                    <h4><img src="images/logo/1.png" alt="text" class="img-fluid stat-icon"
+                                    <h4><img src="images/logo/1.png" class="img-fluid stat-icon"
                                             style="height:45px; width:45px;"> 1. समिति का विवरण </h4>
                                     <div class="col-sm-12">
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="row">
-                                                    <div class="col-sm-8 form-group">
+
+                                                    <div class="col-sm-12 form-group">
                                                         <label>संस्था का प्रकार</label>
-                                                        <input type="text" name="apex_type" id="apex_type"
-                                                            tabindex="<?php echo $tab++; ?>" readonly
-                                                            value="शीर्ष सहकारी संस्था (APEX)" class="form-control">
+                                                        <div class="highlight-text" style="font-size: 18px;">
+                                                            शीर्ष सहकारी संस्था (APEX)
+                                                        </div>
                                                     </div>
-                                                    <div class="col-sm-8 form-group" style="margin: 9px;"
-                                                        id="sec_1_institute_name_container">
-                                                        <label>संस्था का नाम</label>
-                                                        <input type="text" name="apex_name" id="apex_name"
-                                                            tabindex="<?php echo $tab++; ?>" readonly
-                                                            value="यू०पी० कोआपरेटिव यूनियन लि०" class="form-control">
+
+                                                    <div class="col-sm-12 form-group" style="padding: 15px;">
+                                                        <label>समिति का नाम</label>
+                                                        <div class="highlight-text" style="font-size: 18px;">
+                                                            यू०पी० कोआपरेटिव यूनियन लि०
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <!-- Right Section : Location + Map -->
                                             <div class="col-md-8">
                                                 <input type="hidden" id="apex_code" name="apex_code"
                                                     value="<?php echo $row_invoice['apex_id']; ?>">
+                                                <input type="hidden" id="survey_id" name="survey_id"
+                                                    value="<?php echo $row_invoice['sno']; ?>">
+
                                                 <div class="row">
-                                                    <div class="col-md-2">
+                                                    <!-- Lat Long + Button -->
+                                                    <div class="col-md-3">
                                                         <label>Latitude</label>
-                                                        <input type="text" id="lat"
+                                                        <input type="text" id="lat" disabled
                                                             value="<?php echo $row_invoice['latitude']; ?>"
                                                             class="form-control">
+
                                                         <label>Longitude</label>
-                                                        <input type="text" id="long"
+                                                        <input type="text" id="long" disabled
                                                             value="<?php echo $row_invoice['longitude']; ?>"
                                                             class="form-control">
-                                                        <button type="button" class="btn btn-info" style=""
-                                                            onClick="getLocation();">मुख्यालय की
-                                                            जियो-लोकेशन</button>
+
+                                                        <button type="button" class="btn btn-info btn-sm mt-2"
+                                                            onclick="getLocation();">
+                                                            लोकेशन रिफ्रेश करें
+                                                        </button>
+
+                                                        <div class="blinking-text mt-1">
+                                                            (मुख्यालय का लोकेशन मोबाईल से भरे)*
+                                                        </div>
                                                     </div>
-                                                    <div class="col-md-10" id="map_container">
+
+                                                    <!-- Map -->
+                                                    <div class="col-md-9" id="map_container">
                                                         <iframe id="googlemap"
-                                                            src="https://maps.google.com/maps?q=<?php echo $row_invoice['latitude'] . ',' . $row_invoice['longitude']; ?>&hl=en&z=13&amp;output=embed"
-                                                            width="100%" height="100%"
+                                                            src="https://maps.google.com/maps?q=<?php echo $row_invoice['latitude'] . ',' . $row_invoice['longitude']; ?>&hl=en&z=13&output=embed"
+                                                            width="100%" height="230"
                                                             style="border:1px solid; border-radius:10px;"
-                                                            allowfullscreen="" loading="lazy"
-                                                            referrerpolicy="no-referrer-when-downgrade"></iframe>
+                                                            loading="lazy">
+                                                        </iframe>
                                                     </div>
+
                                                 </div>
                                             </div>
                                         </div>
                                         <hr />
                                         <div class="row">
                                             <div class="col-sm-3 form-group" style="margin-block: -6px;">
-                                                <label>समिति पंजीकरण संख्या</label>
+                                                <label>संस्था का पंजीकरण संख्या</label>
                                                 <br />
                                                 <input type="text" name="society_registration_no"
                                                     id="society_registration_no" tabindex="<?php echo $tab++; ?>"
                                                     class="form-control"
                                                     value="<?php echo $row_invoice['society_registration_no']; ?>">
                                             </div>
-                                            <div class="col-sm-2 form-group">
-                                                <label>समिति पंजीकरण दिनांक</label>
-                                                <label><small>नहीं पता होने कि स्थिति में आज का ही दिनांक
-                                                        दर्शायें</small></label>
+                                            <div class="col-sm-3 form-group">
+                                                <label>संस्था का पंजीकरण दिनांक</label>
+
                                                 <input type="date" name="society_registration_date"
                                                     id="society_registration_date" tabindex="<?php echo $tab++; ?>"
                                                     class="form-control"
                                                     value="<?php echo $row_invoice['society_registration_date']; ?>">
                                             </div>
-                                            <div class="col-sm-3 form-group">
-                                                <label>क्या समिति सक्रिय है ?</label>
-                                                <select class="form-control" id="committee_status"
-                                                    name="committee_status" tabindex="<?php echo $tab++; ?>"
-                                                    onChange="hide_show(this.value, '#committee_date_section', 'no'); color_change(this, 'yes', '#42ecf5', 'no', '#f28546');">
-                                                    <option value="">--Select--</option>
-                                                    <option value="yes">हाँ</option>
-                                                    <option value="no">नहीं</option>
-                                                </select>
-                                            </div>
+
                                             <div class="col-sm-3 form-group" id="committee_date_section"
                                                 style="display: none;">
                                                 <label>समिति की तिथि</label><br>
@@ -903,49 +1170,6 @@ page_sidebar();
                                                 <input type="date" name="committee_date" id="committee_date"
                                                     tabindex="<?php echo $tab++; ?>" class="form-control"
                                                     value="<?php echo !empty($row_invoice['committee_date']) ? $row_invoice['committee_date'] : date('Y-m-d'); ?>">
-                                            </div>
-                                            <?php
-                                            if (!empty($row_invoice['photo_id']) && file_exists($row_invoice['photo_id'])) {
-                                                ?>
-                                            <div class="col-sm-2 form-group">
-                                                <label>मुख्यालय की फोटो संलग्न करें</label>
-                                                <input type="file" accept=".jpg, .jpeg, .gif, .png, .bmp"
-                                                    name="society_photo" id="society_photo"
-                                                    tabindex="<?php echo $tab++; ?>" class="form-control">
-                                            </div>
-                                            <div class="col-sm-2 form-group">
-                                                <img src="<?php echo $row_invoice['photo_id']; ?>"
-                                                    class="img-fluid img-thumbnail" style="height:50px;"
-                                                    id="society_photo_uploaded">
-                                                <label><a href="<?php echo $row_invoice['photo_id']; ?>"
-                                                        target="_blank">संलग्न फोटो देखें</a></label>
-
-                                            </div>
-                                            <?php
-                                            } else {
-                                                ?>
-                                            <div class="col-sm-3 form-group">
-                                                <label>मुख्यालय की फोटो संलग्न करें</label>
-                                                <input type="file" accept=".jpg, .jpeg, .gif, .png, .bmp"
-                                                    name="society_photo" id="society_photo"
-                                                    tabindex="<?php echo $tab++; ?>" class="form-control">
-
-                                            </div>
-
-                                            <?php
-                                            }
-                                            ?>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <label>पता</label>
-                                                <input name="address" id="address" tabindex="<?php echo $tab++; ?>"
-                                                    class="form-control" value="<?php echo $row_invoice['address']; ?>">
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <label>पिनकोड</label>
-                                                <input name="pincode" id="pincode" tabindex="<?php echo $tab++; ?>"
-                                                    class="form-control" value="<?php echo $row_invoice['pincode']; ?>">
                                             </div>
                                             <div class="col-sm-3 form-group">
                                                 <label>पैन न०</label>
@@ -959,6 +1183,8 @@ page_sidebar();
                                                     tabindex="<?php echo $tab++; ?>" class="form-control"
                                                     value="<?php echo $row_invoice['tan_no']; ?>">
                                             </div>
+                                        </div>
+                                        <div class="row">
                                             <div class="col-sm-3 form-group">
                                                 <label>जी० एस० टी० न०</label>
                                                 <input type="text" name="tan_no" id="tan_no"
@@ -967,15 +1193,15 @@ page_sidebar();
                                             </div>
                                             <div class="col-sm-3 form-group">
                                                 <label>ई-मेल आई.डी.</label>
-                                                <input type="text" name="sec_1_email" id="sec_1_email"
+                                                <input type="text" name="email_id" id="email_id"
                                                     tabindex="<?php echo $tab++; ?>" class="form-control"
                                                     value="<?php echo $row_invoice['email_id']; ?>">
                                             </div>
                                             <div class="col-sm-3 form-group">
                                                 <label>दूरभाष न०</label>
-                                                <input type="text" name="mobile_no" id="mobile_no"
+                                                <input type="text" name="mobile_number" id="mobile_number"
                                                     tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                    value="<?php echo $row_invoice['mobile_no']; ?>">
+                                                    value="<?php echo $row_invoice['mobile_number']; ?>">
                                             </div>
                                             <div class="col-sm-3 form-group">
                                                 <label>वेबसाईट</label>
@@ -984,39 +1210,227 @@ page_sidebar();
                                                     value="<?php echo $row_invoice['website']; ?>">
                                             </div>
 
-                                            <div class="col-sm-3 form-group">
-                                                <label>क्या समिति परिसमापन (Liquidation) में है?</label>
-                                                <select name="liquidation" id="liquidation"
-                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                    onchange="hide_show(this.value, '#liquidation_date_container', 'yes');hide_show(this.value, '#liquidation_status', 'yes');handleDropdownColorChange(this, 'yes', '#42ecf5', 'no', '#f28546');">
+                                            <!-- <div class="col-sm-3 form-group">
+                                                <label>मुख्यालय का स्वामित्व</label>
+                                                <select name="hq_ownership" id="hq_ownership" class="form-control"
+                                                    tabindex="<?php echo $tab++; ?>">
                                                     <option value="">--Select--</option>
-                                                    <option value="yes" <?php echo ($row_invoice['liquidation'] == 'yes') ? ' selected="selected"' : ''; ?> style="background:#0f0"> हाँ
-                                                    </option>
-                                                    <option value="no" <?php echo ($row_invoice['liquidation'] == 'no') ? ' selected="selected"' : ''; ?> style="background:#f00"> नहीं
-                                                    </option>
+                                                    <option value="sway_ka" <?php if (($row_invoice['hq_ownership'] ?? '') == 'sway_ka')
+                                                        echo 'selected'; ?>>स्वयं का</option>
+                                                    <option value="kiraye_pe" <?php if (($row_invoice['hq_ownership'] ?? '') == 'kiraye_pe')
+                                                        echo 'selected'; ?>>किराये का</option>
                                                 </select>
+                                            </div> -->
+                                            <div class="col-sm-3 form-group">
+                                                <label>मुख्यालय की फोटो संलग्न करें</label>
+                                                <input type="file" name="society_photo" id="society_photo"
+                                                       class="form-control" tabindex="<?php echo $tab++; ?>">
+
+                                                <?php
+                                                $img = "user_data/society_img/" . basename($row_invoice['photo_id']);
+
+                                                if (!empty($row_invoice['photo_id']) && file_exists($img)) { ?>
+                                                    <div class="mt-2">
+                                                        <img src="<?php echo $img; ?>" style="width:120px;border:1px solid #ccc;">
+                                                    </div>
+                                                <?php } ?>
+
                                             </div>
 
-                                            <div class="col-sm-2 form-group" id="liquidation_date_container"
+                                            <div class="col-sm-3 form-group" id="liquidation_date_container"
                                                 style="display: none;">
                                                 <label>परिसमापक नियुक्त करने की तिथि</label>
                                                 <input type="date" tabindex="<?php echo $tab++; ?>"
-                                                    id="liquidation_date" name="liquidation_date" class="form-control"
-                                                    placeholder="Choose Date"
+                                                    id="sec_1_liquidation_date" name="liquidation_date"
+                                                    class="form-control" placeholder="Choose Date"
                                                     value="<?php echo isset($row_invoice['liquidation_date']) ? $row_invoice['liquidation_date'] : ''; ?>">
+                                            </div>
+
+                                            <div class="col-sm-3 form-group" id="liquidation_status"
+                                                style="display: none;">
+                                                <label>परिसमापन की अद्यतन स्थिति</label>
+                                                <input type="text" tabindex="<?php echo $tab++; ?>"
+                                                    id="sec_1_liquidation_status" name="liquidation_status"
+                                                    class="form-control" placeholder=""
+                                                    value="<?php echo isset($row_invoice['liquidation_status']) ? $row_invoice['liquidation_status'] : ''; ?>">
                                             </div>
                                         </div>
                                         <br>
+                                        <h5 style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 12px 20px; border-radius: 8px; font-weight: bold; color: #1565c0; margin: 20px 0 15px 0; border-left: 4px solid #1976d2;">
+                                                1.1शीर्ष संस्था के कार्यालय </h5>
+                                        <br>
+                                        <div class="card shadow-sm mb-3">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-3 form-group">
+                                                        <label>शाखाओं की संख्या</label>
+                                                        <input type="text" name="no_of_zones" id="no_of_zones"
+                                                            tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                            value="<?php echo htmlspecialchars($row_invoice['no_of_zones'] ?? ''); ?>"
+                                                            oninput="updateOfficeRows(this.value)">
+                                                    </div>
+                                                    <div class="col-md-3 form-group">
+                                                        <label> ट्रेनिंग सेंटर की संख्या</label>
+                                                        <input type="text" id="global_prakhand_count"
+                                                            class="form-control"
+                                                            oninput="updateSeparatePrakhandRows(this.value)">
+                                                    </div>
+                                                    <div class="col-md-3 form-group">
+                                                        <label>अन्य कार्यालयों की संख्या</label>
+                                                        <input type="text" id="global_other_office_count"
+                                                            class="form-control"
+                                                            oninput="updateOtherOfficeRows(this.value)">
+                                                    </div>
 
-                                        <h5> <img src="#" alt="text" class="img-fluid stat-icon"
-                                                style="height:50px; width:50px;"> 1.1 सदस्यों का प्रकार </h5><br>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="table-responsive" id="zoneTableWrapper" style="display:none;">
+                                             <h5
+                                                style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 12px 20px; border-radius: 8px; font-weight: bold; color: #1565c0; margin: 20px 0 15px 0; border-left: 4px solid #1976d2;">
+                                               शाखाओं का विवरण</h5>
+                                            <table class="table table-bordered" id="officeContainer"
+                                                style="width: 100%; table-layout: fixed;">
+                                                <thead>
+                                                    <tr class="office-block-header bg-light">
+                                                        <th width="15%" style="color: black; font-weight: bold;"> नाम</th>
+                                                        <th width="15%" style="color: black; font-weight: bold;">दूरभाष न०</th>
+                                                        <th width="20%" style="color: black; font-weight: bold;">ई-मेल आई.डी.</th>
+                                                        <th width="20%" style="color: black; font-weight: bold;">पता</th>
+                                                        <th width="100%" style="color: black; font-weight: bold;">शाखाओं का फोटो GPS टैग के साथ संलग्न करे</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="office-block" data-zone-index="1"
+                                                    style="border-top: 2px solid #dee2e6;">
+                                                    <tr>
+                                                        <td style="padding: 5px;">
+                                                            <input type="text" name="zone_name[]"
+                                                                class="form-control zone-name"
+                                                                placeholder="शाखाओं का नाम">
+                                                        </td>
+                                                        <td style="padding: 5px;">
+                                                            <input type="text" name="zone_mobile[]"
+                                                                class="form-control zone-mobile"
+                                                                placeholder="शाखाओं का दूरभाष">
+                                                        </td>
+                                                        <td style="padding: 5px;">
+                                                            <input type="text" name="zone_email[]"
+                                                                class="form-control zone-email"
+                                                                placeholder="शाखाओं का ई-मेल">
+                                                        </td>
+                                                        <td style="padding: 5px;">
+                                                            <input type="text" name="zone_address[]"
+                                                                class="form-control zone-address"
+                                                                placeholder="शाखाओं का पता">
+                                                        </td>
+                                                        <td style="padding: 5px;">
+                                                            <input type="file" name="zone_image[]" class="form-control zone-image-input" onchange="previewImage(this)">
+                                                            <img src="" class="zone-preview" style="max-height:60px;margin-top:5px;display:none;">
+                                                            <input type="hidden" name="zone_image_old[]" class="zone-image-old">
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <div class="table-responsive" id="prakhandTableWrapper"
+                                            style="display:none; margin-top: 15px;">
+                                            <h5
+                                                style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 12px 20px; border-radius: 8px; font-weight: bold; color: #1565c0; margin: 20px 0 15px 0; border-left: 4px solid #1976d2;">
+                                               ट्रेनिंग सेंटर का विवरण</h5>
+                                            <table class="table table-bordered" id="prakhandContainer"
+                                                style="width: 100%; table-layout: fixed;">
+                                                <thead>
+                                                    <tr class="bg-light">
+                                                        <th width="15%" style="color: black; font-weight: bold;">
+                                                            नाम</th>
+                                                        <th width="15%" style="color: black; font-weight: bold;">
+                                                           दूरभाष न०</th>
+                                                        <th width="20%" style="color: black; font-weight: bold;">
+                                                            ई-मेल आई.डी.</th>
+                                                        <th width="20%" style="color: black; font-weight: bold;">
+                                                           पता</th>
+                                                        <th width="100%" style="color: black; font-weight: bold;">
+                                                            ट्रेनिंग सेंटर का फोटो GPS टैग के साथ संलग्न करे</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="prakhand-main-tbody">
+                                                    <tr class="prakhand-row-template">
+                                                        <td><input type="text" name="prakhand_name[]"
+                                                                class="form-control"
+                                                                placeholder="ट्रेनिंग सेंटर का नाम"></td>
+                                                        <td><input type="text" name="prakhand_mobile[]"
+                                                                class="form-control"
+                                                                placeholder="ट्रेनिंग सेंटर का दूरभाष"></td>
+                                                        <td><input type="text" name="prakhand_email[]"
+                                                                class="form-control"
+                                                                placeholder="ट्रेनिंग सेंटर का ई-मेल"></td>
+                                                        <td><input type="text" name="prakhand_address[]"
+                                                                class="form-control"
+                                                                placeholder="ट्रेनिंग सेंटर का पता"></td>
+                                                        <td>
+                                                            <input type="file" name="prakhand_image[]" class="form-control" onchange="previewImage(this)">
+                                                            <img src="" class="zone-preview" style="max-height:60px;margin-top:5px;display:none;">
+                                                            <input type="hidden" name="prakhand_image_old[]" class="prakhand-image-old">
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="table-responsive" id="otherOfficeTableWrapper"
+                                            style="display:none; margin-top: 15px;">
+                                            <h5
+                                                style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 12px 20px; border-radius: 8px; font-weight: bold; color: #1565c0; margin: 20px 0 15px 0; border-left: 4px solid #1976d2;">
+                                              अन्य कार्यालयों का विवरण</h5>
+                                            <table class="table table-bordered" id="otherOfficeContainer"
+                                                style="width: 100%; table-layout: fixed;">
+                                                <thead>
+                                                    <tr class="bg-light">
+                                                        <th width="15%" style="color: black; font-weight: bold;"> नाम</th>
+                                                        <th width="15%" style="color: black; font-weight: bold;"> दूरभाष न०</th>
+                                                        <th width="20%" style="color: black; font-weight: bold;"> ई-मेल आई.डी.</th>
+                                                        <th width="20%" style="color: black; font-weight: bold;"> पता</th>
+                                                        <th width="100%" style="color: black; font-weight: bold;">अन्य
+                                                            कार्यालयों का फोटो GPS टैग के साथ संलग्न करे</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="other-office-main-tbody">
+                                                    <tr class="other-office-row-template">
+                                                        <td><input type="text" name="other_office_name[]"
+                                                                class="form-control"
+                                                                placeholder="अन्य कार्यालयों का नाम"></td>
+                                                        <td><input type="text" name="other_office_mobile[]"
+                                                                class="form-control"
+                                                                placeholder="अन्य कार्यालयों का दूरभाष"></td>
+                                                        <td><input type="text" name="other_office_email[]"
+                                                                class="form-control"
+                                                                placeholder="अन्य कार्यालयों का ई-मेल"></td>
+                                                        <td><input type="text" name="other_office_address[]"
+                                                                class="form-control"
+                                                                placeholder="अन्य कार्यालयों का पता"></td>
+                                                        <td>
+                                                            <input type="file" name="other_office_image[]" class="form-control" onchange="previewImage(this)">
+                                                            <img src="" class="zone-preview" style="max-height:60px;margin-top:5px;display:none;">
+                                                            <input type="hidden" name="other_office_image_old[]" class="other-image-old">
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <br>
+                                        <br>
+
+                                         <h5
+                                                style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 12px 20px; border-radius: 8px; font-weight: bold; color: #1565c0; margin: 20px 0 15px 0; border-left: 4px solid #1976d2;">
+                                                1.1 सदस्यों का प्रकार </h5>
                                         <div class="row">
                                             <div class="col-sm-3 form-group">
                                                 <label><b>(I) आजीवन सदस्य</b></label>
                                                 <input type="text" name="lifetime_member" id="lifetime_member"
                                                     tabindex="<?php echo $tab++; ?>" class="form-control"
                                                     value="<?php echo $row_invoice['lifetime_member']; ?>">
-                                            </div>
+                                          </div>
                                             <div class="col-sm-3 form-group">
                                                 <label><b>(II) नाम-मात्रिक सदस्य</b></label>
                                                 <input type="text" name="nominal_member" id="nominal_member"
@@ -1024,2694 +1438,2995 @@ page_sidebar();
                                                     value="<?php echo $row_invoice['nominal_member']; ?>">
                                             </div>
                                             <div class="col-sm-3 form-group">
-                                                <label><b>(III) सदस्यता शुल्क</b></label>
+                                                <label><b>(III) कृषक सदस्य की संख्या</b></label>
                                                 <input type="text" name="membership_fee" id="membership_fee"
                                                     tabindex="<?php echo $tab++; ?>" class="form-control"
                                                     value="<?php echo $row_invoice['membership_fee']; ?>">
                                             </div>
-
-                                        </div>
-                                        <small><b> (IV) कुल सदस्य :</b></small>
-                                        <div class="row">
                                             <div class="col-sm-3 form-group">
-                                                <input type="text" name="total_members" id="total_members"
-                                                    tabindex="<?php echo $tab++; ?>" class="form-control" disabled
-                                                    value="<?php echo $row_invoice['total_members']; ?>">
-                                            </div>
-                                        </div>
-
-                                        <h5> <img src="images/logo/2.png" alt="text" class="img-fluid stat-icon"
-                                                style="height:50px; width:50px;"> 1.2 शाखाओं / ट्रेनिंग सेंटर / अन्य
-                                            कार्यालयों का विवरण </h5><br>
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <div id="sec_2_b" style="overflow-x:auto; width:100%">
-                                                    <table class="table table-bordered table-striped table-hover">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>स०</th>
-                                                                <th style="width:200px;">प्रकार</th>
-                                                                <th>नाम</th>
-                                                                <th>मण्डल</th>
-                                                                <th>जनपद</th>
-                                                                <th>तहसील</th>
-                                                                <th>पता</th>
-                                                                <th>दूरभाष न०</th>
-                                                                <th>ई-मेल आई.डी.</th>
-                                                                <th>पिनकोड</th>
-                                                                <th>अक्षांश</th>
-                                                                <th>देशान्तर</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <?php for ($i = 1; $i <= $row_2_b['count']; $i++) { ?>
-                                                            <tr>
-                                                                <td>
-                                                                    <?php echo $i; ?>
-                                                                </td>
-                                                                <td>
-                                                                    <select name="sec_2_b_type_<?php echo $i; ?>"
-                                                                        id="sec_2_b_type_<?php echo $i; ?>"
-                                                                        class="form-control">
-                                                                        <option value="">--select--</option>
-                                                                        <option value="शाखा" <?php echo $row_2_b['sec_2_b_type_' . $i] == 'शाखा' ? 'selected' : ''; ?>>शाखा</option>
-                                                                        <option value="ट्रैनिंग सेंटर" <?php echo $row_2_b['sec_2_b_type_' . $i] == 'ट्रैनिंग सेंटर' ? 'selected' : ''; ?>>ट्रैनिंग सेंटर
-                                                                        </option>
-                                                                        <option value="जनपदीय कार्यालय" <?php echo $row_2_b['sec_2_b_type_' . $i] == 'जनपदीय कार्यालय' ? 'selected' : ''; ?>>जनपदीय
-                                                                            कार्यालय</option>
-                                                                        <option value="क्षेत्रीय कार्यालय" <?php echo $row_2_b['sec_2_b_type_' . $i] == 'क्षेत्रीय कार्यालय' ? 'selected' : ''; ?>>क्षेत्रीय
-                                                                            कार्यालय</option>
-                                                                        <option value="अन्य कार्यालय" <?php echo $row_2_b['sec_2_b_type_' . $i] == 'अन्य कार्यालय' ? 'selected' : ''; ?>>अन्य
-                                                                            कार्यालय</option>
-                                                                    </select>
-                                                                </td>
-                                                                <td><input type="text"
-                                                                        name="sec_2_b_name_<?php echo $i; ?>"
-                                                                        id="sec_2_b_name_<?php echo $i; ?>"
-                                                                        class="form-control"
-                                                                        value="<?php echo $row_2_b['sec_2_b_name_' . $i]; ?>">
-                                                                </td>
-                                                                <td><input type="text"
-                                                                        name="sec_2_b_division_<?php echo $i; ?>"
-                                                                        id="sec_2_b_division_<?php echo $i; ?>"
-                                                                        class="form-control"
-                                                                        value="<?php echo $row_2_b['sec_2_b_division_' . $i]; ?>">
-                                                                </td>
-                                                                <td><input type="text"
-                                                                        name="sec_2_b_district_<?php echo $i; ?>"
-                                                                        id="sec_2_b_district_<?php echo $i; ?>"
-                                                                        class="form-control"
-                                                                        value="<?php echo $row_2_b['sec_2_b_district_' . $i]; ?>">
-                                                                </td>
-                                                                <td><input type="text"
-                                                                        name="sec_2_b_tehsil_<?php echo $i; ?>"
-                                                                        id="sec_2_b_tehsil_<?php echo $i; ?>"
-                                                                        class="form-control"
-                                                                        value="<?php echo $row_2_b['sec_2_b_tehsil_' . $i]; ?>">
-                                                                </td>
-                                                                <td><input type="text"
-                                                                        name="sec_2_b_address_<?php echo $i; ?>"
-                                                                        id="sec_2_b_address_<?php echo $i; ?>"
-                                                                        class="form-control"
-                                                                        value="<?php echo $row_2_b['sec_2_b_address_' . $i]; ?>">
-                                                                </td>
-                                                                <td><input type="text"
-                                                                        name="sec_2_b_mobile_<?php echo $i; ?>"
-                                                                        id="sec_2_b_mobile_<?php echo $i; ?>"
-                                                                        class="form-control"
-                                                                        value="<?php echo $row_2_b['sec_2_b_mobile_' . $i]; ?>">
-                                                                </td>
-                                                                <td><input type="text"
-                                                                        name="sec_2_b_email_<?php echo $i; ?>"
-                                                                        id="sec_2_b_email_<?php echo $i; ?>"
-                                                                        class="form-control"
-                                                                        value="<?php echo $row_2_b['sec_2_b_email_' . $i]; ?>">
-                                                                </td>
-                                                                <td><input type="text"
-                                                                        name="sec_2_b_pincode_<?php echo $i; ?>"
-                                                                        id="sec_2_b_pincode_<?php echo $i; ?>"
-                                                                        class="form-control"
-                                                                        value="<?php echo $row_2_b['sec_2_b_pincode_' . $i]; ?>">
-                                                                </td>
-                                                                <td><input type="text"
-                                                                        name="sec_2_b_latitude_<?php echo $i; ?>"
-                                                                        id="sec_2_b_latitude_<?php echo $i; ?>"
-                                                                        class="form-control"
-                                                                        value="<?php echo $row_2_b['sec_2_b_latitude_' . $i]; ?>">
-                                                                </td>
-                                                                <td><input type="text"
-                                                                        name="sec_2_b_longitude_<?php echo $i; ?>"
-                                                                        id="sec_2_b_longitude_<?php echo $i; ?>"
-                                                                        class="form-control"
-                                                                        value="<?php echo $row_2_b['sec_2_b_longitude_' . $i]; ?>">
-                                                                </td>
-
-                                                                <?php if ($i == $row_2_b['count']) { ?>
-                                                                <td id="sec_2_b_rows">
-                                                                    <button type="button" class="btn btn-info"
-                                                                        onclick="sec_2_b_add_rows();">नई पंक्ति जोड़े
-                                                                        [+]</button>
-                                                                </td>
-                                                                <?php } ?>
-                                                            </tr>
-                                                            <?php } ?>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                                <input type="hidden" name="sec_2_b_id" id="sec_2_b_id"
-                                                    value="<?php echo $row_2_b['count']; ?>">
+                                                <label><b>(IV) कुल सदस्य</b></label>
+                                                <input type="text" name="membership_fee" id="membership_fee"
+                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                    value="<?php echo $row_invoice['membership_fee']; ?>">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <!----------------2.1 start-------------------------------------------------------->
+                                <!------ 3td start ------->
                                 <div class="step">
-                                    <h4> <img src="images/logo/4.png" alt="text" class="img-fluid stat-icon"
-                                            style="height:50px; width:50px;"> 2. E-Stock Register(ई-स्टॉक रजिस्टर)
+                                    <h4>
+                                        <img src="images/logo/3.png" class="img-fluid stat-icon"
+                                            style="height:50px; width:50px;">
+                                        2. संस्था की वित्तीय सूचना
                                     </h4>
-                                    <div class="col-sm-12">
-                                        <div class="alert alert-primary">B-PACS E-Stock Register (बी-पैक्स ई-स्टॉक
-                                            रजिस्टर)</div>
-                                        <table class="table table-bordered table-striped table-hover">
+
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-striped" id="financialMatrixTable">
                                             <thead>
                                                 <tr>
-                                                    <th style="text-align: center;">S.No.</th>
-                                                    <th style="text-align: center;">Stock Item(स्टॉक आइटम)</th>
-                                                    <th style="text-align: center;">Closing Stock as on 31st March,
-                                                        2023(31 मार्च, 2023 को समापन स्टॉक)</th>
-                                                    <th style="text-align: center;">Book Value(बुक वैल्यू)</th>
-                                                    <th style="text-align: center;">Closing Stock as on 31st March,
-                                                        2024(31 मार्च को अंतिम स्टॉक,2024)</th>
-                                                    <th style="text-align: center;">Book Value(बुक वैल्यू)</th>
+                                                    <th>वर्ष</th>
+                                                    <th>प्रकार</th>
+                                                    <th>स्थिति</th>
+                                                    <th>सकल लाभ/हानि धनराशि<br>(लाख में)</th>
+                                                    <th>शुद्ध लाभ/हानि धनराशि<br>(लाख में)</th>
                                                 </tr>
                                             </thead>
+
                                             <tbody>
-
+                                                <!-- Starting 3 rows -->
                                                 <?php
-                                                $sql = 'SELECT `sno`, `type_name` FROM `stock_item_type`';
-                                                $res_stock_item_type = execute_query($sql);
-                                                $t = 1;
-                                                $p = 1;
-                                                while ($row_stock_item_type = mysqli_fetch_assoc($res_stock_item_type)) {
+                                                $startYear = 2022;
+                                                for ($i = 0; $i < 3; $i++) {
+                                                    $yearLabel = $startYear + $i . '-' . substr(($startYear + $i + 1), -2);
+                                                    ?>
+                                                    <!--Counter to manage save in db-->
+                                                    <input type="hidden"
+                                                           name="financial_year_label_<?= $i + 1 ?>"
+                                                           value="<?= $yearLabel ?>">
+                                                    <tr>
+                                                        <td rowspan="2"><?= $yearLabel ?>
+                                                        </td>
 
-                                                    $sql = 'SELECT `sno`, `stock_item_type_id`, `item_name` FROM `stock_item_des` WHERE stock_item_type_id="' . $row_stock_item_type['sno'] . '"';
-                                                    // echo $sql.'<br>';;
-                                                    $res_stock_item_des = execute_query($sql);
-                                                    $d = 1;
+                                                        <td>वार्षिक लाभ/हानि</td>
+                                                        <td>
+                                                            <select name="sec_3_profit_loss_<?= $i + 1 ?>"
+                                                                class="form-control"
+                                                                onchange="handleDropdownColorChange(this,'profit','#42ecf5','loss','#f28546');">
+                                                                <option value="">--Select--</option>
+                                                                <option value="profit">लाभ</option>
+                                                                <option value="loss">हानि</option>
+                                                            </select>
+                                                        </td>
+                                                        <td><input type="text" name="sec_3_gross_amount_<?= $i + 1 ?>"
+                                                                class="form-control chk_decimal"></td>
+                                                        <td><input type="text" name="sec_3_net_amount_<?= $i + 1 ?>"
+                                                                class="form-control chk_decimal"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>संचित लाभ/हानि</td>
+                                                        <td>
+                                                            <select name="sec_3_accumulated_<?= $i + 1 ?>"
+                                                                class="form-control"
+                                                                onchange="handleDropdownColorChange(this,'profit','#42ecf5','loss','#f28546');">
+                                                                <option value="">--Select--</option>
+                                                                <option value="profit">लाभ</option>
+                                                                <option value="loss">हानि</option>
+                                                            </select>
+                                                        </td>
+                                                        <td><input type="text" name="sec_3_acc_gross_amount_<?= $i + 1 ?>"
+                                                                class="form-control chk_decimal"></td>
+                                                        <td><input type="text" name="sec_3_acc_net_amount_<?= $i + 1 ?>"
+                                                                class="form-control chk_decimal"></td>
+                                                    </tr>
+                                                <?php } ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
 
-                                                    if (mysqli_num_rows($res_stock_item_des) > 0) {
+                                    <div class="mb-2 text-right">
+                                        <button type="button" class="btn btn-info" id="addYearRowBtn">
+                                            नई पंक्ति जोड़ें [+]
+                                        </button>
+                                    </div>
 
-                                                        echo '<tr>
-                                                                    <th>' . $t++ . '</th>
-                                                                    <th> ' . $row_stock_item_type['type_name'] . '</th>
-                                                                    </tr>';
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <h5
+                                                style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 12px 20px; border-radius: 8px; font-weight: bold; color: #1565c0; margin: 20px 0 15px 0; border-left: 4px solid #1976d2;">
+                                                2.1. आडिट</h5>
+                                        </div>
+											<div class="col-sm-4 form-group">
+												<label>आडिट किस वित्तीय वर्ष तक हुआ है</label>
+												<select name="sec_3_financial_audit_year" class="form-control"
+													tabindex="<?php echo $tab++; ?>">
+													<option value="">
+														<?php echo '--Select--'; ?>
+													</option>
+													<?php
+													if (date('m') > 3) {
+														$select_start_session = date('Y');
+													} else {
+														$select_start_session = date('Y') - 1;
+													}
+													$session_start = date('Y') - 17;
+													for ($i = $session_start; $i <= $session_start + 16; $i++) {
+														$end_session = $i + 1;
+														?>
+													<option value="<?php echo $i . '-' . $end_session; ?>" <?php
+														   if (isset($row_3_new_1['sec_3_financial_audit_year']) && $row_3_new_1['sec_3_financial_audit_year'] == $i . '-' . $end_session) {
+															   echo 'selected';
+														   }
+														   ?>>
+														<?php echo $i . '-' . $end_session; ?>
+													</option>
+													<?php
+													}
+													?>
+												</select>
+											</div>
+											<div class="col-sm-4 form-group">
+												<label>ऑडिट वर्गीकरण</label>
+												<select name="sec_3_audit_grading" class="form-control"
+													tabindex="<?php echo $tab++; ?>">
+													<option value="">--select--</option>
+													<option value="A" <?php echo isset($row_3_new_1['audit_grading']) && $row_3_new_1['audit_grading'] == 'A' ? 'selected="selected"' : '' ?>>A</option>
+													<option value="B" <?php echo isset($row_3_new_1['audit_grading']) && $row_3_new_1['audit_grading'] == 'B' ? 'selected="selected"' : '' ?>>B</option>
+													<option value="C" <?php echo isset($row_3_new_1['audit_grading']) && $row_3_new_1['audit_grading'] == 'C' ? 'selected="selected"' : '' ?>>C</option>
+													<option value="D" <?php echo isset($row_3_new_1['audit_grading']) && $row_3_new_1['audit_grading'] == 'D' ? 'selected="selected"' : '' ?>>D</option>
+												</select>
+											</div>
 
-                                                        while ($row_stock_item_des = mysqli_fetch_assoc($res_stock_item_des)) {
-
-                                                            echo '<tr>
-                                                        
-                                                                <td></td>
-                                                                <td>' . $d++ . '.)' . $row_stock_item_des['item_name'] . '</td>
-                                                                <td><input type="text" name="closing_stock_1_' . $row_stock_item_type['sno'] . '_' . $row_stock_item_des['sno'] . '" 
-                                                                
-                                                                value="' . $row_sec_2[$row_stock_item_type['sno']][$row_stock_item_des['sno']]['closing_stock_1'] . '" 
-                                                                class="form-control chk_number" data-type="5.1 31 मार्च, 2023 को समापन स्टॉक को अंक मे भरे-' . $d . '"></td>
-                                                                
-                                                                <td><input type="text" name="book_value_1_' . $row_stock_item_type['sno'] . '_' . $row_stock_item_des['sno'] . '" 
-                                                                    
-                                                                value="' . $row_sec_2[$row_stock_item_type['sno']][$row_stock_item_des['sno']]['book_value_1'] . '"
-                                                                
-                                                                class="form-control chk_decimal" data-type="5.1 बुक वैल्यू को धनराशि रु० मे भरे-' . $d . '"></td>
-                                                                <td><input type="text" name="closing_stock_2_' . $row_stock_item_type['sno'] . '_' . $row_stock_item_des['sno'] . '" 
-                                                                
-                                                                value="' . $row_sec_2[$row_stock_item_type['sno']][$row_stock_item_des['sno']]['closing_stock_2'] . '"
-                                                                
-                                                                class="form-control chk_number" data-type="5.1 31 मार्च को अंतिम स्टॉक,2024 को अंक मे भरे-' . $d . '"></td>
-                                                                <td><input type="text" name="book_value_2_' . $row_stock_item_type['sno'] . '_' . $row_stock_item_des['sno'] . '" 
-                                                                
-                                                                value="' . $row_sec_2[$row_stock_item_type['sno']][$row_stock_item_des['sno']]['book_value_2'] . '"
-                                                                
-                                                                class="form-control chk_decimal" data-type="5.1 बुक वैल्यू को धनराशि रु० मे भरे-' . $d . '"></td>
-                                                                </tr>';
-                                                            $p++;
-                                                        }
-                                                    } else {
-
-                                                        echo '<tr>
-                                                                <th>' . $t++ . '</th>
-                                                                <th> ' . $row_stock_item_type['type_name'] . '</th>
-                                                    
-                                                                    <td><input type="text" name="closing_stock_1_' . $row_stock_item_type['sno'] . '" 
-                                                                    
-                                                                    value="' . $row_sec_2[$row_stock_item_type['sno']]['closing_stock_1'] . '" 
-                                                                    
-                                                                    class="form-control chk_number" data-type="5.1 (31 मार्च, 2023 को समापन स्टॉक को अंक मे भरे)-' . $t . '"></td>
-                                                                    
-                                                                    <td><input type="text" name="book_value_1_' . $row_stock_item_type['sno'] . '" 
-                                                                    
-                                                                    value="' . $row_sec_2[$row_stock_item_type['sno']]['book_value_1'] . '"
-                                                                    
-                                                                    class="form-control chk_decimal" data-type="5.1 बुक वैल्यू को धनराशि रु० मे भरे-' . $t . '"></td>
-                                                                    
-                                                                    <td><input type="text" name="closing_stock_2_' . $row_stock_item_type['sno'] . '" 
-                                                                    
-                                                                    value="' . $row_sec_2[$row_stock_item_type['sno']]['closing_stock_2'] . '"
-                                                                    
-                                                                    
-                                                                    class="form-control chk_number" data-type="5.1 31 मार्च को अंतिम स्टॉक,2024 को अंक मे भरे-' . $t . '" ></td>
-                                                                    
-                                                                    <td><input type="text" name="book_value_2_' . $row_stock_item_type['sno'] . '" 
-                                                                    
-                                                                    value="' . $row_sec_2[$row_stock_item_type['sno']]['book_value_2'] . '"
-                                                                    
-                                                                    class="form-control chk_decimal" data-type="5.1 बुक वैल्यू को धनराशि रु० मे भरे-' . $t . '"></td>
-                                                                        
-                                                            </tr>';
-                                                        $p++;
-                                                    }
-                                                }
+											<div class="col-sm-4 form-group">
+												<label>अनुपालन की स्थिति</label>
+												<select name="sec_3_compliance_status" class="form-control"
+													tabindex="<?php echo $tab++; ?>"
+													onchange="handleDropdownColorChange(this, 'yes', '#42ecf5', 'no', '#f28546');">
+													<option value="">--select--</option>
+													<option value="yes" <?php echo $row_3_new_1['sec_3_compliance_status'] == 'yes' ? 'selected="selected"' : '' ?> style="background:#0f0">हाँ
+													</option>
+													<option value="no" <?php echo $row_3_new_1['sec_3_compliance_status'] == 'no' ? 'selected="selected"' : '' ?> style="background:#f00">नहीं
+													</option>
+												</select>
+											</div>
+										</div>
+										<div class="row">
+                                            <div class="col-sm-4 form-group">
+												<label> अंतिम ए० जी० एम० किस वित्तीय वर्ष तक सम्पन्न हुई</label>
+												<select name="sec_3_agm_year" class="form-control"
+													tabindex="<?php echo $tab++; ?>">
+													<option value="">
+														<?php echo '--Select--'; ?>
+													</option>
+													<?php
+													if (date('m') > 3) {
+														$select_start_session = date('Y');
+													} else {
+														$select_start_session = date('Y') - 1;
+													}
+													$session_start = date('Y') - 7;
+													for ($i = $session_start; $i <= $session_start + 7; $i++) {
+														$end_session = $i + 1;
+														?>
+													<option value="<?php echo $i . '-' . $end_session; ?>" <?php
+														   if (isset($row_3_new_1['sec_3_agm_year']) && $row_3_new_1['sec_3_agm_year'] == $i . '-' . $end_session) {
+															   echo 'selected';
+														   }
+														   ?>>
+														<?php echo $i . '-' . $end_session; ?>
+													</option>
+													<?php
+													}
+													?>
+												</select>
+											</div>
+                                            <div class="col-sm-4 form-group">
+												<label>लाभांश किस वर्ष का दिया गया</label>
+												<select name="sec_3_dividend_year" id="sec_3_dividend_year"
+													class="form-control" tabindex="<?php echo $tab++; ?>"
+													onchange="hide_show(this.value, '#sec_2_dividend_per', ['2018', '2019', '2020', '2021', '2022','2023', '2024']); hide_show(this.value, '#sec_2_dividend', ['2018', '2019', '2020', '2021', '2022','2023', '2024']);">
+													<option value="">--Select--</option>
+													<option value="2018" <?php echo isset($row_3_new_1['sec_3_dividend_year']) && $row_3_new_1['sec_3_dividend_year'] == '2018' ? 'selected="selected"' : '' ?>>2017-2018</option>
+													<option value="2019" <?php echo isset($row_3_new_1['sec_3_dividend_year']) && $row_3_new_1['sec_3_dividend_year'] == '2019' ? 'selected="selected"' : '' ?>>2018-2019</option>
+													<option value="2020" <?php echo isset($row_3_new_1['sec_3_dividend_yearsec_3_dividend_year']) && $row_3_new_1['sec_3_dividend_year'] == '2020' ? 'selected="selected"' : '' ?>>2019-2020</option>
+													<option value="2021" <?php echo isset($row_3_new_1['sec_3_dividend_year']) && $row_3_new_1['sec_3_dividend_year'] == '2021' ? 'selected="selected"' : '' ?>>2020-2021</option>
+													<option value="2022" <?php echo isset($row_3_new_1['sec_3_dividend_year']) && $row_3_new_1['sec_3_dividend_year'] == '2022' ? 'selected="selected"' : '' ?>>2021-2022</option>
+													<option value="2023" <?php echo isset($row_3_new_1['sec_3_dividend_year']) && $row_3_new_1['sec_3_dividend_year'] == '2023' ? 'selected="selected"' : '' ?>>2022-2023</option>
+													<option value="2024" <?php echo isset($row_3_new_1['sec_3_dividend_year']) && $row_3_new_1['sec_3_dividend_year'] == '2024' ? 'selected="selected"' : '' ?>>2023-2024</option>
+													<option value="no" <?php echo isset($row_3_new_1['sec_3_dividend_year']) && $row_3_new_1['sec_3_dividend_year'] == 'no' ? 'selected="selected"' : '' ?>>नहीं दिया गया</option>
+												</select>
+											</div>
+											<div class="col-sm-2 form-group" id="sec_2_dividend_per"
+												style="display:none">
+												<label>लाभांश का प्रतिशत (0-20 तक)</label>
+												<input type="text" name="sec_3_dividend_per" id="sec_3_dividend_per"
+													tabindex="<?php echo $tab++; ?>" class="form-control chk_decimal"
+													data-type="7.III लाभांश को प्रतिशत मे भरे"
+													value="<?php echo $row_3_new_1['sec_3_dividend_per']; ?>">
+											</div>
+											<div class="col-sm-2 form-group" id="sec_2_dividend" style="display:none">
+												<label>लाभांश की धनराशि (लाख मे)</label>
+												<input type="text" name="sec_3_dividend_amt" id="sec_3_dividend_amt"
+													tabindex="<?php echo $tab++; ?>" class="form-control chk_decimal"
+													data-type="7.III लाभांश को धनराशि रु० लाख मे भरे"
+													value="<?php echo $row_3_new_1['sec_3_dividend_amt']; ?>">
+											</div>
+                                            <div class="col-sm-4 form-group">
+												<label>विधानसभा के पटल पर ऑडिट रिपोर्ट प्रस्तुत किये जाने का वर्ष:</label>
+												<select name="sec_3_agm_year" class="form-control"
+													tabindex="<?php echo $tab++; ?>">
+													<option value="">
+														<?php echo '--Select--'; ?>
+													</option>
+													<?php
+													if (date('m') > 3) {
+														$select_start_session = date('Y');
+													} else {
+														$select_start_session = date('Y') - 1;
+													}
+													$session_start = date('Y') - 7;
+													for ($i = $session_start; $i <= $session_start + 7; $i++) {
+														$end_session = $i + 1;
+														?>
+													<option value="<?php echo $i . '-' . $end_session; ?>" <?php
+														   if (isset($row_3_new_1['sec_3_agm_year']) && $row_3_new_1['sec_3_agm_year'] == $i . '-' . $end_session) {
+															   echo 'selected';
+														   }
+														   ?>>
+														<?php echo $i . '-' . $end_session; ?>
+													</option>
+													<?php
+													}
+													?>
+												</select>
+											</div>
+										</div>
+                                    </div>
+                                <!-------4th start------->
+                                <div class="step">
+                                    <h4><img src="images/logo/4.png" class="img-fluid stat-icon"
+                                            style="height:50px; width:50px;"> 3. अन्य कार्य व व्यवसाय</h4>
+                                    <div class="col-sm-12">
+                                        <div id="other_business" class="table-responsive">
+                                            <table class="table table-bordered table-striped" id="other_business_table">
+                                                <thead>
+                                                    <tr class="bg-primary text-white">
+                                                        <th>व्यवसाय का विवरण</th>
+                                                        <th>वार्षिक टर्नओवर (लाख मे)</th>
+                                                        <th>लाभ / हानि</th>
+                                                        <th style="min-width: 100px;"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                    for ($i = 1; $i <= $row_2_1_2['count']; $i++) {
+                                                        ?>
+                                                    <tr class="business_matrix_row" id="business_row_<?php echo $i; ?>">
+                                                        <td>
+                                                            <select
+                                                                name="sec_2_1_2_business_description_<?php echo $i; ?>"
+                                                                id="sec_2_1_2_business_description_<?php echo $i; ?>"
+                                                                class="form-control">
+                                                                <option value="">--select--</option>
+                                                                <option value="cattle_feed" <?php echo ($row_2_1_2['sec_2_1_2_business_description_' . $i] == 'cattle_feed') ? 'selected="selected"' : ''; ?>
+                                                                    >कैटल फीड</option>
+                                                                <option value="any_other" <?php echo ($row_2_1_2['sec_2_1_2_business_description_' . $i] == 'any_other') ? 'selected="selected"' : ''; ?>
+                                                                    >अन्य</option>
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" name="sec_2_1_2_value_<?php echo $i; ?>"
+                                                                id="sec_2_1_2_value_<?php echo $i; ?>"
+                                                                class="form-control chk_decimal"
+                                                                value="<?php echo $row_2_1_2['sec_2_1_2_value_' . $i]; ?>">
+                                                        </td>
+                                                        <td>
+                                                            <select name="sec_2_1_2_profit_loss_<?php echo $i; ?>"
+                                                                id="sec_2_1_2_profit_loss_<?php echo $i; ?>"
+                                                                class="form-control">
+                                                                <option value="">--select--</option>
+                                                                <option value="लाभ" <?php echo ($row_2_1_2['sec_2_1_2_profit_loss_' . $i] == 'लाभ') ? 'selected' : ''; ?>>लाभ</option>
+                                                                <option value="हानि" <?php echo ($row_2_1_2['sec_2_1_2_profit_loss_' . $i] == 'हानि') ? 'selected' : ''; ?>>हानि</option>
+                                                            </select>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <?php if ($i == $row_2_1_2['count']) { ?>
+                                                            <button type="button" class="btn btn-info btn-sm"
+                                                                onclick="add_more_business();">नई पंक्ति जोड़े[+]</button>
+                                                            <input type="hidden" name="other_business_id"
+                                                                id="other_business_id"
+                                                                value="<?php echo $row_2_1_2['count']; ?>">
+                                                            <?php } else { ?>
+                                                            <button type="button" class="btn btn-danger btn-sm"
+                                                                onclick="$(this).closest('tr').remove();">-</button>
+                                                            <?php } ?>
+                                                        </td>
+                                                    </tr>
+                                                    <?php } ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <script>
+                                        function add_more_business() {
+                                            let id = parseInt(document.getElementById('other_business_id').value) + 1;
+                                            document.getElementById('other_business_id').value = id;
+                                            let html = `
+                                        <tr class="business_matrix_row">
+                                            <td>
+                                                <select name="sec_2_1_2_business_description_${id}" class="form-control">
+                                                    <option value="">--select--</option>
+                                                    <option value="cattle_feed">कैटल फीड</option>
+                                                    <option value="any_other">अन्य</option>
+                                                </select>
+                                            </td>
+                                            <td><input type="text" name="sec_2_1_2_value_${id}" class="form-control chk_decimal"></td>
+                                            <td>
+                                                <select name="sec_2_1_2_profit_loss_${id}" class="form-control">
+                                                    <option value="">--select--</option>
+                                                    <option value="लाभ">लाभ</option>
+                                                    <option value="हानि">हानि</option>
+                                                </select>
+                                            </td>
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-danger btn-sm" onclick="$(this).closest('tr').remove();">-</button>
+                                            </td>
+                                        </tr>
+                                        `;
+                                            document.querySelector('#other_business_table tbody').insertAdjacentHTML('beforeend', html);
+                                        }
+                                    </script>
+                                    
+                                    <div class="col-sm-12">
+                                         <h5
+                                                style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 12px 20px; border-radius: 8px; font-weight: bold; color: #1565c0; margin: 20px 0 15px 0; border-left: 4px solid #1976d2;">
+                                                 3.1. सहकारी प्रबंध प्रशिक्षण केंद्र </h5>
+                                        <div id="sec_3_training_center">
+                                            <?php
+                                            $count = !empty($row_3_3['count']) ? $row_3_3['count'] : 1;
+                                            for ($i = 1; $i <= $count; $i++) {
                                                 ?>
+                                                <div class="row sec-3-row" id="sec_3_row_<?php echo $i; ?>">
+                                                    <div class="col-sm-12">
+                                                        <div class="row">
+                                                            <div class="col-sm-3 form-group">
+                                                                <label>नाम :- सहकारी प्रबंध प्रशिक्षण केंद्र</label>
+                                                                <input name="sec_3_cpmt_<?php echo $i; ?>"
+                                                                    id="sec_3_cpmt_<?php echo $i; ?>"
+                                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                                    value="<?php echo $row_3_3['sec_3_cpmt_' . $i]; ?>">
+                                                            </div>
+                                                            <div class="col-sm-3 form-group">
+                                                                <label>पता</label>
+                                                                <input name="sec_3_address_<?php echo $i; ?>"
+                                                                    id="sec_3_address_<?php echo $i; ?>"
+                                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                                    value="<?php echo $row_3_3['sec_3_address_' . $i]; ?>">
+                                                            </div>
+                                                            <div class="col-sm-3 form-group">
+                                                                <label>पदेन प्रधानाचार्य नाम</label>
+                                                                <input name="sec_3_principal_name_<?php echo $i; ?>"
+                                                                    id="sec_3_principal_name_<?php echo $i; ?>"
+                                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                                    value="<?php echo $row_3_3['sec_3_principal_name_' . $i]; ?>">
+                                                            </div>
+                                                            <div class="col-sm-3 form-group">
+                                                                <label>मूलपद</label>
+                                                                <input name="sec_3_post_<?php echo $i; ?>"
+                                                                    id="sec_3_post_<?php echo $i; ?>"
+                                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                                    value="<?php echo $row_3_3['sec_3_post_' . $i]; ?>">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-sm-3 form-group">
+                                                                <label>प्रधानाचार्य आवास </label>
+                                                                <select name="sec_3_principal_house_<?php echo $i; ?>"
+                                                                    id="sec_3_principal_house_<?php echo $i; ?>"
+                                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                                    onchange="hide_show(this.value, '#sec_3_principal_house_no_box_<?php echo $i; ?>', 'yes');">
+                                                                    <option value="">--select-- </option>
+                                                                    <option value="yes" <?php echo ($row_3_3['sec_3_principal_house_' . $i] == 'yes') ? 'selected' : ''; ?>>हाँ</option>
+                                                                    <option value="no" <?php echo ($row_3_3['sec_3_principal_house_' . $i] == 'no') ? 'selected' : ''; ?>>नहीं</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-sm-3 form-group"
+                                                                id="sec_3_principal_house_no_box_<?php echo $i; ?>"
+                                                                style="<?php echo ($row_3_3['sec_3_principal_house_' . $i] == 'yes') ? '' : 'display:none'; ?>">
+                                                                <label>संख्या</label>
+                                                                <input name="sec_3_principal_house_no_<?php echo $i; ?>"
+                                                                    id="sec_3_principal_house_no_<?php echo $i; ?>"
+                                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                                    value="<?php echo $row_3_3['sec_3_principal_house_no_' . $i]; ?>">
+                                                            </div>
+                                                            <div class="col-sm-3 form-group">
+                                                                <label>प्रधानाचार्य कार्यालय </label>
+                                                                <select name="sec_3_principal_office_<?php echo $i; ?>"
+                                                                    id="sec_3_principal_office_<?php echo $i; ?>"
+                                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                                    onchange="hide_show(this.value, '#sec_3_principal_office_no_box_<?php echo $i; ?>', 'yes');">
+                                                                    <option value="">--select-- </option>
+                                                                    <option value="yes" <?php echo ($row_3_3['sec_3_principal_office_' . $i] == 'yes') ? 'selected' : ''; ?>>हाँ</option>
+                                                                    <option value="no" <?php echo ($row_3_3['sec_3_principal_office_' . $i] == 'no') ? 'selected' : ''; ?>>नहीं</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-sm-3 form-group"
+                                                                id="sec_3_principal_office_no_box_<?php echo $i; ?>"
+                                                                style="<?php echo ($row_3_3['sec_3_principal_office_' . $i] == 'yes') ? '' : 'display:none'; ?>">
+                                                                <label>संख्या</label>
+                                                                <input name="sec_3_principal_office_no_<?php echo $i; ?>"
+                                                                    id="sec_3_principal_office_no_<?php echo $i; ?>"
+                                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                                    value="<?php echo $row_3_3['sec_3_principal_office_no_' . $i]; ?>">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-sm-3 form-group">
+                                                                <label>क्लासरूम संख्या</label>
+                                                                <input name="sec_3_class_no_<?php echo $i; ?>"
+                                                                    id="sec_3_class_no_<?php echo $i; ?>"
+                                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                                    value="<?php echo $row_3_3['sec_3_class_no_' . $i]; ?>">
+                                                            </div>
+                                                            <div class="col-sm-3 form-group">
+                                                                <label>क्षमता</label>
+                                                                <input name="sec_3_class_capacity_<?php echo $i; ?>"
+                                                                    id="sec_3_class_capacity_<?php echo $i; ?>"
+                                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                                    value="<?php echo $row_3_3['sec_3_class_capacity_' . $i]; ?>">
+                                                            </div>
+                                                            <div class="col-sm-3 form-group">
+                                                                <label>हॉस्टल संख्या</label>
+                                                                <input name="sec_3_hostel_no_<?php echo $i; ?>"
+                                                                    id="sec_3_hostel_no_<?php echo $i; ?>"
+                                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                                    value="<?php echo $row_3_3['sec_3_hostel_no_' . $i]; ?>">
+                                                            </div>
+                                                            <div class="col-sm-3 form-group">
+                                                                <label>क्षमता</label>
+                                                                <input name="sec_3_hostel_capacity_<?php echo $i; ?>"
+                                                                    id="sec_3_hostel_capacity_<?php echo $i; ?>"
+                                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                                    value="<?php echo $row_3_3['sec_3_hostel_capacity_' . $i]; ?>">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-sm-3 form-group">
+                                                                <label>पुस्तकालय संख्या</label>
+                                                                <input name="sec_3_library_no_<?php echo $i; ?>"
+                                                                    id="sec_3_library_no_<?php echo $i; ?>"
+                                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                                    value="<?php echo $row_3_3['sec_3_library_no_' . $i]; ?>">
+                                                            </div>
+                                                            <div class="col-sm-3 form-group">
+                                                                <label>क्षमता</label>
+                                                                <input name="sec_3_library_capacity_<?php echo $i; ?>"
+                                                                    id="sec_3_library_capacity_<?php echo $i; ?>"
+                                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                                    value="<?php echo $row_3_3['sec_3_library_capacity_' . $i]; ?>">
+                                                            </div>
+                                                            <div class="col-sm-3 form-group">
+                                                                <label>कंप्युटर लैब संख्या</label>
+                                                                <input name="sec_3_computer_lab_no_<?php echo $i; ?>"
+                                                                    id="sec_3_computer_lab_no_<?php echo $i; ?>"
+                                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                                    value="<?php echo $row_3_3['sec_3_computer_lab_no_' . $i]; ?>">
+                                                            </div>
+                                                            <div class="col-sm-3 form-group">
+                                                                <label>क्षमता</label>
+                                                                <input name="sec_3_computer_lab_capacity_<?php echo $i; ?>"
+                                                                    id="sec_3_computer_lab_capacity_<?php echo $i; ?>"
+                                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                                    value="<?php echo $row_3_3['sec_3_computer_lab_capacity_' . $i]; ?>">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-sm-3 form-group">
+                                                                <label>अध्यापक / अतिथि प्रवक्ता संख्या</label>
+                                                                <input name="sec_3_teacher_no_<?php echo $i; ?>"
+                                                                    id="sec_3_teacher_no_<?php echo $i; ?>"
+                                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                                    value="<?php echo $row_3_3['sec_3_teacher_no_' . $i]; ?>">
+                                                            </div>
+                                                            <div class="col-sm-3 form-group">
+                                                                <label>प्रशिक्षण सत्रों की संख्या</label>
+                                                                <input name="sec_3_training_sessions_no_<?php echo $i; ?>"
+                                                                    id="sec_3_training_sessions_no_<?php echo $i; ?>"
+                                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                                    value="<?php echo $row_3_3['sec_3_training_sessions_no_' . $i]; ?>">
+                                                            </div>
+                                                            <div class="col-sm-3 form-group">
+                                                                <label>प्रशिक्षण विषय के नाम</label>
+                                                                <input name="sec_3_training_subject_name_<?php echo $i; ?>"
+                                                                    id="sec_3_training_subject_name_<?php echo $i; ?>"
+                                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                                    value="<?php echo $row_3_3['sec_3_training_subject_name_' . $i]; ?>">
+                                                            </div>
+                                                            <div class="col-sm-3 form-group">
+                                                                <label>प्रशिक्षण सत्र अवधि</label>
+                                                                <input type="date"
+                                                                    name="sec_3_training_sessions_duration_<?php echo $i; ?>"
+                                                                    id="sec_3_training_sessions_duration_<?php echo $i; ?>"
+                                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                                    value="<?php echo $row_3_3['sec_3_training_sessions_duration_' . $i]; ?>">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-sm-3 form-group">
+                                                                <label>कर्मचारी विवरण</label>
+                                                                <textarea name="sec_3_employee_remarks_<?php echo $i; ?>"
+                                                                    id="sec_3_employee_remarks_<?php echo $i; ?>"
+                                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                                    rows="1"><?php echo $row_3_3['sec_3_employee_remarks_' . $i]; ?></textarea>
+                                                            </div>
+                                                            <div class="col-sm-3 form-group">
+                                                                <label>विभागीय प्रशिक्षार्थियों की संख्या</label>
+                                                                <input
+                                                                    name="sec_3_departmental_trainees_no_<?php echo $i; ?>"
+                                                                    id="sec_3_departmental_trainees_no_<?php echo $i; ?>"
+                                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                                    value="<?php echo $row_3_3['sec_3_departmental_trainees_no_' . $i]; ?>">
+                                                            </div>
+                                                            <div class="col-sm-3 form-group">
+                                                                <label>गैर-विभागीय प्रशिक्षार्थियों की संख्या</label>
+                                                                <input
+                                                                    name="sec_3_non_departmental_trainees_no_<?php echo $i; ?>"
+                                                                    id="sec_3_non_departmental_trainees_no_<?php echo $i; ?>"
+                                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                                    value="<?php echo $row_3_3['sec_3_non_departmental_trainees_no_' . $i]; ?>">
+                                                            </div>
+                                                            <div class="col-sm-3 form-group">
+                                                                <label>प्रशिक्षार्थियों की संख्या </label>
+                                                                <input name="sec_3_trainees_no_<?php echo $i; ?>"
+                                                                    id="sec_3_trainees_no_<?php echo $i; ?>"
+                                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                                    value="<?php echo $row_3_3['sec_3_trainees_no_' . $i]; ?>">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-sm-3 form-group">
+                                                                <label>विभागीय प्रशिक्षार्थी प्रशिक्षण शुल्क</label>
+                                                                <input
+                                                                    name="sec_3_departmental_trainees_fee_<?php echo $i; ?>"
+                                                                    id="sec_3_departmental_trainees_fee_<?php echo $i; ?>"
+                                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                                    value="<?php echo $row_3_3['sec_3_departmental_trainees_fee_' . $i]; ?>">
+                                                            </div>
+                                                            <div class="col-sm-3 form-group">
+                                                                <label>गैर-विभागीय प्रशिक्षार्थी प्रशिक्षण शुल्क</label>
+                                                                <input
+                                                                    name="sec_3_non_departmental_trainees_fee_<?php echo $i; ?>"
+                                                                    id="sec_3_non_departmental_trainees_fee_<?php echo $i; ?>"
+                                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                                    value="<?php echo $row_3_3['sec_3_non_departmental_trainees_fee_' . $i]; ?>">
+                                                            </div>
+                                                            <div class="col-sm-3 form-group">
+                                                                <label>प्रशिक्षार्थी प्रशिक्षण शुल्क </label>
+                                                                <input name="sec_3_trainees_fee_<?php echo $i; ?>"
+                                                                    id="sec_3_trainees_fee_<?php echo $i; ?>"
+                                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                                    value="<?php echo $row_3_3['sec_3_trainees_fee_' . $i]; ?>">
+                                                            </div>
+                                                            <div class="col-sm-3 form-group">
+                                                                <label>विभागीय हॉस्टल शुल्क</label>
+                                                                <input
+                                                                    name="sec_3_departmental_hostel_fee_<?php echo $i; ?>"
+                                                                    id="sec_3_departmental_hostel_fee_<?php echo $i; ?>"
+                                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                                    value="<?php echo $row_3_3['sec_3_departmental_hostel_fee_' . $i]; ?>">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-sm-3 form-group">
+                                                                <label>गैर-विभागीय हॉस्टल शुल्क</label>
+                                                                <input
+                                                                    name="sec_3_non_departmental_hostel_fee_<?php echo $i; ?>"
+                                                                    id="sec_3_non_departmental_hostel_fee_<?php echo $i; ?>"
+                                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                                    value="<?php echo $row_3_3['sec_3_non_departmental_hostel_fee_' . $i]; ?>">
+                                                            </div>
+                                                            <div class="col-sm-3 form-group">
+                                                                <label>हॉस्टल शुल्क </label>
+                                                                <input name="sec_3_hostel_fee_<?php echo $i; ?>"
+                                                                    id="sec_3_hostel_fee_<?php echo $i; ?>"
+                                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                                    value="<?php echo $row_3_3['sec_3_hostel_fee_' . $i]; ?>">
+                                                            </div>
+                                                            <div class="col-sm-3 form-group">
+                                                                <label>निर्माण वर्ष</label>
+                                                                <select name="sec_3_build_year_<?php echo $i; ?>"
+                                                                    id="sec_3_build_year_<?php echo $i; ?>"
+                                                                    class="form-control" tabindex="<?php echo $tab++; ?>">
+                                                                    <option value="">--Select--</option>
+                                                                    <option value="1999" <?php echo ($row_3_3['sec_3_build_year_' . $i] == '1999') ? 'selected' : ''; ?>>2000 से पूर्व</option>
+                                                                    <?php for ($y = 2000; $y <= 2024; $y++) { ?>
+                                                                        <option value="<?php echo $y; ?>" <?php echo ($row_3_3['sec_3_build_year_' . $i] == $y) ? 'selected' : ''; ?>><?php echo $y; ?></option>
+                                                                    <?php } ?>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-sm-3 form-group">
+                                                                <label>संचालन वर्ष</label>
+                                                                <select name="sec_3_operation_year_<?php echo $i; ?>"
+                                                                    id="sec_3_operation_year_<?php echo $i; ?>"
+                                                                    class="form-control" tabindex="<?php echo $tab++; ?>">
+                                                                    <option value="">--Select--</option>
+                                                                    <option value="1999" <?php echo ($row_3_3['sec_3_operation_year_' . $i] == '1999') ? 'selected' : ''; ?>>2000 से पूर्व</option>
+                                                                    <?php for ($y = 2000; $y <= 2024; $y++) { ?>
+                                                                        <option value="<?php echo $y; ?>" <?php echo ($row_3_3['sec_3_operation_year_' . $i] == $y) ? 'selected' : ''; ?>><?php echo $y; ?></option>
+                                                                    <?php } ?>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-md-3 form-group">
+                                                                <label>सहकारी प्रबंध प्रशिक्षण केंद्र</label>
+                                                                <select name="sec_3_training_center_<?php echo $i; ?>"
+                                                                    id="sec_3_training_center_<?php echo $i; ?>"
+                                                                    class="form-control" tabindex="<?php echo $tab++; ?>">
+                                                                    <option value="">--Select--</option>
+                                                                    <option value="meerut" <?php echo ($row_3_3['sec_3_training_center_' . $i] == 'meerut') ? 'selected' : ''; ?>>मेरठ</option>
+                                                                    <option value="varanasi" <?php echo ($row_3_3['sec_3_training_center_' . $i] == 'varanasi') ? 'selected' : ''; ?>>वाराणसी
+                                                                    </option>
+                                                                    <option value="mahoba" <?php echo ($row_3_3['sec_3_training_center_' . $i] == 'mahoba') ? 'selected' : ''; ?>>महोबा</option>
+                                                                    <option value="hewra" <?php echo ($row_3_3['sec_3_training_center_' . $i] == 'hewra') ? 'selected' : ''; ?>>हेवरा (ईटवा)</option>
+                                                                    <option value="ayodhya" <?php echo ($row_3_3['sec_3_training_center_' . $i] == 'ayodhya') ? 'selected' : ''; ?>>अयोध्या (फैजाबाद)</option>
+                                                                    <option value="bilari" <?php echo ($row_3_3['sec_3_training_center_' . $i] == 'bilari') ? 'selected' : ''; ?>>बिलारी (मोरादाबाद)</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-sm-3 form-group">
+                                                                <label>कार्मिक की संख्या</label>
+                                                                <select name="sec_3_staff_type_<?php echo $i; ?>"
+                                                                    id="sec_3_staff_type_<?php echo $i; ?>"
+                                                                    class="form-control" tabindex="<?php echo $tab++; ?>">
+                                                                    <option value="">--select-- </option>
+                                                                    <option value="union" <?php echo ($row_3_3['sec_3_staff_type_' . $i] == 'union') ? 'selected' : ''; ?>>उ० प्र० कोआपरेटिव यूनियन
+                                                                    </option>
+                                                                    <option value="authority" <?php echo ($row_3_3['sec_3_staff_type_' . $i] == 'authority') ? 'selected' : ''; ?>>सहकारी संघ प्राधिकारी</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-sm-3 form-group">
+                                                                <label>प्रशिक्षण कोर्स लाभ</label>
+                                                                <textarea
+                                                                    name="sec_3_training_course_benefits_<?php echo $i; ?>"
+                                                                    id="sec_3_training_course_benefits_<?php echo $i; ?>"
+                                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                                    rows="1"><?php echo $row_3_3['sec_3_training_course_benefits_' . $i]; ?></textarea>
+                                                            </div>
+                                                            <div class="col-sm-3 form-group">
+                                                                <label>भवन/हॉस्टल स्तिथि</label>
+                                                                <textarea
+                                                                    name="sec_3_building_hostel_status_<?php echo $i; ?>"
+                                                                    id="sec_3_building_hostel_status_<?php echo $i; ?>"
+                                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                                    rows="1"><?php echo $row_3_3['sec_3_building_hostel_status_' . $i]; ?></textarea>
+                                                            </div>
+                                                        </div>
+
+                                                      <?php if ($i == $count) { ?>
+
+                                                    <div class="col-sm-2 form-group my-auto"
+                                                        id="sec_3_add_rows_wrapper">
+
+                                                        <button type="button"
+                                                            class="btn btn-info"
+                                                            style="float:right;"
+                                                            onclick="sec_3_add_rows()">
+                                                            नई पंक्ति जोड़ें [+]
+                                                        </button>
+
+                                                        <input type="hidden"
+                                                            name="sec_3_row_count"
+                                                            id="sec_3_row_count"
+                                                            value="<?php echo $count; ?>">
+                                                    </div>
+
+                                                <?php } ?>
+
+
+
+                                                    </div>
+                                                </div>
+                                            <?php } ?>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!----------------5th start-------------------------------------------------------->
+                                <div class="step">
+
+                                    <?php
+                                    $count_6_2 = isset($row_6_2['count']) && $row_6_2['count'] > 0 ? $row_6_2['count'] : 1;
+                                    ?>
+                                <div class="col-sm-12">
+
+                                        <br>
+                                       <h4>
+                                        <img src="images/logo/6.png" alt="text" class="img-fluid stat-icon"
+                                            style="height:50px; width:50px;">
+                                        4. प्रबंध कमेटी
+                                    </h4>
+                                    <input type="hidden" id="sec_6_2_id" value="<?php echo $count_6_2; ?>">                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-striped" id="sec_6_2_table">
+                                                <thead style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); color: #000 !important;">
+                                                    <tr>
+                                                        <th style="color: #000 !important;">श्रेणी</th>
+                                                        <th style="color: #000 !important;">पदनाम</th>
+                                                        <th style="color: #000 !important;">नाम</th>
+                                                        <th style="color: #000 !important;">पिता का नाम</th>
+                                                        <th style="color: #000 !important;">मोबाईल नंबर</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="sec_6_2_tbody">
+                                                    <?php
+                                                    $count_6_2 = isset($row_6_2['count']) && $row_6_2['count'] > 0 ? $row_6_2['count'] : 1;
+                                                    for ($i = 1; $i <= $count_6_2; $i++) {
+                                                    ?>
+                                                        <tr id="sec_6_2_row_<?php echo $i; ?>">
+                                                            <td>
+                                                                <select name="sec_6_2_category_<?php echo $i; ?>" class="form-control"
+                                                                    onchange="color_change(this, 'yes', '#42ecf5', 'no', '#f28546');">
+                                                                    <option value="">--select-- </option>
+                                                                    <option value="पदेन" <?php echo (isset($row_6_2['sec_6_2_category_' . $i]) && $row_6_2['sec_6_2_category_' . $i] == 'yes') ? 'selected' : ''; ?>>पदेन</option>
+                                                                    <option value="निर्वाचित" <?php echo (isset($row_6_2['sec_6_2_category_' . $i]) && $row_6_2['sec_6_2_category_' . $i] == 'yes') ? 'selected' : ''; ?>>निर्वाचित</option>
+                                                                    <option value="नामित" <?php echo (isset($row_6_2['sec_6_2_category_' . $i]) && $row_6_2['sec_6_2_category_' . $i] == 'no') ? 'selected' : ''; ?>>नामित</option>
+                                                                </select>
+                                                                <div style="display:none;">
+                                                                    <label>पद का नाम</label>
+                                                                    <input type="text" name="sec_6_2_post_name_<?php echo $i; ?>" id="sec_6_2_post_name_<?php echo $i; ?>"
+                                                                        class="form-control" value="<?php echo isset($row_6_2['sec_6_2_post_name_' . $i]) ? $row_6_2['sec_6_2_post_name_' . $i] : ''; ?>">
+                                                                    <label>निर्वाचन का वर्ष</label>
+                                                                    <select name="sec_6_2_election_year_<?php echo $i; ?>" id="sec_6_2_election_year_<?php echo $i; ?>"
+                                                                        class="form-control">
+                                                                        <option value="">--Select--</option>
+                                                                        <?php
+                                                                        for ($y = 2022; $y >= 1975; $y--) {
+                                                                            $selected = (isset($row_6_2['sec_6_2_election_year_' . $i]) && $row_6_2['sec_6_2_election_year_' . $i] == $y) ? 'selected' : '';
+                                                                            echo '<option value="' . $y . '" ' . $selected . '>' . $y . '</option>';
+                                                                        }
+                                                                        ?>
+                                                                    </select>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <select name="sec_6_2_designation_<?php echo $i; ?>" class="form-control"
+                                                                    onchange="color_change(this, 'yes', '#42ecf5', 'no', '#f28546');">
+                                                                    <option value="">--select-- </option>
+                                                                    <option value="अध्यक्ष" <?php echo (isset($row_6_2['sec_6_2_designation_' . $i]) && $row_6_2['sec_6_2_designation_' . $i] == 'अध्यक्ष') ? 'selected' : ''; ?>>अध्यक्ष</option>
+                                                                    <option value="उपाध्यक्ष" <?php echo (isset($row_6_2['sec_6_2_designation_' . $i]) && $row_6_2['sec_6_2_designation_' . $i] == 'उपाध्यक्ष') ? 'selected' : ''; ?>>उपाध्यक्ष</option>
+                                                                    <option value="संचालक" <?php echo (isset($row_6_2['sec_6_2_designation_' . $i]) && $row_6_2['sec_6_2_designation_' . $i] == 'संचालक') ? 'selected' : ''; ?>>संचालक</option>
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" name="sec_6_2_name_<?php echo $i; ?>" id="sec_6_2_name_<?php echo $i; ?>"
+                                                                    class="form-control"
+                                                                    value="<?php echo isset($row_6_2['sec_6_2_name_' . $i]) ? $row_6_2['sec_6_2_name_' . $i] : ''; ?>">
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" name="sec_6_2_father_name_<?php echo $i; ?>" id="sec_6_2_father_name_<?php echo $i; ?>"
+                                                                    class="form-control"
+                                                                    value="<?php echo isset($row_6_2['sec_6_2_father_name_' . $i]) ? $row_6_2['sec_6_2_father_name_' . $i] : ''; ?>">
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" name="sec_6_2__mob_no_<?php echo $i; ?>" id="sec_6_2__mob_no_<?php echo $i; ?>"
+                                                                    class="form-control" maxlength="10"
+                                                                    value="<?php echo isset($row_6_2['sec_6_2__mob_no_' . $i]) ? $row_6_2['sec_6_2__mob_no_' . $i] : ''; ?>">
+                                                            </td>
+                                                        </tr>
+                                                    <?php } ?>
+                                                </tbody>
+                                            </table>
+                                            <button type="button" class="btn btn-info mt-2 text-end" onclick="sec_6_2_add_rows()">
+                                                नई पंक्ति जोड़ें [+]
+                                            </button>
+                                        </div>
+                                        <br>
+                                    </div>
+
+                                     <h5 style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 12px 20px; border-radius: 8px; font-weight: bold; color: #1565c0; margin: 20px 0 15px 0; border-left: 4px solid #1976d2;"> 4.1. मानव सम्पदा </h5>
+                                    <?php
+                                        // Fetch posts for the dropdown
+                                        $posts = [];
+                                        $apex_id = $_GET['exdid'];
+                                        $sql_posts = "SELECT post_id, post_name FROM survey_invoice_apex_designation WHERE apex_id = '$apex_id' ORDER BY post_id";
+
+                                        $res_posts = execute_query($sql_posts);
+                                        $posts = [];
+
+                                        if ($res_posts && mysqli_num_rows($res_posts) > 0) {
+                                            while ($row = mysqli_fetch_assoc($res_posts)) {
+                                                $posts[] = $row;
+                                            }
+                                        }
+
+                                        $postOptionsHTML = '';
+                                        foreach ($posts as $p) {
+                                            $postOptionsHTML .= '<option value="' . $p['post_id'] . '">' . ($p['post_name']) . '</option>';
+                                        }
+                                    ?>
+
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-hover" id="human_resource_table">
+                                            <thead class="table-light" style="background-color: #b8daff;">
+                                            <tr>
+                                                <th style="width: 25%; color: #000;">कर्मचारी प्रकार</th>
+                                                <th style="width: 25%; color: #000;">पद</th>
+                                                <th style="width: 20%; color: #000;">स्वीकृत पद</th>
+                                                <th style="width: 20%; color: #000;">रिक्त पद</th>
+                                                <th style="width: 10%; color: #000; white-space: nowrap;">Action
+                                                </th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="human_resource_rows">
+
+                                            <tr class="human_row">
+                                                <td>
+                                                    <select name="staff_type[]" class="form-control"
+                                                            onchange="updateStaffSection(this)">
+                                                        <option value="">--Select--</option>
+                                                        <option value="tech">Technical</option>
+                                                        <option value="nontech">Non-Technical</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="post_id[]" class="form-control post-select"
+                                                            onchange="updateStaffSection(this)">
+                                                        <option value="">--Select--</option>
+                                                        <?php foreach ($posts as $p) { ?>
+                                                            <option value="<?php echo $p['sno']; ?>">
+                                                                <?php echo ($p['post_name']); ?>
+                                                            </option>
+                                                        <?php } ?>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <input type="number" name="sanctioned_post[]"
+                                                           class="form-control" onchange="updateStaffSection(this)">
+                                                </td>
+                                                <td>
+                                                    <input type="number" name="vacant_post[]" class="form-control">
+                                                </td>
+                                                <td class="text-center">
+                                                    <button type="button" class="btn btn-info btn-sm"
+                                                            onclick="addHumanResourceRow();">नई
+                                                        पंक्ति जोड़े [+]</button>
+                                                </td>
+                                            </tr>
 
                                             </tbody>
                                         </table>
                                     </div>
-                                </div>
-                                <!-- </div> -->
-                                <!------ 3td start ------->
-                                <div class="step">
-                                    <h4><img src="images/logo/3.png" alt="text" class="img-fluid stat-icon"
-                                            style="height:50px; width:50px;"> 3(I) वित्तीय सूचना</h4>
-                                    <div class="col-sm-12">
-                                        <div class="row">
-                                            <div class="col-sm-3 form-group">
-                                                <label>संतुलन पत्र किस वित्तीय वर्ष तक बना है</label>
-                                                <select name="sec_3_santulan_patra" id="sec_3_santulan_patra"
-                                                    class="form-control" tabindex="<?php echo $tab++; ?>">
-                                                    <option value="">
-                                                        <?php echo '--Select--'; ?>
-                                                    </option>
-                                                    <?php
-                                                    if (date('m') > 3) {
-                                                        $select_start_session = date('Y');
-                                                    } else {
-                                                        $select_start_session = date('Y') - 1;
-                                                    }
-                                                    $session_start = date('Y') - 7;
-                                                    for ($i = $session_start; $i <= $session_start + 7; $i++) {
-                                                        $end_session = $i + 1;
-                                                        ?>
-                                                    <option value="<?php echo $i . '-' . $end_session; ?>" <?php
-                                                           if (isset($row_3_new_1['sec_3_santulan_patra']) && $row_3_new_1['sec_3_santulan_patra'] == $i . '-' . $end_session) {
-                                                               echo 'selected';
-                                                           }
-                                                           ?>>
-                                                        <?php echo $i . '-' . $end_session; ?>
-                                                    </option>
-                                                    <?php
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <small><b>(I) वित्तीय वर्ष 2021-22</b></small>
-                                        <div class="row">
-                                            <div class="col-sm-3 form-group">
-                                                <label>वार्षिक लाभ/हानि की स्थिति</label>
-                                                <select name="sec_3_profit_loss_1" id="sec_3_profit_loss_1"
-                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                    onchange="handleDropdownColorChange(this, 'profit', '#42ecf5', 'loss', '#f28546');">
-                                                    <option value="">--Select--</option>
-                                                    <option value="profit" <?php echo isset($row_3_new_1['profit_loss_1']) && $row_3_new_1['profit_loss_1'] == 'profit' ? 'selected="selected"' : '' ?>>लाभ</option>
-                                                    <option value="loss" <?php echo isset($row_3_new_1['profit_loss_1']) && $row_3_new_1['profit_loss_1'] == 'loss' ? 'selected="selected"' : '' ?>>हानि</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-3 form-group">
-                                                <label>(धनराशि लाख मे)</label>
-                                                <input type="text" name="sec_3_profit_loss_amount_1"
-                                                    id="sec_3_profit_loss_amount_1" tabindex="<?php echo $tab++; ?>"
-                                                    class="form-control chk_decimal"
-                                                    data-type="7.I वित्तीय सूचना को धनराशि रु० लाख मे भरे"
-                                                    value="<?php echo isset($row_3_new_1['profit_loss_amount_1']) ? $row_3_new_1['profit_loss_amount_1'] : ''; ?>">
-                                            </div>
-                                            <div class="col-sm-3 form-group">
-                                                <label>संचित लाभ/हानि की स्थिति</label>
-                                                <select name="sec_3_accumulated_1" id="sec_3_accumulated_1"
-                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                    onchange="handleDropdownColorChange(this, 'profit', '#42ecf5', 'loss', '#f28546');">
-                                                    <option value="">--Select--</option>
-                                                    <option value="profit" <?php echo isset($row_3_new_1['accumulated_1']) && $row_3_new_1['accumulated_1'] == 'profit' ? 'selected="selected"' : '' ?>>लाभ</option>
-                                                    <option value="loss" <?php echo isset($row_3_new_1['accumulated_1']) && $row_3_new_1['accumulated_1'] == 'loss' ? 'selected="selected"' : '' ?>>हानि</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-3 form-group">
-                                                <label>(धनराशि लाख मे)</label>
-                                                <input type="text" name="sec_3_accumulated_amount_1"
-                                                    id="sec_3_accumulated_amount_1" tabindex="<?php echo $tab++; ?>"
-                                                    class="form-control chk_decimal"
-                                                    data-type="7.I वित्तीय सूचना को धनराशि रु० लाख मे भरे"
-                                                    value="<?php echo isset($row_3_new_1['accumulated_amount_1']) ? $row_3_new_1['accumulated_amount_1'] : ''; ?>">
-                                            </div>
-                                        </div>
-                                        <small><b>(II) वित्तीय वर्ष 2022-23</b></small>
-                                        <div class="row">
-                                            <div class="col-sm-3 form-group">
-                                                <label>वार्षिक लाभ/हानि की स्थिति</label>
-                                                <select name="sec_3_profit_loss_2" id="sec_3_profit_loss_2"
-                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                    onchange="handleDropdownColorChange(this, 'profit', '#42ecf5', 'loss', '#f28546');">
-                                                    <option value="">--Select--</option>
-                                                    <option value="profit" <?php echo isset($row_3_new_1['profit_loss_2']) && $row_3_new_1['profit_loss_2'] == 'profit' ? 'selected="selected"' : '' ?>>लाभ</option>
-                                                    <option value="loss" <?php echo isset($row_3_new_1['profit_loss_2']) && $row_3_new_1['profit_loss_2'] == 'loss' ? 'selected="selected"' : '' ?>>हानि</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-3 form-group">
-                                                <label>(धनराशि लाख मे)</label>
-                                                <input type="text" name="sec_3_profit_loss_amount_2"
-                                                    id="sec_3_profit_loss_amount_2" tabindex="<?php echo $tab++; ?>"
-                                                    class="form-control chk_decimal"
-                                                    data-type="7.II वित्तीय सूचना को धनराशि रु० लाख मे भरे"
-                                                    value="<?php echo isset($row_3_new_1['profit_loss_amount_2']) ? $row_3_new_1['profit_loss_amount_2'] : ''; ?>">
-                                            </div>
-                                            <div class="col-sm-3 form-group">
-                                                <label>संचित लाभ/हानि की स्थिति</label>
-                                                <select name="sec_3_accumulated_2" id="sec_3_accumulated_2"
-                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                    onchange="handleDropdownColorChange(this, 'profit', '#42ecf5', 'loss', '#f28546');">
-                                                    <option value="">--Select--</option>
-                                                    <option value="profit" <?php echo isset($row_3_new_1['accumulated_2']) && $row_3_new_1['accumulated_2'] == 'profit' ? 'selected="selected"' : '' ?>>लाभ</option>
-                                                    <option value="loss" <?php echo isset($row_3_new_1['accumulated_2']) && $row_3_new_1['accumulated_2'] == 'loss' ? 'selected="selected"' : '' ?>>हानि</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-3 form-group">
-                                                <label>(धनराशि लाख मे)</label>
-                                                <input type="text" name="sec_3_accumulated_amount_2"
-                                                    id="sec_3_accumulated_amount_2" tabindex="<?php echo $tab++; ?>"
-                                                    class="form-control chk_decimal"
-                                                    data-type="7.II वित्तीय सूचना को धनराशि रु० लाख मे भरे"
-                                                    value="<?php echo isset($row_3_new_1['accumulated_amount_2']) ? $row_3_new_1['accumulated_amount_2'] : ''; ?>">
-                                            </div>
-                                        </div>
-                                        <small><b>(III)वित्तीय वर्ष 2023-24</b></small>
-                                        <div class="row">
-                                            <div class="col-sm-3 form-group">
-                                                <label>वार्षिक लाभ/हानि की स्थिति</label>
-                                                <select name="sec_3_profit_loss_3" id="sec_3_profit_loss_3"
-                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                    onchange="handleDropdownColorChange(this, 'profit', '#42ecf5', 'loss', '#f28546');">
-                                                    <option value="">--Select--</option>
-                                                    <option value="profit" <?php echo isset($row_3_new_1['profit_loss_3']) && $row_3_new_1['profit_loss_3'] == 'profit' ? 'selected="selected"' : '' ?>>लाभ</option>
-                                                    <option value="loss" <?php echo isset($row_3_new_1['profit_loss_3']) && $row_3_new_1['profit_loss_3'] == 'loss' ? 'selected="selected"' : '' ?>>हानि</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-3 form-group">
-                                                <label>(धनराशि लाख मे)</label>
-                                                <input type="text" name="sec_3_profit_loss_amount_3"
-                                                    id="sec_3_profit_loss_amount_3" tabindex="<?php echo $tab++; ?>"
-                                                    class="form-control chk_decimal"
-                                                    data-type="7.III वित्तीय सूचना को धनराशि रु० लाख मे भरे"
-                                                    value="<?php echo isset($row_3_new_1['profit_loss_amount_3']) ? $row_3_new_1['profit_loss_amount_3'] : ''; ?>">
-                                            </div>
-                                            <div class="col-sm-3 form-group">
-                                                <label>संचित लाभ/हानि की स्थिति</label>
-                                                <select name="sec_3_accumulated_3" id="sec_3_accumulated_3"
-                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                    onchange="handleDropdownColorChange(this, 'profit', '#42ecf5', 'loss', '#f28546');">
-                                                    <option value="">--Select--</option>
-                                                    <option value="profit" <?php echo isset($row_3_new_1['accumulated_3']) && $row_3_new_1['accumulated_3'] == 'profit' ? 'selected="selected"' : '' ?>>लाभ</option>
-                                                    <option value="loss" <?php echo isset($row_3_new_1['accumulated_3']) && $row_3_new_1['accumulated_3'] == 'loss' ? 'selected="selected"' : '' ?>>हानि</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-3 form-group">
-                                                <label>(धनराशि लाख मे)</label>
-                                                <input type="text" name="sec_3_accumulated_amount_3"
-                                                    id="sec_3_accumulated_amount_3" tabindex="<?php echo $tab++; ?>"
-                                                    class="form-control chk_decimal"
-                                                    data-type="7.III लाभांश को धनराशि रु० लाख मे भरे"
-                                                    value="<?php echo isset($row_3_new_1['accumulated_amount_3']) ? $row_3_new_1['accumulated_amount_3'] : ''; ?>">
-                                            </div>
-                                        </div>
+                                    <div id="staff_section" style="display:none;" class="mt-3">
+                                        <h5
+                                                style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 12px 20px; border-radius: 8px; font-weight: bold; color: #1565c0; margin: 20px 0 15px 0; border-left: 4px solid #1976d2;">
+                                            कर्मचारी विवरण</h5>
+                                        <div id="staff_rows"></div>
 
-                                        <div class="row">
-                                            <div class="col-sm-3 form-group">
-                                                <label>आडिट किस वित्तीय वर्ष तक हुआ है</label>
-                                                <select name="sec_3_financial_audit_year" class="form-control"
-                                                    tabindex="<?php echo $tab++; ?>">
-                                                    <option value="">
-                                                        <?php echo '--Select--'; ?>
-                                                    </option>
-                                                    <?php
-                                                    if (date('m') > 3) {
-                                                        $select_start_session = date('Y');
-                                                    } else {
-                                                        $select_start_session = date('Y') - 1;
-                                                    }
-                                                    $session_start = date('Y') - 17;
-                                                    for ($i = $session_start; $i <= $session_start + 16; $i++) {
-                                                        $end_session = $i + 1;
-                                                        ?>
-                                                    <option value="<?php echo $i . '-' . $end_session; ?>" <?php
-                                                           if (isset($row_3_new_1['sec_3_financial_audit_year']) && $row_3_new_1['sec_3_financial_audit_year'] == $i . '-' . $end_session) {
-                                                               echo 'selected';
-                                                           }
-                                                           ?>>
-                                                        <?php echo $i . '-' . $end_session; ?>
-                                                    </option>
-                                                    <?php
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-2 form-group">
-                                                <label>ऑडिट वर्गीकरण</label>
-                                                <select name="sec_3_audit_grading" class="form-control"
-                                                    tabindex="<?php echo $tab++; ?>">
-                                                    <option value="">--select--</option>
-                                                    <option value="A" <?php echo isset($row_3_new_1['audit_grading']) && $row_3_new_1['audit_grading'] == 'A' ? 'selected="selected"' : '' ?>>A</option>
-                                                    <option value="B" <?php echo isset($row_3_new_1['audit_grading']) && $row_3_new_1['audit_grading'] == 'B' ? 'selected="selected"' : '' ?>>B</option>
-                                                    <option value="C" <?php echo isset($row_3_new_1['audit_grading']) && $row_3_new_1['audit_grading'] == 'C' ? 'selected="selected"' : '' ?>>C</option>
-                                                    <option value="D" <?php echo isset($row_3_new_1['audit_grading']) && $row_3_new_1['audit_grading'] == 'D' ? 'selected="selected"' : '' ?>>D</option>
-                                                </select>
-                                            </div>
-
-                                            <div class="col-sm-2 form-group">
-                                                <label>अनुपालन की स्थिति</label>
-                                                <select name="sec_3_compliance_status" class="form-control"
-                                                    tabindex="<?php echo $tab++; ?>"
-                                                    onchange="handleDropdownColorChange(this, 'yes', '#42ecf5', 'no', '#f28546');">
-                                                    <option value="">--select--</option>
-                                                    <option value="yes" <?php echo $row_3_new_1['sec_3_compliance_status'] == 'yes' ? 'selected="selected"' : '' ?> style="background:#0f0">हाँ
-                                                    </option>
-                                                    <option value="no" <?php echo $row_3_new_1['sec_3_compliance_status'] == 'no' ? 'selected="selected"' : '' ?> style="background:#f00">नहीं
-                                                    </option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-3 form-group">
-                                                <label> अंतिम ए० जी० एम० किस वित्तीय वर्ष तक सम्पन्न हुई</label>
-                                                <select name="sec_3_agm_year" class="form-control"
-                                                    tabindex="<?php echo $tab++; ?>">
-                                                    <option value="">
-                                                        <?php echo '--Select--'; ?>
-                                                    </option>
-                                                    <?php
-                                                    if (date('m') > 3) {
-                                                        $select_start_session = date('Y');
-                                                    } else {
-                                                        $select_start_session = date('Y') - 1;
-                                                    }
-                                                    $session_start = date('Y') - 7;
-                                                    for ($i = $session_start; $i <= $session_start + 7; $i++) {
-                                                        $end_session = $i + 1;
-                                                        ?>
-                                                    <option value="<?php echo $i . '-' . $end_session; ?>" <?php
-                                                           if (isset($row_3_new_1['sec_3_agm_year']) && $row_3_new_1['sec_3_agm_year'] == $i . '-' . $end_session) {
-                                                               echo 'selected';
-                                                           }
-                                                           ?>>
-                                                        <?php echo $i . '-' . $end_session; ?>
-                                                    </option>
-                                                    <?php
-                                                    }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-2 form-group">
-                                                <label>लाभांश किस वर्ष का दिया गया</label>
-                                                <select name="sec_3_dividend_year" id="sec_3_dividend_year"
-                                                    class="form-control" tabindex="<?php echo $tab++; ?>"
-                                                    onchange="hide_show(this.value, '#sec_2_dividend_per', ['2018', '2019', '2020', '2021', '2022','2023', '2024']); hide_show(this.value, '#sec_2_dividend', ['2018', '2019', '2020', '2021', '2022','2023', '2024']);">
-                                                    <option value="">--Select--</option>
-                                                    <option value="2018" <?php echo isset($row_3_new_1['sec_3_dividend_year']) && $row_3_new_1['sec_3_dividend_year'] == '2018' ? 'selected="selected"' : '' ?>>2017-2018</option>
-                                                    <option value="2019" <?php echo isset($row_3_new_1['sec_3_dividend_year']) && $row_3_new_1['sec_3_dividend_year'] == '2019' ? 'selected="selected"' : '' ?>>2018-2019</option>
-                                                    <option value="2020" <?php echo isset($row_3_new_1['sec_3_dividend_yearsec_3_dividend_year']) && $row_3_new_1['sec_3_dividend_year'] == '2020' ? 'selected="selected"' : '' ?>>2019-2020</option>
-                                                    <option value="2021" <?php echo isset($row_3_new_1['sec_3_dividend_year']) && $row_3_new_1['sec_3_dividend_year'] == '2021' ? 'selected="selected"' : '' ?>>2020-2021</option>
-                                                    <option value="2022" <?php echo isset($row_3_new_1['sec_3_dividend_year']) && $row_3_new_1['sec_3_dividend_year'] == '2022' ? 'selected="selected"' : '' ?>>2021-2022</option>
-                                                    <option value="2023" <?php echo isset($row_3_new_1['sec_3_dividend_year']) && $row_3_new_1['sec_3_dividend_year'] == '2023' ? 'selected="selected"' : '' ?>>2022-2023</option>
-                                                    <option value="2024" <?php echo isset($row_3_new_1['sec_3_dividend_year']) && $row_3_new_1['sec_3_dividend_year'] == '2024' ? 'selected="selected"' : '' ?>>2023-2024</option>
-                                                    <option value="no" <?php echo isset($row_3_new_1['sec_3_dividend_year']) && $row_3_new_1['sec_3_dividend_year'] == 'no' ? 'selected="selected"' : '' ?>>नहीं दिया गया</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-2 form-group" id="sec_2_dividend_per"
-                                                style="display:none">
-                                                <label>लाभांश का प्रतिशत (0-20 तक)</label>
-                                                <input type="text" name="sec_3_dividend_per" id="sec_3_dividend_per"
-                                                    tabindex="<?php echo $tab++; ?>" class="form-control chk_decimal"
-                                                    data-type="7.III लाभांश को प्रतिशत मे भरे"
-                                                    value="<?php echo $row_3_new_1['sec_3_dividend_per']; ?>">
-                                            </div>
-                                            <div class="col-sm-2 form-group" id="sec_2_dividend" style="display:none">
-                                                <label>लाभांश की धनराशि (लाख मे)</label>
-                                                <input type="text" name="sec_3_dividend_amt" id="sec_3_dividend_amt"
-                                                    tabindex="<?php echo $tab++; ?>" class="form-control chk_decimal"
-                                                    data-type="7.III लाभांश को धनराशि रु० लाख मे भरे"
-                                                    value="<?php echo $row_3_new_1['sec_3_dividend_amt']; ?>">
-                                            </div>
-                                        </div>
-                                        <h5>3(II) मूल्य समर्थन योजना</h5><br>
-                                        <div class="table-responsive">
-                                            <label style="font-size:15px;margin:7px;"><b>(I) धान एवं गेहू क्रय की
-                                                    प्रगति</b></label>
-                                            <table class="table table-bordered table-striped">
-                                                <thead>
-                                                    <tr>
-                                                        <th>वर्ष</th>
-                                                        <th>विवरण</th>
-                                                        <th>लक्ष्य (मै० टन)</th>
-                                                        <th>पूर्ति (मै० टन)</th>
-                                                        <th>लाभान्वित कृषकों की संख्या</th>
-                                                        <th>कृषकों को भुगतान (लाख ₹ में)</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td rowspan="2">2023-24</td>
-                                                        <td>धान</td>
-                                                        <td><input type="text" class="form-control"
-                                                                name="msy_1_target_1" id="msy_1_target_1"
-                                                                value="<?= htmlspecialchars($row_msy['msy_1_target_1']) ?>">
-                                                        </td>
-                                                        <td><input type="text" class="form-control"
-                                                                name="msy_1_supply_1" id="msy_1_supply_1"
-                                                                value="<?= htmlspecialchars($row_msy['msy_1_supply_1']) ?>">
-                                                        </td>
-                                                        <td><input type="text" class="form-control"
-                                                                name="msy_1_member_no_1" id="msy_1_member_no_1"
-                                                                value="<?= htmlspecialchars($row_msy['msy_1_member_no_1']) ?>">
-                                                        </td>
-                                                        <td><input type="text" class="form-control"
-                                                                name="msy_1_payment_to_farmer_1"
-                                                                id="msy_1_payment_to_farmer_1"
-                                                                value="<?= htmlspecialchars($row_msy['msy_1_payment_to_farmer_1']) ?>">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>गेहू</td>
-                                                        <td><input type="text" class="form-control"
-                                                                name="msy_1_target_2" id="msy_1_target_2"
-                                                                value="<?= htmlspecialchars($row_msy['msy_1_target_2']) ?>">
-                                                        </td>
-                                                        <td><input type="text" class="form-control"
-                                                                name="msy_1_supply_2" id="msy_1_supply_2"
-                                                                value="<?= htmlspecialchars($row_msy['msy_1_supply_2']) ?>">
-                                                        </td>
-                                                        <td><input type="text" class="form-control"
-                                                                name="msy_1_member_no_2" id="msy_1_member_no_2"
-                                                                value="<?= htmlspecialchars($row_msy['msy_1_member_no_2']) ?>">
-                                                        </td>
-                                                        <td><input type="text" class="form-control"
-                                                                name="msy_1_payment_to_farmer_2"
-                                                                id="msy_1_payment_to_farmer_2"
-                                                                value="<?= htmlspecialchars($row_msy['msy_1_payment_to_farmer_2']) ?>">
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-
-                                        <label style="font-size:15px;margin:7px;"><b>(II) दलहन तिलहन खरीद की
-                                                प्रगति</b></label>
-                                        <div class="table-responsive">
-                                            <table class="table table-bordered table-striped">
-                                                <thead>
-                                                    <tr>
-                                                        <th>वर्ष</th>
-                                                        <th>विवरण</th>
-                                                        <th>लक्ष्य (मै० टन)</th>
-                                                        <th>पूर्ति (मै० टन)</th>
-                                                        <th>लाभान्वित कृषकों की संख्या</th>
-                                                        <th>कृषकों को भुगतान (करोड़ ₹ में)</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td rowspan="4">2023-24</td>
-                                                        <td>सरसों</td>
-                                                        <td><input type="text" class="form-control"
-                                                                name="msy_2_target_1"
-                                                                value="<?= htmlspecialchars($row_msy['msy_2_target_1']) ?>">
-                                                        </td>
-                                                        <td><input type="text" class="form-control"
-                                                                name="msy_2_supply_1"
-                                                                value="<?= htmlspecialchars($row_msy['msy_2_supply_1']) ?>">
-                                                        </td>
-                                                        <td><input type="text" class="form-control"
-                                                                name="msy_2_member_no_1"
-                                                                value="<?= htmlspecialchars($row_msy['msy_2_member_no_1']) ?>">
-                                                        </td>
-                                                        <td><input type="text" class="form-control"
-                                                                name="msy_2_payment_to_farmer_1"
-                                                                value="<?= htmlspecialchars($row_msy['msy_2_payment_to_farmer_1']) ?>">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>मूंगफली</td>
-                                                        <td><input type="text" class="form-control"
-                                                                name="msy_2_target_2"
-                                                                value="<?= htmlspecialchars($row_msy['msy_2_target_2']) ?>">
-                                                        </td>
-                                                        <td><input type="text" class="form-control"
-                                                                name="msy_2_supply_2"
-                                                                value="<?= htmlspecialchars($row_msy['msy_2_supply_2']) ?>">
-                                                        </td>
-                                                        <td><input type="text" class="form-control"
-                                                                name="msy_2_member_no_2"
-                                                                value="<?= htmlspecialchars($row_msy['msy_2_member_no_2']) ?>">
-                                                        </td>
-                                                        <td><input type="text" class="form-control"
-                                                                name="msy_2_payment_to_farmer_2"
-                                                                value="<?= htmlspecialchars($row_msy['msy_2_payment_to_farmer_2']) ?>">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>चना</td>
-                                                        <td><input type="text" class="form-control"
-                                                                name="msy_2_target_3"
-                                                                value="<?= htmlspecialchars($row_msy['msy_2_target_3']) ?>">
-                                                        </td>
-                                                        <td><input type="text" class="form-control"
-                                                                name="msy_2_supply_3"
-                                                                value="<?= htmlspecialchars($row_msy['msy_2_supply_3']) ?>">
-                                                        </td>
-                                                        <td><input type="text" class="form-control"
-                                                                name="msy_2_member_no_3"
-                                                                value="<?= htmlspecialchars($row_msy['msy_2_member_no_3']) ?>">
-                                                        </td>
-                                                        <td><input type="text" class="form-control"
-                                                                name="msy_2_payment_to_farmer_3"
-                                                                value="<?= htmlspecialchars($row_msy['msy_2_payment_to_farmer_3']) ?>">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>मसूर</td>
-                                                        <td><input type="text" class="form-control"
-                                                                name="msy_2_target_4"
-                                                                value="<?= htmlspecialchars($row_msy['msy_2_target_4']) ?>">
-                                                        </td>
-                                                        <td><input type="text" class="form-control"
-                                                                name="msy_2_supply_4"
-                                                                value="<?= htmlspecialchars($row_msy['msy_2_supply_4']) ?>">
-                                                        </td>
-                                                        <td><input type="text" class="form-control"
-                                                                name="msy_2_member_no_4"
-                                                                value="<?= htmlspecialchars($row_msy['msy_2_member_no_4']) ?>">
-                                                        </td>
-                                                        <td><input type="text" class="form-control"
-                                                                name="msy_2_payment_to_farmer_4"
-                                                                value="<?= htmlspecialchars($row_msy['msy_2_payment_to_farmer_4']) ?>">
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                        <div class="d-flex justify-content-end mt-3">
+                                            <button type="button" class="btn btn-primary btn-sm me-3"
+                                                    onclick="uploadDocument()" style="margin-right:1rem;">Upload
+                                                Document</button>
+                                            <button type="button" class="btn btn-success btn-sm"
+                                                    onclick="downloadExcel(<?php echo $row_invoice['sno']; ?>)"
+                                                    style="height: 40px;">Download Excel</button>
                                         </div>
                                     </div>
-                                </div>
-                                <!-------4th start------->
-                                <div class="step">
-                                    <h4><img src="images/logo/4.png" alt="text" class="img-fluid stat-icon"
-                                            style="height:50px; width:50px;"> 4. अन्य कार्य व व्यवसाय</h4>
-                                    <div id="other_business">
-                                        <?php
-                                        for ($i = 1; $i <= $row_2_1_2['count']; $i++) {
-                                            ?>
-                                        <div class="row" id="business_row_<?php echo $i; ?>">
-                                            <div class="col-sm-3 form-group">
-                                                <label>व्यवसाय का विवरण </label>
-                                                <select name="sec_2_1_2_business_description_<?php echo $i; ?>"
-                                                    tabindex="<?php echo $tab++; ?>"
-                                                    id="sec_2_1_2_business_description_<?php echo $i; ?>"
-                                                    class="form-control">
-                                                    <option value="">--select--</option>
-                                                    <option value="cattle_feed" <?php echo ($row_2_1_2['sec_2_1_2_business_description_' . $i] == 'cattle_feed') ? 'selected="selected"' : ''; ?>>कैटल फीड
-                                                    </option>
-                                                    <option value="any_other" <?php echo ($row_2_1_2['sec_2_1_2_business_description_' . $i] == 'any_other') ? 'selected="selected"' : ''; ?>>अन्य</option>
-                                                </select>
-                                            </div>
 
-                                            <div class="col-sm-3 form-group">
-                                                <label>वार्षिक टर्नओवर</label>
-                                                <input type="text" name="sec_2_1_2_value_<?php echo $i; ?>"
-                                                    tabindex="<?php echo $tab++; ?>"
-                                                    id="sec_2_1_2_value_<?php echo $i; ?>"
-                                                    class="form-control chk_decimal"
-                                                    data-type="7.3.I वार्षिक टर्नोवर को धनराशि रु० लाख मे भरे"
-                                                    value="<?php echo $row_2_1_2['sec_2_1_2_value_' . $i]; ?>">
-                                            </div>
-
-                                            <div class="col-sm-3 form-group">
-                                                <label>लाभ / हानि</label>
-                                                <select name="sec_2_1_2_profit_loss_<?php echo $i; ?>"
-                                                    id="sec_2_1_2_profit_loss_<?php echo $i; ?>" class="form-control">
-                                                    <option value="">--select--</option>
-                                                    <option value="लाभ" <?php echo ($row_2_1_2['sec_2_1_2_profit_loss_' . $i] == 'लाभ') ? 'selected' : ''; ?>>लाभ</option>
-                                                    <option value="हानि" <?php echo ($row_2_1_2['sec_2_1_2_profit_loss_' . $i] == 'हानि') ? 'selected' : ''; ?>>हानि</option>
-                                                </select>
-                                            </div>
-
-                                            <?php if ($i == $row_2_1_2['count']) { ?>
-                                            <div class="col-sm-2 form-group my-auto"
-                                                id="add_business_row_<?php echo $i; ?>"
-                                                tabindex="<?php echo $tab++; ?>">
-                                                <button type="button" class="btn btn-info"
-                                                    onclick="add_more_business();">नईं पंक्ति जोड़े [+]</button>
-                                                <input type="hidden" name="other_business_id" id="other_business_id"
-                                                    value="<?php echo $row_2_1_2['count']; ?>">
-                                            </div>
-                                            <?php } ?>
-                                        </div>
-                                        <?php } ?>
-                                    </div>
-                                    <h5><img src="#" alt="text" class="img-fluid stat-icon" style="height:60px; width:60px;"> 5. सहकारी प्रबंध प्रशिक्षण केंद्र </h5>
-                                    <!--  -->
-                                </div>
-                                <!----------------5th start-------------------------------------------------------->
-                                <div class="step">
-                                    <h4><img src="images/logo/6.png" alt="text" class="img-fluid stat-icon"
-                                            style="height:50px; width:50px;"> 6 (I) संस्थागत ढांचा</h4>
-                                    <div class="col-sm-12">
-                                        <form id="postForm">
-                                            <table>
-                                                <thead>
-                                                    <tr>
-                                                        <!-- <th colspan="3" style="text-align: center;"></th> -->
-                                                        <th colspan="" style="text-align: center;">पद</th>
-                                                        <th colspan="" style="text-align: center;">नाम</th>
-                                                        <th colspan="" style="text-align: center;">पिता का नाम</th>
-                                                        <th colspan="" style="text-align: center;">दूरभाष न०</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="postTableBody">
-                                                    <!-- MD Row -->
-                                                    <tr>
-                                                        <td>प्रबंध निदेशक</td>
-                                                        <td><input type="text" id="name_md"></td>
-                                                        <td><input type="text" id="mobile_md"></td>
-                                                        <td><input type="text" id="education_md"></td>
-                                                        <!-- <td colspan="3"></td> -->
-                                                    </tr>
-                                                    <!-- AMD Row -->
-                                                    <tr>
-                                                        <td>उप-प्रबंध निदेशक</td>
-                                                        <td><input type="text" id="name_amd"></td>
-                                                        <td><input type="text" id="mobile_amd"></td>
-                                                        <td><input type="text" id="education_amd"></td>
-                                                        <!-- <td colspan="3"></td> -->
-                                                    </tr>
-                                                    <!-- CGM Row -->
-                                                    <tr>
-                                                        <td>मुख्य महाप्रबंधक</td>
-                                                        <td><input type="text" id="name_cgm"></td>
-                                                        <td><input type="text" id="mobile_cgm"></td>
-                                                        <td><input type="text" id="education_cgm"></td>
-                                                        <!-- <td colspan="3"></td> -->
-                                                    </tr>
-                                                    <!-- GM, DGM, AGM Rows -->
-                                                    <tr>
-                                                        <!-- <th colspan="3" style="text-align: center;"></th> -->
-                                                        <th colspan="" style="text-align: center;">पद</th>
-                                                        <th colspan="" style="text-align: center;">संख्या</th>
-                                                        <th colspan="" style="text-align: center;">स्वीकृत पद</th>
-                                                        <th colspan="" style="text-align: center;">रिक्त पद</th>
-                                                    </tr>
-                                                    <tr id="gmRow">
-                                                        <td>महाप्रबंधक</td>
-                                                        <!-- <td colspan="2"></td> -->
-                                                        <td><input type="number" class="count_gm"></td>
-                                                        <td><input type="text" class="vacant_gm"></td>
-                                                        <td><input type="text" class="sanctioned_gm"></td>
-                                                    </tr>
-                                                    <tr id="dgmRow">
-                                                        <td>उप-महाप्रबंधक</td>
-                                                        <!-- <td colspan="2"></td> -->
-                                                        <td><input type="number" class="count_dgm"></td>
-                                                        <td><input type="text" class="vacant_dgm"></td>
-                                                        <td><input type="text" class="sanctioned_dgm"></td>
-                                                    </tr>
-                                                    <tr id="agmRow">
-                                                        <td>सहायक महाप्रबंधक</td>
-                                                        <!-- <td colspan="2"></td> -->
-                                                        <td><input type="number" class="count_agm"></td>
-                                                        <td><input type="text" class="vacant_agm"></td>
-                                                        <td><input type="text" class="sanctioned_agm"></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            <!-- <button type="button" onclick="showTree()">Submit and Show Tree</button> -->
-                                        </form>
-
-                                        <!-- <h3>Hierarchy Tree Output</h3>
-                                                    <div id="output" class="tree-output"></div> -->
-
-                                        <h5><img src="images/logo/6.png" alt="text" class="img-fluid stat-icon" style="height:50px; width:50px;"> (II) मानव सम्पदा</h5>
-                                        <?php
-                                        $pcu_posts = [];
-                                        $sql_pcu = "SELECT `sno`, `post_name` FROM `master_posts_pcu` ORDER BY `post_name` ASC";
-                                        $result_pcu = execute_query($sql_pcu);
-                                        if ($result_pcu && mysqli_num_rows($result_pcu) > 0) {
-                                            while ($r = mysqli_fetch_assoc($result_pcu)) {
-                                                $pcu_posts[] = $r;
-                                            }
-                                        }
-                                        ?>
-                                        <div id="pcu_resource_rows">
-                                            <?php
-                                            $pcuIndex = 1;
-                                            if (!empty($pcu_rows)) {
-                                                foreach ($pcu_rows as $p) {
-                                            ?>
-                                            <div class="row pcu_row mb-2" id="pcu_row_<?php echo $pcuIndex; ?>">
-
-                                                <div class="col-md-2 form-group">
-                                                    <label>नाम संवर्ग</label>
-                                                    <select name="pcu_post_id[]" id="pcu_post_id_<?php echo $pcuIndex; ?>" class="form-control">
+                                    <div id="staff_row_template" style="display:none;">
+                                        <div class="staff_row border p-3 mb-3 rounded">
+                                            <div class="row">
+                                                <div class="col-md-3 form-group">
+                                                    <label>पद</label>
+                                                    <select name="staff_post_name[]"
+                                                            class="form-control staff_post_name">
                                                         <option value="">--Select--</option>
-                                                        <?php
-                                                        foreach ($pcu_posts as $pp) {
-                                                            $pid = htmlspecialchars($pp['sno']);
-                                                            $pname = htmlspecialchars($pp['post_name']);
-                                                            $selected = ($p['pcu_post_id'] == $pid) ? "selected" : "";
-                                                            echo "<option value='{$pid}' {$selected}>{$pname}</option>";
-                                                        }
-                                                        ?>
+                                                        <?php foreach ($posts as $p) { ?>
+                                                            <option value="<?php echo $p['post_id']; ?>">
+                                                                <?php echo ($p['post_name']); ?>
+                                                            </option>
+                                                        <?php } ?>
                                                     </select>
                                                 </div>
 
-                                                <div class="col-md-2 form-group">
-                                                    <label>स्वीकृत</label>
-                                                    <input type="number" name="pcu_sanctioned[]" class="form-control"
-                                                        id="pcu_sanctioned_<?php echo $pcuIndex; ?>"
-                                                        value="<?php echo htmlspecialchars($p['pcu_sanctioned']); ?>">
+                                                <div class="col-md-3 form-group">
+                                                    <label>नाम</label>
+                                                    <input type="text" name="staff_name[]" class="form-control">
                                                 </div>
-
-                                                <div class="col-md-2 form-group">
-                                                    <label>कार्यरत</label>
-                                                    <input type="number" name="pcu_working[]" class="form-control"
-                                                        id="pcu_working_<?php echo $pcuIndex; ?>"
-                                                        value="<?php echo htmlspecialchars($p['pcu_working']); ?>">
+                                                <div class="col-md-3 form-group">
+                                                    <label>स्थिति</label>
+                                                    <input type="text" name="staff_sthiti[]" class="form-control">
                                                 </div>
-
-                                                <div class="col-md-2 form-group">
-                                                    <label>रिक्त</label>
-                                                    <input type="number" name="pcu_vacant[]" class="form-control"
-                                                        id="pcu_vacant_<?php echo $pcuIndex; ?>"
-                                                        value="<?php echo htmlspecialchars($p['pcu_vacant']); ?>">
+                                                <div class="col-md-3 form-group">
+                                                    <label>पिता का नाम</label>
+                                                    <input type="text" name="staff_father[]" class="form-control">
                                                 </div>
-
-                                                <div class="col-md-2 form-group">
-                                                    <label>प्रा० स्वीकृत</label>
-                                                    <input type="number" name="auth_sanctioned[]" class="form-control"
-                                                        id="auth_sanctioned_<?php echo $pcuIndex; ?>"
-                                                        value="<?php echo htmlspecialchars($p['auth_sanctioned']); ?>">
-                                                </div>
-
-                                                <div class="col-md-2 form-group">
-                                                    <label>प्रा० कार्यरत</label>
-                                                    <input type="number" name="auth_working[]" class="form-control"
-                                                        id="auth_working_<?php echo $pcuIndex; ?>"
-                                                        value="<?php echo htmlspecialchars($p['auth_working']); ?>">
-                                                </div>
-
-                                                <div class="col-md-2 form-group">
-                                                    <label>प्रा० रिक्त</label>
-                                                    <input type="number" name="auth_vacant[]" class="form-control"
-                                                        id="auth_vacant_<?php echo $pcuIndex; ?>"
-                                                        value="<?php echo htmlspecialchars($p['auth_vacant']); ?>">
-                                                </div>
-
-                                                <div class="col-md-2 form-group">
-                                                    <label>अन्य विवरण</label>
-                                                    <input type="text" name="pcu_other_detail[]" class="form-control"
-                                                        id="pcu_other_detail_<?php echo $pcuIndex; ?>"
-                                                        value="<?php echo htmlspecialchars($p['pcu_other_detail']); ?>">
-                                                </div>
-
-                                                <div class="col-md-1 form-group my-auto">
-                                                    <?php if ($pcuIndex == 1) { ?>
-                                                        <button type="button" class="btn btn-info" onclick="addPcuRow()">नई पंक्ति [+]</button>
-                                                        <input type="hidden" id="pcu_resource_id" name="pcu_resource_id" value="<?php echo count($pcu_rows); ?>">
-                                                    <?php } else { ?>
-                                                        <button type="button" class="btn btn-danger"
-                                                            onclick="$(this).closest('.pcu_row').remove()">हटाएं [-]</button>
-                                                    <?php } ?>
-                                                </div>
-
                                             </div>
-                                            <?php
-                                                $pcuIndex++;
-                                                }
-                                            }
-                                            ?>
-                                        </div>
+                                            <div class="row">
+                                                <div class="col-md-3 form-group">
+                                                    <label>जन्म तिथि</label>
+                                                    <input type="date" name="staff_dob[]" class="form-control">
+                                                </div>
+                                                <div class="col-md-3 form-group">
+                                                    <label>मोबाइल नंबर</label>
+                                                    <input type="text" name="staff_mobile[]" class="form-control">
+                                                </div>
+                                                <div class="col-md-3 form-group">
+                                                    <label>शैक्षिक योग्यता</label>
+                                                    <select name="staff_qualification[]" class="form-control">
+                                                        <option value="">--Select--</option>
+                                                        <option value="Intermediate">इंटरमीडिएट</option>
+                                                        <option value="Graduate">स्नातक</option>
+                                                        <option value="PostGraduate">परास्नातक</option>
+                                                    </select>
+                                                </div>
 
-                                        <br>
-                                        <h5><img src="images/logo/7.png" alt="text" class="img-fluid stat-icon"
-                                                style="height:50px; width:50px;"> (III) प्रबंध कमेटी</h5>
-                                        <div id="sec_3_b">
-                                            <?php 
-                                            $row_3_b['count'] = count($sec_3_b_rows); 
-                                            for ($i = 1; $i <= $row_3_b['count']; $i++) { 
-                                                $r = $sec_3_b_rows[$i-1];
+                                                <div class="col-md-3 form-group">
+                                                    <label>Upload Image</label>
 
-                                                // Determine which field to show
-                                                $show_postname = ($r['category'] == 'yes') ? 'block' : 'none';
-                                                $show_year     = ($r['category'] == 'no')  ? 'block' : 'none';
-                                            ?>
-                                                <div class="row sec_3_b_row mb-2" id="sec_3_b_row_<?php echo $i; ?>">
+                                                    <div style="display:flex; align-items:center; gap:10px;">
 
-                                                    <!-- श्रेणी -->
-                                                    <div class="col-sm-2 form-group">
-                                                        <label>श्रेणी</label>
-                                                        <select class="form-control" id="sec_3_b_category_<?php echo $i; ?>"
-                                                                name="category_<?php echo $i; ?>"
-                                                                onchange="hide_show(this.value, '#sec_3_b_postname_<?php echo $i; ?>', 'yes'); hide_show(this.value, '#sec_3_b_year_<?php echo $i; ?>', 'no')">
-                                                            <option value="">--Select--</option>
-                                                            <option value="yes" <?php echo $r['category']=='yes'?'selected':''; ?>>पदेन</option>
-                                                            <option value="no"  <?php echo $r['category']=='no'?'selected':''; ?>>निर्वाचित</option>
-                                                            <option value="1"   <?php echo $r['category']=='1'?'selected':''; ?>>नामित</option>
-                                                        </select>
-                                                    </div>
+                                                        <!-- Image Preview -->
 
-                                                    <!-- पद का नाम -->
-                                                    <div class="col-sm-2 form-group" id="sec_3_b_postname_<?php echo $i; ?>" style="display:<?php echo $show_postname; ?>;">
-                                                        <label>पद का नाम</label>
-                                                        <input type="text" class="form-control"
-                                                            name="post_name_<?php echo $i; ?>"
-                                                            id="post_name_<?php echo $i; ?>"
-                                                            value="<?php echo $r['post_name']; ?>">
-                                                    </div>
+                                                        <a href="#" target="_blank" class="image-link" style="display:none;">
+                                                            <img class="img-preview"
+                                                                 src=""
+                                                                 style="width:85px; height:85px; object-fit:cover;
+                                                                     border:1px solid #ddd; padding:3px;">
+                                                        </a>
 
-                                                    <!-- निर्वाचन वर्ष -->
-                                                    <div class="col-sm-2 form-group" id="sec_3_b_year_<?php echo $i; ?>" style="display:<?php echo $show_year; ?>;">
-                                                        <label>निर्वाचन का वर्ष</label>
-                                                        <select class="form-control"
-                                                                name="year_<?php echo $i; ?>"
-                                                                id="year_<?php echo $i; ?>">
-                                                            <option value="">--Select--</option>
-                                                            <?php for ($y=2025; $y>=1975; $y--) { ?>
-                                                                <option value="<?php echo $y; ?>" <?php echo ($y == $r['year'])?'selected':''; ?>><?php echo $y; ?></option>
-                                                            <?php } ?>
-                                                        </select>
-                                                    </div>
+                                                        <div style="flex:1;">
+                                                            <input type="file"
+                                                                   name="staff_image[]"
+                                                                   class="form-control staff-image-input"
+                                                                   accept="image/*">
 
-                                                    <!-- पदनाम -->
-                                                    <div class="col-sm-2 form-group">
-                                                        <label>पदनाम</label>
-                                                        <select class="form-control"
-                                                                name="designation_<?php echo $i; ?>"
-                                                                id="designation_<?php echo $i; ?>">
-                                                            <option value="">--Select--</option>
-                                                            <option value="अध्यक्ष"   <?php echo $r['designation']=='अध्यक्ष'?'selected':''; ?>>अध्यक्ष</option>
-                                                            <option value="उपाध्यक्ष" <?php echo $r['designation']=='उपाध्यक्ष'?'selected':''; ?>>उपाध्यक्ष</option>
-                                                            <option value="संचालक"   <?php echo $r['designation']=='संचालक'?'selected':''; ?>>संचालक</option>
-                                                        </select>
-                                                    </div>
-
-                                                    <!-- नाम -->
-                                                    <div class="col-sm-2 form-group">
-                                                        <label>नाम</label>
-                                                        <input type="text" class="form-control"
-                                                            name="name_<?php echo $i; ?>"
-                                                            id="name_<?php echo $i; ?>"
-                                                            value="<?php echo $r['name']; ?>">
-                                                    </div>
-
-                                                    <!-- पिता का नाम -->
-                                                    <div class="col-sm-2 form-group">
-                                                        <label>पिता / पति का नाम</label>
-                                                        <input type="text" class="form-control"
-                                                            name="father_<?php echo $i; ?>"
-                                                            id="father_<?php echo $i; ?>"
-                                                            value="<?php echo $r['father']; ?>">
-                                                    </div>
-
-                                                    <!-- मोबाइल -->
-                                                    <div class="col-sm-2 form-group">
-                                                        <label>मोबाईल नंबर</label>
-                                                        <input type="text" class="form-control chk_mobile"
-                                                            name="mobile_<?php echo $i; ?>"
-                                                            id="mobile_<?php echo $i; ?>"
-                                                            maxlength="10"
-                                                            value="<?php echo $r['mobile']; ?>">
-                                                    </div>
-
-                                                    <!-- Add Button -->
-                                                    <?php if ($i == $row_3_b['count']) { ?>
-                                                        <div class="col-sm-2 form-group my-auto">
-                                                            <button type="button" class="btn btn-info" onclick="sec_3_c_add_rows()">नई पंक्ति जोड़े [+]</button>
-                                                            <input type="hidden" id="sec_3_b_count" name="sec_3_b_count" value="<?php echo $row_3_b['count']; ?>">
+                                                            <input type="hidden"
+                                                                   name="existing_staff_image[]"
+                                                                   class="existing-staff-image">
                                                         </div>
-                                                    <?php } ?>
-
+                                                    </div>
                                                 </div>
-                                            <?php } ?>
-                                        </div>
 
-                                        <input type="hidden" name="sec_6_2_id" id="sec_6_2_id" value="<?php echo $row_6_2['count']; ?>">
-                                        <br>
-                                        <h5><img src="images/logo/7.png" alt="text" class="img-fluid stat-icon"
-                                                style="height:50px; width:50px;"> (IV) प्राधिकारी कमेटी</h5>
-                                        <div class="row">
-                                            <div class="col-sm-2 form-group">
-                                                <label>श्रेणी</label>
-                                                <select class="form-control " type="checkbox" id="sec_2_guard"
-                                                    onchange="hide_show(this.value, '#post_name', 'yes'); hide_show(this.value, '#election_year', 'no')"
-                                                    name="sec_2_guard" value="" tabindex="<?php echo $tab++; ?>"
-                                                    size="4" style="height:auto;">
-                                                    <option value="">--Select--</option>
-                                                    <option value="yes" <?php $guard_display = 'none';
-                                                    if ($row_2_2['guard'] != '') {
-                                                        echo ' selected="selected" ';
-                                                        $guard_display = 'block';
-                                                    } ?>>
-                                                        पदेन </option>
-                                                    <option value="no" <?php if ($row_2_2['guard'] == 'no') {
-                                                        echo ' selected="selected" ';
-                                                        $guard_display = 'none';
-                                                    } ?>>निर्वाचित
-                                                    </option>
-                                                    <option value="1" <?php if ($row_2_2['guard'] == '1') {
-                                                        echo ' selected="selected" ';
-                                                        $guard_display = 'none';
-                                                    } ?>>नामित
-                                                    </option>
-
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-2 form-group" id="post_name" style="display:none;">
-                                                <label>पद का नाम</label>
-                                                <input type="text" name="post_name" id="post_name"
-                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                    tabindex="<?php echo $tab++; ?>" value="">
-                                            </div>
-                                            <div class="col-sm-2 form-group" id="election_year" style="display:none;">
-                                                <label>निर्वाचन का वर्ष</label>
-                                                <select name="sec2_balance_sheet" id="sec2_balance_sheet"
-                                                    tabindex="<?php echo $tab++; ?>" class="form-control">
-                                                    <option value="">--Select--</option>
-                                                    <?php
-                                                    for ($i = 2022; $i >= 1975; $i--) {
-                                                        echo '<option value="' . $i . '" ';
-                                                        if ($i == $row_2_1['balance_sheet_year']) {
-                                                            echo ' selected="selected" ';
-                                                        }
-                                                        echo ' >' . $i . '</option>';
-                                                    }
-                                                    ?>
-                                                    <!-- <option value="old" <?php echo $row_2_1['balance_sheet_year'] == 'old' ? ' selected="selected"' : '' ?>>2015 से पूर्व में</option> -->
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-2 form-group">
-                                                <label>पदनाम</label>
-                                                <select class="form-control " type="checkbox" id="sec_2_guard"
-                                                    name="sec_2_guard" value="yes" tabindex="<?php echo $tab++; ?>"
-                                                    size="4" style="height:auto;">
-                                                    <option value="">--Select--</option>
-                                                    <option value="yes" <?php $guard_display = 'none';
-                                                    if ($row_2_2['guard'] != '') {
-                                                        echo ' selected="selected" ';
-                                                        $guard_display = 'block';
-                                                    } ?>>
-                                                        अध्यक्ष</option>
-                                                    <option value="no" <?php if ($row_2_2['guard'] == 'no') {
-                                                        echo ' selected="selected" ';
-                                                        $guard_display = 'none';
-                                                    } ?>>उपाध्यक्ष
-                                                    </option>
-                                                    <option value="no" <?php if ($row_2_2['guard'] == 'no') {
-                                                        echo ' selected="selected" ';
-                                                        $guard_display = 'none';
-                                                    } ?>>संचालक
-                                                    </option>
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-2 form-group">
-                                                <label>नाम</label>
-                                                <input type="text" name="sec_2_guard_count" id="sec_2_guard_count"
-                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                    tabindex="<?php echo $tab++; ?>" value="">
-                                            </div>
-                                            <!-- <div class="col-sm-2 form-group">
-                                                                <label>कार्यकाल</label>
-                                                                <input type="text" name="sec_2_guard_count" id="sec_2_guard_count"
-                                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                                    tabindex="<?php echo $tab++; ?>" value="">
-                                                            </div> -->
-                                            <div class="col-sm-2 form-group" id="guard_count">
-                                                <label>पिता का नाम</label>
-                                                <input type="text" name="sec_2_guard_count" id="sec_2_guard_count"
-                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                    tabindex="<?php echo $tab++; ?>" value="">
-                                            </div>
-                                            <div class="col-sm-2 form-group" id="guard_count">
-                                                <label>मोबाईल नंबर</label>
-                                                <input type="text" name="sec_2_guard_count" id="sec_2_guard_count"
-                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                    tabindex="<?php echo $tab++; ?>" value="">
-                                            </div>
-
-                                            <div class="col-sm-2 form-group">
-                                                <button type="button" class="btn btn-info"
-                                                    onclick="()">नई
-                                                    पंक्ति जोड़े [+]</button>
-                                            </div>
-                                        </div>
-                                        <h5><img src="images/logo/7.png" alt="text" class="img-fluid stat-icon"
-                                                style="height:50px; width:50px;"> (V) प्रशासनिक कमेटी</h5>
-                                        <div class="row">
-                                            <div class="col-sm-2 form-group">
-                                                <label>श्रेणी</label>
-                                                <select class="form-control " type="checkbox" id="sec_2_guard"
-                                                    onchange="hide_show(this.value, '#post_name', 'yes'); hide_show(this.value, '#election_year', 'no')"
-                                                    name="sec_2_guard" value="" tabindex="<?php echo $tab++; ?>"
-                                                    size="4" style="height:auto;">
-                                                    <option value="">--Select--</option>
-                                                    <option value="yes" <?php $guard_display = 'none';
-                                                    if ($row_2_2['guard'] != '') {
-                                                        echo ' selected="selected" ';
-                                                        $guard_display = 'block';
-                                                    } ?>>
-                                                        पदेन </option>
-                                                    <option value="no" <?php if ($row_2_2['guard'] == 'no') {
-                                                        echo ' selected="selected" ';
-                                                        $guard_display = 'none';
-                                                    } ?>>निर्वाचित
-                                                    </option>
-                                                    <option value="1" <?php if ($row_2_2['guard'] == '1') {
-                                                        echo ' selected="selected" ';
-                                                        $guard_display = 'none';
-                                                    } ?>>नामित
-                                                    </option>
-
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-2 form-group" id="post_name" style="display:none;">
-                                                <label>पद का नाम</label>
-                                                <input type="text" name="post_name" id="post_name"
-                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                    tabindex="<?php echo $tab++; ?>" value="">
-                                            </div>
-                                            <div class="col-sm-2 form-group" id="election_year" style="display:none;">
-                                                <label>निर्वाचन का वर्ष</label>
-                                                <select name="sec2_balance_sheet" id="sec2_balance_sheet"
-                                                    tabindex="<?php echo $tab++; ?>" class="form-control">
-                                                    <option value="">--Select--</option>
-                                                    <?php
-                                                    for ($i = 2022; $i >= 1975; $i--) {
-                                                        echo '<option value="' . $i . '" ';
-                                                        if ($i == $row_2_1['balance_sheet_year']) {
-                                                            echo ' selected="selected" ';
-                                                        }
-                                                        echo ' >' . $i . '</option>';
-                                                    }
-                                                    ?>
-                                                    <!-- <option value="old" <?php echo $row_2_1['balance_sheet_year'] == 'old' ? ' selected="selected"' : '' ?>>2015 से पूर्व में</option> -->
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-2 form-group">
-                                                <label>पदनाम</label>
-                                                <select class="form-control " type="checkbox" id="sec_2_guard"
-                                                    name="sec_2_guard" value="yes" tabindex="<?php echo $tab++; ?>"
-                                                    size="4" style="height:auto;">
-                                                    <option value="">--Select--</option>
-                                                    <option value="yes" <?php $guard_display = 'none';
-                                                    if ($row_2_2['guard'] != '') {
-                                                        echo ' selected="selected" ';
-                                                        $guard_display = 'block';
-                                                    } ?>>
-                                                        अध्यक्ष</option>
-                                                    <option value="no" <?php if ($row_2_2['guard'] == 'no') {
-                                                        echo ' selected="selected" ';
-                                                        $guard_display = 'none';
-                                                    } ?>>उपाध्यक्ष
-                                                    </option>
-                                                    <option value="no" <?php if ($row_2_2['guard'] == 'no') {
-                                                        echo ' selected="selected" ';
-                                                        $guard_display = 'none';
-                                                    } ?>>संचालक
-                                                    </option>
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-2 form-group">
-                                                <label>नाम</label>
-                                                <input type="text" name="sec_2_guard_count" id="sec_2_guard_count"
-                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                    tabindex="<?php echo $tab++; ?>" value="">
-                                            </div>
-                                            <!-- <div class="col-sm-2 form-group">
-                                                                <label>कार्यकाल</label>
-                                                                <input type="text" name="sec_2_guard_count" id="sec_2_guard_count"
-                                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                                    tabindex="<?php echo $tab++; ?>" value="">
-                                                            </div> -->
-                                            <div class="col-sm-2 form-group" id="guard_count">
-                                                <label>पिता का नाम</label>
-                                                <input type="text" name="sec_2_guard_count" id="sec_2_guard_count"
-                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                    tabindex="<?php echo $tab++; ?>" value="">
-                                            </div>
-                                            <div class="col-sm-2 form-group" id="guard_count">
-                                                <label>मोबाईल नंबर</label>
-                                                <input type="text" name="sec_2_guard_count" id="sec_2_guard_count"
-                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                    tabindex="<?php echo $tab++; ?>" value="">
-                                            </div>
-
-                                            <div class="col-sm-2 form-group">
-                                                <button type="button" class="btn btn-info"
-                                                    onclick="()">नई
-                                                    पंक्ति जोड़े [+]</button>
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
                                 <!--------------------------------------------------------------->
 
-
                                 <div class="step">
                                     <h4><img src="images/logo/11.png" alt="text" class="img-fluid stat-icon"
-                                            style="height:50px; width:50px;"> 7. समिति भवन/सम्पत्ति का विवरण</h2>
-                                        <div class="col-sm-12">
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    <div class="col-sm-3 form-group">
-                                                        <label>(I)समिति भवन का स्वामित्व </label>
-                                                        <select name="sec_3_ownership" id="sec_3_ownership"
-                                                            tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                            onChange="hide_show(this.value, '#sec_3_rented', 'rent'); hide_show(this.value, '#sec_3_other', 'other');">
-                                                            <option value="">--Select--</option>
-                                                            <option value="own" <?php $sec_3_rented_display = 'none';
-                                                            $sec_3_other_display = 'none';
-                                                            $sec_3_display = 'flex';
-                                                            if ($row_3_1['sec_3_ownership'] == 'own') {
-                                                                echo ' selected="selected" ';
-                                                                $sec_3_display = 'flex';
-                                                            } ?>
-                                                                >समिति
-                                                                के
-                                                                स्वामित्व में है</option>
-                                                            <option value="rent" <?php if ($row_3_1['sec_3_ownership'] == 'rent') {
-                                                                echo ' selected="selected" ';
-                                                                $sec_3_rented_display = 'flex';
-                                                            } ?>>
-                                                                किराये पर है</option>
-                                                            <option value="other" <?php if ($row_3_1['sec_3_ownership'] != 'rent' && $row_3_1['sec_3_ownership'] != 'own' && $row_3_1['sec_3_ownership'] != '') {
-                                                                echo ' selected="selected" ';
-                                                                $sec_3_other_display = 'flex';
-                                                            } ?>
-                                                                >
-                                                                अन्य स्थिती</option>
-                                                        </select>
-                                                    </div>
-                                                    <div id="sec_3_rented"
-                                                        style="display: <?php echo $sec_3_rented_display; ?>">
-                                                        <div class="col-sm-3 form-group">
-                                                            <label>समिति भवन का मासिक किराया </label>
-                                                            <input name="sec_3_building_rent" id="sec_3_building_rent"
-                                                                tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                                value="<?php echo $row_invoice['society_building_rent_amount']; ?>">
-                                                        </div>
-                                                        <div class="col-sm-3 form-group">
-                                                            <label>समिति भवन का क्षेत्रफल (स्क्वायर मीटर
-                                                                में)</label>
-                                                            <input name="sec_3_building_area" id="sec_3_building_area"
-                                                                tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                                value="<?php echo $row_invoice['society_building_area']; ?>">
-                                                        </div>
-
-                                                    </div>
-                                                    <div id="sec_3_other"
-                                                        style="display: <?php echo $sec_3_other_display; ?>">
-                                                        <div class="col-sm-3 form-group">
-                                                            <label>कृपया विवरण दर्ज करें</label>
-                                                            <input name="sec_3_building_rent1" id="sec_3_building_rent1"
-                                                                tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                                value="<?php echo $row_invoice['society_building_rent_amount']; ?>">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row" id="sec_3" style="display: <?php echo $sec_3_display; ?>;">
-                                                <div class="col-sm-12">
-                                                    <h5> (I) भूखंड स्वामित्व का विवरण </h5>
-                                                    <div class="row">
-                                                        <div class="col-sm-3 form-group">
-                                                            <label>भूखण्ड स्वामित्व की स्थिति</label>
-
-                                                            <select name="sec_3_a_land_length" id="sec_3_a_land_length"
-                                                                tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                                onChange="show_sides_of_land(this.value);">
-                                                                <option value="">--Select--</option>
-                                                                <option value="3" <?php echo $row_3_1['number_of_sides'] == '3' ? ' selected="selected" ' : ''; ?>>खुद के स्वामित्व
-                                                                    में
-                                                                </option>
-                                                                <option value="4" <?php echo $row_3_1['number_of_sides'] == '4' ? ' selected="selected" ' : ''; ?>>पट्टे पर</option>
-                                                                <option value="5" <?php echo $row_3_1['number_of_sides'] == '5' ? ' selected="selected" ' : ''; ?>>अन्य</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row" id="sec_3" style="display: <?php echo $sec_3_display; ?>;">
-                                                <div class="col-sm-12">
-                                                    <h5> (II) भूखंड का विवरण </h5>
-                                                    <div class="row">
-                                                        <!-- <div class="col-sm-3 form-group">
-                                                        <label>भूखण्ड में भुजा कि संख्या</label>
-                                                        <label><small>(उदाहरण के लिये - यदि भूखण्ड आयताकार है तो
-                                                                भुजाओं
-                                                                कि संख्या 4 लिखें)</small></label>
-                                                        <select name="sec_3_a_land_length" id="sec_3_a_land_length"
-                                                            tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                            onChange="show_sides_of_land(this.value);">
-                                                            <option value="">--Select--</option>
-                                                            <option value="3" <?php echo $row_3_1['number_of_sides'] == '3' ? ' selected="selected" ' : ''; ?>>3</option>
-                                                            <option value="4" <?php echo $row_3_1['number_of_sides'] == '4' ? ' selected="selected" ' : ''; ?>>4</option>
-                                                            <option value="5" <?php echo $row_3_1['number_of_sides'] == '5' ? ' selected="selected" ' : ''; ?>>5</option>
-                                                            <option value="6" <?php echo $row_3_1['number_of_sides'] == '6' ? ' selected="selected" ' : ''; ?>>6</option>
-                                                        </select>
-                                                    </div> -->
-                                                        <div class="col-sm-3 form-group">
-                                                            <label>क्षेत्रफल (हेक्टेयर में)</label><br />
-                                                            <label><small>&nbsp;</small></label>
-                                                            <input type="text" name="sec_3_a_area" id="sec_3_a_area"
-                                                                tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                                value="<?php echo $row_3_1['total_area']; ?>">
-                                                        </div>
-                                                        <div class="col-sm-3 form-group">
-                                                            <label>राजस्व अभिलेख में दर्ज होने की स्थिति( हाँ
-                                                                /नहीं)</label><br />
-                                                            <label><small>&nbsp;</small></label>
-                                                            <select name="sec_3_a_govt_records"
-                                                                id="sec_3_a_govt_records"
-                                                                tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                                onChange="hide_show(this.value, '#land_records', 'no'); color_change(this, 'yes', '#42ecf5', 'no', '#f28546');">
-                                                                <option value="">--Select--</option>
-                                                                <option value="yes" <?php $land_records_display = 'none';
-                                                                if ($row_3_1['govt_records'] == 'yes') {
-                                                                    echo ' selected="selected" ';
-                                                                } ?>>हाँ</option>
-                                                                <option value="no" <?php if ($row_3_1['govt_records'] != 'yes') {
-                                                                    echo ' selected="selected" ';
-                                                                    $land_records_display = 'block';
-                                                                } ?>>नहीं
-                                                                </option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-sm-3 form-group" id="land_records"
-                                                            style="display: <?php echo $land_records_display; ?>;">
-                                                            <label>यदि नहीं है तो किये जाने वाले प्रयास का
-                                                                विवरण</label>
-                                                            <label><small>&nbsp;</small></label>
-                                                            <input type="text" name="sec_3_a_if_yes" id="sec_3_a_if_yes"
-                                                                tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                                value="<?php echo $row_3_1['govt_records']; ?>">
-                                                        </div>
-                                                        <div class="col-sm-3 form-group">
-                                                            <label>गाटा/खसरा संख्या</label>
-                                                            <input type="text" name="sec_3_a_gata" id="sec_3_a_gata"
-                                                                tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                                value="<?php echo $row_3_1['gata_no']; ?>">
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-sm-2 form-group">
-                                                            <label>समिति भूखण्ड फोटो संलग्न करें</label>
-                                                            <input type="file" accept=".jpg, .jpeg, .gif, .png, .bmp"
-                                                                name="sec_3_a_image" id="sec_3_a_image"
-                                                                tabindex="<?php echo $tab++; ?>" class="form-control">
-                                                        </div>
-                                                        <?php
-                                                        if (!empty($row_3_1['new_photo_id']) && file_exists($row_3_1['new_photo_id'])) {
-                                                            ?>
-                                                            <div class="col-sm-2 form-group">
-                                                                <img src="<?php echo $row_3_1['new_photo_id']; ?>"
-                                                                    class="img-fluid img-thumbnail" style="height:50px;"
-                                                                    id="sec_3_a_image_uploaded">
-                                                                <label><a href="<?php echo $row_3_1['new_photo_id']; ?>"
-                                                                        target="_blank">संलग्न फोटो देखें</a></label>
-
-                                                            </div>
-                                                            <?php
-                                                        }
-                                                        ?>
-                                                        <div class="col-sm-3 form-group">
-                                                            <label>टिप्पणी</label>
-                                                            <input type="text" name="sec_3_a_comment"
-                                                                id="sec_3_a_comment" tabindex="<?php echo $tab++; ?>"
-                                                                class="form-control"
-                                                                value="<?php echo $row_3_1['remarks']; ?>">
-                                                        </div>
-
-                                                    </div>
-                                                    <?php
-                                                    if (empty($sides_data)) {
-                                                        ?>
-                                                        <div id="sides_display" style="display: none;" class="row">
-
-                                                        </div>
-                                                        <?php
-                                                    } else {
-                                                        $col = ceil(12 / sizeof($sides_data));
-                                                        ?>
-                                                        <div id="sides_display" class="row">
-                                                            <?php
-                                                            $i = 1;
-                                                            foreach ($sides_data as $k => $v) {
-                                                                ?>
-                                                                <div class="col-sm-<?php echo $col; ?> form-group">
-                                                                    <label>भुजा
-                                                                        <?php echo $i; ?> की लम्बाई
-                                                                    </label>
-                                                                    <input type="text" name="sec_3_a_side_<?php echo $i; ?>"
-                                                                        id="sec_3_a_<?php echo $i; ?>" class="form-control"
-                                                                        value="<?php echo $v; ?>">
-                                                                </div>
-
-                                                                <?php
-                                                                $i++;
-                                                            }
-                                                            ?>
-                                                        </div>
-                                                        <?php
-                                                    }
-                                                    ?>
-                                                    <h5> (III) भूखंड की चौहद्दी का विवरण </h5>
-                                                    <div class="row">
-                                                        <div class="col-sm-3 form-group">
-                                                            <label>भूखण्ड की पूर्व दिशा का विवरण</label>
-                                                            <input type="text" name="sec_3_a_land_chauhaddi_east"
-                                                                id="sec_3_a_land_chauhaddi_east"
-                                                                tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                                value="<?php echo $row_3_1['east_side']; ?>">
-                                                        </div>
-                                                        <div class="col-sm-3 form-group">
-                                                            <label>भूखण्ड की पश्चिम दिशा का विवरण</label><input
-                                                                type="text" name="sec_3_a_land_chauhaddi_west"
-                                                                id="sec_3_a_land_chauhaddi_west"
-                                                                tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                                value="<?php echo $row_3_1['west_side']; ?>">
-                                                        </div>
-                                                        <div class="col-sm-3 form-group">
-                                                            <label>भूखण्ड की उत्तर दिशा का विवरण</label><input
-                                                                type="text" name="sec_3_a_land_chauhaddi_north"
-                                                                id="sec_3_a_land_chauhaddi_north"
-                                                                tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                                value="<?php echo $row_3_1['north_side']; ?>">
-                                                        </div>
-                                                        <div class="col-sm-3 form-group">
-                                                            <label>भूखण्ड की दक्षिण दिशा का विवरण</label><input
-                                                                type="text" name="sec_3_a_land_chauhaddi_south"
-                                                                id="sec_3_a_land_chauhaddi_south"
-                                                                tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                                value="<?php echo $row_3_1['south_side']; ?>">
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-sm-3 form-group">
-                                                            <label>सड़क पर भूमि कि लम्बाई (आन रोड जमीन) मीटर
-                                                                में</label>
-                                                            <input type="text" name="sec_3_a_land_on_road"
-                                                                id="sec_3_a_land_on_road"
-                                                                tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                                value="<?php echo $row_3_1['on_road_land']; ?>">
-                                                        </div>
-                                                        <div class="col-sm-3 form-group">
-                                                            <label>प्रमुख द्वार कि दिशा (फ्र्न्ट साईड)</label>
-                                                            <select name="sec_3_a_land_frontage"
-                                                                id="sec_3_a_land_frontage"
-                                                                tabindex="<?php echo $tab++; ?>" class="form-control">
-                                                                <option value="east" <?php if ($row_3_1['front_side'] == 'east') {
-                                                                    echo 'selected="selected"';
-                                                                } ?>>पूर्व</option>
-                                                                <option value="west" <?php if ($row_3_1['front_side'] == 'west') {
-                                                                    echo 'selected="selected"';
-                                                                } ?>>पश्चिम</option>
-                                                                <option value="north" <?php if ($row_3_1['front_side'] == 'north') {
-                                                                    echo 'selected="selected"';
-                                                                } ?>>उत्तर</option>
-                                                                <option value="south" <?php if ($row_3_1['front_side'] == 'south') {
-                                                                    echo 'selected="selected"';
-                                                                } ?>>दक्षिण</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <h5> (IV) निर्मित भवन का विवरण </h5>
-                                                    <div id="sec_3_b">
-                                                        <?php
-                                                        $count_3b = !empty($row_3_3['count']) ? (int) $row_3_3['count'] : 1;
-                                                        for ($i = 1; $i <= $count_3b; $i++) {
-                                                            ?>
-                                                            <div class="row">
-                                                                <div class="col-sm-2 form-group">
-                                                                    <label>लंबाई (मीटर में)</label>
-                                                                    <input type="text"
-                                                                        name="sec_3_b_length_<?php echo $i; ?>"
-                                                                        id="sec_3_b_length_<?php echo $i; ?>"
-                                                                        tabindex="<?php echo $tab++; ?>"
-                                                                        class="form-control"
-                                                                        value="<?php echo $row_3_3['sec_3_b_length_' . $i]; ?>">
-                                                                </div>
-                                                                <div class="col-sm-2 form-group">
-                                                                    <label>चौड़ाई (मीटर में)</label>
-                                                                    <input type="text"
-                                                                        name="sec_3_b_width_<?php echo $i; ?>"
-                                                                        id="sec_3_b_width_<?php echo $i; ?>"
-                                                                        tabindex="<?php echo $tab++; ?>"
-                                                                        class="form-control"
-                                                                        value="<?php echo $row_3_3['sec_3_b_width_' . $i]; ?>">
-                                                                </div>
-                                                                <div class="col-sm-2 form-group">
-                                                                    <label>भवन का प्रकार</label>
-                                                                    <select
-                                                                        name="sec_3_b_type_of_construction_<?php echo $i; ?>"
-                                                                        id="sec_3_b_type_of_construction_<?php echo $i; ?>"
-                                                                        tabindex="<?php echo $tab++; ?>"
-                                                                        class="form-control">
-                                                                        <option value="">--Select--</option>
-                                                                        <?php
-                                                                        $sql = 'select * from master_type_of_construction';
-                                                                        $result_const = execute_query($sql);
-                                                                        while ($row_const = mysqli_fetch_assoc($result_const)) {
-                                                                            echo '<option value="' . $row_const['sno'] . '" ';
-                                                                            if ($row_const['sno'] == $row_3_3['sec_3_b_type_of_construction_' . $i]) {
-                                                                                echo ' selected="selected" ';
-                                                                            }
-                                                                            echo '>' . $row_const['type_of_construction'] . '</option>';
-                                                                        }
-
-                                                                        ?>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="col-sm-2 form-group">
-                                                                    <label>किस फण्ड से बना है</label>
-                                                                    <select name="sec_3_b_type_of_fund_<?php echo $i; ?>"
-                                                                        id="sec_3_b_type_of_fund_<?php echo $i; ?>"
-                                                                        tabindex="<?php echo $tab++; ?>"
-                                                                        class="form-control">
-                                                                        <option value="">--Select--</option>
-                                                                        <?php
-                                                                        $sql = 'select * from master_type_of_fund';
-                                                                        $result_const = execute_query($sql);
-                                                                        while ($row_const = mysqli_fetch_assoc($result_const)) {
-                                                                            echo '<option value="' . $row_const['sno'] . '" ';
-                                                                            if ($row_const['sno'] == $row_3_3['sec_3_b_type_of_fund_' . $i]) {
-                                                                                echo ' selected="selected" ';
-                                                                            }
-                                                                            echo '>' . $row_const['type_of_fund'] . '</option>';
-                                                                        }
-
-                                                                        ?>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="col-sm-2 form-group">
-                                                                    <label>टिप्पणी</label>
-                                                                    <input type="text"
-                                                                        name="sec_3_b_comment_<?php echo $i; ?>"
-                                                                        id="sec_3_b_comment_<?php echo $i; ?>"
-                                                                        tabindex="<?php echo $tab++; ?>"
-                                                                        class="form-control"
-                                                                        value="<?php echo $row_3_3['sec_3_b_comment_' . $i]; ?>">
-                                                                </div>
-                                                                <?php
-                                                                if ($i == $row_3_3['count']) {
-                                                                    ?>
-
-                                                                    <div class="col-sm-2 form-group my-auto" id="sec_3_b_rows">
-                                                                        <button type="button" class="btn btn-info"
-                                                                            onClick="sec_3_b_add_rows()">नई पंक्ति जोड़े
-                                                                            [+]</button>
-                                                                        <input type="hidden" name="sec_3_b_id" id="sec_3_b_id"
-                                                                            value="<?php echo $row_3_3['count']; ?>">
-                                                                    </div>
-                                                                <?php } ?>
-                                                            </div>
-                                                        <?php } ?>
-                                                    </div>
-                                                    <h5> (V) खाली पड़ी भूमि का विवरण </h5>
-                                                    <div id="sec_3_c">
-                                                        <?php
-                                                        $count_3c = !empty($row_3_5['sec_3_c_id']) ? (int) $row_3_5['sec_3_c_id'] : 1;
-                                                        for ($i = 1; $i <= $count_3c; $i++) {
-
-                                                            ?>
-                                                            <div class="row">
-                                                                <div class="col-sm-2 form-group">
-                                                                    <label>क्षेत्रफल (हेक्टेयर में)</label>
-                                                                    <input type="text"
-                                                                        name="sec_3_c_length_<?php echo $i; ?>"
-                                                                        id="sec_3_c_length_<?php echo $i; ?>"
-                                                                        tabindex="<?php echo $tab++; ?>"
-                                                                        class="form-control"
-                                                                        value="<?php echo $row_3_5['sec_3_c_length_' . $i]; ?>">
-                                                                </div>
-                                                                <div class="col-sm-2 form-group">
-                                                                    <label>भूमि की स्थिति (उपजाऊ /बंजर)</label>
-                                                                    <select
-                                                                        name="sec_3_c_vacant_land_status_<?php echo $i; ?>"
-                                                                        id="sec_3_c_vacant_land_status_<?php echo $i; ?>"
-                                                                        tabindex="<?php echo $tab++; ?>"
-                                                                        class="form-control">
-                                                                        <option value="">--select-- </option>
-                                                                        <option value="fertile" <?php if ($row_3_5['sec_3_c_vacant_land_status_' . $i] == 'fertile') {
-                                                                            echo ' selected="selected"';
-                                                                        } ?>>
-                                                                            उपजाऊ </option>
-                                                                        <option value="barren" <?php if ($row_3_5['sec_3_c_vacant_land_status_' . $i] == 'barren') {
-                                                                            echo ' selected="selected"';
-                                                                        } ?>>
-                                                                            बंजर </option>
-                                                                    </select>
-                                                                </div>
-
-                                                                <div class="col-sm-2 form-group">
-                                                                    <label>स्थान (समिति प्रांगण या अन्य स्थान)*</label>
-                                                                    <select name="sec_3_c_land_location_<?php echo $i; ?>"
-                                                                        id="sec_3_c_land_location_<?php echo $i; ?>"
-                                                                        tabindex="<?php echo $tab++; ?>"
-                                                                        class="form-control"
-                                                                        onChange="hide_show(this.value, '#land_connectivity1', 'other'); hide_show(this.value, '#land_access_road', 'na');">
-                                                                        <option value="">--select-- </option>
-                                                                        <option value="inpremise" <?php $land_location_display = 'none';
-                                                                        if ($row_3_5['sec_3_c_land_location_' . $i] == 'inpremise') {
-                                                                            echo ' selected="selected"';
-                                                                        } ?>>समिति प्रांगण
-                                                                        </option>
-                                                                        <option value="other" <?php if ($row_3_5['sec_3_c_land_location_' . $i] == 'other') {
-                                                                            echo ' selected="selected"';
-                                                                            $land_location_display = 'block';
-                                                                        } ?>>अन्य
-                                                                            स्थान
-                                                                        </option>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="col-sm-2  form-group">
-                                                                    <label>गोदाम के लिए उपयुक्त है या नहीं ?</label>
-                                                                    <select class="form-control " type="checkbox"
-                                                                        value="yes" id="sec_2_accountant"
-                                                                        name="sec_2_accountant"
-                                                                        tabindex="<?php echo $tab++; ?>"
-                                                                        onChange="hide_show(this.value, '#accountant_count', 'yes')">
-                                                                        <option value="">--Select--</option>
-                                                                        <option value="yes" <?php $accountant_display = 'none';
-                                                                        if ($row_2_2['accountant'] != '') {
-                                                                            echo ' selected="selected" ';
-                                                                            $accountant_display = 'block';
-                                                                        } ?>>है
-                                                                        </option>
-                                                                        <option value="no" <?php if ($row_2_2['accountant'] == 'no') {
-                                                                            echo ' selected="selected" ';
-                                                                            $accountant_display = 'none';
-                                                                        } ?>>नहीं
-                                                                        </option>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="col-sm-2  form-group">
-                                                                    <label>जनपद से रैक की दूरी</label>
-                                                                    <input type="text" class="form-control">
-                                                                </div>
-                                                                <div class="col-sm-2 form-group"
-                                                                    id="land_connectivity<?php echo $i; ?>"
-                                                                    style="display: <?php echo $land_location_display; ?>">
-                                                                    <label>संपर्क मार्ग*</label>
-                                                                    <select name="sec_3_c_approach_road_<?php echo $i; ?>"
-                                                                        id="sec_3_c_approach_road_<?php echo $i; ?>"
-                                                                        tabindex="<?php echo $tab++; ?>"
-                                                                        class="form-control"
-                                                                        onChange="hide_show(this.value, '#land_access_road<?php echo $i; ?>', 'proper');">
-                                                                        <option value="">--select-- </option>
-                                                                        <option value="ordinary" <?php $approach_road_display = 'none';
-                                                                        if ($row_3_5['sec_3_c_approach_road_' . $i] == 'ordinary') {
-                                                                            echo ' selected="selected"';
-                                                                        } ?>>कच्ची सड़क
-                                                                        </option>
-                                                                        <option value="proper" <?php if ($row_3_5['sec_3_c_approach_road_' . $i] == 'proper') {
-                                                                            echo ' selected="selected"';
-                                                                            $approach_road_display = 'block';
-                                                                        } ?>>पक्की
-                                                                            सड़क
-                                                                        </option>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="col-sm-2 form-group"
-                                                                    id="land_access_road<?php echo $i; ?>"
-                                                                    style="display: <?php echo $approach_road_display; ?>">
-                                                                    <label>पक्की सड़क का प्रकार</label>
-                                                                    <select name="sec_3_c_paved_road_<?php echo $i; ?>"
-                                                                        id="sec_3_c_paved_road_<?php echo $i; ?>"
-                                                                        tabindex="<?php echo $tab++; ?>"
-                                                                        class="form-control">
-                                                                        <option value="">--select-- </option>
-                                                                        <option value="nh" <?php if ($row_3_5['sec_3_c_paved_road_' . $i] == 'nh') {
-                                                                            echo ' selected="selected"';
-                                                                        } ?>>नेशनल
-                                                                            हाईवे</option>
-                                                                        <option value="sh" <?php if ($row_3_5['sec_3_c_paved_road_' . $i] == 'sh') {
-                                                                            echo ' selected="selected"';
-                                                                        } ?>>स्टेट
-                                                                            हाईवे</option>
-                                                                        <option value="mdr" <?php if ($row_3_5['sec_3_c_paved_road_' . $i] == 'mdr') {
-                                                                            echo ' selected="selected"';
-                                                                        } ?>>
-                                                                            एम.डी.आर.</option>
-                                                                        <option value="odr" <?php if ($row_3_5['sec_3_c_paved_road_' . $i] == 'odr') {
-                                                                            echo ' selected="selected"';
-                                                                        } ?>>
-                                                                            ओ.डी.आर.</option>
-                                                                        <option value="rural_road" <?php if ($row_3_5['sec_3_c_paved_road_' . $i] == 'rural_road') {
-                                                                            echo ' selected="selected"';
-                                                                        } ?>>ग्रामीण सड़क
-                                                                        </option>
-                                                                        <option value="other" <?php if ($row_3_5['sec_3_c_paved_road_' . $i] == 'other') {
-                                                                            echo ' selected="selected"';
-                                                                        } ?>>अन्य
-                                                                        </option>
-                                                                    </select>
-                                                                </div>
-                                                                <?php
-                                                                if ($i == $row_3_5['sec_3_c_id']) {
-                                                                    ?>
-                                                                    <div class="col-sm-2 form-group my-auto" id="sec_3_c_rows">
-                                                                        <button type="button" class="btn btn-info"
-                                                                            onClick="sec_3_c_add_rows();">नई पंक्ति
-                                                                            जोड़े</button>
-                                                                        <input type="hidden" name="sec_3_c_id" id="sec_3_c_id"
-                                                                            value="<?php echo $row_3_5['sec_3_c_id']; ?>">
-                                                                    </div>
-                                                                <?php } ?>
-                                                            </div>
-                                                        <?php } ?>
-                                                    </div>
-
-                                                    <h5>(VI) पहुंच मार्ग का विवरण</h5>
-                                                    <div class="row">
-                                                        <div class="col-sm-4 form-group">
-                                                            <label>पहुंच मार्ग -</label>
-                                                            <select name="sec_6_access_road" id="sec_6_access_road"
-                                                                tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                                onChange="hide_show(this.value, '#access_road', 'proper'); hide_show(this.value, '#access_road_truck', 'ordinary');">
-                                                                <option value="">--select-- </option>
-                                                                <option value="ordinary" <?php $access_road_display = 'none';
-                                                                $access_road_truck = 'none';
-                                                                if ($row_2_1['sec_6_access_road'] == 'ordinary') {
-                                                                    echo 'selected="selected"';
-                                                                    $access_road_truck = 'block';
-                                                                } ?>>
-                                                                    कच्ची
-                                                                    सडक </option>
-                                                                <option value="proper" <?php if ($row_2_1['sec_6_access_road'] == 'proper') {
-                                                                    echo 'selected="selected"';
-                                                                    $access_road_display = 'block';
-                                                                } ?>>
-                                                                    पक्की सडक</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-sm-4 form-group" id="access_road"
-                                                            style="display: <?php echo $access_road_display; ?>">
-                                                            <label>पक्की सड़क का प्रकार</label>
-                                                            <select name="sec_6_paved_road" id="sec_6_paved_road_road"
-                                                                tabindex="<?php echo $tab++; ?>" class="form-control">
-                                                                <option value="">--select-- </option>
-                                                                <option value="nh" <?php if ($row_2_1['sec_6_access_road'] == 'nh') {
-                                                                    echo 'selected="selected"';
-                                                                } ?>>नेशनल हाईवे</option>
-                                                                <option value="sh" <?php if ($row_2_1['sec_6_access_road'] == 'sh') {
-                                                                    echo 'selected="selected"';
-                                                                } ?>>स्टेट हाईवे</option>
-                                                                <option value="mdr" <?php if ($row_2_1['sec_6_access_road'] == 'mdr') {
-                                                                    echo 'selected="selected"';
-                                                                } ?>>एम.डी.आर.</option>
-                                                                <option value="odr" <?php if ($row_2_1['sec_6_access_road'] == 'odr') {
-                                                                    echo 'selected="selected"';
-                                                                } ?>>ओ.डी.आर.</option>
-                                                                <option value="rural_road" <?php if ($row_2_1['sec_6_access_road'] == 'rural_road') {
-                                                                    echo 'selected="selected"';
-                                                                } ?>>ग्रामीण सड़क
-                                                                </option>
-                                                                <option value="other" <?php if ($row_2_1['sec_6_access_road'] == 'other') {
-                                                                    echo 'selected="selected"';
-                                                                } ?>>अन्य</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-sm-4 form-group" id="access_road_truck"
-                                                            style="display: <?php echo $access_road_truck; ?>">
-                                                            <label>यदि समिति भवन तक ट्रक नही पहुंचता है तो पक्के
-                                                                मार्ग
-                                                                से समिति
-                                                                भवन की दूरी (की. मी. में)</label>
-                                                            <input type="text" name="sec_6_2_truck_not_reach"
-                                                                id="sec_6_2_truck_not_reach"
-                                                                tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                                value="<?php echo $row_2_1['sec_6_2_truck_not_reach']; ?>">
-                                                        </div>
-                                                    </div>
-                                                    <h5>(VII)अन्य</h5>
-                                                    <div class="row">
-                                                        <div class="col-sm-4 form-group" id="access_road_truck">
-                                                            <label>खाली पड़ी भूमि मे हरे पेड़ों की संख्या</label>
-                                                            <input type="number" name="sec_6_2_truck_not_reach"
-                                                                id="sec_6_2_truck_not_reach"
-                                                                tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                                value="<?php echo $row_2_1['sec_6_2_truck_not_reach']; ?>">
-                                                        </div>
-                                                        <div class="col-sm-4 form-group" id="access_road_truck">
-                                                            <label>बाउंड्रीवाल का निर्माण </label>
-                                                            <select name="sec_6_access_road" id="sec_6_access_road"
-                                                                tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                                onChange="hide_show(this.value, '#access_road', 'proper'); hide_show(this.value, '#access_road_truck', 'ordinary');">
-                                                                <option value="">--select-- </option>
-                                                                <option value="ordinary" <?php $access_road_display = 'none';
-                                                                $access_road_truck = 'none';
-                                                                if ($row_2_1['sec_6_access_road'] == 'ordinary') {
-                                                                    echo 'selected="selected"';
-                                                                    $access_road_truck = 'block';
-                                                                } ?>>
-                                                                    हाँ </option>
-                                                                <option value="proper" <?php if ($row_2_1['sec_6_access_road'] == 'proper') {
-                                                                    echo 'selected="selected"';
-                                                                    $access_road_display = 'block';
-                                                                } ?>>
-                                                                    नहीं</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                </div>
-                                <!---------------7th Start---------------------------------------------------------------->
-                                <div class="step">
-                                    <h4><img src="images/logo/8.png" alt="text" class="img-fluid stat-icon"
-                                            style="height:50px; width:50px;"> 8. सुविधाएं </h4>
-                                    <h5>(I) सुविधाएं</h5>
-                                    <!-- <div class="col-sm-12"> -->
-                                    <div class="row">
-                                        <div class="col-sm-3 form-group">
-                                            <label>सभागार</label>
-                                            <select name="sec_2_stock_insurance" class="form-control"
-                                                onchange="color_change(this, 'yes', '#42ecf5', 'no', '#f28546');">
-                                                <option value="">--select-- </option>
-                                                <option value="yes">हाँ</option>
-                                                <option value="no">नहीं</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-sm-3 form-group">
-                                            <label>जन औषधि केंद्र</label>
-                                            <select name="sec_2_stock_insurance" class="form-control"
-                                                onchange="color_change(this, 'yes', '#42ecf5', 'no', '#f28546');">
-                                                <option value="">--select-- </option>
-                                                <option value="yes">हाँ</option>
-                                                <option value="no">नहीं</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-sm-3 form-group">
-                                            <label>जन सुविधा केंद्र</label>
-                                            <select name="sec_2_stock_insurance" class="form-control"
-                                                onchange="color_change(this, 'yes', '#42ecf5', 'no', '#f28546');">
-                                                <option value="">--select-- </option>
-                                                <option value="yes">हाँ</option>
-                                                <option value="no">नहीं</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-sm-3 form-group">
-                                            <label>प्रिंटिंग प्रेस</label>
-                                            <select name="sec_2_stock_insurance" class="form-control"
-                                                onchange="color_change(this, 'yes', '#42ecf5', 'no', '#f28546');">
-                                                <option value="">--select-- </option>
-                                                <option value="yes">हाँ</option>
-                                                <option value="no">नहीं</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4 form-group">
-                                        <label>दिव्यांग जन कैंपस</label>
-                                        <select name="sec_2_stock_insurance" class="form-control"
-                                            onchange="color_change(this, 'yes', '#42ecf5', 'no', '#f28546');">
-                                            <option value="">--select-- </option>
-                                            <option value="yes">हाँ</option>
-                                            <option value="no">नहीं</option>
-                                        </select>
-                                    </div>
-                                    <h5>(II)विद्युत कनेक्शन</h5>
+                                            style="height:50px; width:50px;"> 5. संस्था भवन/सम्पत्ति का विवरण</h4>
                                     <div class="col-sm-12">
                                         <div class="row">
-                                            <h5>(I) विद्युत कनेक्शन</h5>
                                             <div class="col-sm-12">
-                                                <div class="row">
-                                                    <div class="col-sm-4 form-group">
-                                                        <label>विद्युत कनेक्शन है या नहीं ?</label>
-                                                        <select name="sec_8_electrical_connection"
-                                                            id="sec_8_electrical_connection"
-                                                            tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                            onChange="hide_show(this.value, '#electricity_not_available', 'no'); hide_show(this.value, '#electricity_available', 'yes');  handleDropdownColorChange(this, 'yes', '#42ecf5', 'no', '#f28546');">
-                                                            <option value="">--select-- </option>
-                                                            <option value="yes" <?php echo $row_8['sec_8_electrical_connection'] == 'yes' ? 'selected="selected"' : ''; ?>>हाँ</option>
+                                                <h5 style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 12px 20px; border-radius: 8px; font-weight: bold; color: #1565c0; margin: 20px 0 15px 0; border-left: 4px solid #1976d2;">
+                                                    संस्था भवन का स्वामित्व
+                                                </h5>
+                                                <div class="col-sm-3 form-group">
+                                                    <label>(I)संस्था भवन का स्वामित्व </label>
+                                                    <?php
+                                                    $sec_3_display = 'none';
+                                                    $sec_3_rented_display = 'none';
+                                                    $sec_3_other_display = 'none';
 
-                                                            <option value="no" <?php echo $row_8['sec_8_electrical_connection'] == 'no' ? 'selected="selected"' : ''; ?>>नहीं</option>
-
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-sm-3 form-group" id="electricity_available"
-                                                        style="display: none">
-                                                        <label>यदि है तो चालू है या नहीं ?</label>
-                                                        <select name="sec_8_electrical_connection_working"
-                                                            id="sec_8_electrical_connection_working"
-                                                            tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                            onChange="hide_show(this.value, '#electricity_available_not_working', 'no');hide_show(this.value, '#sec_8_bill_paid1', 'yes'); handleDropdownColorChange(this, 'yes', '#42ecf5', 'no', '#f28546');">
-                                                            <option value="">--select-- </option>
-                                                            <option value="yes" <?php echo $row_8['sec_8_electrical_connection_working'] == 'yes' ? 'selected="selected"' : ''; ?>>हाँ</option>
-
-                                                            <option value="no" <?php echo $row_8['sec_8_electrical_connection_working'] == 'no' ? 'selected="selected"' : ''; ?>>नहीं</option>
-
-
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-sm-3 form-group" id="sec_8_bill_paid1"
-                                                        style="display:none;">
-                                                        <label>बिल नियमित भुगतान हो रहा है या नहीं ?</label>
-                                                        <select name="sec_8_bill_paid_yes_no"
-                                                            id="sec_8_bill_paid_yes_no" class="form-control"
-                                                            tabindex="<?php echo $tab++; ?>"
-                                                            onchange="hide_show(this.value, '#sec_7_bill_status', 'no'); hide_show(this.value, '#sec_8_bill_paid2', 'no'); handleDropdownColorChange(this, 'yes', '#42ecf5', 'no', '#f28546');">
-                                                            <option value="">--select-- </option>
-                                                            <option style="background:#0f0" value="yes" <?php echo $row_8['sec_8_bill_paid_yes_no'] == 'yes' ? 'selected="selected"' : ''; ?>>हाँ</option>
-
-                                                            <option style="background:#f00" value="no" <?php echo $row_8['sec_8_bill_paid_yes_no'] == 'no' ? 'selected="selected"' : ''; ?>>नहीं</option>
-
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="col-sm-3 form-group"
-                                                        id="electricity_available_not_working" style="display: none">
-                                                        <label>यदि चालू नहीं है तो कारण</label>
-                                                        <input type="text" name="sec_8_electricity_not_available_reason"
-                                                            id="sec_8_electricity_not_available_reason"
-                                                            tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                            value="<?php echo $row_8['sec_8_electricity_not_available_reason']; ?>">
-                                                    </div>
-
-                                                    <div class="col-sm-3 form-group" id="electricity_not_available"
-                                                        style="display: none">
-                                                        <label>यदि नहीं है तो प्रस्ताव</label>
-                                                        <textarea name="sec_8_electricity_not_available_remark"
-                                                            id="sec_8_electricity_not_available_remark"
-                                                            tabindex="<?php echo $tab++; ?>"
-                                                            class="form-control"><?php echo $row_8['sec_8_electricity_not_available_remark']; ?></textarea>
-                                                    </div>
-                                                    <div class="col-sm-3 form-group" id="sec_8_bill_paid2"
-                                                        style="display:none;">
-                                                        <label>बिल पेड कितने माह से नहीं है ?</label>
-                                                        <input type="text" name="sec_8_bill_not_paid_month"
-                                                            id="sec_8_bill_not_paid_month chk_number"
-                                                            data-type="3.I बिल पेड माह को अंकों मे लिखे "
-                                                            tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                            value="<?php echo $row_8['sec_8_bill_not_paid_month']; ?>">
-                                                    </div>
-                                                    <div class="col-sm-3 form-group" id="sec_7_bill_status"
-                                                        style="display:none;">
-                                                        <label>अगर बकाया है तो धनराशि लिखे</label>
-                                                        <input type="text" name="sec_8_outstanding_amount"
-                                                            id="sec_8_outstanding_amount chk_decimal"
-                                                            data-type="3.I बकाया धनराशि रु मे लिखे"
-                                                            tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                            value="<?php echo $row_8['sec_8_outstanding_amount']; ?>">
-                                                    </div>
+                                                    if ($row_new_plot['sec_3_ownership'] === 'own') {
+                                                        $sec_3_display = 'flex';
+                                                    } elseif ($row_new_plot['sec_3_ownership'] === 'rent') {
+                                                        $sec_3_rented_display = 'flex';
+                                                    } elseif (!empty($row_new_plot['sec_3_ownership'])) {
+                                                        $sec_3_other_display = 'flex';
+                                                    }
+                                                    ?>
+                                                    <select name="sec_3_ownership" id="sec_3_ownership"
+                                                        tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                        onChange="hide_show(this.value, '#sec_3_rented', 'rent'); hide_show(this.value, '#sec_3_other', 'other'); hide_show(this.value, '#sec_3', 'own');">
+                                                        <option value="">--Select--</option>
+                                                        <option value="own" <?php
+                                                        if ($row_new_plot['sec_3_ownership'] == 'own') {
+                                                            echo ' selected="selected" ';
+                                                        } ?>>स्वयं </option>
+                                                        <option value="rent" <?php
+                                                        if ($row_new_plot['sec_3_ownership'] == 'rent') {
+                                                            echo ' selected="selected" ';
+                                                        } ?>>
+                                                            किराये पर </option>
+                                                        <option value="other" <?php
+                                                        if ($row_new_plot['sec_3_ownership'] != 'rent' && $row_new_plot['sec_3_ownership'] != 'own' && $row_new_plot['sec_3_ownership'] != '') {
+                                                            echo ' selected="selected" ';
+                                                        } ?>>
+                                                            अन्य स्थिती</option>
+                                                    </select>
                                                 </div>
-                                            </div>
-
-                                            <h5>(II) सोलर कनेक्शन</h5>
-                                            <div class="col-sm-12">
-                                                <div class="row">
-                                                    <div class="col-sm-4 form-group">
-                                                        <label>सोलर की उपलब्धता है या नहीं ?</label>
-                                                        <select class="form-control" value=""
-                                                            id="sec_8_solar_connection" name="sec_8_solar_connection"
-                                                            tabindex="<?php echo $tab++; ?>"
-                                                            onChange="hide_show(this.value, '#sec_8_solar_work', 'yes');hide_show(this.value, '#sec_8_solar_remark', 'no');hide_show(this.value, '#sec_8_solar_rooftop', 'no');handleDropdownColorChange(this, 'yes', '#42ecf5', 'no', '#f28546');">
-                                                            <option value="">--Select--</option>
-                                                            <option style="background:#0f0" value="yes" <?php echo $row_8['sec_8_solar_connection'] == 'yes' ? 'selected="selected"' : ''; ?>>हाँ</option>
-
-                                                            <option style="background:#f00" value="no" <?php echo $row_8['sec_8_solar_connection'] == 'no' ? 'selected="selected"' : ''; ?>>नहीं</option>
-
-                                                        </select>
+                                                <div id="sec_3_rented"
+                                                    style="display: <?php echo $sec_3_rented_display; ?>">
+                                                    <div class="col-sm-3 form-group">
+                                                        <label>संस्था भवन का मासिक किराया </label>
+                                                        <input name="sec_3_building_rent" id="sec_3_building_rent"
+                                                            tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                            value="<?php echo $row_new_plot['sec_3_building_rent']; ?>">
                                                     </div>
-                                                    <div class="col-sm-3 form-group" id="sec_8_solar_work"
-                                                        style="display:none">
-                                                        <label>यदि है तो चालू है या नहीं ?</label>
-                                                        <select name="sec_8_solar_work_status"
-                                                            id="sec_8_solar_work_status" class="form-control"
-                                                            tabindex="<?php echo $tab++; ?>"
-                                                            onchange="handleDropdownColorChange(this, 'yes', '#42ecf5', 'no', '#f28546'); hide_show(this.value, '#sec_8_solar_bill', 'yes');">
-                                                            <option value="">--select--</option>
-                                                            <option style="background:#0f0" value="yes" <?php echo $row_8['sec_8_solar_work_status'] == 'yes' ? 'selected="selected"' : ''; ?>>हाँ</option>
-
-                                                            <option style="background:#f00" value="no" <?php echo $row_8['sec_8_solar_work_status'] == 'no' ? 'selected="selected"' : ''; ?>>नहीं</option>
-
-
-                                                        </select>
+                                                    <div class="col-sm-3 form-group">
+                                                        <label>संस्था भवन का क्षेत्रफल (स्क्वायर मीटर में)</label>
+                                                        <input name="sec_3_building_area" id="sec_3_building_area"
+                                                            tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                            value="<?php echo $row_new_plot['sec_3_building_area']; ?>">
                                                     </div>
-                                                    <div class="col-sm-3 form-group" id="sec_8_solar_bill"
-                                                        style="display:none">
-                                                        <label>बैट्री की स्थिति</label>
-                                                        <select name="sec_8_solar_bill_paid" id="sec_8_solar_bill_paid"
-                                                            class="form-control"
-                                                            onchange="hide_show(this.value, '#sec_8_solar_bill_status', 'poor');">
-                                                            <option value="">--select--</option>
-                                                            <option style="background:#0f0" value="good" <?php echo $row_8['sec_8_solar_bill_paid'] == 'good' ? 'selected="selected"' : ''; ?>>अच्छी</option>
 
-                                                            <option style="background:#f00" value="poor" <?php echo $row_8['sec_8_solar_bill_paid'] == 'poor' ? 'selected="selected"' : ''; ?>>खराब</option>
-
-                                                        </select>
-                                                    </div>
                                                 </div>
-                                            </div>
-                                            <h5>(III) इण्टरनेट कनेक्शन</h5>
-                                            <div class="col-sm-12">
-                                                <div class="row">
+                                                <div id="sec_3_other"
+                                                    style="display: <?php echo $sec_3_other_display; ?>">
                                                     <div class="col-sm-3 form-group">
-                                                        <label>क्या इण्टरनेट कनेक्शन है।</label>
-                                                        <select name="sec_8_internet_connection"
-                                                            id="sec_8_internet_connection"
+                                                        <label>कृपया विवरण दर्ज करें</label>
+                                                        <input name="sec_3_remark" id="sec_3_remark"
                                                             tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                            onChange="hide_show(this.value, '#net_con_available', 'yes'); hide_show(this.value, '#sec_8_internet_active', 'yes'); hide_show(this.value, '#net_con_not', 'no'); handleDropdownColorChange(this, 'yes', '#42ecf5', 'no', '#f28546'); ">
-                                                            <option value="">--select-- </option>
-                                                            <option style="background:#0f0" value="yes" <?php echo $row_8['sec_8_internet_connection'] == 'yes' ? 'selected="selected"' : ''; ?>>हाँ</option>
-                                                            <option style="background:#f00" value="no" <?php echo $row_8['sec_8_internet_connection'] == 'no' ? 'selected="selected"' : ''; ?>>नहीं</option>
-                                                        </select>
-
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-
-                                                    <div class="col-sm-12" id="net_con_available" style="display: none">
-                                                        <div class="row">
-                                                            <div class="col-sm-4 form-group">
-                                                                <label>यदि है तो सर्विस प्रोवाइडर का नाम</label>
-                                                                <select name="sec_8_internet_service_provider"
-                                                                    id="sec_8_internet_service_provider"
-                                                                    tabindex="<?php echo $tab++; ?>"
-                                                                    class="form-control">
-                                                                    <option value="">--Select--</option>
-
-                                                                    <option value="bsnl" <?php if ($row_8['sec_8_internet_service_provider'] == 'bsnl') {
-                                                                        echo ' selected="selected"';
-                                                                    } ?>>
-                                                                        BSNL
-                                                                    </option>
-                                                                    <option value="jio" <?php if ($row_8['sec_8_internet_service_provider'] == 'jio') {
-                                                                        echo ' selected="selected"';
-                                                                    } ?>>
-                                                                        JIO
-                                                                    </option>
-                                                                    <option value="vodafone" <?php if ($row_8['sec_8_internet_service_provider'] == 'vodafone') {
-                                                                        echo ' selected="selected"';
-                                                                    } ?>>
-                                                                        Vodafone
-                                                                    </option>
-                                                                    <option value="airtel" <?php if ($row_8['sec_8_internet_service_provider'] == 'airtel') {
-                                                                        echo ' selected="selected"';
-                                                                    } ?>>
-                                                                        Airtel
-                                                                    </option>
-                                                                    <option value="sdwan" <?php if ($row_8['sec_8_internet_service_provider'] == 'sdwan') {
-                                                                        echo ' selected="selected"';
-                                                                    } ?>>
-                                                                        SDWAN
-                                                                    </option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="col-sm-4 form-group">
-                                                                <label>बिल नियमित भुगतान हो रहा है या नहीं
-                                                                    ?</label>
-                                                                <select name="sec_8_internet_bill_paid"
-                                                                    tabindex="<?php echo $tab++; ?>"
-                                                                    id="sec_8_internet_bill_paid" class="form-control">
-                                                                    <option value="">--select-- </option>
-                                                                    <option style="background:#0f0" value="yes" <?php echo $row_8['sec_8_internet_bill_paid'] == 'yes' ? 'selected="selected"' : ''; ?>>हाँ
-                                                                    </option>
-
-                                                                    <option style="background:#f00" value="no" <?php echo $row_8['sec_8_internet_bill_paid'] == 'no' ? 'selected="selected"' : ''; ?>>नहीं
-                                                                    </option>
-
-
-                                                                </select>
-                                                            </div>
-                                                            <div class="col-sm-4 form-group">
-                                                                <label>कनेक्शन एक्टिव है या नहीं ?</label>
-                                                                <select name="sec_8_internet_active"
-                                                                    tabindex="<?php echo $tab++; ?>"
-                                                                    id="sec_8_internet_active" class="form-control">
-                                                                    <option value="">--select-- </option>
-                                                                    <option style="background:#0f0" value="yes" <?php echo $row_8['sec_8_internet_bill_paid'] == 'yes' ? 'selected="selected"' : ''; ?>>हाँ
-                                                                    </option>
-
-                                                                    <option style="background:#f00" value="no" <?php echo $row_8['sec_8_internet_bill_paid'] == 'no' ? 'selected="selected"' : ''; ?>>नहीं
-                                                                    </option>
-
-
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-
-                                                    <div class="col-sm-4 form-group" id="net_con_not"
-                                                        style="display:none">
-                                                        <label>क्षेत्र में उपलब्ध ईण्टरनेट सर्विस प्रोवाइडर
-                                                            के
-                                                            नाम (सभी उपलब्ध आपरेटर का चयन करें)</label>
-                                                        <select name="sec_8_select_internet_operator[]"
-                                                            id="sec_8_select_operator" tabindex="<?php echo $tab++; ?>"
-                                                            multiple="multiple" class="form-control">
-                                                            <?php
-                                                            $internet_provider = explode(", ", $row_8['sec_8_select_internet_operator']);
-                                                            ?>
-                                                            <option value="bsnl" <?php if (in_array('bsnl', $internet_provider)) {
-                                                                echo ' selected="selected"';
-                                                            } ?>>BSNL</option>
-                                                            <option value="jio" <?php if (in_array('jio', $internet_provider)) {
-                                                                echo ' selected="selected"';
-                                                            } ?>>JIO</option>
-                                                            <option value="vodafone" <?php if (in_array('vodafone', $internet_provider)) {
-                                                                echo ' selected="selected"';
-                                                            } ?>>Vodafone
-                                                            </option>
-                                                            <option value="airtel" <?php if (in_array('airtel', $internet_provider)) {
-                                                                echo ' selected="selected"';
-                                                            } ?>>Airtel
-                                                            </option>
-                                                            <option value="sdwan" <?php if (in_array('sdwan', $internet_provider)) {
-                                                                echo ' selected="selected"';
-                                                            } ?>>SDWAN
-                                                            </option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <h5>(IV) पेयजल की उपलब्धता</h5>
-                                            <div class="col-sm-12">
-                                                <div class="row">
-                                                    <div class="col-sm-3 form-group">
-                                                        <label>सरकारी नलके का पानी</label>
-                                                        <select name="sec_8_narrow_tubes" id="sec_8_narrow_tubes"
-                                                            tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                            onchange="handleDropdownColorChange(this, 'yes', '#42ecf5', 'no', '#f28546');">
-                                                            <option value="">--select-- </option>
-                                                            <option value="yes" <?php echo $row_8['sec_8_narrow_tubes'] == 'yes' ? 'selected="selected"' : ''; ?> style="background:#0f0">
-                                                                हाँ </option>
-                                                            <option value="no" <?php echo $row_8['sec_8_narrow_tubes'] == 'no' ? 'selected="selected"' : ''; ?>>
-                                                                नहीं</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-sm-3 form-group">
-                                                        <label>पानी कि टंकी</label>
-                                                        <select name="sec_8_water_tank" id="sec_8_water_tank"
-                                                            tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                            onchange="handleDropdownColorChange(this, 'yes', '#42ecf5', 'no', '#f28546');">
-                                                            <option value="">--select-- </option>
-                                                            <option value="yes" <?php echo $row_8['sec_8_water_tank'] == 'yes' ? 'selected="selected"' : ''; ?> style="background:#0f0">
-                                                                हाँ </option>
-                                                            <option value="no" <?php echo $row_8['sec_8_water_tank'] == 'no' ? 'selected="selected"' : ''; ?>>
-                                                                नहीं</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-sm-3 form-group">
-                                                        <label> सबमर्सिबल </label>
-                                                        <select name="sec_8_samarsabel" id="sec_8_samarsabel"
-                                                            tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                            onchange="handleDropdownColorChange(this, 'yes', '#42ecf5', 'no', '#f28546');">
-                                                            <option value="">--select-- </option>
-                                                            <option value="yes" <?php echo $row_8['sec_8_samarsabel'] == 'yes' ? 'selected="selected"' : ''; ?> style="background:#0f0">
-                                                                हाँ </option>
-                                                            <option value="no" <?php echo $row_8['sec_8_samarsabel'] == 'no' ? 'selected="selected"' : ''; ?>>
-                                                                नहीं</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-sm-3 form-group">
-                                                        <label> हैंड पंप </label>
-                                                        <select name="sec_8_handpump" id="sec_8_handpump"
-                                                            tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                            onchange="handleDropdownColorChange(this, 'yes', '#42ecf5', 'no', '#f28546');">
-                                                            <option value="">--select-- </option>
-
-                                                            <option value="yes" <?php echo $row_8['sec_8_handpump'] == 'yes' ? 'selected="selected"' : ''; ?> style="background:#0f0">
-
-                                                                हाँ </option>
-                                                            <option value="no" <?php echo $row_8['sec_8_handpump'] == 'no' ? 'selected="selected"' : ''; ?>>
-                                                                नहीं</option>
-                                                        </select>
+                                                            value="<?php echo $row_new_plot['society_building_remark']; ?>">
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <h5>(V) पेयजल की उपलब्धता</h5>
-                                </div>
-                            </div>
-                    </div>
-                    <div id="success">
-                        <div class="mt-5 text-center">
-                            <h4>प्रपत्र सफलता पूर्वक भरा गया</h4>
-                            <p>आपने प्रपत्र सफलता पूर्वक भर लिया है । अब प्रपत्र को उच्चाधिकारी के पास
-                                सत्यापन हेतु भेजा जाना है । कृप्या सत्यापन पर भेजने से पहले नीचे दर्शायें
-                                लिंक से फार्म खोल कर पुनः जाच कर लें । सब कुछ सही होने कि दशा में नीचे दिये
-                                बटन के माध्यम से सत्यापन के लिये आगे प्रेषित करें ।</p>
-                            <button class="btn btn-info" onclick="window.open('preview.php','_blank');">प्रपत्र
-                                पुनः
-                                निरीक्षण के लिये
-                                देखे</button>
-                        </div>
-                        <div class="col-md-12 text-center">
-                            <p><input type="checkbox" style="height: 20px; border:1px solid;" id="review_ack"
-                                    onClick="if($('#review_ack').prop('checked') == true){$('#verification_button').prop('disabled', false);}else{$('#verification_button').prop('disabled', true);}">
-                                मै एतत्द्वारा घोषित करता/करती हूं कि उपरोक्त प्रपत्र में भरी गयी सभी
-                                सूचनायें मेरी जानकारी अनुसार सत्य एवम सही है । </p>
-                            <button type="button" class="btn btn-danger" onClick="form_validate();"
-                                id="verification_button" disabled="disabled">सत्यापन के लिये आगे प्रेषित
-                                करें</button>
-                        </div>
+                                         <div class="row" id="sec_3" style="display: <?php echo $sec_3_display; ?>;">
+                                             <div class="col-sm-12">
+                                                 <h5 style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 12px 20px; border-radius: 8px; font-weight: bold; color: #1565c0; margin: 20px 0 15px 0; border-left: 4px solid #1976d2;">
+                                                     (II) संस्था के भूखंड का विवरण
+                                                 </h5>
+                                                <div class="row">
+                                                    <div class="col-sm-3 form-group">
+                                                        <label>क्षेत्रफल (हेक्टेयर में)</label>
+                                                        <input type="text" name="sec_new_plot_area"
+                                                            id="sec_new_plot_area" tabindex="<?php echo $tab++; ?>"
+                                                            class="form-control"
+                                                            value="<?php echo $row_new_plot['sec_new_plot_area']; ?>">
+                                                    </div>
+                                                    <div class="col-sm-3 form-group">
+                                                        <label>राजस्व अभिलेख में दर्ज होने की स्थिति</label>
+                                                        <select name="sec_new_plot_revenue_status"
+                                                            id="sec_new_plot_revenue_status"
+                                                            tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                            onChange="hide_show(this.value, '#sec_new_plot_reason', 'no'); hide_show(this.value, '#sec_new_plot_if_not', 'no'); handleDropdownColorChange(this, 'yes', '#42ecf5', 'no', '#f28546');">
+                                                            <option value="">--Select--</option>
+                                                            <option value="yes" <?php echo ($row_new_plot['sec_new_plot_revenue_status'] == 'yes') ? ' selected="selected"' : ''; ?>>हाँ</option>
+                                                            <option value="no" <?php echo ($row_new_plot['sec_new_plot_revenue_status'] == 'no') ? ' selected="selected"' : ''; ?>>नहीं</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-sm-3 form-group" id="sec_new_plot_reason"
+                                                        style="display:none">
+                                                        <label>दर्ज ना होने का कारण?</label>
+                                                        <input type="text" name="sec_new_plot_reason_for_not_record"
+                                                            id="sec_new_plot_reason_for_not_record"
+                                                            tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                            value="<?php echo $row_new_plot['sec_new_plot_reason_for_not_record']; ?>">
+                                                    </div>
+                                                    <div class="col-sm-3 form-group" id="sec_new_plot_if_not"
+                                                        style="display:none">
+                                                        <label>यदि नहीं है तो किये जाने वाले प्रयास</label>
+                                                        <input type="text" name="sec_new_plot_practices_if_not"
+                                                            id="sec_new_plot_practices_if_not"
+                                                            tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                            value="<?php echo $row_new_plot['sec_new_plot_practices_if_not']; ?>">
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3 form-group">
+                                                        <label>गाटा/खसरा संख्या</label>
+                                                        <input type="text" name="sec_new_plot_gata_no"
+                                                            id="sec_new_plot_gata_no" tabindex="<?php echo $tab++; ?>"
+                                                            class="form-control"
+                                                            value="<?php echo $row_new_plot['sec_new_plot_gata_no']; ?>">
+                                                    </div>
+                                                    <div class="col-sm-3 form-group">
+                                                        <label>टिप्पणी</label>
+                                                        <input type="text" name="sec_new_remarks" id="sec_new_remarks"
+                                                            tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                            value="<?php echo $row_new_plot['sec_new_remarks']; ?>">
+                                                    </div>
+                                                </div>
+                                                 <h5 style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 12px 20px; border-radius: 8px; font-weight: bold; color: #1565c0; margin: 20px 0 15px 0; border-left: 4px solid #1976d2;">
+                                                     (III) भूखंड की चौहद्दी का विवरण
+                                                 </h5>
+                                                <div class="row">
+                                                    <div class="col-sm-3 form-group">
+                                                        <label>भूखण्ड की पूर्व दिशा का विवरण</label>
+                                                        <input type="text" name="sec_3_a_land_chauhaddi_east"
+                                                            id="sec_3_a_land_chauhaddi_east"
+                                                            tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                            value="<?php echo $row_3_1['east_side']; ?>">
+                                                    </div>
+                                                    <div class="col-sm-3 form-group">
+                                                        <label>भूखण्ड की पश्चिम दिशा का विवरण</label>
+                                                        <input type="text" name="sec_3_a_land_chauhaddi_west"
+                                                            id="sec_3_a_land_chauhaddi_west"
+                                                            tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                            value="<?php echo $row_3_1['west_side']; ?>">
+                                                    </div>
+                                                    <div class="col-sm-3 form-group">
+                                                        <label>भूखण्ड की उत्तर दिशा का विवरण</label>
+                                                        <input type="text" name="sec_3_a_land_chauhaddi_north"
+                                                            id="sec_3_a_land_chauhaddi_north"
+                                                            tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                            value="<?php echo $row_3_1['north_side']; ?>">
+                                                    </div>
+                                                    <div class="col-sm-3 form-group">
+                                                        <label>भूखण्ड की दक्षिण दिशा का विवरण</label>
+                                                        <input type="text" name="sec_3_a_land_chauhaddi_south"
+                                                            id="sec_3_a_land_chauhaddi_south"
+                                                            tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                            value="<?php echo $row_3_1['south_side']; ?>">
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3 form-group">
+                                                        <label>सड़क पर भूमि कि लम्बाई (मीटर में)</label>
+                                                        <input type="text" name="sec_3_a_land_on_road"
+                                                            id="sec_3_a_land_on_road" tabindex="<?php echo $tab++; ?>"
+                                                            class="form-control"
+                                                            value="<?php echo $row_3_1['on_road_land']; ?>">
+                                                    </div>
+                                                    <div class="col-sm-3 form-group">
+                                                        <label>प्रमुख द्वार कि दिशा (फ्र्न्ट साईड)</label>
+                                                        <select name="sec_3_a_land_frontage" id="sec_3_a_land_frontage"
+                                                            tabindex="<?php echo $tab++; ?>" class="form-control">
+                                                            <option>--Select--</option>
+                                                            <option value="east" <?php echo ($row_3_1['front_side'] == 'east') ? 'selected' : ''; ?>>
+                                                                पूर्व</option>
+                                                            <option value="west" <?php echo ($row_3_1['front_side'] == 'west') ? 'selected' : ''; ?>>
+                                                                पश्चिम</option>
+                                                            <option value="north" <?php echo ($row_3_1['front_side'] == 'north') ? 'selected' : ''; ?>>
+                                                                उत्तर</option>
+                                                            <option value="south" <?php echo ($row_3_1['front_side'] == 'south') ? 'selected' : ''; ?>>
+                                                                दक्षिण</option>
+                                                        </select>
+                                                    </div>
 
-                        <div class="col-sm-12 form-group my-auto" id="send_otp_button1" style="display: none">
-                            <button type="button" name="send_otp_btn" id="send_otp_btn" tabindex="<?php echo $tab++; ?>"
-                                class="btn btn-info" onClick="send_otp($('#survey_id').val(), '');">ओ.टी.पी.
-                                भेजे</button>
-                        </div>
-                        <div class="col-sm-12 form-group" id="otp_verify" style="display: none">
-                            <div class="row">
-                                <div class="col-sm-4 form-group my-auto">
-                                    <label>ओ.टी.पी. कोड दर्ज करें</label>
-                                    <input type="text" class="form-control" id="user_otp">
+                                                    <div class="col-sm-3 form-group">
+                                                        <label>पहुंच मार्ग</label>
+                                                        <select name="sec_6_access_road" id="sec_6_access_road"
+                                                            class="form-control">
+                                                            <option value="">--Select--</option>
+                                                            <option value="proper" <?php echo ($row_2_1['sec_6_access_road'] == 'proper') ? 'selected' : ''; ?>>पक्की सडक</option>
+                                                            <option value="ordinary" <?php echo ($row_2_1['sec_6_access_road'] == 'ordinary') ? 'selected' : ''; ?>>कच्ची सडक</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-sm-2 form-group">
+                                                        <label>फ्र्ण्टेज्‌ मीटर में</label>
+                                                        <input type="text" name="sec_8_plot_frontage"
+                                                            id="sec_8_plot_frontage" class="form-control"
+                                                            value="<?php echo $row_2_1['sec_8_plot_frontage']; ?>">
+                                                    </div>
+                                                </div>
+
+                                                 <?php
+                                                 // Fetch Districts
+                                                 $districts = [];
+                                                 $sql_dist = "SELECT * FROM master_district ORDER BY district_name ASC";
+                                                 $res_dist = execute_query($sql_dist);
+                                                 if ($res_dist && mysqli_num_rows($res_dist) > 0) {
+                                                     while ($row_dist = mysqli_fetch_assoc($res_dist)) {
+                                                         $districts[] = $row_dist;
+                                                     }
+                                                 }
+                                                 $district_options = '<option value="">--Select--</option>';
+                                                 foreach ($districts as $d) {
+                                                     $district_options .= '<option value="'.$d['sno'].'">'.$d['district_name'].'</option>';
+                                                 }
+                                                 ?>
+                                                 <h5
+                                                         style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 12px 20px; border-radius: 8px; font-weight: bold; color: #1565c0; margin: 20px 0 15px 0; border-left: 4px solid #1976d2;">
+                                                     (IV) खाली पड़ी भूमि का विवरण
+                                                 </h5>
+                                                 <div id="sec_3_c">
+                                                     <?php for ($i = 1; $i <= $row_3_5['sec_3_c_id']; $i++) { ?>
+                                                         <div class="row mb-2 sec3c_row">
+                                                             <!-- District -->
+                                                             <div class="col-sm-2 form-group">
+                                                                 <label>जनपद</label>
+                                                                 <select name="sec_3_c_district_<?php echo $i; ?>" class="form-control">
+                                                                     <?php echo $district_options; ?>
+                                                                 </select>
+                                                             </div>
+
+                                                             <!-- Area -->
+                                                             <div class="col-sm-2 form-group">
+                                                                 <label>क्षेत्रफल (हेक्टेयर में)</label>
+                                                                 <input type="text" name="sec_3_c_area_<?php echo $i; ?>"
+                                                                        class="form-control">
+                                                             </div>
+                                                             <div class="col-sm-2 form-group">
+                                                                 <label>पहुच मार्ग का प्रकार</label>
+                                                                 <select name="sec_3_c_paved_road_<?php echo $i; ?>"
+                                                                         id="sec_3_c_paved_road_<?php echo $i; ?>"
+                                                                         class="form-control">
+                                                                     <option value="">--select--</option>
+                                                                     <option value="ordinary">कच्ची सड़क</option>
+                                                                     <option value="nh">नेशनल हाईवे</option>
+                                                                     <option value="sh">स्टेट हाईवे</option>
+                                                                     <option value="mdr">एम.डी.आर.</option>
+                                                                     <option value="odr">ओ.डी.आर.</option>
+                                                                     <option value="rural_road">ग्रामीण सड़क</option>
+                                                                     <option value="other">अन्य</option>
+                                                                 </select>
+                                                             </div>
+                                                             <div class="col-sm-2 form-group">
+                                                                 <label>स्थान (समिति प्रांगण <br> या अन्य स्थान)</label>
+                                                                 <select name="sec_3_c_land_location_<?php echo $i; ?>"
+                                                                         id="sec_3_c_land_location_<?php echo $i; ?>"
+                                                                         class="form-control">
+                                                                     <option value="">--select-- </option>
+                                                                     <option value="inpremise">समिति प्रांगण </option>
+                                                                     <option value="other">अन्य स्थान </option>
+                                                                 </select>
+                                                             </div>
+                                                             <!-- Image Upload -->
+                                                             <div class="col-sm-2 form-group">
+                                                                 <label>संस्था का फोटो GPS <br> टैग के साथ संलग्न करे</label>
+
+                                                                 <input type="file"
+                                                                        name="sec_3_c_image_<?php echo $i; ?>"
+                                                                        class="form-control"
+                                                                        accept="image/*"
+                                                                        onchange="emptylanddetailspreviewimage(this)">
+                                                                 <input type="hidden"
+                                                                        name="sec_3_c_existing_image_<?php echo $i; ?>"
+                                                                        value="<?php echo $row_3_5['sec_3_c_image_'.$i] ?? ''; ?>">
+
+                                                                 <img class="img-preview mt-2"
+                                                                      style="max-width:120px;display:none;border:1px solid #ccc;padding:3px;">
+
+                                                             </div>
+                                                             <!-- Add / Remove Button -->
+                                                             <div class="col-sm-1 form-group my-auto">
+                                                                 <?php if ($i == $row_3_5['sec_3_c_id']) { ?>
+                                                                     <button type="button" class="btn btn-info"
+                                                                             onclick="sec_3_c_add_rows();">नई पंक्ति जोड़ें
+                                                                         [+]</button>
+                                                                 <?php } else { ?>
+                                                                     <button type="button" class="btn btn-danger"
+                                                                             onclick="$(this).closest('.sec3c_row').remove();">-</button>
+                                                                 <?php } ?>
+                                                             </div>
+                                                         </div>
+                                                     <?php } ?>
+                                                     <input type="hidden" name="sec_3_c_id" id="sec_3_c_id"
+                                                            value="<?php echo $row_3_5['sec_3_c_id']; ?>">
+                                                 </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-sm-8 form-group my-auto">
+
+                            </div>
+                            </div>
+
+                            <div id="success">
+                                <div class="mt-5 text-center">
+                                    <h4>प्रपत्र सफलता पूर्वक भरा गया</h4>
+                                    <p>आपने प्रपत्र सफलता पूर्वक भर लिया है । अब प्रपत्र को उच्चाधिकारी के पास
+                                        सत्यापन हेतु भेजा जाना है । कृप्या सत्यापन पर भेजने से पहले नीचे
+                                        दर्शायें
+                                        लिंक से फार्म खोल कर पुनः जाच कर लें । सब कुछ सही होने कि दशा में नीचे
+                                        दिये
+                                        बटन के माध्यम से सत्यापन के लिये आगे प्रेषित करें ।</p>
+                                    <button class="btn btn-info"
+                                        onclick="window.open('preview_pcu.php?exdid=<?php echo $_GET['exdid']; ?>', '_blank');">प्रपत्र
+                                        पुनः निरीक्षण के लिये देखे</button>
+                                </div>
+                                <div class="col-md-12 text-center">
+                                    <p><input type="checkbox" style="height: 20px; border:1px solid;" id="review_ack"
+                                            onClick="if($('#review_ack').prop('checked') == true){$('#verification_button').prop('disabled', false);}else{$('#verification_button').prop('disabled', true);}">
+                                        मै एतत्द्वारा घोषित करता/करती हूं कि उपरोक्त प्रपत्र में भरी गयी सभी
+                                        सूचनायें मेरी जानकारी अनुसार सत्य एवम सही है । </p>
+                                    <button type="button" class="btn btn-danger" onClick="form_validate()" id="verification_button"
+                                        disabled="disabled">सत्यापन के लिये आगे प्रेषित
+                                        करें
+                                    </button>
+
+
+                                </div>
+
+                                <div class="col-sm-12 form-group my-auto" id="send_otp_button2" style="display: none">
                                     <button type="button" name="verify_otp_btn" id="verify_otp_btn"
                                         tabindex="<?php echo $tab++; ?>" class="btn btn-info"
-                                        onClick="verify_otp($('#survey_id').val(), '', $('#user_otp').val());">वेरिफाई
-                                        करें</button>
-                                    <button type="button" name="send_otp_btn" id="send_otp_btn"
-                                        tabindex="<?php echo $tab++; ?>" class="btn btn-info"
-                                        onClick="send_otp($('#survey_id').val(), '');">पुनः ओ.टी.पी.
-                                        भेजे</button>
+                                        onClick="verify_otp_pcu($('#survey_id').val());">आगे प्रेषित करे
+                                    </button>
                                 </div>
                             </div>
-                        </div>
                     </div>
-                </div>
 
-                <div id="q-box__buttons">
-                    <button id="prev-btn" class="btn btn-info" type="button" onClick="save_draft()">Previous</button>
-                    <button id="next-btn" class="btn btn-success" type="button" onClick="save_draft()">Next</button>
-                    <button id="submit-btn" class="btn btn-danger" type="submit" onClick="save_draft()">Submit</button>
+                    <div id="q-box__buttons">
+                        <button id="prev-btn" class="btn btn-info" type="button"
+                            onClick="save_draft()">Previous</button>
+                        <button id="next-btn" class="btn btn-success" type="button" onClick="save_draft()">Next</button>
+                        <button id="submit-btn" class="btn btn-danger" type="submit"
+                            onClick="validate_input(); save_draft();">Submit</button>
+                    </div>
+                    <button class="btn btn-warning" type="button" onClick="save_draft()"><i class="fas fa-save"></i>
+                        Save Draft</button>
+                    <input type="hidden" id="term" name="term" value="a">
+                    <input type="hidden" id="latitude" name="latitude" value="<?php echo $row_invoice['latitude']; ?>">
+                    <input type="hidden" id="longitude" name="longitude"
+                        value="<?php echo $row_invoice['longitude']; ?>">
+                    <input type="hidden" id="id" name="id" value="submit_form_pcu">
+                    <input type="hidden" id="current_step_count" name="current_step_count" value="">
+                    <input type="hidden" id="survey_id" name="survey_id" value="<?php echo $row_invoice['sno']; ?>">
+                    </form>
                 </div>
-                <button class="btn btn-warning" type="button" onClick="save_draft()"><i class="fas fa-save"></i>
-                    Save
-                    Draft</button>
-                <input type="hidden" id="term" name="term" value="a">
-                <input type="hidden" id="latitude" name="latitude" value="<?php echo $row_invoice['latitude']; ?>">
-                <input type="hidden" id="longitude" name="longitude" value="<?php echo $row_invoice['longitude']; ?>">
-                <input type="hidden" id="id" name="id" value="submit_form_pcu">
-                <input type="hidden" id="current_step_count" name="current_step_count" value="">
-                <input type="hidden" id="survey_id" name="survey_id" value="<?php echo $row_invoice['sno']; ?>">
+                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data"
+                    id="otp_form" name="otp_form">
                 </form>
             </div>
-            <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data" id="otp_form"
-                name="otp_form"></form>
         </div>
     </div>
-</div>
-</div>
-</div>
+    <div id="preloader-wrapper">
+        <div id="preloader"></div>
+        <div class="preloader-section section-left"></div>
+        <div class="preloader-section section-right"></div>
+    </div>
 
-<div id="preloader-wrapper">
-    <div id="preloader"></div>
-    <div class="preloader-section section-left"></div>
-    <div class="preloader-section section-right"></div>
-</div>
+    <script>
+        function save_draft() {
+            var form = $("#user_form");
+            var actionUrl = form.attr('action');
+            $("#current_step_count").val(current_step);
+            //console.log(form[0]);
+            var formData = new FormData(form[0]);
+            $.ajax({
+                type: "POST",
+                url: actionUrl,
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    data = JSON.parse(data);
+                    //data = data[0];
+                    //console.log(data);
+                    var err = 0;
+                    $.each(data, function (key, value) {
+                        //console.log(value);
+                        if (value.id == 'error') {
+                            err = 1;
+                            //alert(value.error);
+                            $.notify({
+                                icon: 'pe-7s-gift',
+                                message: value.error
 
-<script>
-
-    function save_draft() {
-        var form = $("#user_form");
-        var actionUrl = form.attr('action');
-        $("#current_step_count").val(current_step);
-        //console.log(form[0]);
-        var formData = new FormData(form[0]);
-        $.ajax({
-            type: "POST",
-            url: actionUrl,
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (data) {
-                data = JSON.parse(data);
-                //data = data[0];
-                //console.log(data);
-                var err = 0;
-                $.each(data, function (key, value) {
-                    //console.log(value);
-                    if (value.id == 'error') {
-                        err = 1;
-                        //alert(value.error);
+                            }, {
+                                type: 'danger',
+                                timer: 2000
+                            });
+                        } else if (value.id != 'Update' && value.id != 'update') {
+                            $("#survey_id").val(value.id);
+                            console.log(value.id);
+                        }
+                    });
+                    if (err == 0) {
                         $.notify({
                             icon: 'pe-7s-gift',
-                            message: value.error
+                            message: 'Data Saved'
 
                         }, {
-                            type: 'danger',
+                            type: 'success',
                             timer: 2000
                         });
                     }
-                });
-                if (err == 0) {
-                    $.notify({
-                        icon: 'pe-7s-gift',
-                        message: 'Data Saved'
+                }
+            });
+        }
 
-                    }, {
-                        type: 'success',
-                        timer: 2000
-                    });
+    </script>
+    <script>
+        function add_more_business() {
+            var id = parseFloat($("#other_business_id").val());
+            if (!id) id = 0;
+            for (var i = 1; i <= id; i++) {
+                if ($("#sec_2_1_2_business_description_" + i).val() == '' || $("#sec_2_1_2_value_" + i).val() == '' || $("#sec_2_1_2_profit_loss_" + i).val() == '') {
+                    alert("पंक्ति संख्या " + i + " खाली है");
+                    $("#sec_2_1_2_business_description_" + i).focus();
+                    return;
                 }
             }
-        });
-    }
-    function add_more_business() {
-        var id = parseFloat($("#other_business_id").val());
-        if (!id) id = 0;
-        for (var i = 1; i <= id; i++) {
-            if ($("#sec_2_1_2_business_description_" + i).val() == '' || $("#sec_2_1_2_value_" + i).val() == '') {
-                alert("पंक्ति संख्या " + i + " खाली है");
-                $("#sec_2_1_2_business_description_" + i).focus();
-                return;
+            id = id + 1;
+            $(".add_business_row").hide();
+
+            var txt = '<div class="row" id="business_row_' + id + '">' +
+                '<div class="col-sm-3 form-group">' +
+                '<label>व्यवसाय का विवरण</label>' +
+                '<select name="sec_2_1_2_business_description_' + id + '" id="sec_2_1_2_business_description_' + id + '" class="form-control">' +
+                '<option value="">--select--</option>' +
+                '<option value="cattle_feed">कैटल फीड</option>' +
+                '<option value="any_other">अन्य</option>' +
+                '</select>' +
+                '</div>' +
+                '<div class="col-sm-3 form-group">' +
+                '<label>वार्षिक टर्नओवर</label>' +
+                '<input type="text" name="sec_2_1_2_value_' + id + '" id="sec_2_1_2_value_' + id + '" class="form-control chk_decimal" data-type="7.3.I वार्षिक टर्नोवर को धनराशि रु० लाख मे भरे">' +
+                '</div>' +
+                '<div class="col-sm-3 form-group">' +
+                '<label>लाभ / हानि</label>' +
+                '<select name="sec_2_1_2_profit_loss_' + id + '" id="sec_2_1_2_profit_loss_' + id + '" class="form-control">' +
+                '<option value="">--select--</option>' +
+                '<option value="लाभ">लाभ</option>' +
+                '<option value="हानि">हानि</option>' +
+                '</select>' +
+                '</div>' +
+                '<div class="col-sm-2 form-group my-auto add_business_row" id="add_business_row_' + id + '">' +
+                '<button type="button" class="btn btn-info" onclick="add_more_business();">नईं पंक्ति जोड़े [+]</button>' +
+                '<input type="hidden" name="other_business_id" id="other_business_id" value="' + id + '">' +
+                '</div>' +
+                '</div>';
+
+            $("#other_business").append(txt);
+            $("#other_business_id").val(id);
+            $("#add_business_row_" + id).show();
+        }
+
+        function sec_3_b_add_rows() {
+            var id = parseFloat($("#sec_3_b_id").val());
+            if (!id) {
+                id = 0;
             }
-        }
-        id = id + 1;
-        $(".add_business_row").hide();
-
-        var txt = '<div class="row" id="business_row_' + id + '">' +
-            '<div class="col-sm-3 form-group">' +
-            '<label>व्यवसाय का विवरण</label>' +
-            '<select name="sec_2_1_2_business_description_' + id + '" id="sec_2_1_2_business_description_' + id + '" class="form-control">' +
-            '<option value="">--select--</option>' +
-            '<option value="cattle_feed">कैटल फीड</option>' +
-            '<option value="any_other">अन्य</option>' +
-            '</select>' +
-            '</div>' +
-            '<div class="col-sm-3 form-group">' +
-            '<label>वार्षिक टर्नओवर</label>' +
-            '<input type="text" name="sec_2_1_2_value_' + id + '" id="sec_2_1_2_value_' + id + '" class="form-control chk_decimal" data-type="7.3.I वार्षिक टर्नोवर को धनराशि रु० लाख मे भरे">' +
-            '</div>' +
-            '<div class="col-sm-3 form-group">' +
-            '<label>लाभ / हानि</label>' +
-            '<select name="sec_2_1_2_profit_loss_' + id + '" id="sec_2_1_2_profit_loss_' + id + '" class="form-control">' +
-            '<option value="">--select--</option>' +
-            '<option value="लाभ">लाभ</option>' +
-            '<option value="हानि">हानि</option>' +
-            '</select>' +
-            '</div>' +
-            '<div class="col-sm-2 form-group my-auto add_business_row" id="add_business_row_' + id + '">' +
-            '<button type="button" class="btn btn-info" onclick="add_more_business();">नईं पंक्ति जोड़े [+]</button>' +
-            '<input type="hidden" name="other_business_id" id="other_business_id" value="' + id + '">' +
-            '</div>' +
-            '</div>';
-
-        $("#other_business").append(txt);
-        $("#other_business_id").val(id);
-        $("#add_business_row_" + id).show();
-    }
-
-    function sec_3_b_add_rows() {
-        var id = parseFloat($("#sec_3_b_id").val());
-        if (!id) {
-            id = 0;
-        }
-        for (var i = 0; i <= id; i++) {
-            if ($("#sec_3_b_length_" + i).val() == '' || $("#sec_3_b_width_" + i).val() == '') {
-                alert("पंक्ति संख्या " + i + " खाली है");
-                $("#sec_3_b_length_" + i).focus();
-                return;
+            for (var i = 0; i <= id; i++) {
+                if ($("#sec_3_b_length_" + i).val() == '' || $("#sec_3_b_width_" + i).val() == '') {
+                    alert("पंक्ति संख्या " + i + " खाली है");
+                    $("#sec_3_b_length_" + i).focus();
+                    return;
+                }
             }
+            id = id + 1;
+            var const_options = $("#sec_3_b_type_of_construction_1").html();
+            var fund_options = $("#sec_3_b_type_of_fund_1").html();
+            $("#sec_3_b_rows").remove();
+
+            var txt = '<div class="row" id="sec_3_b"><div class="col-sm-2 form-group"><label>लंबाई (मीटर में)</label><input type="text" name="sec_3_b_length_' + id + '" id="sec_3_b_length_' + id + '" class="form-control"></div><div class="col-sm-2 form-group"><label>चौड़ाई (मीटर में)</label><input type="text" name="sec_3_b_width_' + id + '" id="sec_3_b_width_' + id + '" class="form-control"></div><div class="col-sm-2 form-group"><label>भवन का प्रकार</label><select name="sec_3_b_type_of_construction_' + id + '" id="sec_3_b_type_of_construction_' + id + '" class="form-control">' + const_options + '</select></div><div class="col-sm-2 form-group"><label>किस फण्ड से बना है</label><select name="sec_3_b_type_of_fund_' + id + '" id="sec_3_b_type_of_fund_' + id + '" class="form-control">' + fund_options + '</select></div><div class="col-sm-2 form-group"><label>टिप्पणी</label><input type="text" name="sec_3_b_comment_' + id + '" id="sec_3_b_comment_' + id + '" class="form-control"></div><div class="col-sm-2 form-group my-auto" id="sec_3_b_rows"><button type="button" class="btn btn-info" onClick="sec_3_b_add_rows()">नई पंक्ति जोड़े [+]</button><input type="hidden" name="sec_3_b_id" id="sec_3_b_id" value="' + id + '"></div></div>';
+            $("#sec_3_b").append(txt);
         }
-        id = id + 1;
-        var const_options = $("#sec_3_b_type_of_construction_1").html();
-        var fund_options = $("#sec_3_b_type_of_fund_1").html();
-        $("#sec_3_b_rows").remove();
 
-        var txt = '<div class="row" id="sec_3_b"><div class="col-sm-2 form-group"><label>लंबाई (मीटर में)</label><input type="text" name="sec_3_b_length_' + id + '" id="sec_3_b_length_' + id + '" class="form-control"></div><div class="col-sm-2 form-group"><label>चौड़ाई (मीटर में)</label><input type="text" name="sec_3_b_width_' + id + '" id="sec_3_b_width_' + id + '" class="form-control"></div><div class="col-sm-2 form-group"><label>भवन का प्रकार</label><select name="sec_3_b_type_of_construction_' + id + '" id="sec_3_b_type_of_construction_' + id + '" class="form-control">' + const_options + '</select></div><div class="col-sm-2 form-group"><label>किस फण्ड से बना है</label><select name="sec_3_b_type_of_fund_' + id + '" id="sec_3_b_type_of_fund_' + id + '" class="form-control">' + fund_options + '</select></div><div class="col-sm-2 form-group"><label>टिप्पणी</label><input type="text" name="sec_3_b_comment_' + id + '" id="sec_3_b_comment_' + id + '" class="form-control"></div><div class="col-sm-2 form-group my-auto" id="sec_3_b_rows"><button type="button" class="btn btn-info" onClick="sec_3_b_add_rows()">नई पंक्ति जोड़े [+]</button><input type="hidden" name="sec_3_b_id" id="sec_3_b_id" value="' + id + '"></div></div>';
-        $("#sec_3_b").append(txt);
-    }
-
-    function sec_3_c_add_rows() {
+       function sec_3_c_add_rowss() {
         var id = parseFloat($("#sec_3_c_id").val());
         if (!id) {
             id = 0;
         }
-        for (var i = 0; i <= id; i++) {
-            if ($("#sec_3_c_length_" + i).val() == '') {
-                alert("पंक्ति संख्या " + i + " खाली है");
-                $("#sec_3_c_length_" + i).focus();
-                return;
-            }
-        }
         id = id + 1;
-        $("#sec_3_c_rows").remove();
+        
+        var districtOptions = '<?php foreach ($districts as $d) { echo "<option value=\"" . $d["district_id"] . "\">" . htmlspecialchars($d["district_name"]) . "</option>"; } ?>';
 
-        var txt = '<div class="row"><div class="col-sm-2 form-group"><label>क्षेत्रफल (हेक्टेयर में)</label><input type="text" name="sec_3_c_length_' + id + '" id="sec_3_c_length_' + id + '" lass="form-control"></div>	<div class="col-sm-2 form-group"><label>भूमि की स्थिति (उपजाऊ /बंजर)</label><select name="sec_3_c_vacant_land_status_' + id + '" id="sec_3_c_vacant_land_status_' + id + '" class="form-control"><option value="">--select-- </option><option value="उपजाऊ">उपजाऊ </option><option value="बंजर">बंजर </option></select></div><div class="col-sm-2 form-group"><label>स्थान (समिति प्रांगण या अन्य स्थान)*</label><select name="sec_3_c_land_location_' + id + '" id="sec_3_c_land_location_' + id + '" class="form-control" onChange="hide_show(this.value, \'#land_connectivity' + id + '\', \'other\'); hide_show(this.value, \'#land_access_road' + id + '\', \'na\');"><option value="">--select-- </option><option value="inpremise">समिति प्रांगण </option><option value="other">अन्य स्थान </option></select></div><div class="col-sm-2 form-group" id="land_connectivity' + id + '" style="display: none;"><label>संपर्क मार्ग*</label><select name="sec_3_c_approach_road_' + id + '" id="sec_3_c_approach_road_' + id + '" class="form-control" onChange="hide_show(this.value, \'#land_access_road' + id + '\', \'proper\');"><option value="">--select-- </option><option value="ordinary">कच्ची सड़क </option><option value="proper">पक्की सड़क </option></select></div><div class="col-sm-2 form-group" id="land_access_road' + id + '" style="display: none;"><label>पक्की सड़क का प्रकार</label><select name="sec_3_c_paved_road_' + id + '" id="sec_3_c_paved_road_' + id + '" class="form-control"><option value="">--select-- </option><option value="nh">नेशनल हाईवे</option><option value="sh">स्टेट हाईवे</option><option value="mdr">एम.डी.आर.</option><option value="odr">ओ.डी.आर.</option><option value="rural_road">ग्रामीण सड़क</option><option value="other">अन्य</option></select></div><div class="col-sm-2 form-group my-auto" id="sec_3_c_rows"><button type="button" class="btn btn-info" onClick="sec_3_c_add_rows();">नई पंक्ति जोड़े</button><input type="hidden" name="sec_3_c_id" id="sec_3_c_id" value="' + id + '"></div></div>';
+        var txt = '<div class="row mb-2 sec3c_row">' +
+            '<div class="col-sm-2 form-group"><label>जनपद</label><select name="sec_3_c_district_' + id + '" class="form-control"><option value="">--Select--</option>' + districtOptions + '</select></div>' +
+            '<div class="col-sm-2 form-group"><label>क्षेत्रफल (हेक्टेयर में)</label><input type="text" name="sec_3_c_area_' + id + '" class="form-control"></div>' +
+            '<div class="col-sm-2 form-group"><label>स्थान (समिति प्रांगण या अन्य स्थान)</label><select name="sec_3_c_land_location_' + id + '" class="form-control"><option value="">--select--</option><option value="inpremise">समिति प्रांगण</option><option value="other">अन्य स्थान</option></select></div>' +
+            '<div class="col-sm-2 form-group"><label>पहुच मार्ग का प्रकार</label><select name="sec_3_c_paved_road_' + id + '" class="form-control"><option value="">--select--</option><option value="ordinary">कच्ची सड़क</option><option value="nh">नेशनल हाईवे</option><option value="sh">स्टेट हाईवे</option><option value="mdr">एम.डी.आर.</option><option value="odr">ओ.डी.आर.</option><option value="rural_road">ग्रामीण सड़क</option><option value="other">अन्य</option></select></div>' +
+            '<div class="col-sm-2 form-group"><label>संस्था का फोटो GPS टैग के साथ संलग्न करे</label><input type="file" name="sec_3_c_image_' + id + '" class="form-control"></div>' +
+            '<div class="col-sm-2 form-group my-auto"><button type="button" class="btn btn-danger" onclick="$(this).closest(\'.sec3c_row\').remove();">-</button></div>' +
+            '</div>';
 
         $("#sec_3_c").append(txt);
+        $("#sec_3_c_id").val(id);
     }
 
-    $('select[multiple]').multiselect({
-        columns: 1,
-        placeholder: 'Select options'
-    });
-
-    function color_change(selectElement, yesValue, yesColor, noValue, noColor) {
-        if (selectElement.value === yesValue) {
-            selectElement.style.backgroundColor = yesColor;
-        } else if (selectElement.value === noValue) {
-            selectElement.style.backgroundColor = noColor;
-        } else {
-            selectElement.style.backgroundColor = 'white'; // Default background color
-        }
-    }
-</script>
-
-<script>
-    function addRow() {
-        var id = parseFloat($("#sec_3_row_count").val());
-        if (!id) {
-            id = 0;
-        }
-        for (var i = 0; i <= id; i++) {
-            if ($("#sec_3_cpmt_" + i).val() == '' || $("#sec_3_post_" + i).val() == '') {
-                alert("पंक्ति संख्या " + i + " खाली है");
-                $("#sec_3_cpmt_" + i).focus();
-                return;
+        function color_change(selectElement, yesValue, yesColor, noValue, noColor) {
+            if (selectElement.value === yesValue) {
+                selectElement.style.backgroundColor = yesColor;
+            } else if (selectElement.value === noValue) {
+                selectElement.style.backgroundColor = noColor;
+            } else {
+                selectElement.style.backgroundColor = 'white'; // Default background color
             }
         }
-        id = id + 1;
-        $("#sec_3_add_rows").remove();
+    </script>
 
-        var txt = '<div class="row" id="row_' + id + '"><div class="col-sm-4"><label>नाम:-सहकारी प्रबंध प्रशिक्षण केंद्र</label><input name="sec_3_cpmt_' + id + '" id="sec_3_cpmt_' + id + '" class="form-control"></div><div class="col-sm-4"><label>पता</label><input name="sec_3_address_' + id + '" id="sec_3_address_' + id + '" class="form-control" ></div></div><div class="row"><div class="col-sm-4"><label>पदेन प्रधानाचार्य नाम</label><input name="sec_3_principal_name_' + id + '" id="sec_3_principal_name_' + id + '" class="form-control" ></div><div class="col-sm-4"><label>मूलपद</label><input name="sec_3_post_' + id + '" id="sec_3_post_' + id + '" class="form-control" ></div></div>	<div class="row"><div class="col-sm-4"><label>प्रधानाचार्य आवास</label><select name="sec_3_principal_house_' + id + '" id="sec_3_principal_house_' + id + '" class="form-control"onChange="hide_show(this.value, '#sec_3_building_rent', 'yes');"><option value="">--select-- </option><option value="">हाँ </option><option value="">नहीं </option></select></div><div class="col-sm-4"><label>संख्या</label><input name="sec_3_principal_house_no_' + id + '" id="sec_3_principal_house_no_' + id + '" class="form-control" ></div></div><div class="row"><div class="col-sm-4"><label>प्रधानाचार्य कार्यालय</label><select name="sec_3_principal_office_' + id + '" id="sec_3_principal_office_' + id + '"class="form-control"onChange="hide_show(this.value, '#sec_3_building_rent', 'yes');"><option value="">--select-- </option><option value="">हाँ </option><option value="">नहीं </option></select></div><div class="col-sm-4"><label>संख्या</label><input name="sec_3_principal_office_no_' + id + '" id="sec_3_principal_office_no_' + id + '" class="form-control" ></div></div>	<div class="row"><div class="col-sm-4"><label>कक्षा संख्या</label><input name="sec_3_class_no_' + id + '" id="sec_3_class_no_' + id + '" class="form-control" ></div><div class="col-sm-4"><label>क्षमता</label><input name="sec_3_class_capacity_' + id + '" id="sec_3_class_capacity_' + id + '" class="form-control" ></div></div><div class="row"><div class="col-sm-4"><label>हॉस्टल संख्या</label><input name="sec_3_hostel_no_' + id + '" id="sec_3_hostel_no_' + id + '" class="form-control" ></div><div class="col-sm-4"><label>क्षमता</label><input name="sec_3_hostel_capacity_' + id + '" id="sec_3_hostel_capacity_' + id + '" class="form-control" ></div></div><div class="row"><div class="col-sm-4"><label>पुस्तकालय संख्या</label><input name="sec_3_library_no_' + id + '" id="sec_3_library_no_' + id + '" class="form-control" ></div><div class="col-sm-4"><label>क्षमता</label><input name="sec_3_library_capacity_' + id + '" id="sec_3_library_capacity_' + id + '" class="form-control" ></div></div><div class="row"><div class="col-sm-4"><label>कंप्युटर लैब संख्या</label><input name="sec_3_computer_lab_no_' + id + '" id="sec_3_computer_lab_no_' + id + '" class="form-control" ></div><div class="col-sm-4"><label>क्षमता</label><input name="sec_3_computer_lab_capacity_' + id + '" id="sec_3_computer_lab_capacity_' + id + '" class="form-control" ></div></div><div class="row"><div class="col-sm-4"><label>अध्यापक / अतिथि प्रवक्ता संख्या</label><input name="sec_3_teacher_no_' + id + '" id="sec_3_teacher_no_' + id + '" class="form-control" ></div><div class="col-sm-4"><label>कर्मचारी विवरण</label><textarea name="sec_3_employee_remarks_' + id + '" id="sec_3_employee_remarks_' + id + '" class="form-control"></textarea></div></div><div class="row"><div class="col-sm-4"><label>प्रशिक्षण सत्रों की संख्या</label><input name="sec_3_training_sessions_no_' + id + '" id="sec_3_training_sessions_no_' + id + '" class="form-control"></div><div class="col-sm-4"><label>प्रशिक्षण विषय के नाम </label><input name="sec_3_training_subject_name_' + id + '" id="sec_3_training_subject_name_' + id + '" class="form-control"></div><div class="col-sm-3"><label>प्रशिक्षण सत्र अवधि</label><input type="date" name="sec_3_training_sessions_duration_' + id + '" id="sec_3_training_sessions_duration_' + id + '" class="form-control"></div></div><div class="row"><div class="col-sm-4"><label>विभागीय प्रशिक्षार्थियों की संख्या</label><input name="sec_3_departmental_trainees_no_' + id + '" id="sec_3_departmental_trainees_no_' + id + '" class="form-control"></div><div class="col-sm-4"><label>गैर-विभागीय प्रशिक्षार्थियों की संख्या</label><input name="sec_3_non_departmental_trainees_no_' + id + '" id="sec_3_non_departmental_trainees_no_' + id + '" class="form-control"></div><div class="col-sm-4"><label>प्रशिक्षार्थियों की संख्या</label><input name="sec_3_trainees_no_' + id + '" id="sec_3_trainees_no_' + id + '" class="form-control"></div></div><div class="row"><div class="col-sm-4"><label>विभागीय प्रशिक्षण शुल्क</label><input name="sec_3_departmental_trainees_fee_' + id + '" id="sec_3_departmental_trainees_fee_' + id + '" class="form-control"></div><div class="col-sm-4"><label>गैर-विभागीय प्रशिक्षण शुल्क</label><input name="sec_3_non_departmental_trainees_fee_' + id + '" id="sec_3_non_departmental_trainees_fee_' + id + '" class="form-control"></div><div class="col-sm-4"><label>प्रशिक्षण शुल्क</label><input name="sec_3_trainees_fee_' + id + '" id="sec_3_trainees_fee_' + id + '" class="form-control"></div></div><div class="row"><div class="col-sm-4"><label>विभागीय हॉस्टल शुल्क</label><input name="sec_3_departmental_hostel_fee_' + id + '" id="sec_3_departmental_hostel_fee_' + id + '" class="form-control"></div><div class="col-sm-4"><label>गैर-विभागीय हॉस्टल शुल्क</label><input name="sec_3_non_departmental_hostel_fee_' + id + '" id="sec_3_non_departmental_hostel_fee_' + id + '" class="form-control"></div><div class="col-sm-4"><label>हॉस्टल शुल्क</label><input name="sec_3_hostel_fee_' + id + '" id="sec_3_hostel_fee_' + id + '" class="form-control"></div></div><div class="row"><div class="col-sm-3"><label>निर्माण वर्ष</label><select name="sec2_santulan_patra" class="form-control"><option value="">--Select--</option><option value="">2024</option><option value="">2023</option><option value="">2022</option><option value="">2021</option><option value="">2020</option><option value="">2019</option><option value="">2018</option></select></div><div class="col-sm-3"><label>संचालन वर्ष</label><select name="sec2_santulan_patra" class="form-control"><option value="">--Select--</option><option value="">2024</option><option value="">2023</option><option value="">2022</option><option value="">2021</option><option value="">2020</option><option value="">2019</option><option value="">2018</option></select></div><div class="col-sm-3"><label>प्रशिक्षण कोर्स लाभ</label><textarea name="sec_3_training_course_benefits_' + id + '" id="sec_3_training_course_benefits_' + id + '" class="form-control"></textarea></div><div class="col-sm-3"><label>भवन/हॉस्टल स्तिथि</label><textarea name="sec_3_building_hostel_status_' + id + '" id="sec_3_building_hostel_status_' + id + '" class="form-control"></textarea></div></div><div class="col-sm-2 form-group my-auto" id="sec_3_add_rows"><button type="button" class="btn btn-info" onClick="addRow()">नई पंक्ति जोड़े [+]</button><input type="hidden" name="sec_3_row_count" id="sec_3_row_count" value="' + id + '"></div></div>';
-        $("#sec_3_b").append(txt);
-    }
-
-    function sec_2_b_add_rows() {
-        var id = parseInt($("#sec_2_b_id").val()) || 0;
-
-        // Validate existing rows
-        for (var i = 1; i <= id; i++) {
-            if ($("#sec_2_b_name_" + i).val() == '') {
-                alert("कृपया पंक्ति संख्या " + i + " का नाम भरें।");
-                $("#sec_2_b_name_" + i).focus();
-                return;
+    <script>
+        function sec_3_add_rows() {
+            var id = parseInt($("#sec_3_row_count").val(), 10);
+            if (!id) {
+                id = 0;
             }
+
+            for (var i = 1; i <= id; i++) {
+                if ($("#sec_3_cpmt_" + i).val() === '' || $("#sec_3_post_" + i).val() === '') {
+                    alert("पंक्ति संख्या " + i + " अधूरी है (नाम / मूलपद खाली है)");
+                    $("#sec_3_cpmt_" + i).focus();
+                    return;
+                }
+            }
+
+            id = id + 1;
+            $("#sec_3_add_rows_wrapper").remove();
+
+            var txt = '';
+            txt += '<div class="row sec-3-row" id="sec_3_row_' + id + '">';
+            txt += '  <div class="col-sm-12">';
+
+            // नाम + पता + प्रधानाचार्य नाम + मूलपद
+            txt += '    <div class="row">';
+            txt += '      <div class="col-sm-3"><label>नाम :- सहकारी प्रबंध प्रशिक्षण केंद्र</label><input name="sec_3_cpmt_' + id + '" id="sec_3_cpmt_' + id + '" class="form-control"></div>';
+            txt += '      <div class="col-sm-3"><label>पता</label><input name="sec_3_address_' + id + '" id="sec_3_address_' + id + '" class="form-control"></div>';
+            txt += '      <div class="col-sm-3"><label>पदेन प्रधानाचार्य नाम</label><input name="sec_3_principal_name_' + id + '" id="sec_3_principal_name_' + id + '" class="form-control"></div>';
+            txt += '      <div class="col-sm-3"><label>मूलपद</label><input name="sec_3_post_' + id + '" id="sec_3_post_' + id + '" class="form-control"></div>';
+            txt += '    </div>';
+
+            // प्रधानाचार्य आवास + प्रधानाचार्य कार्यालय
+            txt += '    <div class="row">';
+            txt += '      <div class="col-sm-3"><label>प्रधानाचार्य आवास</label><select name="sec_3_principal_house_' + id + '" id="sec_3_principal_house_' + id + '" class="form-control" onchange="hide_show(this.value, \'#sec_3_principal_house_no_box_' + id + '\', \'yes\');"><option value="">--select--</option><option value="yes">हाँ</option><option value="no">नहीं</option></select></div>';
+            txt += '      <div class="col-sm-3" id="sec_3_principal_house_no_box_' + id + '" style="display:none"><label>संख्या</label><input name="sec_3_principal_house_no_' + id + '" id="sec_3_principal_house_no_' + id + '" class="form-control"></div>';
+            txt += '      <div class="col-sm-3"><label>प्रधानाचार्य कार्यालय</label><select name="sec_3_principal_office_' + id + '" id="sec_3_principal_office_' + id + '" class="form-control" onchange="hide_show(this.value, \'#sec_3_principal_office_no_box_' + id + '\', \'yes\');"><option value="">--select--</option><option value="yes">हाँ</option><option value="no">नहीं</option></select></div>';
+            txt += '      <div class="col-sm-3" id="sec_3_principal_office_no_box_' + id + '" style="display:none"><label>संख्या</label><input name="sec_3_principal_office_no_' + id + '" id="sec_3_principal_office_no_' + id + '" class="form-control"></div>';
+            txt += '    </div>';
+
+            // class, hostel
+            txt += '    <div class="row">';
+            txt += '      <div class="col-sm-3"><label>क्लासरूम संख्या</label><input name="sec_3_class_no_' + id + '" id="sec_3_class_no_' + id + '" class="form-control"></div>';
+            txt += '      <div class="col-sm-3"><label>क्षमता</label><input name="sec_3_class_capacity_' + id + '" id="sec_3_class_capacity_' + id + '" class="form-control"></div>';
+            txt += '      <div class="col-sm-3"><label>हॉस्टल संख्या</label><input name="sec_3_hostel_no_' + id + '" id="sec_3_hostel_no_' + id + '" class="form-control"></div>';
+            txt += '      <div class="col-sm-3"><label>क्षमता</label><input name="sec_3_hostel_capacity_' + id + '" id="sec_3_hostel_capacity_' + id + '" class="form-control"></div>';
+            txt += '    </div>';
+
+            // library, computer lab
+            txt += '    <div class="row">';
+            txt += '      <div class="col-sm-3"><label>पुस्तकालय संख्या</label><input name="sec_3_library_no_' + id + '" id="sec_3_library_no_' + id + '" class="form-control"></div>';
+            txt += '      <div class="col-sm-3"><label>क्षमता</label><input name="sec_3_library_capacity_' + id + '" id="sec_3_library_capacity_' + id + '" class="form-control"></div>';
+            txt += '      <div class="col-sm-3"><label>कंप्युटर लैब संख्या</label><input name="sec_3_computer_lab_no_' + id + '" id="sec_3_computer_lab_no_' + id + '" class="form-control"></div>';
+            txt += '      <div class="col-sm-3"><label>क्षमता</label><input name="sec_3_computer_lab_capacity_' + id + '" id="sec_3_computer_lab_capacity_' + id + '" class="form-control"></div>';
+            txt += '    </div>';
+
+            // teacher, training sessions
+            txt += '    <div class="row">';
+            txt += '      <div class="col-sm-3"><label>अध्यापक / अतिथि प्रवक्ता संख्या</label><input name="sec_3_teacher_no_' + id + '" id="sec_3_teacher_no_' + id + '" class="form-control"></div>';
+            txt += '      <div class="col-sm-3"><label>प्रशिक्षण सत्रों की संख्या</label><input name="sec_3_training_sessions_no_' + id + '" id="sec_3_training_sessions_no_' + id + '" class="form-control"></div>';
+            txt += '      <div class="col-sm-3"><label>प्रशिक्षण विषय के नाम</label><input name="sec_3_training_subject_name_' + id + '" id="sec_3_training_subject_name_' + id + '" class="form-control"></div>';
+            txt += '      <div class="col-sm-3"><label>प्रशिक्षण सत्र अवधि</label><input type="date" name="sec_3_training_sessions_duration_' + id + '" id="sec_3_training_sessions_duration_' + id + '" class="form-control"></div>';
+            txt += '    </div>';
+
+            // remarks, trainees
+            txt += '    <div class="row">';
+            txt += '      <div class="col-sm-3"><label>कर्मचारी विवरण</label><textarea name="sec_3_employee_remarks_' + id + '" id="sec_3_employee_remarks_' + id + '" class="form-control" rows="1"></textarea></div>';
+            txt += '      <div class="col-sm-3"><label>विभागीय प्रशिक्षार्थियों की संख्या</label><input name="sec_3_departmental_trainees_no_' + id + '" id="sec_3_departmental_trainees_no_' + id + '" class="form-control"></div>';
+            txt += '      <div class="col-sm-3"><label>गैर-विभागीय प्रशिक्षार्थियों की संख्या</label><input name="sec_3_non_departmental_trainees_no_' + id + '" id="sec_3_non_departmental_trainees_no_' + id + '" class="form-control"></div>';
+            txt += '      <div class="col-sm-3"><label>प्रशिक्षार्थियों की संख्या</label><input name="sec_3_trainees_no_' + id + '" id="sec_3_trainees_no_' + id + '" class="form-control" readonly></div>';
+            txt += '    </div>';
+
+            // fees
+            txt += '    <div class="row">';
+            txt += '      <div class="col-sm-3"><label>विभागीय प्रशिक्षार्थी प्रशिक्षण शुल्क</label><input name="sec_3_departmental_trainees_fee_' + id + '" id="sec_3_departmental_trainees_fee_' + id + '" class="form-control"></div>';
+            txt += '      <div class="col-sm-3"><label>गैर-विभागीय प्रशिक्षार्थी प्रशिक्षण शुल्क</label><input name="sec_3_non_departmental_trainees_fee_' + id + '" id="sec_3_non_departmental_trainees_fee_' + id + '" class="form-control"></div>';
+            txt += '      <div class="col-sm-3"><label>प्रशिक्षार्थी प्रशिक्षण शुल्क</label><input name="sec_3_trainees_fee_' + id + '" id="sec_3_trainees_fee_' + id + '" class="form-control" readonly></div>';
+            txt += '      <div class="col-sm-3"><label>विभागीय हॉस्टल शुल्क</label><input name="sec_3_departmental_hostel_fee_' + id + '" id="sec_3_departmental_hostel_fee_' + id + '" class="form-control"></div>';
+            txt += '    </div>';
+
+            // निर्माण वर्ष, संचालन वर्ष, केंद्र, स्टाफ टाइप, लाभ, स्थिति
+            txt += '    <div class="row">';
+            txt += '      <div class="col-sm-3"><label>गैर-विभागीय हॉस्टल शुल्क</label><input name="sec_3_non_departmental_hostel_fee_' + id + '" id="sec_3_non_departmental_hostel_fee_' + id + '" class="form-control"></div>';
+            txt += '      <div class="col-sm-3"><label>हॉस्टल शुल्क</label><input name="sec_3_hostel_fee_' + id + '" id="sec_3_hostel_fee_' + id + '" class="form-control" readonly></div>';
+            txt += '      <div class="col-sm-3">';
+            txt += '        <label>निर्माण वर्ष</label>';
+            txt += '        <select name="sec_3_build_year_' + id + '" id="sec_3_build_year_' + id + '" class="form-control">';
+            txt += '          <option value="">--Select--</option>';
+            txt += '          <option value="1999">2000 से पूर्व</option>';
+            for (var y = 2000; y <= 2024; y++) {
+                txt += '          <option value="' + y + '">' + y + '</option>';
+            }
+            txt += '        </select>';
+            txt += '      </div>';
+            txt += '      <div class="col-sm-3">';
+            txt += '        <label>संचालन वर्ष</label>';
+            txt += '        <select name="sec_3_operation_year_' + id + '" id="sec_3_operation_year_' + id + '" class="form-control">';
+            txt += '          <option value="">--Select--</option>';
+            txt += '          <option value="1999">2000 से पूर्व</option>';
+            for (var y2 = 2000; y2 <= 2024; y2++) {
+                txt += '          <option value="' + y2 + '">' + y2 + '</option>';
+            }
+            txt += '        </select>';
+            txt += '      </div>';
+            txt += '    </div>';
+
+            txt += '    <div class="row">';
+            txt += '      <div class="col-sm-3">';
+            txt += '        <label>सहकारी प्रबंध प्रशिक्षण केंद्र</label>';
+            txt += '        <select name="sec_3_training_center_' + id + '" id="sec_3_training_center_' + id + '" class="form-control">';
+            txt += '          <option value="">--Select--</option>';
+            txt += '          <option value="meerut">मेरठ</option>';
+            txt += '          <option value="varanasi">वाराणसी</option>';
+            txt += '          <option value="mahoba">महोबा</option>';
+            txt += '          <option value="hewra">हेवरा (ईटवा)</option>';
+            txt += '          <option value="ayodhya">अयोध्या (फैजाबाद)</option>';
+            txt += '          <option value="bilari">बिलारी (मोरादाबाद)</option>';
+            txt += '        </select>';
+            txt += '      </div>';
+            txt += '      <div class="col-sm-3">';
+            txt += '        <label>कार्मिक की संख्या</label>';
+            txt += '        <select name="sec_3_staff_type_' + id + '" id="sec_3_staff_type_' + id + '" class="form-control">';
+            txt += '          <option value="">--select--</option>';
+            txt += '          <option value="union">उ० प्र० कोआपरेटिव यूनियन</option>';
+            txt += '          <option value="authority">सहकारी संघ प्राधिकारी</option>';
+            txt += '        </select>';
+            txt += '      </div>';
+            txt += '      <div class="col-sm-3">';
+            txt += '        <label>प्रशिक्षण कोर्स लाभ</label>';
+            txt += '        <textarea name="sec_3_training_course_benefits_' + id + '" id="sec_3_training_course_benefits_' + id + '" class="form-control" rows="1"></textarea>';
+            txt += '      </div>';
+            txt += '      <div class="col-sm-3">';
+            txt += '        <label>भवन/हॉस्टल स्तिथि</label>';
+            txt += '        <textarea name="sec_3_building_hostel_status_' + id + '" id="sec_3_building_hostel_status_' + id + '" class="form-control" rows="1"></textarea>';
+            txt += '      </div>';
+            txt += '    </div>';
+
+            // add-row button (नई row पर)
+            txt += '    <div class="col-sm-2 form-group my-auto" id="sec_3_add_rows_wrapper">';
+            txt += '      <button type="button" class="btn btn-info" onclick="sec_3_add_rows()">नई पंक्ति जोड़े [+]</button>';
+            txt += '      <input type="hidden" name="sec_3_row_count" id="sec_3_row_count" value="' + id + '">';
+            txt += '    </div>';
+            txt += '  </div>';
+            txt += '</div>';   // row
+
+            $("#sec_3_training_center").append(txt);
         }
 
-        id++;
+        function sec_2_b_add_rows() {
+            var id = parseInt($("#sec_2_b_id").val()) || 0;
 
-        // Remove existing 'add row' button cell
-        $(".sec_2_b_rows").remove();
+            // Validate existing rows
+            for (var i = 1; i <= id; i++) {
+                if ($("#sec_2_b_name_" + i).val() == '') {
+                    alert("कृपया पंक्ति संख्या " + i + " का नाम भरें।");
+                    $("#sec_2_b_name_" + i).focus();
+                    return;
+                }
+            }
 
-        var row = `
-            <tr>
-                <td>${id}</td>
-                <td>
-                    <select name="sec_2_b_type_${id}" id="sec_2_b_type_${id}" class="form-control">
-                        <option value="">--select--</option>
-                        <option value="शाखा">शाखा</option>
-                        <option value="ट्रैनिंग सेंटर">ट्रैनिंग सेंटर</option>
-                        <option value="जनपदीय कार्यालय">जनपदीय कार्यालय</option>
-                        <option value="क्षेत्रीय कार्यालय">क्षेत्रीय कार्यालय</option>
-                        <option value="अन्य कार्यालय">अन्य कार्यालय</option>
-                    </select>
-                </td>
-                <td><input type="text" name="sec_2_b_name_${id}" id="sec_2_b_name_${id}" class="form-control"></td>
-                <td><input type="text" name="sec_2_b_division_${id}" id="sec_2_b_division_${id}" class="form-control"></td>
-                <td><input type="text" name="sec_2_b_district_${id}" id="sec_2_b_district_${id}" class="form-control"></td>
-                <td><input type="text" name="sec_2_b_tehsil_${id}" id="sec_2_b_tehsil_${id}" class="form-control"></td>
-                <td><input type="text" name="sec_2_b_address_${id}" id="sec_2_b_address_${id}" class="form-control"></td>
-                <td><input type="text" name="sec_2_b_mobile_${id}" id="sec_2_b_mobile_${id}" class="form-control"></td>
-                <td><input type="text" name="sec_2_b_email_${id}" id="sec_2_b_email_${id}" class="form-control"></td>
-                <td><input type="text" name="sec_2_b_pincode_${id}" id="sec_2_b_pincode_${id}" class="form-control"></td>
-                <td><input type="text" name="sec_2_b_latitude_${id}" id="sec_2_b_latitude_${id}" class="form-control"></td>
-                <td><input type="text" name="sec_2_b_longitude_${id}" id="sec_2_b_longitude_${id}" class="form-control"></td>
-                <td class="sec_2_b_rows">
-                    <button type="button" class="btn btn-info" onclick="sec_2_b_add_rows();">नई पंक्ति जोड़े [+]</button>
-                </td>
-            </tr>
-        `;
+            id++;
 
-        $("#sec_2_b tbody").append(row);
-        $("#sec_2_b_id").val(id);
-    }
+            // Remove existing 'add row' button cell
+            $(".sec_2_b_rows").remove();
 
-    function sec_3_c_add_rows() {
-        // Get current count
-        var count = parseInt($("#sec_3_b_count").val()) || 0;
-        count++; // next row number
+            var row = '<tr><td>' + id + '</td><td><select name="sec_2_b_type_' + id + '" id="sec_2_b_type_' + id + '" class="form-control"><option value="">Select</option><option value="शाखा">शाखा</option><option value="ट्रैनिंग सेंटर">ट्रैनिंग सेंटर</option><option value="जनपदीय कार्यालय">जनपदीय कार्यालय</option><option value="क्षेत्रीय कार्यालय">क्षेत्रीय कार्यालय</option><option value="अन्य कार्यालय">अन्य कार्यालय</option></select></td><td><input type="text" name="sec_2_b_name_' + id + '" id="sec_2_b_name_' + id + '" class="form-control"></td><td><input type="text" name="sec_2_b_division_' + id + '" id="sec_2_b_division_' + id + '" class="form-control"></td><td><input type="text" name="sec_2_b_district_' + id + '" id="sec_2_b_district_' + id + '" class="form-control"></td><td><input type="text" name="sec_2_b_tehsil_' + id + '" id="sec_2_b_tehsil_' + id + '" class="form-control"></td><td><input type="text" name="sec_2_b_address_' + id + '" id="sec_2_b_address_' + id + '" class="form-control"></td><td><input type="text" name="sec_2_b_mobile_' + id + '" id="sec_2_b_mobile_' + id + '" class="form-control"></td><td><input type="text" name="sec_2_b_email_' + id + '" id="sec_2_b_email_' + id + '" class="form-control"></td><td><input type="text" name="sec_2_b_pincode_' + id + '" id="sec_2_b_pincode_' + id + '" class="form-control"></td><td><input type="text" name="sec_2_b_latitude_' + id + '" id="sec_2_b_latitude_' + id + '" class="form-control"></td><td><input type="text" name="sec_2_b_longitude_' + id + '" id="sec_2_b_longitude_' + id + '" class="form-control"></td><td class="sec_2_b_rows text-end"><button type="button" class="btn btn-info btn-sm" onclick="sec_2_b_add_rows();">नई पंक्ति जोड़ें [+]</button></td></tr>';
+            $("#sec_2_b tbody").append(row);
+            $("#sec_2_b_id").val(id);
+        }
 
-        // Create new row HTML
-        var rowHtml = `
-        <div class="row sec_3_b_row mb-2" id="sec_3_b_row_${count}">
+        function sec_3_c_add_rows() {
 
-            <!-- श्रेणी -->
-            <div class="col-sm-2 form-group">
-                <label>श्रेणी</label>
-                <select class="form-control" id="sec_3_b_category_${count}" name="category_${count}"
-                    onchange="hide_show(this.value, '#sec_3_b_postname_${count}', 'yes'); hide_show(this.value, '#sec_3_b_year_${count}', 'no')">
-                    <option value="">--Select--</option>
-                    <option value="yes">पदेन</option>
-                    <option value="no">निर्वाचित</option>
-                    <option value="1">नामित</option>
-                </select>
-            </div>
+            let container = document.getElementById('sec_3_c');
 
-            <!-- पद का नाम -->
-            <div class="col-sm-2 form-group" id="sec_3_b_postname_${count}" style="display:none;">
-                <label>पद का नाम</label>
-                <input type="text" class="form-control" name="post_name_${count}" id="post_name_${count}">
-            </div>
+            let id = parseInt(document.getElementById('sec_3_c_id').value) + 1;
+            document.getElementById('sec_3_c_id').value = id;
 
-            <!-- निर्वाचन वर्ष -->
-            <div class="col-sm-2 form-group" id="sec_3_b_year_${count}" style="display:none;">
-                <label>निर्वाचन का वर्ष</label>
-                <select class="form-control" name="year_${count}" id="year_${count}">
-                    <option value="">--Select--</option>
-                    ${[...Array(2025-1975+1)].map((_, idx) => {
-                        var y = 2025 - idx;
-                        return `<option value="${y}">${y}</option>`;
-                    }).join('')}
-                </select>
-            </div>
+            let html = `
+    <div class="row mb-2 sec3c_row">
 
-            <!-- पदनाम -->
-            <div class="col-sm-2 form-group">
-                <label>पदनाम</label>
-                <select class="form-control" name="designation_${count}" id="designation_${count}">
-                    <option value="">--Select--</option>
-                    <option value="अध्यक्ष">अध्यक्ष</option>
-                    <option value="उपाध्यक्ष">उपाध्यक्ष</option>
-                    <option value="संचालक">संचालक</option>
-                </select>
-            </div>
-
-            <!-- नाम -->
-            <div class="col-sm-2 form-group">
-                <label>नाम</label>
-                <input type="text" class="form-control" name="name_${count}" id="name_${count}">
-            </div>
-
-            <!-- पिता का नाम -->
-            <div class="col-sm-2 form-group">
-                <label>पिता / पति का नाम</label>
-                <input type="text" class="form-control" name="father_${count}" id="father_${count}">
-            </div>
-
-            <!-- मोबाइल -->
-            <div class="col-sm-2 form-group">
-                <label>मोबाईल नंबर</label>
-                <input type="text" class="form-control chk_mobile" name="mobile_${count}" id="mobile_${count}" maxlength="10">
-            </div>
-
-            <!-- Add Button -->
-            <div class="col-sm-2 form-group my-auto">
-                <button type="button" class="btn btn-info" onclick="sec_3_c_add_rows()">नई पंक्ति जोड़े [+]</button>
-            </div>
+        <div class="col-sm-2 form-group">
+            <label>जनपद</label>
+            <select name="sec_3_c_district_${id}" class="form-control">
+                <option value="">--Select--</option>
+                <?php foreach ($districts as $d) { ?>
+                    <option value="<?php echo $d['sno']; ?>">
+                        <?php echo $d['district_name']; ?>
+                    </option>
+                <?php } ?>
+            </select>
         </div>
-        `;
 
-        // Append new row
-        $("#sec_3_b").append(rowHtml);
+        <div class="col-sm-2 form-group">
+            <label>क्षेत्रफल (हेक्टेयर में)</label>
+            <input type="text" name="sec_3_c_area_${id}" class="form-control">
+        </div>
 
-        // Update count
-        $("#sec_3_b_count").val(count);
-    }
+        <div class="col-sm-2 form-group">
+            <label>पहुच मार्ग का प्रकार</label>
+            <select name="sec_3_c_paved_road_${id}" class="form-control">
+                <option value="">--select--</option>
+                <option value="ordinary">कच्ची सड़क</option>
+                <option value="nh">नेशनल हाईवे</option>
+                <option value="sh">स्टेट हाईवे</option>
+                <option value="mdr">एम.डी.आर.</option>
+                <option value="odr">ओ.डी.आर.</option>
+                <option value="rural_road">ग्रामीण सड़क</option>
+                <option value="other">अन्य</option>
+            </select>
+        </div>
+
+        <div class="col-sm-2 form-group">
+            <label>स्थान</label>
+            <select name="sec_3_c_land_location_${id}" class="form-control">
+                <option value="">--select--</option>
+                <option value="inpremise">समिति प्रांगण</option>
+                <option value="other">अन्य स्थान</option>
+            </select>
+        </div>
+
+       <div class="col-sm-2 form-group">
+<label>संस्था का फोटो GPS टैग के साथ</label>
+
+<input type="file"
+name="sec_3_c_image_${id}"
+class="form-control"
+accept="image/*"
+onchange="emptylanddetailspreviewimage(this)">
+
+<img class="img-preview mt-2"
+style="max-width:120px;display:none;border:1px solid #ccc;padding:3px;">
+</div>
+
+        <div class="col-sm-1 form-group my-auto">
+            <button type="button" class="btn btn-danger"
+            onclick="this.closest('.sec3c_row').remove()">-</button>
+        </div>
+
+    </div>
+    `;
+
+            container.insertAdjacentHTML('beforeend', html);
+        }
+        function emptylanddetailspreviewimage(input){
+
+            var preview = input.parentElement.querySelector('.img-preview');
+
+            if(input.files && input.files[0]){
+
+                var reader = new FileReader();
+
+                reader.onload = function(e){
+                    preview.src = e.target.result;
+                    preview.style.display = "block";
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+
+        }
+
     </script>
     <script>
-    function addPcuRow() {
+        function addPcuRow() {
 
-        let id = parseInt($("#pcu_resource_id").val());
-        if (isNaN(id)) id = 0;
+            let id = parseInt($("#pcu_resource_id").val());
+            if (isNaN(id)) id = 0;
+            for (let i = 1; i <= id; i++) {
+                if (!$("#pcu_post_id_" + i).val()) {
+                    alert("पंक्ति " + i + " में ‘नाम संवर्ग’ खाली है।");
+                    return;
+                }
+            }
 
-        // Validate existing rows
-        for (let i = 1; i <= id; i++) {
-            if (!$("#pcu_post_id_" + i).val()) {
-                alert("पंक्ति " + i + " में ‘नाम संवर्ग’ खाली है।");
-                return;
+            id++;
+            $("#pcu_resource_id").val(id);
+            let pcuOptions = $("#pcu_post_id_1").html();
+
+            var rowHTML = '<div class="row pcu_row mb-2" id="pcu_row_' + id + '"><div class="col-md-2 form-group"><label>नाम संवर्ग</label><select name="pcu_post_id[]" id="pcu_post_id_' + id + '" class="form-control">' + pcuOptions + '</select></div><div class="col-md-2 form-group"><label>स्वीकृत</label><input type="number" name="pcu_sanctioned[]" id="pcu_sanctioned_' + id + '" class="form-control"></div><div class="col-md-2 form-group"><label>कार्यरत</label><input type="number" name="pcu_working[]" id="pcu_working_' + id + '" class="form-control"></div><div class="col-md-2 form-group"><label>रिक्त</label><input type="number" name="pcu_vacant[]" id="pcu_vacant_' + id + '" class="form-control"></div><div class="col-md-2 form-group"><label>प्रा० स्वीकृत</label><input type="number" name="auth_sanctioned[]" id="auth_sanctioned_' + id + '" class="form-control"></div><div class="col-md-2 form-group"><label>प्रा० कार्यरत</label><input type="number" name="auth_working[]" id="auth_working_' + id + '" class="form-control"></div><div class="col-md-2 form-group"><label>प्रा० रिक्त</label><input type="number" name="auth_vacant[]" id="auth_vacant_' + id + '" class="form-control"></div><div class="col-md-2 form-group"><label>अन्य विवरण</label><input type="text" name="pcu_other_detail[]" id="pcu_other_detail_' + id + '" class="form-control"></div><div class="col-md-1 form-group my-auto"><button type="button" class="btn btn-info" onclick="addPcuRow()">नई पंक्ति [+]</button></div></div>';
+
+
+
+            $("#pcu_resource_rows").append(rowHTML);
+        }
+
+    </script>
+    <script>
+        function hide_show(value, containerId, showValue) {
+			var testServicesContainer = document.querySelector(containerId);
+			if (!testServicesContainer) {
+				console.warn('Element with ID "' + containerId + '" not found.');
+				return; // Exit early if the element is not found
+			}
+			if (Array.isArray(showValue)) {
+				if (showValue.includes(value)) {
+					testServicesContainer.style.display = 'block';
+				} else {
+					testServicesContainer.style.display = 'none';
+				}
+			} else {
+				if (value === showValue) {
+					testServicesContainer.style.display = 'block';
+				} else {
+					testServicesContainer.style.display = 'none';
+				}
+			}
+		}
+
+        function other_land_add_row() {
+            var id = parseInt($("#other_land_count").val());
+            if (!id) id = 0;
+
+            // validate current rows
+            for (var i = 1; i <= id; i++) {
+                var district = $("#other_land_district_" + i).val();
+                var tehsil = $("#other_land_tehsil_" + i).val();
+                if (district == '' || tehsil == '') {
+                    alert("पंक्ति संख्या " + i + " में जिला/तहसील खाली है");
+                    $("#other_land_district_" + i).focus();
+                    return;
+                }
+            }
+
+            id = id + 1;
+            $("#other_land_add_row_btn_area").remove();
+
+            var txt = '';
+            txt += '<div class="other-land-row" id="other_land_row_' + id + '" style="border:1px solid #ccc; padding:10px; margin-bottom:12px;">';
+            txt += '<div class="col-sm-3 form-group"><label>1. जिला</label>';
+            txt += '<select name="other_land_district_' + id + '" id="other_land_district_' + id + '" class="form-control" onchange="fill_other_tehsil(this.value,' + id + ')">';
+            txt += '<?php echo $district_options_js; ?>'; // PHP district options for JS
+            txt += '</select></div>';
+
+            txt += '<div class="col-sm-3 form-group"><label>2. तहसील</label>';
+            txt += '<select name="other_land_tehsil_' + id + '" id="other_land_tehsil_' + id + '" class="form-control">';
+            txt += '<option value="">--Select--</option>';
+            txt += '</select></div>';
+
+            txt += '<div class="col-sm-3 form-group"><label>3. शहरी / ग्रामीण</label><select name="other_land_area_type_' + id + '" id="other_land_area_type_' + id + '" class="form-control"><option value="">-- चयन --</option><option>शहरी</option><option>ग्रामीण</option></select></div>';
+
+            txt += '<div class="col-sm-3 form-group"><label>4. भूमि क्षेत्रफल (हे.)</label><input type="text" name="other_land_land_area_' + id + '" id="other_land_land_area_' + id + '" class="form-control"></div>';
+
+            txt += '<div class="col-sm-3 form-group"><label>5. स्वामित्व</label><select name="other_land_ownership_' + id + '" id="other_land_ownership_' + id + '" class="form-control other_owner_select" data-row="' + id + '"><option value="">-- चयन --</option><option>संस्था स्वामित्व</option><option>पट्टा (लीज)</option><option>अन्य</option></select></div>';
+
+            txt += '<div class="col-sm-3 form-group" id="other_owner_div_' + id + '" style="display:none;"><label>6. किसके स्वामित्व में है?</label><input type="text" name="other_land_other_owner_' + id + '" id="other_land_other_owner_' + id + '" class="form-control"></div>';
+
+            txt += '<div class="col-sm-3 form-group"><label>7. भूमि की स्थिति</label><select name="other_land_land_status_' + id + '" id="other_land_land_status_' + id + '" class="form-control land_status_select" data-row="' + id + '"><option value="">-- चयन --</option><option>खली पड़ी है</option><option>निर्माण</option><option>विवादित है</option></select></div>';
+
+            txt += '<div class="col-sm-3 form-group" id="construct_div_' + id + '" style="display:none;"><label>8. निर्माण के प्रकार</label><select name="other_land_construction_' + id + '" id="other_land_construction_' + id + '" class="form-control"><option value="">-- चयन --</option><option>ऑफिस स्पेस</option><option>किराये पर</option><option>जर्जर निर्माण</option><option>अन्य</option></select></div>';
+
+            txt += '</div>'; // inner row
+
+            txt += '<div class="row">';
+            txt += '<div class="col-sm-12 form-group"><label>पता</label><textarea name="other_land_address_' + id + '" id="other_land_address_' + id + '" rows="2" class="form-control"></textarea></div>';
+
+            txt += '<div class="col-sm-6 form-group">';
+            txt += '<label>लोकेशन मोड</label>';
+            txt += '<select name="other_land_location_mode_' + id + '" id="other_land_location_mode_' + id + '" class="form-control location_mode_select" data-row="' + id + '">';
+            txt += '<option value="">-- चयन --</option>';
+            txt += '<option>Manual</option>';
+            txt += '<option>GPS</option>';
+            txt += '</select>';
+            txt += '<button type="button" id="other_land_gps_btn_' + id + '" class="btn btn-sm btn-success" style="margin-top:5px;display:none;" onclick="other_land_fetchGPS(\'' + id + '\')">लोकेशन रिफ्रेश करें</button>';
+            txt += '</div>';
+
+            txt += '</div>'; // row
+
+            txt += '<div id="latlon_container_' + id + '" style="display:none;">';
+            txt += '<div class="row">';
+            txt += '<div class="col-sm-6 form-group"><label>Latitude</label><input type="text" name="other_land_latitude_' + id + '" id="other_land_latitude_' + id + '" class="form-control other_lat"></div>';
+            txt += '<div class="col-sm-6 form-group"><label>Longitude</label><input type="text" name="other_land_longitude_' + id + '" id="other_land_longitude_' + id + '" class="form-control other_lon"></div>';
+            txt += '</div>';
+            txt += '</div>';
+
+            txt += '</div>'; // col-sm-8
+
+            txt += '<div class="col-sm-3"><label style="font-weight:bold;">Location Map</label><div id="other_land_map_' + id + '" style="width:100%; height:280px; border:1px solid #aaa; background:#f8f8f8;"></div></div>';
+
+            txt += '</div>'; // row
+
+            txt += '<div class="col-sm-12 form-group" id="other_land_add_row_btn_area">';
+            txt += '<button type="button" class="btn btn-info" onclick="other_land_add_row()">नई पंक्ति जोड़े [+]</button>';
+            txt += '<input type="hidden" name="other_land_count" id="other_land_count" value="' + id + '">';
+            txt += '</div>';
+
+            txt += '</div>';
+
+            $("#other_land_rows_container").append(txt);
+
+            if (typeof loadOtherLandMap === "function") {
+                loadOtherLandMap(id);
             }
         }
 
-        id++;
-        $("#pcu_resource_id").val(id);
+        $(document).on('change', '.other_owner_select', function () {
+            var row = $(this).data('row');
+            if ($(this).val() == 'अन्य') {
+                $("#other_owner_div_" + row).show();
+            } else {
+                $("#other_owner_div_" + row).hide();
+            }
+        });
 
-        // Clone options from first dropdown
-        let pcuOptions = $("#pcu_post_id_1").html();
+        // show/hide construction type when status is निर्माण
+        $(document).on('change', '.land_status_select', function () {
+            var row = $(this).data('row');
+            if ($(this).val() == 'निर्माण') {
+                $("#construct_div_" + row).show();
+            } else {
+                $("#construct_div_" + row).hide();
+            }
+        });
 
-        let rowHTML = `
-        <div class="row pcu_row mb-2" id="pcu_row_${id}">
+        // initialize map for a row (Google Maps)
+        function initMapForRow(id) {
+            var lat = parseFloat($("#other_land_latitude_" + id).val()) || 23.2599;
+            var lon = parseFloat($("#other_land_longitude_" + id).val()) || 77.4126;
+            var el = document.getElementById("other_land_map_" + id);
+            if (!el) return;
+            var map = new google.maps.Map(el, { center: { lat: lat, lng: lon }, zoom: 14 });
+            new google.maps.Marker({ position: { lat: lat, lng: lon }, map: map });
+        }
 
-            <div class="col-md-2 form-group">
-                <label>नाम संवर्ग</label>
-                <select name="pcu_post_id[]" id="pcu_post_id_${id}" class="form-control">
-                    ${pcuOptions}
-                </select>
-            </div>
+        // handle location mode changes
+        $(document).on('change', '.location_mode_select', function () {
+            var row = $(this).data('row');
+            var mode = $(this).val();
+            if (mode === "") {
+                $("#latlon_container_" + row).hide();
+                return;
+            }
+            $("#latlon_container_" + row).show();
+            if (mode === "GPS") {
+                $("#other_land_latitude_" + row).prop("readonly", true);
+                $("#other_land_longitude_" + row).prop("readonly", true);
+                $("#other_land_gps_btn_" + row).show();
+            } else {
+                $("#other_land_latitude_" + row).prop("readonly", false);
+                $("#other_land_longitude_" + row).prop("readonly", false);
+                $("#other_land_gps_btn_" + row).hide();
+            }
+            initMapForRow(row);
+        });
 
-            <div class="col-md-2 form-group">
-                <label>स्वीकृत</label>
-                <input type="number" name="pcu_sanctioned[]" id="pcu_sanctioned_${id}" class="form-control">
-            </div>
+        // fetch GPS coordinates
+        function other_land_fetchGPS(id) {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (pos) {
+                    $("#other_land_latitude_" + id).val(pos.coords.latitude);
+                    $("#other_land_longitude_" + id).val(pos.coords.longitude);
+                    initMapForRow(id);
+                }, function (err) {
+                    alert("GPS Error: " + err.message);
+                });
+            } else {
+                alert("GPS not supported!");
+            }
+        }
 
-            <div class="col-md-2 form-group">
-                <label>कार्यरत</label>
-                <input type="number" name="pcu_working[]" id="pcu_working_${id}" class="form-control">
-            </div>
+        $(document).ready(function () {
+            // initialize maps for any rows that have a location mode set
+            $(".location_mode_select").each(function () {
+                var row = $(this).data("row");
+                if ($(this).val() !== "") {
+                    initMapForRow(row);
+                }
+            });
 
-            <div class="col-md-2 form-group">
-                <label>रिक्त</label>
-                <input type="number" name="pcu_vacant[]" id="pcu_vacant_${id}" class="form-control">
-            </div>
+            // also init on change
+            $(".location_mode_select").on("change", function () {
+                var row = $(this).data("row");
+                if ($(this).val() !== "") {
+                    initMapForRow(row);
+                }
+            });
+        });
 
-            <div class="col-md-2 form-group">
-                <label>प्रा० स्वीकृत</label>
-                <input type="number" name="auth_sanctioned[]" id="auth_sanctioned_${id}" class="form-control">
-            </div>
+    </script>
+    <script>
+        $(document).ready(function () {
 
-            <div class="col-md-2 form-group">
-                <label>प्रा० कार्यरत</label>
-                <input type="number" name="auth_working[]" id="auth_working_${id}" class="form-control">
-            </div>
+            function calculateTotalMembers() {
+                let lifetime = parseInt($('#lifetime_member').val()) || 0;
+                let nominal = parseInt($('#nominal_member').val()) || 0;
+                $('#total_members').val(lifetime + nominal);
+            }
 
-            <div class="col-md-2 form-group">
-                <label>प्रा० रिक्त</label>
-                <input type="number" name="auth_vacant[]" id="auth_vacant_${id}" class="form-control">
-            </div>
+            // Run on typing
+            $('#lifetime_member, #nominal_member').on('input keyup change', function () {
+                calculateTotalMembers();
+            });
 
-            <div class="col-md-2 form-group">
-                <label>अन्य विवरण</label>
-                <input type="text" name="pcu_other_detail[]" id="pcu_other_detail_${id}" class="form-control">
-            </div>
+            // Run once on page load
+            calculateTotalMembers();
+        });
+    </script>
+    <script>
+        function updateOfficeRows(val) {
+            var count = parseInt(val, 10);
+            var container = document.getElementById('officeContainer');
+            var wrapper = document.getElementById('zoneTableWrapper');
+            if (!container || !wrapper) return;
 
-            <div class="col-md-1 form-group my-auto">
-                <button type="button" class="btn btn-info" onclick="addPcuRow()">नई पंक्ति [+]</button>
-            </div>
+            // Toggle visibility based on count
+            if (isNaN(count) || count < 1) {
+                wrapper.style.display = 'none';
+                return;
+            } else {
+                wrapper.style.display = 'block';
+            }
 
-        </div>
+            var tbody = container.getElementsByClassName('office-block')[0];
+            // Ensure we operate on rows inside the tbody
+            var currentRows = tbody.getElementsByTagName('tr');
+            if (currentRows.length === 0) return;
+
+            var diff = count - currentRows.length;
+
+            if (diff > 0) {
+                var template = currentRows[0];
+                for (var i = 0; i < diff; i++) {
+                    var clone = template.cloneNode(true);
+                    var inputs = clone.querySelectorAll('input, select, textarea');
+                    inputs.forEach(function (inp) {
+                        if (inp.type === 'file') {
+                            inp.value = '';
+                        } else {
+                            inp.value = '';
+                        }
+                        if (inp.tagName === 'SELECT') inp.selectedIndex = 0;
+                    });
+                    tbody.appendChild(clone);
+                }
+            } else if (diff < 0) {
+                while (currentRows.length > count) {
+                    tbody.removeChild(currentRows[currentRows.length - 1]);
+                }
+            }
+        }
+
+        function updateSeparatePrakhandRows(val) {
+            var count = parseInt(val, 10);
+            var wrapper = document.getElementById('prakhandTableWrapper');
+            var tbody = document.getElementById('prakhand-main-tbody');
+
+            if (!wrapper || !tbody) return;
+
+            if (isNaN(count) || count < 1) {
+                wrapper.style.display = 'none';
+                return;
+            } else {
+                wrapper.style.display = 'block';
+            }
+
+            var currentRows = tbody.getElementsByClassName('prakhand-row-template');
+            var diff = count - currentRows.length;
+
+            if (diff > 0) {
+                var template = currentRows[0];
+                for (var i = 0; i < diff; i++) {
+                    var clone = template.cloneNode(true);
+                    var inputs = clone.querySelectorAll('input, select, textarea');
+                    inputs.forEach(function (inp) {
+                        if (inp.type === 'file') {
+                            inp.value = '';
+                        } else {
+                            inp.value = '';
+                        }
+                    });
+                    tbody.appendChild(clone);
+                }
+            } else if (diff < 0) {
+                while (currentRows.length > count) {
+                    tbody.removeChild(currentRows[currentRows.length - 1]);
+                }
+            }
+        }
+
+        function updateOtherOfficeRows(val) {
+            var count = parseInt(val, 10);
+            var wrapper = document.getElementById('otherOfficeTableWrapper');
+            var tbody = document.getElementById('other-office-main-tbody');
+
+            if (!wrapper || !tbody) return;
+
+            if (isNaN(count) || count < 1) {
+                wrapper.style.display = 'none';
+                return;
+            } else {
+                wrapper.style.display = 'block';
+            }
+
+            var currentRows = tbody.getElementsByClassName('other-office-row-template');
+            var diff = count - currentRows.length;
+
+            if (diff > 0) {
+                var template = currentRows[0];
+                for (var i = 0; i < diff; i++) {
+                    var clone = template.cloneNode(true);
+                    var inputs = clone.querySelectorAll('input, select, textarea');
+                    inputs.forEach(function (inp) {
+                        if (inp.type === 'file') {
+                            inp.value = '';
+                        } else {
+                            inp.value = '';
+                        }
+                    });
+                    tbody.appendChild(clone);
+                }
+            } else if (diff < 0) {
+                while (currentRows.length > count) {
+                    tbody.removeChild(currentRows[currentRows.length - 1]);
+                }
+            }
+        }
+
+        // If page loads with existing zone count, render blocks accordingly
+        document.addEventListener('DOMContentLoaded', function () {
+            var z = document.getElementById('no_of_zones');
+            if (z && z.value) updateOfficeRows(z.value);
+
+        });
+
+        function previewImage(input) {
+
+            if (input.files && input.files[0]) {
+
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+
+                    var preview = input.parentElement.querySelector("img");
+
+                    preview.src = e.target.result;
+                    preview.style.display = "block";
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+    </script>
+    <script type="text/javascript" src="js/multistepform_pcu.js?v=2"></script>
+    <script src="js/light-bootstrap-dashboard.js?v=1.4.0"></script>
+    <script>
+        function sec_6_2_add_rows() {
+
+            var count = parseInt($("#sec_6_2_id").val());
+            count++;
+
+            var yearOptions = '';
+            for (var y = 2025; y >= 1975; y--) {
+                yearOptions += '<option value="' + y + '">' + y + '</option>';
+            }
+
+            var html = '<tr id="sec_6_2_row_' + count + '">' +
+
+                '<td>' +
+                '<select name="sec_6_2_category_' + count + '" class="form-control">' +
+                '<option value="">--select--</option>' +
+                '<option value="पदेन">पदेन</option>' +
+                '<option value="निर्वाचित">निर्वाचित</option>' +
+                '<option value="नामित">नामित</option>' +
+                '</select>' +
+                '<div style="display:none;">' +
+                '<label>पद का नाम</label>' +
+                '<input type="text" name="sec_6_2_post_name_' + count + '" id="sec_6_2_post_name_' + count + '" class="form-control">' +
+
+                '<label>निर्वाचन का वर्ष</label>' +
+                '<select name="sec_6_2_election_year_' + count + '" id="sec_6_2_election_year_' + count + '" class="form-control">' +
+                '<option value="">--Select--</option>' +
+                yearOptions +
+                '</select>' +
+                '</div>' +
+                '</td>' +
+
+                '<td>' +
+                '<select name="sec_6_2_designation_' + count + '" class="form-control">' +
+                '<option value="">--select--</option>' +
+                '<option value="अध्यक्ष">अध्यक्ष</option>' +
+                '<option value="उपाध्यक्ष">उपाध्यक्ष</option>' +
+                '<option value="संचालक">संचालक</option>' +
+                '</select>' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text" name="sec_6_2_name_' + count + '" id="sec_6_2_name_' + count + '" class="form-control">' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text" name="sec_6_2_father_name_' + count + '" id="sec_6_2_father_name_' + count + '" class="form-control">' +
+                '</td>' +
+
+                '<td>' +
+                '<input type="text" name="sec_6_2__mob_no_' + count + '" id="sec_6_2__mob_no_' + count + '" class="form-control" maxlength="10">' +
+                '</td>' +
+
+                '</tr>';
+
+            $("#sec_6_2_tbody").append(html);
+
+            $("#sec_6_2_id").val(count);
+        }
+
+        function add_more_business() {
+            var count = parseInt($("#other_business_id").val());
+            count++;
+            var html = '<tr class="business_matrix_row" id="business_row_' + count + '">' +
+                '<td>' +
+                '<select name="sec_2_1_2_business_description_' + count + '" id="sec_2_1_2_business_description_' + count + '" class="form-control">' +
+                '<option value="">--select--</option>' +
+                '<option value="cattle_feed">कैटल फीड</option>' +
+                '<option value="any_other">अन्य</option>' +
+                '</select>' +
+                '</td>' +
+                '<td>' +
+                '<input type="text" name="sec_2_1_2_value_' + count + '" id="sec_2_1_2_value_' + count + '" class="form-control chk_decimal">' +
+                '</td>' +
+                '<td>' +
+                '<select name="sec_2_1_2_profit_loss_' + count + '" id="sec_2_1_2_profit_loss_' + count + '" class="form-control">' +
+                '<option value="">--select--</option>' +
+                '<option value="लाभ">लाभ</option>' +
+                '<option value="हानि">हानि</option>' +
+                '</select>' +
+                '</td>' +
+                '<td class="text-center">' +
+                '<button type="button" class="btn btn-danger btn-sm" onclick="$(this).closest(\'tr\').remove();">-</button>' +
+                '</td>' +
+                '</tr>';
+
+            $("#other_business_table tbody").append(html);
+            $("#other_business_id").val(count);
+        }
+    </script>
+
+    <script>
+        let financialData = <?php echo json_encode($structured_financial); ?>;
+        let yearCount = 3;
+        let lastYear = 2024; // last static year
+
+        document.addEventListener("DOMContentLoaded", function(){
+
+            let years = Object.keys(financialData);
+            let rowIndex = 1;
+
+            years.forEach(function(year){
+
+                let startYear = parseInt(year.split('-')[0]);
+
+                if(startYear > lastYear){
+                    lastYear = startYear;
+                }
+
+                // create row if not present
+                if(!document.querySelector('[name="financial_year_label_'+rowIndex+'"]')){
+                    addFinancialRow(year);
+                }
+
+                let data = financialData[year];
+
+                document.querySelector('[name="financial_year_label_'+rowIndex+'"]').value = year;
+
+                document.querySelector('[name="sec_3_profit_loss_'+rowIndex+'"]').value =
+                    data.annual.status;
+
+                document.querySelector('[name="sec_3_gross_amount_'+rowIndex+'"]').value =
+                    data.annual.gross_amount;
+
+                document.querySelector('[name="sec_3_net_amount_'+rowIndex+'"]').value =
+                    data.annual.net_amount;
+
+                document.querySelector('[name="sec_3_accumulated_'+rowIndex+'"]').value =
+                    data.accumulated.status;
+
+                document.querySelector('[name="sec_3_acc_gross_amount_'+rowIndex+'"]').value =
+                    data.accumulated.gross_amount;
+
+                document.querySelector('[name="sec_3_acc_net_amount_'+rowIndex+'"]').value =
+                    data.accumulated.net_amount;
+
+                rowIndex++;
+
+            });
+
+            yearCount = years.length;
+
+        });
+
+        function addFinancialRow(prefillYear = null){
+
+            yearCount++;
+
+            let yearLabel;
+
+            if(prefillYear){
+                yearLabel = prefillYear;
+                lastYear = parseInt(prefillYear.split('-')[0]);
+            }else{
+
+                lastYear++;
+                let endYear = (lastYear + 1).toString().slice(-2);
+                yearLabel = lastYear + "-" + endYear;
+            }
+            let tbody = document.querySelector("#financialMatrixTable tbody");
+            let groupId = "year_group_" + yearCount;
+            let html = `
+<tr class="${groupId}">
+    <td rowspan="2">
+        ${yearLabel}
+        <input type="hidden" name="financial_year_label_${yearCount}" value="${yearLabel}">
+    </td>
+
+    <td>वार्षिक लाभ/हानि</td>
+
+    <td>
+        <select name="sec_3_profit_loss_${yearCount}" class="form-control"
+        onchange="handleDropdownColorChange(this,'profit','#42ecf5','loss','#f28546');">
+
+            <option value="">--Select--</option>
+            <option value="profit">लाभ</option>
+            <option value="loss">हानि</option>
+
+        </select>
+    </td>
+
+    <td>
+        <input type="text" name="sec_3_gross_amount_${yearCount}" class="form-control chk_decimal">
+    </td>
+
+    <td>
+        <input type="text" name="sec_3_net_amount_${yearCount}" class="form-control chk_decimal">
+    </td>
+
+    <td rowspan="2" class="text-center">
+        <button type="button" class="btn btn-danger btn-sm"
+        onclick="removeFinancialRow('${groupId}')">-</button>
+    </td>
+</tr>
+
+<tr class="${groupId}">
+
+    <td>संचित लाभ/हानि</td>
+
+    <td>
+        <select name="sec_3_accumulated_${yearCount}" class="form-control"
+        onchange="handleDropdownColorChange(this,'profit','#42ecf5','loss','#f28546');">
+
+            <option value="">--Select--</option>
+            <option value="profit">लाभ</option>
+            <option value="loss">हानि</option>
+
+        </select>
+    </td>
+
+    <td>
+        <input type="text" name="sec_3_acc_gross_amount_${yearCount}" class="form-control chk_decimal">
+    </td>
+
+    <td>
+        <input type="text" name="sec_3_acc_net_amount_${yearCount}" class="form-control chk_decimal">
+    </td>
+
+</tr>
+`;
+            tbody.insertAdjacentHTML("beforeend", html);
+
+        }
+
+        document.getElementById("addYearRowBtn").addEventListener("click", function(){
+            addFinancialRow();
+        });
+
+        function removeFinancialRow(groupId){
+
+            let allDynamicRows = document.querySelectorAll('[class^="year_group_"]');
+            let lastGroup = allDynamicRows[allDynamicRows.length - 1].classList[0];
+
+            if(groupId !== lastGroup){
+                alert("कृपया पहले अंतिम वर्ष हटाएँ!");
+                return;
+            }
+
+            let rows = document.querySelectorAll("." + groupId);
+
+            rows.forEach(function(row){
+                row.remove();
+            });
+
+        }
+    </script>
+
+    <script>
+        var committeeData = <?php echo json_encode($data_6_2); ?>;
+        $(document).ready(function(){
+
+            if(committeeData.length > 0){
+
+                $("#sec_6_2_tbody").html('');
+                $("#sec_6_2_id").val(0);
+
+                committeeData.forEach(function(row){
+
+                    sec_6_2_add_rows_prefill(row);
+
+                });
+
+            }
+
+        });
+
+        function sec_6_2_add_rows_prefill(data){
+
+            var count = parseInt($("#sec_6_2_id").val());
+            count++;
+
+            var html = '<tr id="sec_6_2_row_'+count+'">'+
+
+                '<td>'+
+                '<select name="sec_6_2_category_'+count+'" class="form-control">'+
+                '<option value="">--select--</option>'+
+                '<option value="पदेन">पदेन</option>'+
+                '<option value="निर्वाचित">निर्वाचित</option>'+
+                '<option value="नामित">नामित</option>'+
+                '</select>'+
+                '</td>'+
+
+                '<td>'+
+                '<select name="sec_6_2_designation_'+count+'" class="form-control">'+
+                '<option value="">--select--</option>'+
+                '<option value="अध्यक्ष">अध्यक्ष</option>'+
+                '<option value="उपाध्यक्ष">उपाध्यक्ष</option>'+
+                '<option value="संचालक">संचालक</option>'+
+                '</select>'+
+                '</td>'+
+
+                '<td>'+
+                '<input type="text" name="sec_6_2_name_'+count+'" class="form-control">'+
+                '</td>'+
+
+                '<td>'+
+                '<input type="text" name="sec_6_2_father_name_'+count+'" class="form-control">'+
+                '</td>'+
+
+                '<td>'+
+                '<input type="text" name="sec_6_2__mob_no_'+count+'" class="form-control">'+
+                '</td>'+
+
+                '</tr>';
+
+            $("#sec_6_2_tbody").append(html);
+
+            $('select[name="sec_6_2_category_'+count+'"]').val(data.category);
+            $('select[name="sec_6_2_designation_'+count+'"]').val(data.designation);
+            $('input[name="sec_6_2_name_'+count+'"]').val(data.member_name);
+            $('input[name="sec_6_2_father_name_'+count+'"]').val(data.father_name);
+            $('input[name="sec_6_2__mob_no_'+count+'"]').val(data.mobile_no);
+
+            $("#sec_6_2_id").val(count);
+
+        }
+    </script>
+
+    <script>
+        function addHumanResourceRow() {
+            let tbody = document.getElementById('human_resource_rows');
+            let firstRow = tbody.querySelector('tr.human_row');
+            let newRow = firstRow.cloneNode(true);
+
+            // Clear all input values in the new row
+            newRow.querySelectorAll('input').forEach(input => input.value = '');
+            newRow.querySelectorAll('select').forEach(select => select.selectedIndex = 0);
+
+            // Change + button to - button
+            let actionCell = newRow.querySelector('td:last-child');
+            actionCell.innerHTML = `
+            <button type="button" class="btn btn-danger btn-sm"
+                onclick="removeHumanResourceRow(this)">-</button>
         `;
 
-        $("#pcu_resource_rows").append(rowHTML);
-    }
+            tbody.appendChild(newRow);
+        }
 
-</script>
+        function removeHumanResourceRow(btn) {
+            let row = btn.closest('tr');
+            let rowIndex = Array.from(row.parentNode.children).indexOf(row);
 
-<script type="text/javascript" src="js/multistepform_pcu.js?v=1">
-    <!-- Light Bootstrap Table Core javascript and methods for Demo purpose -->
-    < script src="js/light-bootstrap-dashboard.js?v=1.4.0">
-</script>
+            // Remove corresponding staff block
+            let staffBlock = document.querySelector('.staff_block[data-row="'+rowIndex+'"]');
+            if (staffBlock) staffBlock.remove();
+
+            row.remove();
+        }
+        function updateStaffSection(elem) {
+
+            let row = elem.closest('.human_row');
+            let tbody = document.getElementById('human_resource_rows');
+            let rowIndex = Array.from(tbody.children).indexOf(row);
+
+            let staffTypeSelect = row.querySelector('select[name="staff_type[]"]');
+            let postSelect = row.querySelector('select[name="post_id[]"]');
+            let sanctionedInput = row.querySelector('input[name="sanctioned_post[]"]');
+
+            let staffTypeText = staffTypeSelect.options[staffTypeSelect.selectedIndex]?.text || '';
+            let postText = postSelect.options[postSelect.selectedIndex]?.text || '';
+            let postValue = postSelect.value;
+            let sanctioned = parseInt(sanctionedInput.value) || 0;
+
+            let mainContainer = document.getElementById('staff_rows');
+            document.getElementById('staff_section').style.display = 'block';
+
+            // Remove old block of this row only
+            let oldBlock = document.querySelector('.staff_block[data-row="'+rowIndex+'"]');
+            if (oldBlock) oldBlock.remove();
+
+            if (postValue && sanctioned > 0) {
+
+                let blockWrapper = document.createElement('div');
+                blockWrapper.classList.add('staff_block');
+                blockWrapper.setAttribute('data-row', rowIndex);
+                blockWrapper.style.marginBottom = "20px";
+
+                // 🔷 Add Heading
+                let heading = document.createElement('div');
+                heading.style.background = "#f1f8ff";
+                heading.style.padding = "10px 15px";
+                heading.style.borderLeft = "4px solid #0d6efd";
+                heading.style.borderRadius = "6px";
+                heading.style.marginBottom = "15px";
+                heading.style.fontWeight = "600";
+                heading.innerHTML = `
+            ${staffTypeText} | ${postText} | स्वीकृत पद: ${sanctioned}
+        `;
+
+                blockWrapper.appendChild(heading);
+
+                // Generate Staff Rows
+                for (let i = 0; i < sanctioned; i++) {
+                    let template = document.getElementById('staff_row_template').cloneNode(true);
+                    template.style.display = 'block';
+                    template.removeAttribute('id');
+
+                    template.querySelector('.staff_post_name').value = postValue;
+
+                    blockWrapper.appendChild(template);
+                }
+
+                mainContainer.appendChild(blockWrapper);
+            }
+
+            // Hide section if empty
+            if (mainContainer.children.length === 0) {
+                document.getElementById('staff_section').style.display = 'none';
+            }
+        }
+
+        function uploadDocument() {
+            alert('Upload Document functionality can be implemented here!');
+        }
+
+        function downloadExcel() {
+            var survey_id = "<?php echo $row_invoice['sno']; ?>";
+            window.location.href = "download_hr_excel.php?survey_id=" + survey_id;
+            // alert('Download Excel functionality can be implemented here!22222');
+        }
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
+            let rows = document.querySelectorAll('#human_resource_rows .human_row');
+            rows.forEach(function(row){
+
+                console.log (rows);
+
+                let postSelect = row.querySelector('select[name="post_id[]"]');
+                let sanctionedInput = row.querySelector('input[name="sanctioned_post[]"]');
+
+                if(postSelect.value && sanctionedInput.value > 0){
+                    updateStaffSection(postSelect);
+                }
+
+            });
+
+        });
+    </script>
+    <script>
+        var existingHRData = <?php echo json_encode(array_values($prefillData)); ?>;
+        document.addEventListener("DOMContentLoaded", function() {
+
+            if (typeof existingHRData !== 'undefined' && existingHRData.length > 0) {
+
+                let tbody = document.getElementById('human_resource_rows');
+                tbody.innerHTML = ''; // clear default empty row
+
+                existingHRData.forEach(function(hr, index){
+
+                    // ---- CREATE MAIN ROW ----
+                    let row = document.createElement('tr');
+                    row.classList.add('human_row');
+
+                    row.innerHTML = `
+                <td>
+                    <select name="staff_type[]" class="form-control"
+                        onchange="updateStaffSection(this)">
+                        <option value="">--Select--</option>
+                        <option value="tech" ${hr.staff_type=='tech'?'selected':''}>Technical</option>
+                        <option value="nontech" ${hr.staff_type=='nontech'?'selected':''}>Non-Technical</option>
+                    </select>
+                </td>
+
+                <td>
+                    <select name="post_id[]" class="form-control post-select"
+                        onchange="updateStaffSection(this)">
+                        <option value="">--Select--</option>
+                        <?php echo $postOptionsHTML; ?>
+                    </select>
+                </td>
+
+                <td>
+                    <input type="number" name="sanctioned_post[]"
+                        value="${hr.sanctioned_post}"
+                        class="form-control"
+                        onchange="updateStaffSection(this)">
+                </td>
+
+                <td>
+                    <input type="number" name="vacant_post[]"
+                        value="${hr.vacant_post}"
+                        class="form-control">
+                </td>
+
+                <td class="text-center">
+                    ${index==0 ?
+                        `<button type="button" class="btn btn-info btn-sm"
+                            onclick="addHumanResourceRow();">
+                            नई पंक्ति जोड़े [+]
+                        </button>`
+                        :
+                        `<button type="button" class="btn btn-danger btn-sm"
+                            onclick="removeHumanResourceRow(this)">-</button>`
+                    }
+                </td>
+            `;
+
+                    tbody.appendChild(row);
+
+                    // set selected post after adding
+                    row.querySelector('select[name="post_id[]"]').value = hr.hr_post_id;
+
+                });
+
+                // ---- NOW GENERATE STAFF BLOCKS ----
+                setTimeout(function(){
+
+                    let rows = document.querySelectorAll('#human_resource_rows .human_row');
+
+                    existingHRData.forEach(function(hr, index){
+
+                        let row = rows[index];
+                        let postSelect = row.querySelector('select[name="post_id[]"]');
+
+                        updateStaffSection(postSelect);
+
+                        // Fill staff details
+                        let staffBlocks = document.querySelectorAll('.staff_block')[index];
+                        let staffRows = staffBlocks.querySelectorAll('.staff_row');
+
+                        hr.staff_members.forEach(function(staff, i){
+
+                            let current = staffRows[i];
+
+                            current.querySelector('select[name="staff_post_name[]"]').value = staff.staff_post_id;
+                            current.querySelector('input[name="staff_name[]"]').value = staff.staff_name;
+                            current.querySelector('input[name="staff_sthiti[]"]').value = staff.staff_sthiti;
+                            current.querySelector('input[name="staff_father[]"]').value = staff.staff_father;
+                            current.querySelector('input[name="staff_dob[]"]').value = staff.staff_dob;
+                            current.querySelector('input[name="staff_mobile[]"]').value = staff.staff_mobile;
+                            current.querySelector('select[name="staff_qualification[]"]').value = staff.staff_qualification;
+
+                            if (staff.staff_image && staff.staff_image !== "") {
+
+                                let preview = current.querySelector(".img-preview");
+                                let imageLink = current.querySelector(".image-link");
+                                let hiddenInput = current.querySelector(".existing-staff-image");
+
+                                var imagePath = "user_data/staff_" + staff.survey_id + "/" + staff.staff_image;
+
+                                preview.src = imagePath;
+                                imageLink.href = imagePath;
+
+                                preview.style.display = "block";
+                                imageLink.style.display = "inline-block";
+
+                                hiddenInput.value = staff.staff_image;
+                            }
+
+                        });
+
+                    });
+
+                }, 200);
+
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener("change", function(e) {
+            if (e.target.classList.contains("staff-image-input")) {
+                let input = e.target;
+                let file = input.files[0];
+                let formGroup = input.closest(".form-group");
+                let preview = formGroup.querySelector(".img-preview");
+                let imageLink = formGroup.querySelector(".image-link");
+
+                if (file) {
+                    let reader = new FileReader();
+                    reader.onload = function(event) {
+                        // Update preview image src
+                        preview.src = event.target.result;
+                        preview.style.display = "block";
+
+                        // Also update and show the anchor wrapper
+                        if (imageLink) {
+                            imageLink.href = event.target.result;
+                            imageLink.style.display = "inline-block";
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    // No file selected — hide preview
+                    preview.src = "";
+                    preview.style.display = "none";
+                    if (imageLink) {
+                        imageLink.style.display = "none";
+                    }
+                }
+            }
+        });
+    </script>
+    <script>
+        var zoneData = <?php echo json_encode($zone_data); ?>;
+        var prakhandData = <?php echo json_encode($prakhand_data); ?>;
+        var otherData = <?php echo json_encode($other_data); ?>;
+
+        document.addEventListener("DOMContentLoaded", function(){
+
+            /* =========================
+               ZONE PREFILL
+            ========================= */
+
+            if(zoneData && zoneData.length){
+
+                document.getElementById("zoneTableWrapper").style.display = "block";
+
+                document.getElementById("no_of_zones").value = zoneData.length;
+
+                updateOfficeRows(zoneData.length);
+
+                let rows = document.querySelectorAll(".office-block tr");
+
+                zoneData.forEach(function(item,index){
+
+                    if(!rows[index]) return;
+
+                    rows[index].querySelector('[name="zone_name[]"]').value = item.zone_name || "";
+                    rows[index].querySelector('[name="zone_mobile[]"]').value = item.zone_mobile || "";
+                    rows[index].querySelector('[name="zone_email[]"]').value = item.zone_email || "";
+                    rows[index].querySelector('[name="zone_address[]"]').value = item.zone_address || "";
+
+                    /* IMAGE PREFILL */
+                    if(item.zone_image){
+                        let img = rows[index].querySelector(".zone-preview");
+                        img.src = "user_data/zones/" + item.zone_image;
+                        img.style.display = "block";
+                        rows[index].querySelector(".zone-image-old").value = item.zone_image;
+                    }
+                });
+            }
 
 
-<?php
-page_footer_start();
-?>
+            /* =========================
+               TRAINING CENTER PREFILL
+            ========================= */
+
+            if(prakhandData && prakhandData.length){
+
+                document.getElementById("prakhandTableWrapper").style.display = "block";
+
+                document.getElementById("global_prakhand_count").value = prakhandData.length;
+
+                updateSeparatePrakhandRows(prakhandData.length);
+
+                let rows = document.querySelectorAll("#prakhand-main-tbody tr");
+
+                prakhandData.forEach(function(item,index){
+
+                    if(!rows[index]) return;
+
+                    rows[index].querySelector('[name="prakhand_name[]"]').value = item.zone_name || "";
+                    rows[index].querySelector('[name="prakhand_mobile[]"]').value = item.zone_mobile || "";
+                    rows[index].querySelector('[name="prakhand_email[]"]').value = item.zone_email || "";
+                    rows[index].querySelector('[name="prakhand_address[]"]').value = item.zone_address || "";
+
+                    if(item.zone_image){
+                        let img = rows[index].querySelector(".zone-preview");
+                        img.src = "user_data/zones/" + item.zone_image;
+                        img.style.display = "block";
+                        rows[index].querySelector(".prakhand-image-old").value = item.zone_image;
+
+
+                    }
+                });
+            }
+
+
+            /* =========================
+               OTHER OFFICE PREFILL
+            ========================= */
+
+            if(otherData && otherData.length){
+
+                document.getElementById("otherOfficeTableWrapper").style.display = "block";
+
+                document.getElementById("global_other_office_count").value = otherData.length;
+
+                updateOtherOfficeRows(otherData.length);
+
+                let rows = document.querySelectorAll("#other-office-main-tbody tr");
+
+                otherData.forEach(function(item,index){
+
+                    if(!rows[index]) return;
+
+                    rows[index].querySelector('[name="other_office_name[]"]').value = item.zone_name || "";
+                    rows[index].querySelector('[name="other_office_mobile[]"]').value = item.zone_mobile || "";
+                    rows[index].querySelector('[name="other_office_email[]"]').value = item.zone_email || "";
+                    rows[index].querySelector('[name="other_office_address[]"]').value = item.zone_address || "";
+
+                    if(item.zone_image){
+                        let img = rows[index].querySelector(".zone-preview");
+                        img.src = "user_data/zones/" + item.zone_image;
+                        img.style.display = "block";
+                        rows[index].querySelector(".other-image-old").value = item.zone_image;
+                    }
+                });
+            }
+
+        });
+    </script>
+
+    <script>
+        let emptyLandData = <?php echo json_encode($empty_land_data ?? []); ?>;
+        let surveyId = "<?php echo $row_invoice['sno']; ?>";
+
+        let rowCount = 1;
+
+        /* ===============================
+           CREATE ROW
+        ================================ */
+
+        function createEmptyLandRow(data = {}) {
+
+            rowCount++;
+            document.getElementById("sec_3_c_id").value = rowCount;
+            let district = data.sec_3_c_district ?? "";
+            let area = data.sec_3_c_area ?? "";
+            let road = data.sec_3_c_paved_road ?? "";
+            let location = data.sec_3_c_land_location ?? "";
+            let image = data.sec_3_c_image ?? "";
+
+            let imagePath = image
+                ? "user_data/empty_land_" + surveyId + "/" + image
+                : "";
+
+            let html = `
+            <div class="row mb-2 sec3c_row">
+            <div class="col-sm-2 form-group">
+            <label>जनपद</label>
+            <select name="sec_3_c_district_${rowCount}" class="form-control">
+            <option value="">--Select--</option>
+            <?php foreach ($districts as $d) { ?>
+            <option value="<?php echo $d['sno']; ?>">
+            <?php echo $d['district_name']; ?>
+            </option>
+            <?php } ?>
+            </select>
+            </div>
+            <div class="col-sm-2 form-group">
+            <label>क्षेत्रफल (हेक्टेयर में)</label>
+            <input type="text"
+            name="sec_3_c_area_${rowCount}"
+            value="${area}"
+            class="form-control">
+            </div>
+            <div class="col-sm-2 form-group">
+            <label>पहुच मार्ग का प्रकार</label>
+            <select name="sec_3_c_paved_road_${rowCount}" class="form-control">
+            <option value="">--select--</option>
+            <option value="ordinary">कच्ची सड़क</option>
+            <option value="nh">नेशनल हाईवे</option>
+            <option value="sh">स्टेट हाईवे</option>
+            <option value="mdr">एम.डी.आर.</option>
+            <option value="odr">ओ.डी.आर.</option>
+            <option value="rural_road">ग्रामीण सड़क</option>
+            <option value="other">अन्य</option>
+            </select>
+            </div>
+            <div class="col-sm-2 form-group">
+            <label>स्थान</label>
+            <select name="sec_3_c_land_location_${rowCount}" class="form-control">
+            <option value="">--select--</option>
+            <option value="inpremise">समिति प्रांगण</option>
+            <option value="other">अन्य स्थान</option>
+            </select>
+            </div>
+            <div class="col-sm-2 form-group">
+            <label>संस्था का फोटो GPS टैग के साथ संलग्न करे</label>
+            <input type="file"
+            name="sec_3_c_image_${rowCount}"
+            class="form-control"
+            accept="image/*"
+            onchange="emptylanddetailspreviewimage(this)">
+            <img class="img-preview mt-2"
+            src="${imagePath}"
+            style="max-width:120px; ${image ? 'display:block' : 'display:none'}; border:1px solid #ccc;padding:3px;">
+            <input type="hidden"
+            name="sec_3_c_existing_image_${rowCount}"
+            value="${image}">
+            </div>
+            <div class="col-sm-1 form-group my-auto">
+            <button type="button"
+            class="btn btn-danger"
+            onclick="removeSec3cRow(this)">
+            -
+            </button>
+            </div>
+            </div>`;
+            document.getElementById("sec_3_c").insertAdjacentHTML("beforeend", html);
+
+            /* SET SELECT VALUES */
+            let row = document.querySelectorAll(".sec3c_row")[rowCount - 1];
+            if (row) {
+                row.querySelector(`select[name="sec_3_c_district_${rowCount}"]`).value = district;
+                row.querySelector(`select[name="sec_3_c_paved_road_${rowCount}"]`).value = road;
+                row.querySelector(`select[name="sec_3_c_land_location_${rowCount}"]`).value = location;
+            }
+        }
+
+        /* ===============================
+           ADD NEW ROW
+        ================================ */
+
+        function sec_3_c_add_rows() {
+            createEmptyLandRow();
+        }
+
+        /* ===============================
+           REMOVE ROW
+        ================================ */
+
+        function removeSec3cRow(btn) {
+
+            btn.closest('.sec3c_row').remove();
+
+        }
+
+        /* ===============================
+           IMAGE PREVIEW
+        ================================ */
+
+        function emptylanddetailspreviewimage(input) {
+
+            let preview = input.parentElement.querySelector('.img-preview');
+
+            if (input.files && input.files[0]) {
+
+                let reader = new FileReader();
+
+                reader.onload = function (e) {
+
+                    preview.src = e.target.result;
+                    preview.style.display = "block";
+
+                }
+
+                reader.readAsDataURL(input.files[0]);
+
+            }
+
+        }
+
+        /* ===============================
+           PREFILL DATA FOR EMPTY LAND
+        ================================ */
+
+        window.onload = function () {
+
+            if (emptyLandData.length > 0) {
+
+                emptyLandData.forEach(function (row) {
+
+                    createEmptyLandRow(row);
+
+                });
+
+            }
+
+        }
+    </script>
+
+    <?php
+    page_footer_start();
+    ?>

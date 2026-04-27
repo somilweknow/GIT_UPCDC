@@ -17,9 +17,9 @@ let succcessDiv = document.getElementById('success');
 form.onsubmit = () => { return false }
 
 let current_step = 0;
-let stepCount = 6
+let stepCount = step.length - 1;
 step[current_step].classList.add('d-block');
-if(current_step == 0){
+if (current_step == 0) {
 	prevBtn.classList.add('d-none');
 	submitBtn.classList.add('d-none');
 	nextBtn.classList.add('d-inline-block');
@@ -28,22 +28,22 @@ if(current_step == 0){
 nextBtn.addEventListener('click', () => {
 	current_step++;
 	let previous_step = current_step - 1;
-	if(( current_step > 0) && (current_step <= stepCount)){
+	if ((current_step > 0) && (current_step <= stepCount)) {
 		prevBtn.classList.remove('d-none');
 		prevBtn.classList.add('d-inline-block');
 		step[current_step].classList.remove('d-none');
 		step[current_step].classList.add('d-block');
 		step[previous_step].classList.remove('d-block');
 		step[previous_step].classList.add('d-none');
-        if (current_step == stepCount){
+		if (current_step == stepCount) {
 			submitBtn.classList.remove('d-none');
 			submitBtn.classList.add('d-inline-block');
 			nextBtn.classList.remove('d-inline-block');
 			nextBtn.classList.add('d-none');
 		}
-	} 
+	}
 	else {
-		if(current_step > stepCount){
+		if (current_step > stepCount) {
 			form.onsubmit = () => { return true }
 		}
 	}
@@ -51,25 +51,25 @@ nextBtn.addEventListener('click', () => {
 });
 
 prevBtn.addEventListener('click', () => {
-	if(current_step > 0){
+	if (current_step > 0) {
 		current_step--;
-		let previous_step = current_step + 1; 
+		let previous_step = current_step + 1;
 		prevBtn.classList.add('d-none');
 		prevBtn.classList.add('d-inline-block');
 		step[current_step].classList.remove('d-none');
 		step[current_step].classList.add('d-block')
 		step[previous_step].classList.remove('d-block');
 		step[previous_step].classList.add('d-none');
-		if(current_step < stepCount){
+		if (current_step < stepCount) {
 			submitBtn.classList.remove('d-inline-block');
 			submitBtn.classList.add('d-none');
 			nextBtn.classList.remove('d-none');
 			nextBtn.classList.add('d-inline-block');
 			prevBtn.classList.remove('d-none');
 			prevBtn.classList.add('d-inline-block');
-		} 
+		}
 	}
-	if(current_step == 0){
+	if (current_step == 0) {
 		prevBtn.classList.remove('d-inline-block');
 		prevBtn.classList.add('d-none');
 	}
@@ -78,23 +78,23 @@ prevBtn.addEventListener('click', () => {
 
 
 submitBtn.addEventListener('click', () => {
-    preloader.classList.add('d-block');
+	preloader.classList.add('d-block');
 
-    const timer = ms => new Promise(res => setTimeout(res, ms));
+	const timer = ms => new Promise(res => setTimeout(res, ms));
 
-    timer(1000)
-      .then(() => {
-           bodyElement.classList.add('loaded');
-      }).then(() =>{
-          step[stepCount].classList.remove('d-block');
-          step[stepCount].classList.add('d-none');
-          nextBtn.classList.remove('d-inline-block');
-          nextBtn.classList.add('d-none');
-          submitBtn.classList.remove('d-inline-block');
-          submitBtn.classList.add('d-none');
-          succcessDiv.classList.remove('d-none');
-          succcessDiv.classList.add('d-block');
-      })
-      
+	timer(1000)
+		.then(() => {
+			bodyElement.classList.add('loaded');
+		}).then(() => {
+			step[stepCount].classList.remove('d-block');
+			step[stepCount].classList.add('d-none');
+			nextBtn.classList.remove('d-inline-block');
+			nextBtn.classList.add('d-none');
+			submitBtn.classList.remove('d-inline-block');
+			submitBtn.classList.add('d-none');
+			succcessDiv.classList.remove('d-none');
+			succcessDiv.classList.add('d-block');
+		})
+
 });
 

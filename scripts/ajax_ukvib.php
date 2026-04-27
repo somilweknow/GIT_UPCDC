@@ -208,58 +208,66 @@ elseif($id=='submit_form_ukvib'){
 					}else{
 						$data[] = array("id"=>"update", "msg"=>"4. Data saved.");
 					}
-
 				}
 
 				break;
 			}
 			case 2:{
-				$sql = 'select * from apex_si_1_1 where sno="'.$_POST['survey_id'].'"';
+				$sql = 'select * from apex_si_1_1 where sno="' . $_POST['survey_id'] . '"';
 				$survey_invoice = mysqli_fetch_assoc(execute_query($sql));
-
-				$sql = 'select * from apex where sno="'.$survey_invoice['apex_id'].'"';
+				$sql = 'select * from apex where sno="' . $survey_invoice['society_id'] . '"';
 				$society = mysqli_fetch_assoc(execute_query($sql));
 
-				foreach ($_POST['name'] as $post_id => $name) {
-                    $father_name   = $_POST['father_name'][$post_id] ?? '';
-                    $address       = $_POST['address'][$post_id] ?? '';
-                    $dob           = $_POST['dob'][$post_id] ?? '';
-                    $education     = $_POST['education'][$post_id] ?? '';
-                    $computer_exp  = $_POST['computer_exp'][$post_id] ?? '';
+				$post_ids = array_unique(array_merge(
+			array_keys($_POST['name'] ?? []),
+					array_keys($_POST['education'] ?? []),
+					array_keys($_POST['computer_exp'] ?? [])
+				));
 
-                    // Check if this record already exists
-                    $sql_check = 'SELECT * FROM survey_invoice_16_1
-                                WHERE survey_id="' . $survey_id . '" AND post_id="' . $post_id . '"';
-                    $res_check = mysqli_query($db, $sql_check);
+				foreach ($post_ids as $post_id) {
 
-                    if (mysqli_num_rows($res_check) == 0) {
-                        // Insert new
-                        $sql_insert = 'INSERT INTO survey_invoice_16_1 
-                            (survey_id, post_id, name, father_name, address, dob, education, computer_exp)
-                            VALUES (
-                                "' . $survey_id . '",
-                                "' . $post_id . '",
-                                "' . mysqli_real_escape_string($db, $name) . '",
-                                "' . mysqli_real_escape_string($db, $father_name) . '",
-                                "' . mysqli_real_escape_string($db, $address) . '",
-                                "' . mysqli_real_escape_string($db, $dob) . '",
-                                "' . mysqli_real_escape_string($db, $education) . '",
-                                "' . mysqli_real_escape_string($db, $computer_exp) . '"
-                            )';
-                        mysqli_query($db, $sql_insert);
-                    } else {
-                        // Update existing
-                        $sql_update = 'UPDATE survey_invoice_16_1 SET
-                            name="' . mysqli_real_escape_string($db, $name) . '",
-                            father_name="' . mysqli_real_escape_string($db, $father_name) . '",
-                            address="' . mysqli_real_escape_string($db, $address) . '",
-                            dob="' . mysqli_real_escape_string($db, $dob) . '",
-                            education="' . mysqli_real_escape_string($db, $education) . '",
-                            computer_exp="' . mysqli_real_escape_string($db, $computer_exp) . '"
-                            WHERE survey_id="' . $survey_id . '" AND post_id="' . $post_id . '"';
-                        mysqli_query($db, $sql_update);
-                    }
-                }
+					$name          = $_POST['name'][$post_id] ?? '';
+					$father_name   = $_POST['father_name'][$post_id] ?? '';
+					$address       = $_POST['address'][$post_id] ?? '';
+					$dob           = $_POST['dob'][$post_id] ?? '';
+					$education     = $_POST['education'][$post_id] ?? '';
+					$computer_exp  = $_POST['computer_exp'][$post_id] ?? '';
+
+					$sql_check = 'SELECT sno FROM survey_invoice_16_1 WHERE survey_id="' . $_POST['survey_id'] . '" AND post_id="' . $post_id . '"';
+					$res_check = mysqli_query($db, $sql_check);
+
+					if (mysqli_num_rows($res_check) == 0) {
+
+						$sql_insert = 'INSERT INTO survey_invoice_16_1
+						(survey_id, post_id, name, father_name, address, dob, education, computer_exp)
+						VALUES (
+							"' . $_POST['survey_id'] . '",
+							"' . $post_id . '",
+							"' . mysqli_real_escape_string($db, $name) . '",
+							"' . mysqli_real_escape_string($db, $father_name) . '",
+							"' . mysqli_real_escape_string($db, $address) . '",
+							"' . mysqli_real_escape_string($db, $dob) . '",
+							"' . mysqli_real_escape_string($db, $education) . '",
+							"' . mysqli_real_escape_string($db, $computer_exp) . '"
+						)';
+
+						mysqli_query($db, $sql_insert);
+
+					} else {
+
+						$sql_update = 'UPDATE survey_invoice_16_1 SET
+							name="' . mysqli_real_escape_string($db, $name) . '",
+							father_name="' . mysqli_real_escape_string($db, $father_name) . '",
+							address="' . mysqli_real_escape_string($db, $address) . '",
+							dob="' . mysqli_real_escape_string($db, $dob) . '",
+							education="' . mysqli_real_escape_string($db, $education) . '",
+							computer_exp="' . mysqli_real_escape_string($db, $computer_exp) . '"
+							WHERE survey_id="' . $_POST['survey_id'] . '" 
+							AND post_id="' . $post_id . '"';
+
+						mysqli_query($db, $sql_update);
+					}
+				}
 
                 if (mysqli_error($db)) {
                     echo 'Error saving data: ' . mysqli_error($db);
@@ -267,72 +275,67 @@ elseif($id=='submit_form_ukvib'){
                     echo 'Data saved successfully!';
                 }
 
-                $sql = 'select * from survey_invoice_new_sec_6_2 where survey_id="'.$_POST['survey_id'].'"';
+                $sql = 'select * from survey_invoice_new_sec_6_2 where survey_id="' . $_POST['survey_id'] . '"';
 				$res_6_2 = execute_query($sql);
-				if(mysqli_num_rows($res_6_2)==1){
+				if (mysqli_num_rows($res_6_2) == 1) {
 					$row_6_2 = mysqli_fetch_assoc($res_6_2);
-					
+
 					$sql = 'update survey_invoice_new_sec_6_2 set 
-					mgt_committee_is_elected="'.$_POST['sec_6_2_mgt_committee_is_elected'].'",
-					election_year="'.$_POST['sec_6_2_election_year'].'",
-					end_year="'.$_POST['sec_6_2_end_year'].'"
-					
-					where sno='.$row_6_2['sno'];
+						mgt_committee_is_elected="' . $_POST['sec_6_2_mgt_committee_is_elected'] . '",
+						election_year="' . $_POST['sec_6_2_election_year'] . '",
+						end_year="' . $_POST['sec_6_2_end_year'] . '"
+						
+						where sno=' . $row_6_2['sno'];
 					execute_query($sql);
-					
-					if(mysqli_error($db)){
-						$data[] = array("id"=>"error", "error"=>"6.2 Unable to save data.");
-					}
-					else{
-						$data[] = array("id"=>"Update", "msg"=>"6.2Data Saved");
-						
-						$sql = 'delete from survey_invoice_new_sec_6_2_1 where survey_id="'.$_POST['survey_id'].'"';
+
+					if (mysqli_error($db)) {
+						$data[] = array("id" => "error", "error" => "6.2 Unable to save data.");
+					} else {
+						$data[] = array("id" => "Update", "msg" => "6.2Data Saved");
+
+						$sql = 'delete from survey_invoice_new_sec_6_2_1 where survey_id="' . $_POST['survey_id'] . '"';
 						execute_query($sql);
-						
-						for($i=1;$i<=$_POST['sec_6_2_id'];$i++){
-							$sql = 'insert into survey_invoice_new_sec_6_2_1 (`survey_id`, `sec_6_2_id`, `designation`, `full_name`, `father_name`, `mobile_no`) values("'.$_POST['survey_id'].'", "'.$row_6_2['sno'].'", "'.$_POST['sec_6_2_designation_'.$i].'", "'.$_POST['sec_6_2_name_'.$i].'", "'.$_POST['sec_6_2_father_name_'.$i].'", "'.$_POST['sec_6_2__mob_no_'.$i].'")';
+
+						for ($i = 1; $i <= $_POST['sec_6_2_id']; $i++) {
+							$sql = 'insert into survey_invoice_new_sec_6_2_1 (`survey_id`, `sec_6_2_id`, `designation`, `full_name`, `father_name`, `mobile_no`, aadhar_no) values("' . $_POST['survey_id'] . '", "' . $row_6_2['sno'] . '", "' . $_POST['sec_6_2_designation_' . $i] . '", "' . $_POST['sec_6_2_name_' . $i] . '", "' . $_POST['sec_6_2_father_name_' . $i] . '", "' . $_POST['sec_6_2__mob_no_' . $i] . '", "' . $_POST['sec_6_2__aadhar_no_' . $i] . '")';
 							execute_query($sql);
-							if(mysqli_error($db)){
+							if (mysqli_error($db)) {
 								//echo mysqli_error($db);
-								$data[] = array("id"=>"error", "error"=>"6.2.Unable to save data.");
-							}
-							else{
-								$data[] = array("id"=>"Update", "msg"=>"6.2.Data Saved");	
+								$data[] = array("id" => "error", "error" => "6.2.Unable to save data.");
+							} else {
+								$data[] = array("id" => "Update", "msg" => "6.2.Data Saved");
 							}
 						}
-						
+
 					}
-				}
-				else{
-					$sql = 'INSERT INTO `survey_invoice_new_sec_6_2`(`survey_id`, `mgt_committee_is_elected`, `election_year`, `mgt_committee_resolution_no`) VALUES ("'.$_POST['survey_id'].'","'.$_POST['sec_6_2_mgt_committee_is_elected'].'", "'.$_POST['sec_6_2_election_year'].'", "'.$_POST['sec_6_2_mgt_committee_resolution_no'].'")';
+				} else {
+					$sql = 'INSERT INTO `survey_invoice_new_sec_6_2`(`survey_id`, `mgt_committee_is_elected`, `election_year`, `mgt_committee_resolution_no`) VALUES ("' . $_POST['survey_id'] . '","' . $_POST['sec_6_2_mgt_committee_is_elected'] . '", "' . $_POST['sec_6_2_election_year'] . '", "' . $_POST['sec_6_2_mgt_committee_resolution_no'] . '")';
 					execute_query($sql);
 					$row_6_2['sno'] = mysqli_insert_id($db);
-					if(mysqli_error($db)){
-						$data[] = array("id"=>"error", "error"=>"6.2Unable to save data.");
-					}
-					else{
-						$data[] = array("id"=>"Update", "msg"=>"6.2Data Saved");	
-						
-						for($i=1;$i<=$_POST['sec_6_2_id'];$i++){
-							$sql = 'insert into survey_invoice_new_sec_6_2_1 (`survey_id`, `sec_6_2_id`, `designation`, `full_name`, `father_name`, `mobile_no`) values("'.$_POST['survey_id'].'", "'.$row_6_2['sno'].'", "'.$_POST['sec_6_2_designation_'.$i].'", "'.$_POST['sec_6_2_name_'.$i].'", "'.$_POST['sec_6_2_father_name_'.$i].'", "'.$_POST['sec_6_2__mob_no_'.$i].'")';
+					if (mysqli_error($db)) {
+						$data[] = array("id" => "error", "error" => "6.2Unable to save data.");
+					} else {
+						$data[] = array("id" => "Update", "msg" => "6.2Data Saved");
+
+						for ($i = 1; $i <= $_POST['sec_6_2_id']; $i++) {
+							$sql = 'insert into survey_invoice_new_sec_6_2_1 (`survey_id`, `sec_6_2_id`, `designation`, `full_name`, `father_name`, `mobile_no`, aadhar_no) values("' . $_POST['survey_id'] . '", "' . $row_6_2['sno'] . '", "' . $_POST['sec_6_2_designation_' . $i] . '", "' . $_POST['sec_6_2_name_' . $i] . '", "' . $_POST['sec_6_2_father_name_' . $i] . '", "' . $_POST['sec_6_2__mob_no_' . $i] . '", "' . $_POST['sec_6_2__aadhar_no_' . $i] . '")';
 							execute_query($sql);
-							if(mysqli_error($db)){
+							if (mysqli_error($db)) {
 								//echo mysqli_error($db);
-								$data[] = array("id"=>"error", "error"=>"6.2.Unable to save data.");
-							}
-							else{
-								$data[] = array("id"=>"Update", "msg"=>"6.2.Data Saved");	
+								$data[] = array("id" => "error", "error" => "6.2.Unable to save data.");
+							} else {
+								$data[] = array("id" => "Update", "msg" => "6.2.Data Saved");
 							}
 						}
 					}
-				}                
+				}           
 				
 				break;
 			}
 			case 3:{
 				$sql = 'select * from apex_si_1_1 where sno="'.$_POST['survey_id'].'"';
 				$survey_invoice = mysqli_fetch_assoc(execute_query($sql));
-				$sql = 'select * from test2 where sno="'.$survey_invoice['apex_id'].'"';
+				$sql = 'select * from apex where sno="'.$survey_invoice['apex_id'].'"';
 				$society = mysqli_fetch_assoc(execute_query($sql));
 				
 				$sql = 'update survey_invoice set 

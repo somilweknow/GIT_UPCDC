@@ -1,6 +1,8 @@
 <?php
 include("scripts/settings.php");
 error_reporting(E_ALL);
+ini_set("display_errors", 1);
+
 page_header_start();
 page_header_end();
 
@@ -15,6 +17,7 @@ function esc($db, $s)
 {
     return mysqli_real_escape_string($db, (string) $s);
 }
+
 $edit_id = 0;
 if (!empty($_GET['edit'])) {
     $edit_id = intval($_GET['edit']);
@@ -22,50 +25,55 @@ if (!empty($_GET['edit'])) {
     $edit_id = intval($_POST['edit_id']);
 }
 
-
 if (isset($_GET['delete']) && ctype_digit($_GET['delete'])) {
     $del_id = (int) $_GET['delete'];
     $cur_user_id = isset($_SESSION['user_id']) ? (int) $_SESSION['user_id'] : 'NULL';
-
     $del_sql = "UPDATE block_union SET is_deleted = 1, deleted_at = NOW(), deleted_by = " . $cur_user_id . " WHERE sno = " . $del_id . " LIMIT 1";
-    if (mysqli_query($db, $del_sql)) {
-    } else {
-        echo "<div style='padding:12px;color:#b91c1c;'>Delete failed: " . h(mysqli_error($db)) . "</div>";
-    }
+    mysqli_query($db, $del_sql);
 }
 
 $edit_prefill = [];
 if ($edit_id > 0 && $_SERVER['REQUEST_METHOD'] !== 'POST') {
-    $q = "SELECT * FROM block_union WHERE sno = " . $edit_id . " AND (is_deleted IS NULL OR is_deleted = 0) LIMIT 1";
+    $q = "SELECT * FROM block_union WHERE sno = " . intval($edit_id) . " AND (is_deleted IS NULL OR is_deleted = 0) LIMIT 1";
     $r = mysqli_query($db, $q);
     if ($r && $row = mysqli_fetch_assoc($r)) {
-        $edit_prefill['mandal_name'] = $row['mandal_name'] ?? '';
-        $edit_prefill['janpad_name'] = $row['janpad_name'] ?? '';
-        $edit_prefill['total_union'] = $row['total_union'] ?? '';
-        $edit_prefill['active_union'] = $row['active_union'] ?? '';
-        $edit_prefill['inactive_union'] = $row['inactive_union'] ?? '';
-        $edit_prefill['liquidation_union'] = $row['liquidation_union'] ?? '';
-        $edit_prefill['latitude'] = $row['latitude'] ?? '';
-        $edit_prefill['longitude'] = $row['longitude'] ?? '';
+        $edit_prefill = [
+            'mandal_name' => $row['mandal_name'] ?? '',
+            'janpad_name' => $row['janpad_name'] ?? '',
+            'total_union' => $row['total_union'] ?? '',
+            'active_union' => $row['active_union'] ?? '',
+            'inactive_union' => $row['inactive_union'] ?? '',
+            'liquidation_union' => $row['liquidation_union'] ?? '',
+            'latitude' => $row['latitude'] ?? '',
+            'longitude' => $row['longitude'] ?? ''
+        ];
 
         $edit_prefill['active'] = [
-            'active_status' => $row['row_status'] ?? '',
-            'ncd_id' => $row['ncd_id'] ?? '',
-            'samiti_naam' => $row['samiti_naam'] ?? '',
-            'land_area' => $row['land_area'] ?? '',
-            'land_sthiti' => $row['land_sthiti'] ?? '',
-            'society_land' => $row['society_land'] ?? '',
-            'godown_suitable' => $row['godown_suitable'] ?? '',
-            'rack_distance' => $row['rack_distance'] ?? '',
-            'arrived_land_type' => $row['arrived_land_type'] ?? '',
-            'liquidator_name' => $row['liquidator_name'] ?? '',
-            'liquidator_from_date' => $row['liquidator_from_date'] ?? ''
+            'active_status' => [$row['row_status'] ?? ''],
+            'ncd_id' => [$row['ncd_id'] ?? ''],
+            'samiti_naam' => [$row['samiti_naam'] ?? ''],
+            'land_area' => [$row['land_area'] ?? ''],
+            'land_sthiti' => [$row['land_sthiti'] ?? ''],
+            'society_land' => [$row['society_land'] ?? ''],
+            'godown_suitable' => [$row['godown_suitable'] ?? ''],
+            'rack_distance' => [$row['rack_distance'] ?? ''],
+            'arrived_land_type' => [$row['arrived_land_type'] ?? ''],
+            'liquidator_name' => [$row['liquidator_name'] ?? ''],
+            'liquidator_from_date' => [$row['liquidator_from_date'] ?? ''],
+            // new per-row fields
+            'kabja_vivad' => [$row['kabja_vivad'] ?? ''],
+            'kabja_prayas' => [$row['kabja_prayas'] ?? ''],
+            'rajsv_abhilekh_darj' => [$row['rajsv_abhilekh_darj'] ?? ''],
+            'rajsv_na_darj_karan' => [$row['rajsv_na_darj_karan'] ?? ''],
+            'rajsv_prayas' => [$row['rajsv_prayas'] ?? ''],
+            // per-row lat/long if present
+            'latitude' => [$row['latitude'] ?? ''],
+            'longitude' => [$row['longitude'] ?? '']
         ];
     }
     if ($r)
         mysqli_free_result($r);
 }
-
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $mandal_name = $_POST['mandal_name'] ?? '';
@@ -74,212 +82,155 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $active_union = $_POST['active_union'] ?? '';
     $inactive_union = $_POST['inactive_union'] ?? '';
     $liquidation_union = $_POST['liquidation_union'] ?? '';
-
     $latitude = $_POST['latitude'] ?? '';
     $longitude = $_POST['longitude'] ?? '';
-
-    $status_mode = $_POST['status_mode'] ?? '';
-
     $posted_edit_id = intval($_POST['edit_id'] ?? 0);
 
     if ($mandal_name === '' || $janpad_name === '') {
         echo "<script>alert('कृपया मण्डल और जनपद चयन करें।');</script>";
     } else {
-        $has = [
-            'liquidator_name' => false,
-            'liquidator_from_date' => false,
-            'samiti_naam' => false,
-            'ncd_id' => false,
-            'row_status' => false,
-            'latitude' => false,
-            'longitude' => false,
-        ];
+        $active = $_POST['active'] ?? [];
+        $rows = max(
+            count($active['samiti_naam'] ?? []),
+            count($active['ncd_id'] ?? []),
+            count($active['active_status'] ?? []),
+            count($active['land_area'] ?? []),
+            count($active['land_sthiti'] ?? []),
+            count($active['society_land'] ?? []),
+            count($active['godown_suitable'] ?? []),
+            count($active['rack_distance'] ?? []),
+            count($active['arrived_land_type'] ?? []),
+            count($active['liquidator_name'] ?? []),
+            count($active['liquidator_from_date'] ?? []),
+            count($active['kabja_vivad'] ?? []),
+            count($active['kabja_prayas'] ?? []),
+            count($active['rajsv_abhilekh_darj'] ?? []),
+            count($active['rajsv_na_darj_karan'] ?? []),
+            count($active['rajsv_prayas'] ?? []),
+            count($active['latitude'] ?? []),
+            count($active['longitude'] ?? [])
+        );
 
         if ($posted_edit_id > 0) {
-            $sets = [];
-            $sets[] = "mandal_name = '" . esc($db, $mandal_name) . "'";
-            $sets[] = "janpad_name = '" . esc($db, $janpad_name) . "'";
-            $sets[] = "total_union = '" . esc($db, $total_union) . "'";
-            $sets[] = "active_union = '" . esc($db, $active_union) . "'";
-            $sets[] = "inactive_union = '" . esc($db, $inactive_union) . "'";
-            $sets[] = "liquidation_union = '" . esc($db, $liquidation_union) . "'";
+            $del_sql = "DELETE FROM block_union WHERE sno = " . intval($posted_edit_id) . " LIMIT 1";
+            mysqli_query($db, $del_sql);
+        }
 
-            $a = $_POST['active'] ?? [];
-            $samiti_naam_i = trim(($a['samiti_naam'][0] ?? ''));
-            if ($samiti_naam_i === '') {
-                echo "<script>alert('कृपया समिति का नाम (समिति_नाम) भरें। अपडेट नहीं किया जा सकता।');
-                location.href=window.location.pathname;</script>";
-                exit;
-            }
-            $ncd_id_i = trim(($a['ncd_id'][0] ?? ''));
-            $active_status_i = trim(($a['active_status'][0] ?? ''));
-            $land_area_i = trim(($a['land_area'][0] ?? ''));
-            $land_sthiti_i = trim(($a['land_sthiti'][0] ?? ''));
-            $society_land_i = trim(($a['society_land'][0] ?? ''));
-            $godown_suitable_i = trim(($a['godown_suitable'][0] ?? ''));
-            $rack_distance_i = trim(($a['rack_distance'][0] ?? ''));
-            $arrived_land_type_i = trim(($a['arrived_land_type'][0] ?? ''));
-            $liquidator_name_i = trim(($a['liquidator_name'][0] ?? ''));
-            $liquidator_date_i = trim(($a['liquidator_from_date'][0] ?? ''));
+        $rowsInserted = 0;
+        for ($i = 0; $i < $rows; $i++) {
+            $samiti_naam_i = trim($active['samiti_naam'][$i] ?? '');
+            if ($samiti_naam_i === '')
+                continue; // skip empty rows
 
-            if ($has['row_status']) {
-                $sets[] = "row_status = '" . esc($db, ($active_status_i !== '' ? $active_status_i : 'सक्रिय')) . "'";
-            }
-            if ($has['samiti_naam']) {
-                $sets[] = "samiti_naam = '" . esc($db, $samiti_naam_i) . "'";
-            }
-            if ($has['ncd_id']) {
-                $sets[] = "ncd_id = '" . esc($db, $ncd_id_i) . "'";
-            }
-            if ($has['liquidator_name']) {
-                $val = ($active_status_i === 'परिसमापनाधीन' && $liquidator_name_i !== '') ? $liquidator_name_i : '';
-                $sets[] = "liquidator_name = '" . esc($db, $val) . "'";
-            }
-            if ($has['liquidator_from_date']) {
-                $val = ($active_status_i === 'परिसमापनाधीन' && $liquidator_date_i !== '') ? ("'" . esc($db, $liquidator_date_i) . "'") : "NULL";
-                $sets[] = "liquidator_from_date = " . ($val === "NULL" ? "NULL" : ("'" . esc($db, $liquidator_date_i) . "'"));
-            }
-            $sets[] = "land_area = '" . esc($db, $land_area_i) . "'";
-            $sets[] = "land_sthiti = '" . esc($db, $land_sthiti_i) . "'";
-            $sets[] = "society_land = '" . esc($db, $society_land_i) . "'";
-            $sets[] = "godown_suitable = '" . esc($db, $godown_suitable_i) . "'";
-            $sets[] = "rack_distance = '" . esc($db, $rack_distance_i) . "'";
-            $sets[] = "arrived_land_type = '" . esc($db, $arrived_land_type_i) . "'";
+            $ncd_id_i = trim($active['ncd_id'][$i] ?? '');
+            $active_status_i = trim($active['active_status'][$i] ?? 'सक्रिय');
+            $land_area_i = trim($active['land_area'][$i] ?? '');
+            $land_sthiti_i = trim($active['land_sthiti'][$i] ?? '');
+            $society_land_i = trim($active['society_land'][$i] ?? '');
+            $godown_suitable_i = trim($active['godown_suitable'][$i] ?? '');
+            $rack_distance_i = trim($active['rack_distance'][$i] ?? '');
+            $arrived_land_type_i = trim($active['arrived_land_type'][$i] ?? '');
+            $liquidator_name_i = trim($active['liquidator_name'][$i] ?? '');
+            $liquidator_date_i = trim($active['liquidator_from_date'][$i] ?? '');
 
-            if ($has['latitude']) {
-                $sets[] = "latitude = " . ($latitude !== '' ? ("'" . esc($db, $latitude) . "'") : "NULL");
-            }
-            if ($has['longitude']) {
-                $sets[] = "longitude = " . ($longitude !== '' ? ("'" . esc($db, $longitude) . "'") : "NULL");
-            }
+            $kabja_vivad_i = trim($active['kabja_vivad'][$i] ?? '');
+            $kabja_prayas_i = trim($active['kabja_prayas'][$i] ?? '');
+            $rajsv_abhilekh_darj_i = trim($active['rajsv_abhilekh_darj'][$i] ?? '');
+            $rajsv_na_darj_karan_i = trim($active['rajsv_na_darj_karan'][$i] ?? '');
+            $rajsv_prayas_i = trim($active['rajsv_prayas'][$i] ?? '');
 
-            $sql = "UPDATE block_union SET " . implode(",", $sets) . " WHERE sno = " . $posted_edit_id . " LIMIT 1";
-            if (!mysqli_query($db, $sql)) {
-                echo "<div style='padding:12px;color:#b91c1c;'>Update failed: " . h(mysqli_error($db)) . "</div>";
-            } else {
-                echo "<script>alert('Record updated successfully');location.href = window.location.pathname;</script>";
-                exit;
-            }
+            $latitude_i = trim($active['latitude'][$i] ?? ($latitude ?? ''));
+            $longitude_i = trim($active['longitude'][$i] ?? ($longitude ?? ''));
 
-        } else {
-            $fixedCols = ["mandal_name", "janpad_name", "total_union", "active_union", "inactive_union", "liquidation_union", "sachiv_name", "land_area", "land_sthiti", "society_land", "godown_suitable", "rack_distance", "arrived_land_type"];
+            $base_cols = [
+                "mandal_name",
+                "janpad_name",
+                "total_union",
+                "active_union",
+                "inactive_union",
+                "liquidation_union",
+                "samiti_naam",
+                "ncd_id",
+                "row_status",
+                "land_area",
+                "land_sthiti",
+                "society_land",
+                "godown_suitable",
+                "rack_distance",
+                "arrived_land_type",
+                "liquidator_name",
+                "liquidator_from_date",
+                "latitude",
+                "longitude",
+                "kabja_vivad",
+                "kabja_prayas",
+                "rajsv_abhilekh_darj",
+                "rajsv_na_darj_karan",
+                "rajsv_prayas"
+            ];
 
-            $rowsInserted = 0;
-
-            $a_samiti = $_POST['active']['samiti_naam'] ?? [];
-            $a_ncd = $_POST['active']['ncd_id'] ?? [];
-            $a_status = $_POST['active']['active_status'] ?? [];
-            $a_area = $_POST['active']['land_area'] ?? [];
-            $a_sthiti = $_POST['active']['land_sthiti'] ?? [];
-            $a_place = $_POST['active']['society_land'] ?? [];
-            $a_godam = $_POST['active']['godown_suitable'] ?? [];
-            $a_rack = $_POST['active']['rack_distance'] ?? [];
-            $a_road = $_POST['active']['arrived_land_type'] ?? [];
-            $a_liq_name = $_POST['active']['liquidator_name'] ?? [];
-            $a_liq_date = $_POST['active']['liquidator_from_date'] ?? [];
-
-            $n = max(
-                count($a_samiti),
-                count($a_ncd),
-                count($a_status),
-                count($a_area),
-                count($a_sthiti),
-                count($a_place),
-                count($a_godam),
-                count($a_rack),
-                count($a_road),
-                count($a_liq_name),
-                count($a_liq_date)
-            );
-            for ($i = 0; $i < $n; $i++) {
-                $samiti_naam_i = trim($a_samiti[$i] ?? '');
-                $ncd_id_i = trim($a_ncd[$i] ?? '');
-                $active_status_i = trim($a_status[$i] ?? '');
-                $land_area_i = trim($a_area[$i] ?? '');
-                $land_sthiti_i = trim($a_sthiti[$i] ?? '');
-                $society_land_i = trim($a_place[$i] ?? '');
-                $godown_suitable_i = trim($a_godam[$i] ?? '');
-                $rack_distance_i = trim($a_rack[$i] ?? '');
-                $arrived_land_type_i = trim($a_road[$i] ?? '');
-                $liquidator_name_i = trim($a_liq_name[$i] ?? '');
-                $liquidator_date_i = trim($a_liq_date[$i] ?? '');
-
-                if ($samiti_naam_i === '') {
-                    echo "<div style='padding:12px;color:#b91c1c;'>पंक्ति " . ($i+1) . " के लिए समिति का नाम आवश्यक है।</div>";
-                    continue;
-                }
-
-                $cols = $fixedCols;
-                $vals = [
-                    "'" . esc($db, $mandal_name) . "'",
-                    "'" . esc($db, $janpad_name) . "'",
-                    "'" . esc($db, $total_union) . "'",
-                    "'" . esc($db, $active_union) . "'",
-                    "'" . esc($db, $inactive_union) . "'",
-                    "'" . esc($db, $liquidation_union) . "'",
-                    "''",
-                    "'" . esc($db, $land_area_i) . "'",
-                    "'" . esc($db, $land_sthiti_i) . "'",
-                    "'" . esc($db, $society_land_i) . "'",
-                    "'" . esc($db, $godown_suitable_i) . "'",
-                    "'" . esc($db, $rack_distance_i) . "'",
-                    "'" . esc($db, $arrived_land_type_i) . "'"
+            if ($posted_edit_id > 0) {
+                $meta_cols = ["edited_by", "edition_time"];
+                $meta_vals = [
+                    (isset($_SESSION['user_id']) ? intval($_SESSION['user_id']) : "NULL"),
+                    "NOW()"
                 ];
-
-                if ($has['row_status']) {
-                    $cols[] = "row_status";
-                    $finalStatus = ($active_status_i !== '') ? $active_status_i : 'सक्रिय';
-                    $vals[] = "'" . esc($db, $finalStatus) . "'";
-                }
-                if ($has['samiti_naam']) {
-                    $cols[] = "samiti_naam";
-                    $vals[] = "'" . esc($db, $samiti_naam_i) . "'";
-                }
-                if ($has['ncd_id']) {
-                    $cols[] = "ncd_id";
-                    $vals[] = ($ncd_id_i !== '') ? "'" . esc($db, $ncd_id_i) . "'" : "''";
-                }
-                if ($has['liquidator_name']) {
-                    $cols[] = "liquidator_name";
-                    $vals[] = ($active_status_i === 'परिसमापनाधीन' && $liquidator_name_i !== '')
-                        ? "'" . esc($db, $liquidator_name_i) . "'"
-                        : "''";
-                }
-                if ($has['liquidator_from_date']) {
-                    $cols[] = "liquidator_from_date";
-                    $vals[] = ($active_status_i === 'परिसमापनाधीन' && $liquidator_date_i !== '')
-                        ? "'" . esc($db, $liquidator_date_i) . "'"
-                        : "NULL";
-                }
-                if ($has['latitude']) {
-                    $cols[] = "latitude";
-                    $vals[] = ($latitude !== '') ? "'" . esc($db, $latitude) . "'" : "NULL";
-                }
-                if ($has['longitude']) {
-                    $cols[] = "longitude";
-                    $vals[] = ($longitude !== '') ? "'" . esc($db, $longitude) . "'" : "NULL";
-                }
-
-                $sql = "INSERT INTO block_union (" . implode(",", $cols) . ") VALUES (" . implode(",", $vals) . ")";
-                if (!mysqli_query($db, $sql)) {
-                    echo "<div style='padding:12px;color:#b91c1c;'>Insert failed (row " . ($i + 1) . "): " . h(mysqli_error($db)) . "</div>";
-                } else {
-                    $rowsInserted++;
-                }
-            }
-
-            if ($rowsInserted > 0) {
-                echo "<script>alert('Inserted successfully (" . $rowsInserted . " rows)');</script>";
-                $_POST = [];
             } else {
-                echo "<script>alert('कोई वैध पंक्ति नहीं मिली।');</script>";
+                $meta_cols = ["created_by", "creation_time"];
+                $meta_vals = [
+                    (isset($_SESSION['user_id']) ? intval($_SESSION['user_id']) : "NULL"),
+                    "NOW()"
+                ];
             }
+
+            $cols = array_merge($base_cols, $meta_cols);
+
+            $vals = [
+                "'" . esc($db, $mandal_name) . "'",
+                "'" . esc($db, $janpad_name) . "'",
+                ($total_union !== '' ? "'" . esc($db, $total_union) . "'" : "NULL"),
+                ($active_union !== '' ? "'" . esc($db, $active_union) . "'" : "NULL"),
+                ($inactive_union !== '' ? "'" . esc($db, $inactive_union) . "'" : "NULL"),
+                ($liquidation_union !== '' ? "'" . esc($db, $liquidation_union) . "'" : "NULL"),
+                "'" . esc($db, $samiti_naam_i) . "'",
+                ($ncd_id_i !== '' ? "'" . esc($db, $ncd_id_i) . "'" : "NULL"),
+                "'" . esc($db, $active_status_i) . "'",
+                ($land_area_i !== '' ? "'" . esc($db, $land_area_i) . "'" : "NULL"),
+                ($land_sthiti_i !== '' ? "'" . esc($db, $land_sthiti_i) . "'" : "NULL"),
+                ($society_land_i !== '' ? "'" . esc($db, $society_land_i) . "'" : "NULL"),
+                ($godown_suitable_i !== '' ? "'" . esc($db, $godown_suitable_i) . "'" : "NULL"),
+                ($rack_distance_i !== '' ? "'" . esc($db, $rack_distance_i) . "'" : "NULL"),
+                ($arrived_land_type_i !== '' ? "'" . esc($db, $arrived_land_type_i) . "'" : "NULL"),
+                ($active_status_i === 'परिसमापनाधीन' && $liquidator_name_i !== '' ? "'" . esc($db, $liquidator_name_i) . "'" : "NULL"),
+                ($active_status_i === 'परिसमापनाधीन' && $liquidator_date_i !== '' ? "'" . esc($db, $liquidator_date_i) . "'" : "NULL"),
+                ($latitude_i !== '' ? "'" . esc($db, $latitude_i) . "'" : "NULL"),
+                ($longitude_i !== '' ? "'" . esc($db, $longitude_i) . "'" : "NULL"),
+                ($kabja_vivad_i !== '' ? "'" . esc($db, $kabja_vivad_i) . "'" : "NULL"),
+                ($kabja_prayas_i !== '' ? "'" . esc($db, $kabja_prayas_i) . "'" : "NULL"),
+                ($rajsv_abhilekh_darj_i !== '' ? "'" . esc($db, $rajsv_abhilekh_darj_i) . "'" : "NULL"),
+                ($rajsv_na_darj_karan_i !== '' ? "'" . esc($db, $rajsv_na_darj_karan_i) . "'" : "NULL"),
+                ($rajsv_prayas_i !== '' ? "'" . esc($db, $rajsv_prayas_i) . "'" : "NULL")
+            ];
+
+            $vals = array_merge($vals, $meta_vals);
+
+            $sql = "INSERT INTO block_union (" . implode(',', $cols) . ") VALUES (" . implode(',', $vals) . ")";
+            if (mysqli_query($db, $sql)) {
+                $rowsInserted++;
+            } else {
+                echo "<div style='padding:12px;color:#b91c1c;'>Insert failed (row " . ($i + 1) . "): " . h(mysqli_error($db)) . "</div>";
+            }
+        }
+
+        if ($rowsInserted > 0) {
+            echo "<script>alert('Inserted successfully ($rowsInserted rows)');location.href=window.location.pathname;</script>";
+        } else {
+            echo "<script>alert('कोई वैध पंक्ति नहीं मिली।');</script>";
         }
     }
 }
-
-$lat_pref = $_POST['latitude'] ?? '';
-$long_pref = $_POST['longitude'] ?? '';
+$lat_pref = $_POST['latitude'] ?? ($edit_prefill['latitude'] ?? '');
+$long_pref = $_POST['longitude'] ?? ($edit_prefill['longitude'] ?? '');
 ?>
 <style>
     .card {
@@ -315,6 +266,7 @@ $long_pref = $_POST['longitude'] ?? '';
         border-radius: 5px;
         box-sizing: border-box;
         font-size: 0.95em;
+        height: 40px;
     }
 
     .form-grid {
@@ -354,42 +306,15 @@ $long_pref = $_POST['longitude'] ?? '';
         background: #10b981;
         color: #fff;
         border: none;
-        padding: 4px 8px;
+        padding: 7px 12px;
         border-radius: 4px;
         cursor: pointer;
-        font-size: 12px;
+        font-size: 14px;
         font-weight: bold;
     }
 
     .btn-inf-add-row:hover {
         background: #059669;
-    }
-
-    .common-column {
-        display: table-cell !important;
-    }
-
-    .land-column {
-        display: table-cell;
-    }
-
-    .liq-column {
-        display: table-cell;
-    }
-
-    .cell-hidden>* {
-        display: none !important;
-    }
-
-    @media (max-width:768px) {
-        .form-grid {
-            grid-template-columns: 1fr;
-        }
-    }
-
-    .table-wrap {
-        overflow: auto;
-        margin-top: 18px;
     }
 
     .report-table {
@@ -410,143 +335,264 @@ $long_pref = $_POST['longitude'] ?? '';
         text-align: left;
     }
 
-    .row-flex {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 16px;
-        margin-bottom: 10px;
+    .active-row .form-control {
+        width: 100%;
+        box-sizing: border-box;
     }
 
-    .col {
-        flex: 1 1 220px;
-        min-width: 220px;
+    .active-row .small-note {
+        margin-bottom: 6px;
     }
 
-    .blinking-text {
-        color: #2563eb;
+    @media (max-width:768px) {
+
+        .active-row .col-sm-2,
+        .active-row .col-sm-3,
+        .active-row .col-sm-4 {
+            max-width: 100%;
+            flex-basis: 100%;
+        }
+    }
+
+    /* small inline map style (per row) */
+    .row-map {
+        width: 100%;
+        height: 180px;
+        border: 1px solid #d0d7e9;
+        margin-top: 8px;
+        border-radius: 6px;
+    }
+
+    .coord-btn {
+        font-size: 13px;
+        padding: 6px 8px;
+        border-radius: 6px;
+        background: #10b981;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        height: 36px;
+    }
+
+    .coord-btn.danger {
+        background: #ef4444;
+    }
+    .gps-missing {
+        display: inline-block;
+        background: #b00020;
+        color: #fff;
+        font-size: 11px;
         font-weight: 700;
-        animation: blink 1.2s linear infinite;
-        margin-top: 6px
+        padding: 2px 6px;
+        border-radius: 4px;
+        animation: blk 1s linear infinite;
     }
 
-    @keyframes blink {
-        0% {
+    @keyframes blk {
+
+        0%,
+        100% {
             opacity: 1
         }
 
         50% {
-            opacity: .2
+            opacity: 0
         }
-
-        100% {
-            opacity: 1
-        }
-    }
-
-    table.mode-table {
-        width: 100%;
-        border-collapse: separate;
-        border-spacing: 0;
-    }
-
-    table.mode-table thead th {
-        background: #f1f5ff;
-        border: 1px solid #e1e5ee;
-        padding: 10px;
-        text-align: left;
-        font-size: 13px;
-    }
-
-    table.mode-table tbody td {
-        border: 1px solid #e1e5ee;
-        padding: 8px;
-    }
-
-    .hidden {
-        display: none;
     }
 </style>
-<div class="card" style="margin-top: 30px;">
-    <h3 class="section-heading">📋 रिपोर्ट</h3>
 
-    <div class="table-wrap">
-        <table class="report-table">
-            <thead>
-                <tr>
-                    <th>Action</th>
-                    <th>S.No.</th>
-                    <th>NCD ID</th>
-                    <th>समिति सक्रिय?</th>
-                    <th>समिति का नाम</th>
-                    <th>भूमि क्षेत्रफल</th>
-                    <th>भूमि स्थिति</th>
-                    <th>स्थान</th>
-                    <th>गोदाम उपयुक्त</th>
-                    <th>रैक दूरी (किमी)</th>
-                    <th>पहुंच मार्ग</th>
-                    <th>परिसमापक का नाम</th>
-                    <th>कब से परिसमापक</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                $sql = "SELECT s.*, dt.district_name 
-                        FROM block_union s 
-                        LEFT JOIN master_district dt ON s.janpad_name = dt.sno 
-                        WHERE (s.is_deleted IS NULL OR s.is_deleted = 0)";
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-                if (!empty($_SESSION['district_id'])) {
-                    $dis_ids = array_map('intval', (array) $_SESSION['district_id']);
-                    if (!empty($dis_ids)) {
-                        $sql .= " AND s.janpad_name IN (" . implode(',', $dis_ids) . ")";
-                    }
-                }
+<?php
 
-                $sql .= " ORDER BY dt.district_name, s.sno DESC";
-                $result = mysqli_query($db, $sql);
+$DIV_ID = $_SESSION['division_id'] ?? null;
+if (is_array($DIV_ID))
+    $DIV_ID = $DIV_ID[0] ?? null;
 
-                $i = 1;
-                $last = null;
+$DIS_ID = $_SESSION['district_id'] ?? null;
+if (is_array($DIS_ID))
+    $DIS_ID = $DIS_ID[0] ?? null;
 
-                if ($result) {
-                    while ($row = mysqli_fetch_assoc($result)) {
-                        $dist = $row['district_name'] ?? 'N/A';
+if ($DIV_ID) {
 
-                        if ($dist !== $last) {
-                            echo '<tr><th colspan="22" style="background:#e9f3ff;color:#0a3d8f;font-weight:700;">जनपद: ' . h($dist) . '</th></tr>';
-                            $last = $dist;
+    $where = ["s.is_deleted IS NULL OR s.is_deleted = 0"];
+
+    if ($DIS_ID) {
+        $where[] = "s.janpad_name = '" . esc($db, $DIS_ID) . "'";
+    }
+
+    $sql = "SELECT s.*, dt.district_name, dv.division_name
+            FROM block_union s
+            LEFT JOIN master_district dt ON s.janpad_name = dt.sno
+            LEFT JOIN master_division dv ON dt.division_id = dv.sno
+            WHERE " . implode(' AND ', $where) . "
+            ORDER BY s.sno DESC";
+
+    $result = mysqli_query($db, $sql);
+    ?>
+
+    <div class="card" style="margin-top:30px;">
+        <h3 class="section-heading" style="text-align:center;">📋 रिपोर्ट</h3>
+
+        <div class="table-wrap">
+            <table class="report-table">
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th>क्रम</th>
+                        <th>मण्डल</th>
+                        <th>जनपद</th>
+                        <th>NCD ID</th>
+                        <th>समिति का नाम</th>
+                        <th>भूमि क्षेत्रफल</th>
+                        <th>Latitude</th>
+                        <th>Longitude</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $i = 1;
+
+                    if ($result) {
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            ?>
+                            <tr>
+                                <td style="display:flex;gap:6px;">
+                                    <a href="?edit=<?= (int) $row['sno'] ?>"
+                                        style="background:#1565c0;color:#fff;padding:4px 6px;border-radius:4px;text-decoration:none;">✏️
+                                        Edit</a>
+
+                                    <a href="?delete=<?= (int) $row['sno'] ?>" onclick="return confirm('Are You Sure ?');"
+                                        style="background:#b00020;color:#fff;padding:4px 6px;border-radius:4px;text-decoration:none;">🗑️
+                                        Delete</a>
+                                </td>
+
+                                <td><?= $i++ ?></td>
+                                <td><?= h($row['division_name'] ?? '') ?></td>
+                                <td><?= h($row['district_name'] ?? '') ?></td>
+                                <td><?= h($row['ncd_id'] ?? '') ?></td>
+                                <td><?= h($row['samiti_naam'] ?? '') ?></td>
+                                <td><?= h($row['land_area'] ?? '') ?></td>
+                                <td>
+                                    <?= h($row['latitude'] ?? '') ?>
+                                    <?php if (empty($row['latitude'])): ?>
+                                        <span class="gps-missing">📍 खाली</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <?= h($row['longitude'] ?? '') ?>
+                                    <?php if (empty($row['longitude'])): ?>
+                                        <span class="gps-missing">📍 खाली</span>
+                                    <?php endif; ?>
+                                </td>
+
+                                <td>
+                                    <button onclick="toggleRow(<?= $row['sno'] ?>)"
+                                        style="padding:4px 8px;background:#0a7f3f;color:#fff;border:none;border-radius:4px;cursor:pointer;">
+                                        View
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <!-- Hidden Detail Row -->
+                            <tr id="detail_<?= $row['sno'] ?>" style="display:none;background:#f4f8ff;">
+                                <td colspan="8" style="padding:15px;">
+
+                                    <table style="width:100%;border-collapse:collapse;font-size:14px;">
+                                        <tr style="background:#e9f1ff;">
+                                            <th style="padding:6px;border:1px solid #ccc;">Field</th>
+                                            <th style="padding:6px;border:1px solid #ccc;">Details</th>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="padding:6px;border:1px solid #ccc;">समिति सक्रिय?</td>
+                                            <td style="padding:6px;border:1px solid #ccc;">
+                                                <?= h($row['row_status'] ?? '') ?>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="padding:6px;border:1px solid #ccc;">भूमि स्थिति</td>
+                                            <td style="padding:6px;border:1px solid #ccc;">
+                                                <?= h($row['land_sthiti'] ?? '') ?>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="padding:6px;border:1px solid #ccc;">स्थान</td>
+                                            <td style="padding:6px;border:1px solid #ccc;">
+                                                <?= h($row['society_land'] ?? '') ?>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="padding:6px;border:1px solid #ccc;">गोदाम उपयुक्त</td>
+                                            <td style="padding:6px;border:1px solid #ccc;">
+                                                <?= h($row['godown_suitable'] ?? '') ?>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="padding:6px;border:1px solid #ccc;">रैक दूरी (किमी)</td>
+                                            <td style="padding:6px;border:1px solid #ccc;">
+                                                <?= h($row['rack_distance'] ?? '') ?>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="padding:6px;border:1px solid #ccc;">पहुंच मार्ग</td>
+                                            <td style="padding:6px;border:1px solid #ccc;">
+                                                <?= h($row['arrived_land_type'] ?? '') ?>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="padding:6px;border:1px solid #ccc;">कब्जा / विवादित?</td>
+                                            <td style="padding:6px;border:1px solid #ccc;">
+                                                <?= h($row['kabja_vivad'] ?? '') ?>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="padding:6px;border:1px solid #ccc;">राजस्व अभिलेख में दर्ज?</td>
+                                            <td style="padding:6px;border:1px solid #ccc;">
+                                                <?= h($row['rajsv_abhilekh_darj'] ?? '') ?>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="padding:6px;border:1px solid #ccc;">परिसमापक का नाम</td>
+                                            <td style="padding:6px;border:1px solid #ccc;">
+                                                <?= h($row['liquidator_name'] ?? '') ?>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="padding:6px;border:1px solid #ccc;">कब से परिसमापक</td>
+                                            <td style="padding:6px;border:1px solid #ccc;">
+                                                <?= h($row['liquidator_from_date'] ?? '') ?>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+
+                                </td>
+                            </tr>
+
+                            <?php
                         }
-
-                        echo "<tr>";
-                        // Action buttons
-                        echo "<td style='display:flex;gap:6px;align-items:center;'>";
-                        echo '<a href="?edit=' . (int)$row['sno'] . '" style="background:#007bff;color:#fff;padding:6px 8px;border-radius:4px;text-decoration:none;">✏️ Edit</a>';
-                        echo '<a href="?delete=' . (int)$row['sno'] . '" onclick="return confirm(\'Are You Sure\');" style="background:#b00020;color:#fff;padding:6px 8px;border-radius:4px;text-decoration:none;">🗑️ Delete</a>';
-                        echo "</td>";
-
-                        echo "<td>" . $i++ . "</td>";
-                        echo "<td>" . h($row['ncd_id'] ?? '') . "</td>";
-                        echo "<td>" . h($row['row_status'] ?? '') . "</td>";
-                        echo "<td>" . h($row['samiti_naam'] ?? '') . "</td>";
-                        echo "<td>" . h($row['land_area'] ?? '') . "</td>";
-                        echo "<td>" . h($row['land_sthiti'] ?? '') . "</td>";
-                        echo "<td>" . h($row['society_land'] ?? '') . "</td>";
-                        echo "<td>" . h($row['godown_suitable'] ?? '') . "</td>";
-                        echo "<td>" . h($row['rack_distance'] ?? '') . "</td>";
-                        echo "<td>" . h($row['arrived_land_type'] ?? '') . "</td>";
-                        echo "<td>" . h($row['liquidator_name'] ?? '') . "</td>";
-                        echo "<td>" . h($row['liquidator_from_date'] ?? '') . "</td>";
-                        echo "</tr>";
                     }
-                    mysqli_free_result($result);
-                } else {
-                    echo "<tr><td colspan='21'>No records found.</td></tr>";
-                }
-                ?>
-            </tbody>
-        </table>
+                    ?>
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
+
+    <?php
+}
+?>
 
 <form method="post" action="">
     <h2
@@ -569,7 +615,11 @@ $long_pref = $_POST['longitude'] ?? '';
                     }
                     $result_division = mysqli_query($db, $sql);
                     while ($row_division = mysqli_fetch_assoc($result_division)) {
-                        $selected = (isset($_POST['mandal_name']) && $_POST['mandal_name'] == $row_division['sno']) ? 'selected' : '';
+                        $selected = '';
+                        if (isset($_POST['mandal_name']) && $_POST['mandal_name'] == $row_division['sno'])
+                            $selected = 'selected';
+                        if (isset($edit_prefill['mandal_name']) && $edit_prefill['mandal_name'] == $row_division['sno'])
+                            $selected = 'selected';
                         echo '<option value="' . (int) $row_division['sno'] . '" ' . $selected . '>' . h($row_division['division_name']) . '</option>';
                     }
                     ?>
@@ -588,7 +638,11 @@ $long_pref = $_POST['longitude'] ?? '';
                     }
                     $result_district = mysqli_query($db, $sql);
                     while ($row_district = mysqli_fetch_assoc($result_district)) {
-                        $selected = (isset($_POST['janpad_name']) && $_POST['janpad_name'] == $row_district['sno']) ? 'selected' : '';
+                        $selected = '';
+                        if (isset($_POST['janpad_name']) && $_POST['janpad_name'] == $row_district['sno'])
+                            $selected = 'selected';
+                        if (isset($edit_prefill['janpad_name']) && $edit_prefill['janpad_name'] == $row_district['sno'])
+                            $selected = 'selected';
                         echo '<option value="' . (int) $row_district['sno'] . '" ' . $selected . '>' . h($row_district['district_name']) . '</option>';
                     }
                     ?>
@@ -599,209 +653,708 @@ $long_pref = $_POST['longitude'] ?? '';
 
     <div class="card" id="bhumi-details">
         <h3 class="section-heading">🏡 खाली भूमि का विवरण</h3>
-        <div id="tableActiveWrap">
-            <div class="table-wrap">
-                <table class="mode-table" id="tableActive">
-                    <thead>
-                        <tr>
-                            <th>क्या समिति सक्रिय है?</th>
-                            <th class="common-column">NCD ID</th>
-                            <th class="common-column">समिति का नाम</th>
-                            <th class="land-column">भूमि का क्षेत्रफल (हे.)</th>
-                            <th class="land-column">भूमि की स्थिति</th>
-                            <th class="land-column">स्थान</th>
-                            <th class="land-column">गोदाम उपयुक्त?</th>
-                            <th class="land-column">रैक पॉइंट दूरी (किमी.)</th>
-                            <th class="land-column">पहुंच मार्ग प्रकार</th>
-                            <th class="liq-column">परिसमापक का नाम</th>
-                            <th class="liq-column">कब से परिसमापक</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
+
+        <div id="active_rows_container">
+            <?php
+            $active_rows = [];
+            if (!empty($_POST['active']) && is_array($_POST['active'])) {
+                $postActive = $_POST['active'];
+                $count = max(
+                    count($postActive['active_status'] ?? []),
+                    count($postActive['ncd_id'] ?? []),
+                    count($postActive['samiti_naam'] ?? []),
+                    count($postActive['land_area'] ?? []),
+                    count($postActive['land_sthiti'] ?? []),
+                    count($postActive['society_land'] ?? []),
+                    count($postActive['godown_suitable'] ?? []),
+                    count($postActive['rack_distance'] ?? []),
+                    count($postActive['arrived_land_type'] ?? []),
+                    count($postActive['liquidator_name'] ?? []),
+                    count($postActive['liquidator_from_date'] ?? []),
+                    count($postActive['kabja_vivad'] ?? []),
+                    count($postActive['kabja_prayas'] ?? []),
+                    count($postActive['rajsv_abhilekh_darj'] ?? []),
+                    count($postActive['rajsv_na_darj_karan'] ?? []),
+                    count($postActive['rajsv_prayas'] ?? []),
+                    count($postActive['latitude'] ?? []),
+                    count($postActive['longitude'] ?? [])
+                );
+                for ($i = 0; $i < $count; $i++) {
+                    $active_rows[] = [
+                        'active_status' => $postActive['active_status'][$i] ?? '',
+                        'ncd_id' => $postActive['ncd_id'][$i] ?? '',
+                        'samiti_naam' => $postActive['samiti_naam'][$i] ?? '',
+                        'land_area' => $postActive['land_area'][$i] ?? '',
+                        'land_sthiti' => $postActive['land_sthiti'][$i] ?? '',
+                        'society_land' => $postActive['society_land'][$i] ?? '',
+                        'godown_suitable' => $postActive['godown_suitable'][$i] ?? '',
+                        'rack_distance' => $postActive['rack_distance'][$i] ?? '',
+                        'arrived_land_type' => $postActive['arrived_land_type'][$i] ?? '',
+                        'liquidator_name' => $postActive['liquidator_name'][$i] ?? '',
+                        'liquidator_from_date' => $postActive['liquidator_from_date'][$i] ?? '',
+                        'kabja_vivad' => $postActive['kabja_vivad'][$i] ?? '',
+                        'kabja_prayas' => $postActive['kabja_prayas'][$i] ?? '',
+                        'rajsv_abhilekh_darj' => $postActive['rajsv_abhilekh_darj'][$i] ?? '',
+                        'rajsv_na_darj_karan' => $postActive['rajsv_na_darj_karan'][$i] ?? '',
+                        'rajsv_prayas' => $postActive['rajsv_prayas'][$i] ?? '',
+                        'latitude' => $postActive['latitude'][$i] ?? '',
+                        'longitude' => $postActive['longitude'][$i] ?? ''
+                    ];
+                }
+            } elseif (!empty($edit_prefill['active']) && is_array($edit_prefill['active'])) {
+                $ap = $edit_prefill['active'];
+                $len = max(
+                    count($ap['samiti_naam'] ?? []),
+                    count($ap['ncd_id'] ?? []),
+                    count($ap['active_status'] ?? [])
+                );
+                for ($i = 0; $i < $len; $i++) {
+                    $active_rows[] = [
+                        'active_status' => $ap['active_status'][$i] ?? '',
+                        'ncd_id' => $ap['ncd_id'][$i] ?? '',
+                        'samiti_naam' => $ap['samiti_naam'][$i] ?? '',
+                        'land_area' => $ap['land_area'][$i] ?? '',
+                        'land_sthiti' => $ap['land_sthiti'][$i] ?? '',
+                        'society_land' => $ap['society_land'][$i] ?? '',
+                        'godown_suitable' => $ap['godown_suitable'][$i] ?? '',
+                        'rack_distance' => $ap['rack_distance'][$i] ?? '',
+                        'arrived_land_type' => $ap['arrived_land_type'][$i] ?? '',
+                        'liquidator_name' => $ap['liquidator_name'][$i] ?? '',
+                        'liquidator_from_date' => $ap['liquidator_from_date'][$i] ?? '',
+                        'kabja_vivad' => $ap['kabja_vivad'][$i] ?? '',
+                        'kabja_prayas' => $ap['kabja_prayas'][$i] ?? '',
+                        'rajsv_abhilekh_darj' => $ap['rajsv_abhilekh_darj'][$i] ?? '',
+                        'rajsv_na_darj_karan' => $ap['rajsv_na_darj_karan'][$i] ?? '',
+                        'rajsv_prayas' => $ap['rajsv_prayas'][$i] ?? '',
+                        'latitude' => $ap['latitude'][$i] ?? '',
+                        'longitude' => $ap['longitude'][$i] ?? ''
+                    ];
+                }
+            } else {
+                $active_rows[] = [
+                    'active_status' => '',
+                    'ncd_id' => '',
+                    'samiti_naam' => '',
+                    'land_area' => '',
+                    'land_sthiti' => '',
+                    'society_land' => '',
+                    'godown_suitable' => '',
+                    'rack_distance' => '',
+                    'arrived_land_type' => '',
+                    'liquidator_name' => '',
+                    'liquidator_from_date' => '',
+                    'kabja_vivad' => '',
+                    'kabja_prayas' => '',
+                    'rajsv_abhilekh_darj' => '',
+                    'rajsv_na_darj_karan' => '',
+                    'rajsv_prayas' => '',
+                    'latitude' => '',
+                    'longitude' => ''
+                ];
+            }
+
+            $count = count($active_rows);
+            foreach ($active_rows as $idx => $ar) {
+                $i = $idx + 1;
+                ?>
+                <div class="row active-row" id="active_row_<?php echo $i; ?>"
+                    style="border:1px solid #e6eefc;padding:12px;margin-bottom:10px;border-radius:6px;">
+
+                    <div class="col-sm-3 form-group">
+                        <label class="form-label">Latitude / Longitude</label>
+                        <div style="display:flex;gap:8px;align-items:center;">
+                            <input type="text" name="active[latitude][]" id="active_latitude_<?php echo $i; ?>"
+                                placeholder="Lat" class="form-control" style="flex:1;"
+                                value="<?php echo h($ar['latitude'] ?? ''); ?>">
+                            <input type="text" name="active[longitude][]" id="active_longitude_<?php echo $i; ?>"
+                                placeholder="Long" class="form-control" style="flex:1;"
+                                value="<?php echo h($ar['longitude'] ?? ''); ?>">
+                            <button type="button" class="coord-btn" onclick="getLocationForRow(<?php echo $i; ?>)"
+                                title="Use device location">लोकेशन रिफ्रेश करें</button>
+                        </div>
+                        <div id="active_map_<?php echo $i; ?>" class="row-map"
+                            style="display:<?php echo (!empty($ar['latitude']) && !empty($ar['longitude'])) ? 'block' : 'none'; ?>;">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2 form-group">
+                        <label>क्या समिति सक्रिय है?</label>
+                        <select name="active[active_status][]" id="active_status_<?php echo $i; ?>" class="form-control"
+                            onchange="active_toggleColumns(<?php echo $i; ?>)">
+                            <option value="">--चुनें--</option>
+                            <option value="सक्रिय" <?php echo ($ar['active_status'] == 'सक्रिय') ? 'selected' : ''; ?>>सक्रिय
+                            </option>
+                            <option value="निष्क्रिय" <?php echo ($ar['active_status'] == 'निष्क्रिय') ? 'selected' : ''; ?>>
+                                निष्क्रिय</option>
+                            <option value="परिसमापनाधीन" <?php echo ($ar['active_status'] == 'परिसमापनाधीन') ? 'selected' : ''; ?>>परिसमापनाधीन</option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-2 form-group">
+                        <label class="form-label">NCD ID</label>
+                        <input type="text" name="active[ncd_id][]" id="active_ncd_id_<?php echo $i; ?>" class="form-control"
+                            value="<?php echo h($ar['ncd_id']); ?>">
+                    </div>
+
+                    <div class="col-sm-3 form-group">
+                        <label class="form-label">समिति का नाम</label>
+                        <input type="text" name="active[samiti_naam][]" id="active_samiti_naam_<?php echo $i; ?>"
+                            class="form-control" value="<?php echo h($ar['samiti_naam']); ?>">
+                    </div>
+
+                    <div class="col-sm-2 form-group land-col" id="land_cols_<?php echo $i; ?>">
+                        <label class="form-label">भूमि क्षेत्रफल (हे.)</label>
+                        <input type="number" name="active[land_area][]" id="active_land_area_<?php echo $i; ?>"
+                            step="0.0001" min="0" class="form-control" value="<?php echo h($ar['land_area']); ?>">
+                    </div>
+
+                    <div class="col-sm-2 form-group land-col">
+                        <label>भूमि की स्थिति</label>
+                        <select name="active[land_sthiti][]" id="active_land_sthiti_<?php echo $i; ?>" class="form-control">
+                            <option value="">--चुनें--</option>
+                            <option value="उपजाऊ" <?php echo ($ar['land_sthiti'] == 'उपजाऊ') ? 'selected' : ''; ?>>उपजाऊ
+                            </option>
+                            <option value="बंजर" <?php echo ($ar['land_sthiti'] == 'बंजर') ? 'selected' : ''; ?>>बंजर</option>
+                            <option value="rent" <?php echo ($ar['land_sthiti'] == 'rent') ? 'selected' : ''; ?>>भूमि किराये
+                                पर है।</option>
+                            <option value="भूमि उपलब्ध नही है" <?php echo ($ar['land_sthiti'] == 'भूमि उपलब्ध नही है') ? 'selected' : ''; ?>>भूमि उपलब्ध नही है।</option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-2 form-group land-col">
+                        <label>स्थान</label>
+                        <select name="active[society_land][]" id="active_society_land_<?php echo $i; ?>"
+                            class="form-control">
+                            <option value="">--चुनें--</option>
+                            <option value="समिति प्रांगण" <?php echo ($ar['society_land'] == 'समिति प्रांगण') ? 'selected' : ''; ?>>समिति प्रांगण</option>
+                            <option value="अन्य स्थान" <?php echo ($ar['society_land'] == 'अन्य स्थान') ? 'selected' : ''; ?>>
+                                अन्य स्थान</option>
+                            <option value="भूमि नही है" <?php echo ($ar['society_land'] == 'भूमि नही है') ? 'selected' : ''; ?>>भूमि नही है।</option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-2 form-group land-col">
+                        <label>गोदाम उपयुक्त?</label>
+                        <select name="active[godown_suitable][]" id="active_godown_suitable_<?php echo $i; ?>"
+                            class="form-control">
+                            <option value="">--चुनें--</option>
+                            <option value="हाँ" <?php echo ($ar['godown_suitable'] == 'हाँ') ? 'selected' : ''; ?>>हाँ
+                            </option>
+                            <option value="नहीं" <?php echo ($ar['godown_suitable'] == 'नहीं') ? 'selected' : ''; ?>>नहीं
+                            </option>
+                            <option value="गोदाम उपलब्ध नही है।" <?php echo ($ar['godown_suitable'] == 'गोदाम उपलब्ध नही है।') ? 'selected' : ''; ?>>गोदाम उपलब्ध नही है।</option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-2 form-group land-col">
+                        <label>रैक दूरी (किमी.)</label>
+                        <input type="number" name="active[rack_distance][]" id="active_rack_distance_<?php echo $i; ?>"
+                            step="0.01" min="0" class="form-control" value="<?php echo h($ar['rack_distance']); ?>">
+                    </div>
+
+                    <div class="col-sm-2 form-group land-col">
+                        <label>पहुंच मार्ग</label>
+                        <select name="active[arrived_land_type][]" id="active_arrived_land_type_<?php echo $i; ?>"
+                            class="form-control">
+                            <option value="">--चुनें--</option>
+                            <option value="कच्ची सड़क" <?php echo ($ar['arrived_land_type'] == 'कच्ची सड़क') ? 'selected' : ''; ?>>कच्ची सड़क</option>
+                            <option value="नेशनल हाईवे" <?php echo ($ar['arrived_land_type'] == 'नेशनल हाईवे') ? 'selected' : ''; ?>>नेशनल हाईवे</option>
+                            <option value="स्टेट HIGHवे" <?php echo ($ar['arrived_land_type'] == 'स्टेट HIGHवे') ? 'selected' : ''; ?>>स्टेट HIGHवे</option>
+                            <option value="एम.डी.आर." <?php echo ($ar['arrived_land_type'] == 'एम.डी.आर.') ? 'selected' : ''; ?>>एम.डी.आर.</option>
+                            <option value="ओ.डी.आर." <?php echo ($ar['arrived_land_type'] == 'ओ.डी.आर.') ? 'selected' : ''; ?>>ओ.डी.आर.</option>
+                            <option value="ग्रामीण सड़क" <?php echo ($ar['arrived_land_type'] == 'ग्रामीण सड़क') ? 'selected' : ''; ?>>ग्रामीण सड़क</option>
+                            <option value="अन्य" <?php echo ($ar['arrived_land_type'] == 'अन्य') ? 'selected' : ''; ?>>अन्य
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-3 form-group liq-col" id="liq_cols_<?php echo $i; ?>"
+                        style="display:<?php echo ($ar['active_status'] === 'परिसमापनाधीन') ? 'block' : 'none'; ?>;">
+                        <label>परिसमापक का नाम</label>
+                        <input type="text" name="active[liquidator_name][]" id="active_liquidator_name_<?php echo $i; ?>"
+                            class="form-control" value="<?php echo h($ar['liquidator_name']); ?>">
+                    </div>
+
+                    <div class="col-sm-2 form-group liq-col"
+                        style="display:<?php echo ($ar['active_status'] === 'परिसमापनाधीन') ? 'block' : 'none'; ?>;">
+                        <label>कब से परिसमापक</label>
+                        <input type="date" name="active[liquidator_from_date][]"
+                            id="active_liquidator_from_date_<?php echo $i; ?>" class="form-control"
+                            value="<?php echo h($ar['liquidator_from_date']); ?>">
+                    </div>
+
+                    <div class="col-sm-2 form-group">
+                        <label>कब्जा / विवादित?</label>
+                        <select name="active[kabja_vivad][]" id="active_kabja_vivad_<?php echo $i; ?>" class="form-control"
+                            onchange="toggleKabjaPrayasRow(<?php echo $i; ?>)">
+                            <option value="">--चुनें--</option>
+                            <option value="yes" <?php echo ($ar['kabja_vivad'] === 'yes') ? 'selected' : ''; ?>>हाँ</option>
+                            <option value="no" <?php echo ($ar['kabja_vivad'] === 'no') ? 'selected' : ''; ?>>नहीं</option>
+                        </select>
+                    </div>
+
+
+                    <div class="col-sm-4 form-group" id="active_kabja_prayas_wrap_<?php echo $i; ?>"
+                        style="display:<?php echo ($ar['kabja_vivad'] === 'yes') ? 'block' : 'none'; ?>;">
+                        <label class="small-note" style="display:block;margin-bottom:6px;">किये गए प्रयास दर्ज करें</label>
+                        <textarea name="active[kabja_prayas][]" id="active_kabja_prayas_<?php echo $i; ?>"
+                            class="form-control" rows="2"><?php echo h($ar['kabja_prayas']); ?></textarea>
+                    </div>
+
+                    <div class="col-sm-2 form-group">
+                        <label>राजस्व अभिलेख में दर्ज होने की स्थिति</label>
+                        <select name="active[rajsv_abhilekh_darj][]" id="active_rajsv_abhilekh_darj_<?php echo $i; ?>"
+                            class="form-control" onchange="toggleRajsvRow(<?php echo $i; ?>)">
+                            <option value="">--चुनें--</option>
+                            <option value="yes" <?php echo ($ar['rajsv_abhilekh_darj'] === 'yes') ? 'selected' : ''; ?>>हाँ
+                            </option>
+                            <option value="no" <?php echo ($ar['rajsv_abhilekh_darj'] === 'no') ? 'selected' : ''; ?>>नहीं
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-sm-6 form-group" id="active_rajsv_wrap_<?php echo $i; ?>"
+                        style="display:flex;gap:8px;align-items:flex-start;">
+                        <div id="active_rajsv_na_wrap_<?php echo $i; ?>"
+                            style="flex:1; display:<?php echo ($ar['rajsv_abhilekh_darj'] === 'no') ? 'block' : 'none'; ?>;">
+                            <label class="small-note" style="display:block;margin-bottom:6px;">दर्ज ना होने का कारण</label>
+                            <textarea name="active[rajsv_na_darj_karan][]" id="active_rajsv_na_darj_karan_<?php echo $i; ?>"
+                                class="form-control" rows="2"><?php echo h($ar['rajsv_na_darj_karan']); ?></textarea>
+                        </div>
+
+                        <div id="active_rajsv_prayas_wrap_<?php echo $i; ?>"
+                            style="flex:1; display:<?php echo ($ar['rajsv_abhilekh_darj'] === 'no') ? 'block' : 'none'; ?>;">
+                            <label class="small-note" style="display:block;margin-bottom:6px;">यदि नहीं है तो किये जाने वाले
+                                प्रयास का विवरण / अन्य विवरण</label>
+                            <textarea name="active[rajsv_prayas][]" id="active_rajsv_prayas_<?php echo $i; ?>"
+                                class="form-control" rows="2"><?php echo h($ar['rajsv_prayas']); ?></textarea>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-1 form-group" style="display:flex;align-items:flex-end;gap:6px;">
+                        <button type="button" class="btn-inf-add-row" onclick="active_add_row(<?php echo $i; ?>)">नई पंक्ति
+                            जोड़े [+]</button>
+                        <?php if ($i > 1): ?>
+                            <button type="button" class="btn btn-info"
+                                style="background:#ef4444;border:none;padding:6px 8px;border-radius:6px;color:#fff;"
+                                onclick="active_remove_row(<?php echo $i; ?>)">−</button>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            <?php } // end foreach ?>
+
+            <input type="hidden" name="active_count" id="active_count" value="<?php echo $count; ?>">
+        </div>
+        <div style="text-align:center;margin-top:12px;">
+            <input type="hidden" name="edit_id" id="edit_id" value="<?php echo (int) $edit_id; ?>">
+            <button type="submit" class="btn-primary"><?php echo ($edit_id ? 'Update' : 'Submit'); ?></button>
+            <?php if ($edit_id): ?>
+                <a href="<?php echo h($_SERVER['PHP_SELF']); ?>" style="margin-left:10px;" class="btn-info">Cancel Edit</a>
+            <?php endif; ?>
         </div>
     </div>
-    <div style="text-align:center;margin-top:12px;">
-        <input type="hidden" name="edit_id" id="edit_id" value="<?php echo (int) $edit_id; ?>">
-        <button type="submit" class="btn-primary"><?php echo ($edit_id ? 'Update' : 'Submit'); ?></button>
-        <?php if ($edit_id): ?>
-            <a href="<?php echo h($_SERVER['PHP_SELF']); ?>" style="margin-left:10px;" class="btn-info">Cancel Edit</a>
-        <?php endif; ?>
-    </div>
+
+
 </form>
 
 <script>
-    function getLocation() {
-        if (!navigator.geolocation) { alert('Geolocation unsupported'); return; }
-        navigator.geolocation.getCurrentPosition(function (pos) {
-            var lat = pos.coords.latitude.toFixed(6);
-            var lng = pos.coords.longitude.toFixed(6);
-            var latShow = document.getElementById('lat_show');
-            var lngShow = document.getElementById('long_show');
-            if (latShow) latShow.value = lat;
-            if (lngShow) lngShow.value = lng;
-            var latH = document.getElementById('lat');
-            var lngH = document.getElementById('long');
-            if (latH) latH.value = lat;
-            if (lngH) lngH.value = lng;
-            var iframe = document.getElementById('googlemap');
-            if (iframe) iframe.src = 'https://maps.google.com/maps?q=' + lat + ',' + lng + '&hl=hi&z=13&output=embed';
-        }, function (err) {
-            alert('लोकेशन नहीं मिल सकी: ' + (err.message || err.code));
-        }, { enableHighAccuracy: true, timeout: 10000 });
+    window.active_add_row = function (callerIdx) {
+        var total = parseInt(document.getElementById('active_count').value) || 0;
+        for (var i = 1; i <= total; i++) {
+            var sam = document.getElementById('active_samiti_naam_' + i);
+            var ncd = document.getElementById('active_ncd_id_' + i);
+            var status = document.getElementById('active_status_' + i);
+            if (!sam || !ncd || !status) continue;
+            if (sam.value.trim() === '' && ncd.value.trim() === '' && status.value.trim() === '') {
+                alert("पंक्ति संख्या " + i + " खाली है — कृपया पहले इसे पूरा करें या हटाएँ।");
+                if (sam) sam.focus();
+                return;
+            }
+        }
+
+        total = total + 1;
+        document.getElementById('active_count').value = total;
+
+        var container = document.getElementById('active_rows_container');
+
+        var div = document.createElement('div');
+        div.className = 'row active-row';
+        div.id = 'active_row_' + total;
+        div.style = 'border:1px solid #e6eefc;padding:12px;margin-bottom:10px;border-radius:6px;';
+
+        var html = '';
+
+        html += '<div class="col-sm-3 form-group">';
+        html += '<label class="form-label">Latitude / Longitude</label>';
+        html += '<div style="display:flex;gap:8px;align-items:center;">';
+        html += '<input type="text" name="active[latitude][]" id="active_latitude_' + total + '" placeholder="Lat" class="form-control" style="flex:1;">';
+        html += '<input type="text" name="active[longitude][]" id="active_longitude_' + total + '" placeholder="Long" class="form-control" style="flex:1;">';
+        html += '<button type="button" class="coord-btn" onclick="getLocationForRow(' + total + ')">लोकेशन रिफ्रेश करें</button>';
+        html += '</div>';
+        html += '<div id="active_map_' + total + '" class="row-map" style="display:none;"></div>';
+        html += '</div>';
+
+        html += '<div class="col-sm-2 form-group">';
+        html += '<label>क्या समिति सक्रिय है?</label>';
+        html += '<select name="active[active_status][]" id="active_status_' + total + '" class="form-control" onchange="active_toggleColumns(' + total + ')">';
+        html += '<option value="">--चुनें--</option>';
+        html += '<option value="सक्रिय">सक्रिय</option>';
+        html += '<option value="निष्क्रिय">निष्क्रिय</option>';
+        html += '<option value="परिसमापनाधीन">परिसमापनाधीन</option>';
+        html += '</select></div>';
+
+        html += '<div class="col-sm-2 form-group"><label class="form-label">NCD ID</label><input type="text" name="active[ncd_id][]" id="active_ncd_id_' + total + '" class="form-control"></div>';
+        html += '<div class="col-sm-3 form-group"><label class="form-label">समिति का नाम</label><input type="text" name="active[samiti_naam][]" id="active_samiti_naam_' + total + '" class="form-control"></div>';
+
+        html += '<div class="col-sm-2 form-group land-col"><label class="form-label">भूमि क्षेत्रफल (हे.)</label><input type="number" step="0.0001" min="0" name="active[land_area][]" id="active_land_area_' + total + '" class="form-control"></div>';
+
+        html += '<div class="col-sm-2 form-group land-col"><label>भूमि की स्थिति</label><select name="active[land_sthiti][]" id="active_land_sthiti_' + total + '" class="form-control"><option value="">--चुनें--</option><option value="उपजाऊ">उपजाऊ</option><option value="बंजर">बंजर</option><option value="rent">भूमि किराये पर है।</option><option value="भूमि उपलब्ध नही है">भूमि उपलब्ध नही है।</option></select></div>';
+
+        html += '<div class="col-sm-2 form-group land-col"><label>स्थान</label><select name="active[society_land][]" id="active_society_land_' + total + '" class="form-control"><option value="">--चुनें--</option><option value="समिति प्रांगण">समिति प्रांगण</option><option value="अन्य स्थान">अन्य स्थान</option><option value="भूमि नही है">भूमि नही है।</option></select></div>';
+
+        html += '<div class="col-sm-2 form-group land-col"><label>गोदाम उपयुक्त?</label><select name="active[godown_suitable][]" id="active_godown_suitable_' + total + '" class="form-control"><option value="">--चुनें--</option><option value="हाँ">हाँ</option><option value="नहीं">नहीं</option><option value="गोदाम उपलब्ध नही है।">गोदाम उपलब्ध नही है।</option></select></div>';
+
+        html += '<div class="col-sm-2 form-group land-col"><label>रैक दूरी (किमी.)</label><input type="number" step="0.01" min="0" name="active[rack_distance][]" id="active_rack_distance_' + total + '" class="form-control"></div>';
+
+        html += '<div class="col-sm-2 form-group land-col"><label>पहुंच मार्ग</label><select name="active[arrived_land_type][]" id="active_arrived_land_type_' + total + '" class="form-control"><option value="">--चुनें--</option><option value="कच्ची सड़क">कच्ची सड़क</option><option value="नेशनल हाईवे">नेशनल हाईवे</option><option value="स्टेट HIGHवे">स्टेट HIGHवे</option><option value="एम.डी.आर.">एम.डी.आर.</option><option value="ओ.डी.आर.">ओ.डी.आर.</option><option value="ग्रामीण सड़क">ग्रामीण सड़क</option><option value="अन्य">अन्य</option></select></div>';
+
+        html += '<div class="col-sm-3 form-group liq-col" id="liq_cols_' + total + '" style="display:none;"><label>परिसमापक का नाम</label><input type="text" name="active[liquidator_name][]" id="active_liquidator_name_' + total + '" class="form-control"></div>';
+
+        html += '<div class="col-sm-2 form-group liq-col" style="display:none;"><label>कब से परिसमापक</label><input type="date" name="active[liquidator_from_date][]" id="active_liquidator_from_date_' + total + '" class="form-control"></div>';
+
+        html += '<div class="col-sm-2 form-group">';
+        html += '<label>कब्जा / विवादित?</label>';
+        html += '<select name="active[kabja_vivad][]" id="active_kabja_vivad_' + total + '" class="form-control" onchange="toggleKabjaPrayasRow(' + total + ')">';
+        html += '<option value="">--चुनें--</option><option value="yes">हाँ</option><option value="no">नहीं</option>';
+        html += '</select></div>';
+
+        html += '<div class="col-sm-3 form-group" id="active_kabja_prayas_wrap_' + total + '" style="display:none;">';
+        html += '<label class="small-note" style="display:block;margin-bottom:6px;">किये गए प्रयास दर्ज करें</label>';
+        html += '<textarea name="active[kabja_prayas][]" id="active_kabja_prayas_' + total + '" class="form-control" rows="2"></textarea>';
+        html += '</div>';
+
+        html += '<div class="col-sm-2 form-group">';
+        html += '<label>राजस्व अभिलेख में दर्ज होने की स्थिति</label>';
+        html += '<select name="active[rajsv_abhilekh_darj][]" id="active_rajsv_abhilekh_darj_' + total + '" class="form-control" onchange="toggleRajsvRow(' + total + ')">';
+        html += '<option value="">--चुनें--</option><option value="yes">हाँ</option><option value="no">नहीं</option>';
+        html += '</select></div>';
+
+        html += '<div class="col-sm-6 form-group" id="active_rajsv_wrap_' + total + '" style="display:flex;gap:8px;align-items:flex-start;">';
+        html += '<div id="active_rajsv_na_wrap_' + total + '" style="flex:1;display:none;">';
+        html += '<label class="small-note" style="display:block;margin-bottom:6px;">दर्ज ना होने का कारण</label>';
+        html += '<textarea name="active[rajsv_na_darj_karan][]" id="active_rajsv_na_darj_karan_' + total + '" class="form-control" rows="2"></textarea>';
+        html += '</div>';
+        html += '<div id="active_rajsv_prayas_wrap_' + total + '" style="flex:1;display:none;">';
+        html += '<label class="small-note" style="display:block;margin-bottom:6px;">यदि नहीं है तो किये जाने वाले प्रयास का विवरण / अन्य विवरण</label>';
+        html += '<textarea name="active[rajsv_prayas][]" id="active_rajsv_prayas_' + total + '" class="form-control" rows="2"></textarea>';
+        html += '</div>';
+        html += '</div>';
+
+        html += '<div class="col-sm-1 form-group" style="display:flex;align-items:flex-end;gap:6px;">';
+        html += '<button type="button" class="btn-inf-add-row" onclick="active_add_row(' + total + ')">+</button>';
+        html += '<button type="button" class="btn" style="background:#ef4444;border:none;padding:6px 8px;border-radius:6px;color:#fff;" onclick="active_remove_row(' + total + ')">−</button>';
+        html += '</div>';
+
+        div.innerHTML = html;
+        container.appendChild(div);
+
+        try {
+            active_toggleColumns(total);
+            toggleKabjaPrayasRow(total);
+            toggleRajsvRow(total);
+        } catch (e) {
+        }
+
+        var focusEl = document.getElementById('active_samiti_naam_' + total);
+        if (focusEl) focusEl.focus();
+    };
+
+    window.active_remove_row = function (idx) {
+        var el = document.getElementById('active_row_' + idx);
+        if (!el) return;
+        el.parentNode.removeChild(el);
+
+        var container = document.getElementById('active_rows_container');
+        var rows = Array.prototype.slice.call(container.querySelectorAll('.active-row'));
+        for (var i = 0; i < rows.length; i++) {
+            var r = rows[i];
+            var newIndex = i + 1;
+            r.id = 'active_row_' + newIndex;
+
+            var els = r.querySelectorAll('[id]');
+            els.forEach(function (node) {
+                node.id = node.id.replace(/_\d+$/, '_' + newIndex);
+            });
+
+            var liq = r.querySelector('[id^="liq_cols_"]');
+            if (liq) liq.id = 'liq_cols_' + newIndex;
+            var kabjaWrap = r.querySelector('[id^="active_kabja_prayas_wrap_"]');
+            if (kabjaWrap) kabjaWrap.id = 'active_kabja_prayas_wrap_' + newIndex;
+            var kabjaPrayas = r.querySelector('[id^="active_kabja_prayas_"]');
+            if (kabjaPrayas) kabjaPrayas.id = 'active_kabja_prayas_' + newIndex;
+            var rajsvWrap = r.querySelector('[id^="active_rajsv_wrap_"]');
+            if (rajsvWrap) rajsvWrap.id = 'active_rajsv_wrap_' + newIndex;
+            var rajsvNa = r.querySelector('[id^="active_rajsv_na_wrap_"]');
+            if (rajsvNa) rajsvNa.id = 'active_rajsv_na_wrap_' + newIndex;
+            var rajsvPr = r.querySelector('[id^="active_rajsv_prayas_wrap_"]');
+            if (rajsvPr) rajsvPr.id = 'active_rajsv_prayas_wrap_' + newIndex;
+
+            var mapWrap = r.querySelector('[id^="active_map_"]');
+            if (mapWrap) mapWrap.id = 'active_map_' + newIndex;
+            var latInp = r.querySelector('[id^="active_latitude_"]');
+            if (latInp) latInp.id = 'active_latitude_' + newIndex;
+            var lonInp = r.querySelector('[id^="active_longitude_"]');
+            if (lonInp) lonInp.id = 'active_longitude_' + newIndex;
+            var coordBtn = r.querySelector('[onclick^="getLocationForRow("]');
+            if (coordBtn) {
+                coordBtn.setAttribute('onclick', 'getLocationForRow(' + newIndex + ')');
+            }
+        }
+
+        document.getElementById('active_count').value = rows.length;
+
+        var total = rows.length;
+        for (var j = 1; j <= total; j++) {
+            try {
+                active_toggleColumns(j);
+                toggleKabjaPrayasRow(j);
+                toggleRajsvRow(j);
+            } catch (e) { }
+        }
+    };
+
+    window.active_toggleColumns = function (idx) {
+        try {
+            var statusEl = document.getElementById('active_status_' + idx);
+            if (!statusEl) return;
+            var status = statusEl.value || '';
+
+            var row = document.getElementById('active_row_' + idx);
+            if (!row) return;
+
+            var landCols = row.querySelectorAll('.land-col');
+            var liqCols = row.querySelectorAll('.liq-col');
+            var kabjaSelect = document.getElementById('active_kabja_vivad_' + idx);
+            var kabjaWrap = document.getElementById('active_kabja_prayas_wrap_' + idx);
+            var rajsvSelect = document.getElementById('active_rajsv_abhilekh_darj_' + idx);
+            var rajsvWrap = document.getElementById('active_rajsv_wrap_' + idx);
+
+            if (status === 'परिसमापनाधीन') {
+                landCols.forEach(function (el) { el.style.display = 'none'; });
+                liqCols.forEach(function (el) { el.style.display = 'block'; });
+                if (kabjaSelect) kabjaSelect.parentNode.style.display = 'none';
+                if (kabjaWrap) kabjaWrap.style.display = 'none';
+                if (rajsvSelect) rajsvSelect.parentNode.style.display = 'none';
+                if (rajsvWrap) rajsvWrap.style.display = 'none';
+            } else {
+                landCols.forEach(function (el) { el.style.display = 'block'; });
+                liqCols.forEach(function (el) { el.style.display = 'none'; });
+                if (kabjaSelect) kabjaSelect.parentNode.style.display = 'block';
+                if (kabjaWrap) {
+                    toggleKabjaPrayasRow(idx);
+                }
+                if (rajsvSelect) rajsvSelect.parentNode.style.display = 'block';
+                if (rajsvWrap) {
+                    toggleRajsvRow(idx);
+                }
+            }
+        } catch (e) {
+            console && console.error && console.error(e);
+        }
+    };
+
+    window.toggleKabjaPrayasRow = function (idx) {
+        try {
+            var sel = document.getElementById('active_kabja_vivad_' + idx);
+            var wrap = document.getElementById('active_kabja_prayas_wrap_' + idx);
+            if (!sel || !wrap) return;
+            if (sel.value === 'yes') {
+                wrap.style.display = 'block';
+            } else {
+                wrap.style.display = 'none';
+                var ta = document.getElementById('active_kabja_prayas_' + idx);
+                if (ta) ta.value = '';
+            }
+        } catch (e) {
+            console && console.error && console.error(e);
+        }
+    };
+
+    window.toggleRajsvRow = function (idx) {
+        try {
+            var sel = document.getElementById('active_rajsv_abhilekh_darj_' + idx);
+            var naWrap = document.getElementById('active_rajsv_na_wrap_' + idx);
+            var prWrap = document.getElementById('active_rajsv_prayas_wrap_' + idx);
+            if (!sel) return;
+
+            if (sel.value === 'no') {
+                if (naWrap) naWrap.style.display = 'block';
+                if (prWrap) prWrap.style.display = 'block';
+            } else {
+                if (naWrap) {
+                    naWrap.style.display = 'none';
+                    var naTa = document.getElementById('active_rajsv_na_darj_karan_' + idx);
+                    if (naTa) naTa.value = '';
+                }
+                if (prWrap) {
+                    prWrap.style.display = 'none';
+                    var prTa = document.getElementById('active_rajsv_prayas_' + idx);
+                    if (prTa) prTa.value = '';
+                }
+            }
+        } catch (e) { }
+    };
+
+    window._init_active_rows = function () {
+        try {
+            var total = parseInt(document.getElementById('active_count').value) || 0;
+            for (var j = 1; j <= total; j++) {
+                if (!document.getElementById('active_row_' + j)) continue;
+                (function (idx) {
+                    var st = document.getElementById('active_status_' + idx);
+                    if (st) st.onchange = function () { active_toggleColumns(idx); };
+                    var kab = document.getElementById('active_kabja_vivad_' + idx);
+                    if (kab) kab.onchange = function () { toggleKabjaPrayasRow(idx); };
+                    var raj = document.getElementById('active_rajsv_abhilekh_darj_' + idx);
+                    if (raj) raj.onchange = function () { toggleRajsvRow(idx); };
+
+                    active_toggleColumns(idx);
+                    toggleKabjaPrayasRow(idx);
+                    toggleRajsvRow(idx);
+
+                    var latVal = document.getElementById('active_latitude_' + idx);
+                    var lonVal = document.getElementById('active_longitude_' + idx);
+                    if (latVal && lonVal && latVal.value && lonVal.value) {
+                        (function (ii, la, lo) {
+                            setTimeout(function () { showMapForRow(ii, parseFloat(la), parseFloat(lo)); }, 100);
+                        })(idx, latVal.value, lonVal.value);
+                        var mapWrap = document.getElementById('active_map_' + idx);
+                        if (mapWrap) mapWrap.style.display = 'block';
+                    }
+                })(j);
+            }
+        } catch (e) {
+            console && console.error && console.error(e);
+        }
+    };
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', _init_active_rows);
+    } else {
+        _init_active_rows();
     }
 
-    (function () {
-        const statusSelect = document.getElementById('status_mode');
-        const tableActive = document.getElementById('tableActive');
-        const tableActiveWrap = document.getElementById('tableActiveWrap');
-        const tBodyActive = tableActive.querySelector('tbody');
-        const addRowActive = document.getElementById('addRowActive');
-        window.newActiveRow = function () {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-      <td>
-        <select name="active[active_status][]" class="form-select" onchange="toggleColumns(this)">
-            <option value="">--चुनें--</option>
-            <option value="सक्रिय">सक्रिय</option>
-            <option value="निष्क्रिय">निष्क्रिय</option>
-            <option value="परिसमापनाधीन">परिसमापनाधीन</option>
-        </select>
-      </td>
-      <td class="common-column"><input type="text"   name="active[ncd_id][]"             class="form-control" placeholder="NCD ID"></td>
-      <td class="common-column"><input type="text"   name="active[samiti_naam][]"        class="form-control" placeholder="समिति का नाम"></td>
-      <td class="land-column"><input type="number" name="active[land_area][]"           class="form-control" step="0.0001" min="0" placeholder="0.0000"></td>
-      <td class="land-column">
-        <select name="active[land_sthiti][]" class="form-select">
-        <option value="">--चुनें--</option>
-        <option value="उपजाऊ">उपजाऊ</option>
-        <option value="बंजर">बंजर</option>
-        <option value="rent">भूमि किराये पर है।</option>
-        <option value="भूमि उपलब्ध नही है">भूमि उपलब्ध नही है।</option>
-      </select>
-      </td>
-      <td class="land-column">
-        <select name="active[society_land][]" class="form-select">
-        <option value="">--चुनें--</option>
-        <option value="समिति प्रांगण">समिति प्रांगण</option>
-        <option value="अन्य स्थान">अन्य स्थान</option>
-        <option value="भूमि नही है">भूमि नही है।</option>
-      </select>
-      </td>
-      <td class="land-column">
-        <select name="active[godown_suitable][]" class="form-select">
-        <option value="">--चुनें--</option>
-        <option value="हाँ">हाँ</option>
-        <option value="नहीं">नहीं</option>
-        <option value="गोदाम उपलब्ध नही है।">गोदाम उपलब्ध नही है।</option>
-      </select>
-      </td>
-      <td class="land-column"><input type="number" name="active[rack_distance][]"   class="form-control" step="0.01" min="0" placeholder="0.00"></td>
-      <td class="land-column">
-        <select name="active[arrived_land_type][]" class="form-select">
-        <option value="">--चुनें--</option>
-        <option value="कच्ची सड़क">कच्ची सड़क</option>
-        <option value="नेशनल हाईवे">नेशनल हाईवे</option>
-        <option value="स्टेट हाईवे">स्टेट हाईवे</option>
-        <option value="एम.डी.आर.">एम.डी.आर.</option>
-        <option value="ओ.डी.आर.">ओ.डी.आर.</option>
-        <option value="ग्रामीण सड़क">ग्रामीण सड़क</option>
-        <option value="अन्य">अन्य</option>
-      </select>
-      </td>
-      <td class="liq-column"><input type="text" name="active[liquidator_name][]" class="form-control" placeholder="परिसमापक का नाम"></td>
-      <td class="liq-column"><input type="date" name="active[liquidator_from_date][]" class="form-control"></td>
-      <td><button type="button" class="btn-inf-add-row" onclick="addNewActiveRow(this)">+</button></td>`;
-            return tr;
+    var _orig_add = window.active_add_row;
+    if (_orig_add) {
+        window.active_add_row = function (callerIdx) {
+            _orig_add(callerIdx);
+            setTimeout(_init_active_rows, 50);
+        };
+    }
+    var _orig_remove = window.active_remove_row;
+    if (_orig_remove) {
+        window.active_remove_row = function (idx) {
+            _orig_remove(idx);
+            setTimeout(_init_active_rows, 50);
+        };
+    }
+
+    window.getLocationForRow = function (idx) {
+        var latEl = document.getElementById('active_latitude_' + idx);
+        var lonEl = document.getElementById('active_longitude_' + idx);
+        var mapWrap = document.getElementById('active_map_' + idx);
+
+        if (latEl && lonEl && latEl.value && lonEl.value) {
+            if (mapWrap) mapWrap.style.display = 'block';
+            showMapForRow(idx, parseFloat(latEl.value), parseFloat(lonEl.value));
+            return;
         }
-        window.toggleColumns = function (selectElement) {
-            const row = selectElement.closest('tr');
-            const isLiquidation = selectElement.value === 'परिसमापनाधीन';
-            row.querySelectorAll('.land-column').forEach(col => {
-                col.classList.toggle('cell-hidden', isLiquidation);
-            });
-            row.querySelectorAll('.liq-column').forEach(col => {
-                col.classList.toggle('cell-hidden', !isLiquidation);
-            });
+
+        if (!navigator.geolocation) {
+            alert('ब्राउज़र में Geolocation समर्थित नहीं है।');
+            return;
         }
-        window.addNewActiveRow = function (buttonElement) {
-            console.log('Add row button clicked');
-            const table = document.getElementById('tableActive');
-            if (!table) {
-                console.error('Table not found');
+
+        var btn = event && event.target ? event.target : null;
+        var prevHtml = btn ? btn.innerHTML : null;
+        if (btn) btn.innerHTML = '⏳';
+
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var lat = position.coords.latitude;
+            var lon = position.coords.longitude;
+            if (latEl) latEl.value = lat.toFixed(6);
+            if (lonEl) lonEl.value = lon.toFixed(6);
+            if (mapWrap) {
+                mapWrap.style.display = 'block';
+                showMapForRow(idx, lat, lon);
+            }
+            if (btn) btn.innerHTML = prevHtml || 'लोकेशन रिफ्रेश करें';
+        }, function (err) {
+            alert('Location error: ' + (err.message || err.code));
+            if (btn) btn.innerHTML = prevHtml || 'लोकेशन रिफ्रेश करें';
+        }, {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0
+        });
+    };
+
+    window._rowMaps = window._rowMaps || {};
+
+    window.showMapForRow = function (idx, lat, lon) {
+        var id = 'active_map_' + idx;
+        var el = document.getElementById(id);
+        if (!el) return;
+
+        if (window._rowMaps[idx]) {
+            try {
+                var m = window._rowMaps[idx].map;
+                var mk = window._rowMaps[idx].marker;
+                m.setView([lat, lon], 15);
+                mk.setLatLng([lat, lon]);
                 return;
-            }
-            const tbody = table.querySelector('tbody');
-            if (!tbody) {
-                console.error('Tbody not found');
-                return;
-            }
-            const newRow = window.newActiveRow();
-            tbody.appendChild(newRow);
-            console.log('New row added successfully');
-        }
-
-        function ensureOneRow() {
-            if (tBodyActive.children.length === 0) {
-                tBodyActive.appendChild(window.newActiveRow());
+            } catch (e) {
             }
         }
 
-        (function initFromPost() {
-            ensureOneRow();
+        el.innerHTML = '';
+        var map = L.map(id, { scrollWheelZoom: false }).setView([lat, lon], 15);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
 
-            <?php if (!empty($_POST['active'])): ?>
-                    (<?php echo json_encode($_POST['active'], JSON_UNESCAPED_UNICODE); ?>)['samiti_naam']?.forEach(() => { tBodyActive.appendChild(window.newActiveRow()); });
-                const rows = document.querySelectorAll('#tableActive tbody tr');
-                rows.forEach(r => {
-                    const sel = r.querySelector('select[name="active[active_status][]"]');
-                    if (sel) { window.toggleColumns(sel); }
-                });
-            <?php elseif (!empty($edit_prefill)): ?>
-                tBodyActive.innerHTML = '';
-                const data = <?php echo json_encode($edit_prefill['active'] ?? [], JSON_UNESCAPED_UNICODE); ?>;
-                const tr = window.newActiveRow();
-                tr.querySelector('select[name="active[active_status][]"]').value = data['active_status'] || '';
-                tr.querySelector('input[name="active[ncd_id][]"]').value = data['ncd_id'] || '';
-                tr.querySelector('input[name="active[samiti_naam][]"]').value = data['samiti_naam'] || '';
-                tr.querySelector('input[name="active[land_area][]"]').value = data['land_area'] || '';
-                const landStSelect = tr.querySelector('select[name="active[land_sthiti][]"]');
-                if (landStSelect) landStSelect.value = data['land_sthiti'] || '';
-                const placeSel = tr.querySelector('select[name="active[society_land][]"]');
-                if (placeSel) placeSel.value = data['society_land'] || '';
-                const godamSel = tr.querySelector('select[name="active[godown_suitable][]"]');
-                if (godamSel) godamSel.value = data['godown_suitable'] || '';
-                tr.querySelector('input[name="active[rack_distance][]"]').value = data['rack_distance'] || '';
-                const arrivedSel = tr.querySelector('select[name="active[arrived_land_type][]"]');
-                if (arrivedSel) arrivedSel.value = data['arrived_land_type'] || '';
-                tr.querySelector('input[name="active[liquidator_name][]"]').value = data['liquidator_name'] || '';
-                tr.querySelector('input[name="active[liquidator_from_date][]"]').value = data['liquidator_from_date'] || '';
+        var marker = L.marker([lat, lon], { draggable: true }).addTo(map);
 
-                tBodyActive.appendChild(tr);
-                const sel = tr.querySelector('select[name="active[active_status][]"]');
-                if (sel) window.toggleColumns(sel);
-                <?php if (!empty($edit_prefill)): ?>
-                    document.getElementById('mandal_name').value = <?php echo json_encode($edit_prefill['mandal_name']); ?>;
-                    document.getElementById('janpad_name').value = <?php echo json_encode($edit_prefill['janpad_name']); ?>;
-                    // if you have inputs for total_union etc. add lines:
-                    // document.querySelector('input[name="total_union"]').value = <?php echo json_encode($edit_prefill['total_union']); ?>;
-                    // document.querySelector('input[name="active_union"]').value = <?php echo json_encode($edit_prefill['active_union']); ?>;
-                    // ...
-                    // lat/long
-                    var latH = document.getElementById('lat');
-                    var lngH = document.getElementById('long');
-                    if (latH) latH.value = <?php echo json_encode($edit_prefill['latitude']); ?>;
-                    if (lngH) lngH.value = <?php echo json_encode($edit_prefill['longitude']); ?>;
-                <?php endif; ?>
+        marker.on('dragend', function () {
+            var p = marker.getLatLng();
+            var latEl = document.getElementById('active_latitude_' + idx);
+            var lonEl = document.getElementById('active_longitude_' + idx);
+            if (latEl) latEl.value = p.lat.toFixed(6);
+            if (lonEl) lonEl.value = p.lng.toFixed(6);
+        });
 
-            <?php endif; ?>
-        })();
+        map.on('click', function (e) {
+            marker.setLatLng(e.latlng);
+            var latEl = document.getElementById('active_latitude_' + idx);
+            var lonEl = document.getElementById('active_longitude_' + idx);
+            if (latEl) latEl.value = e.latlng.lat.toFixed(6);
+            if (lonEl) lonEl.value = e.latlng.lng.toFixed(6);
+        });
 
-    })();
+        window._rowMaps[idx] = { map: map, marker: marker };
+    };
 </script>
-
+<script>
+    function toggleRow(id) {
+        var row = document.getElementById("detail_" + id);
+        if (row.style.display === "none") {
+            row.style.display = "table-row";
+        } else {
+            row.style.display = "none";
+        }
+    }
+</script>
 <?php
 page_footer_start();
 page_footer_end();
+?>

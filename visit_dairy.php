@@ -3,7 +3,6 @@ include("scripts/settings.php");
 $msg = '';
 $response = 1;
 $tab = 1;
-// error_reporting(E_ALL);
 
 // print_r($_SESSION);
 if (isset($_POST['district_name'])) {
@@ -469,13 +468,6 @@ page_header_start();
 <?php
 page_header_end();
 page_sidebar();
-
-$sql = 'select * from survey_invoice_validation where survey_id="' . $_SESSION['survey_id'] . '" and approval_status="reject" order by creation_time desc limit 1';
-$result_rejection = execute_query($sql);
-if (mysqli_num_rows($result_rejection) != 0) {
-    $row_rejection = mysqli_fetch_assoc($result_rejection);
-    $msg = '<p class="text-danger">आपका प्रपत्र निम्न कारणों से सत्यापन में वापस भेजा गया है : <br/>' . $row_rejection['remarks'] . '</p>';
-}
         ?>
 
             <div class="row">
@@ -535,7 +527,7 @@ if (mysqli_num_rows($result_rejection) != 0) {
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-sm-12">
+                                                            <!-- <div class="col-sm-12">
                                                                 <div class="row" style="margin: 7px;">
                                                                     <div class="col-md-3">
                                                                         <h6>समिति का नाम : </h6>
@@ -581,7 +573,7 @@ if (mysqli_num_rows($result_rejection) != 0) {
                                                                         <?php echo $row_invoice['mobile_number']; ?>
                                                                     </div>
                                                                 </div>
-                                                            </div>
+                                                            </div> -->
                                                         </div>
                                                         <hr/>
                                                         <div class="row">
@@ -596,7 +588,7 @@ if (mysqli_num_rows($result_rejection) != 0) {
                                                                 </select>
                                                             </div>
                                                             <div class="col-sm-3 form-group" style="margin-block: -6px;">
-                                                                <label>नगर पालिका/ नगर पंचायत/ नगर निगम</label>
+                                                                <label>नगर पंचायत</label>
                                                                 <br />
                                                                 <input type="text" name="society_registration_no"
                                                                     id="society_registration_no" tabindex="<?php echo $tab++; ?>"
@@ -775,7 +767,7 @@ if (mysqli_num_rows($result_rejection) != 0) {
                                     <div class="col-sm-12">
                                         <div class="row">
                                             <div class="col-sm-3 form-group">
-                                                <label>संतुलन पत्र किस वित्तीय वर्ष तक बना है</label>
+                                                <label>आय व्ययक विवरण किस वित्तीय वर्ष तक बना है</label>
                                                 <select name="sec2_santulan_patra" class="form-control">
                                                     <option value="">
                                                         <?php echo '--Select--'; ?>
@@ -822,22 +814,6 @@ if (mysqli_num_rows($result_rejection) != 0) {
                                                     id="sec_1_profit_loss_amount_2022" tabindex="5"
                                                     class="form-control">
                                             </div>
-                                            <div class="col-sm-3 form-group">
-                                                <label>संचित लाभ/हानि की स्थिति</label>
-                                                <select name="sec_1_accumulated_2022" id="sec_1_accumulated_2022"
-                                                    tabindex="4" class="form-control"
-                                                    onchange="color_change(this, 'profit', '#42ecf5', 'loss', '#f28546');">
-                                                    <option value="">--Select--</option>
-                                                    <option value="profit">लाभ</option>
-                                                    <option value="loss">हानि</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-3 form-group">
-                                                <label>(धनराशि रु० लाख मे)</label>
-                                                <input type="text" name="sec_1_accumulated_amount_2022"
-                                                    id="sec_1_accumulated_amount_2022" tabindex="5"
-                                                    class="form-control">
-                                            </div>
                                         </div>
                                         <small><b>(II) वित्तीय वर्ष 2022-23</b></small>
                                         <div class="row">
@@ -857,22 +833,6 @@ if (mysqli_num_rows($result_rejection) != 0) {
                                                     id="sec_1_profit_loss_amount_2023" tabindex="7"
                                                     class="form-control">
                                             </div>
-                                            <div class="col-sm-3 form-group">
-                                                <label>संचित लाभ/हानि की स्थिति</label>
-                                                <select name="sec_1_accumulated_2023" id="sec_1_accumulated_2023"
-                                                    tabindex="6" class="form-control"
-                                                    onchange="color_change(this, 'profit', '#42ecf5', 'loss', '#f28546');">
-                                                    <option value="">--Select--</option>
-                                                    <option value="profit">लाभ</option>
-                                                    <option value="loss">हानि</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-3 form-group">
-                                                <label>(धनराशि रु० लाख मे)</label>
-                                                <input type="text" name="sec_1_accumulated_amount_2023"
-                                                    id="sec_1_accumulated_amount_2023" tabindex="7"
-                                                    class="form-control">
-                                            </div>
                                         </div>
                                         <small><b>(III)वित्तीय वर्ष 2023-24</b></small>
                                         <div class="row">
@@ -890,22 +850,6 @@ if (mysqli_num_rows($result_rejection) != 0) {
                                                 <label>(धनराशि रु० लाख मे)</label>
                                                 <input type="text" name="sec_1_profit_loss_amount_2024"
                                                     id="sec_1_profit_loss_amount_2024" tabindex="9"
-                                                    class="form-control">
-                                            </div>
-                                            <div class="col-sm-3 form-group">
-                                                <label>संचित लाभ/हानि की स्थिति</label>
-                                                <select name="sec_1_accumulated_2024" id="sec_1_accumulated_2024"
-                                                    tabindex="8" class="form-control"
-                                                    onchange="color_change(this, 'profit', '#42ecf5', 'loss', '#f28546');">
-                                                    <option value="">--Select--</option>
-                                                    <option value="profit">लाभ</option>
-                                                    <option value="loss">हानि</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-3 form-group">
-                                                <label>(धनराशि रु० लाख मे)</label>
-                                                <input type="text" name="sec_1_accumulated_amount_2024"
-                                                    id="sec_1_accumulated_amount_2024" tabindex="9"
                                                     class="form-control">
                                             </div>
                                         </div>
@@ -959,10 +903,15 @@ if (mysqli_num_rows($result_rejection) != 0) {
                                                 </select>
                                             </div>
                                         </div>
+
+                                    </div>
+                                    <h4><img src="images/logo/3.png" alt="text" class="img-fluid stat-icon"
+                                            style="height:50px; width:50px;"> 2.1 भौतिक सूचना</h4>
+                                    <div class="col-sm-12">
                                         <div class="row">
                                             <div class="col-sm-3 form-group">
-                                                <label> अंतिम ए० जी० एम० किस वित्तीय वर्ष तक सम्पन्न हुई</label>
-                                                <select name="sec2_agm_year" class="form-control">
+                                                <label>आय व्ययक विवरण किस वित्तीय वर्ष तक बना है</label>
+                                                <select name="sec2_santulan_patra" class="form-control">
                                                     <option value="">
                                                         <?php echo '--Select--'; ?>
                                                     </option>
@@ -977,7 +926,95 @@ if (mysqli_num_rows($result_rejection) != 0) {
                                                         $end_session = $i + 1;
                                                         ?>
                                                     <option value="<?php echo $i . '-' . $end_session; ?>" <?php
-                                                           if (isset($_POST['sec2_agm_year']) && $_POST['sec2_agm_year'] == $i . '-' . $end_session) {
+                                                           if (isset($_POST['sec2_santulan_patra']) && $_POST['sec2_santulan_patra'] == $i . '-' . $end_session) {
+                                                               echo 'selected';
+                                                           }
+                                                           ?>
+                                                        >
+                                                        <?php echo $i . '-' . $end_session; ?>
+                                                    </option>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <small><b>(I) वित्तीय वर्ष 2021-22</b></small>
+                                        <div class="row">
+                                            <div class="col-sm-3 form-group">
+                                                <label>वार्षिक लाभ/हानि की स्थिति</label>
+                                                <select name="sec_1_profit_loss_2022" id="sec_1_profit_loss_2022"
+                                                    tabindex="4" class="form-control"
+                                                    onchange="color_change(this, 'profit', '#42ecf5', 'loss', '#f28546');">
+                                                    <option value="">--Select--</option>
+                                                    <option value="profit">लाभ</option>
+                                                    <option value="loss">हानि</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-3 form-group">
+                                                <label>(धनराशि रु० लाख मे)</label>
+                                                <input type="text" name="sec_1_profit_loss_amount_2022"
+                                                    id="sec_1_profit_loss_amount_2022" tabindex="5"
+                                                    class="form-control">
+                                            </div>
+                                        </div>
+                                        <small><b>(II) वित्तीय वर्ष 2022-23</b></small>
+                                        <div class="row">
+                                            <div class="col-sm-3 form-group">
+                                                <label>वार्षिक लाभ/हानि की स्थिति</label>
+                                                <select name="sec_1_profit_loss_2023" id="sec_1_profit_loss_2023"
+                                                    tabindex="6" class="form-control"
+                                                    onchange="color_change(this, 'profit', '#42ecf5', 'loss', '#f28546');">
+                                                    <option value="">--Select--</option>
+                                                    <option value="profit">लाभ</option>
+                                                    <option value="loss">हानि</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-3 form-group">
+                                                <label>(धनराशि रु० लाख मे)</label>
+                                                <input type="text" name="sec_1_profit_loss_amount_2023"
+                                                    id="sec_1_profit_loss_amount_2023" tabindex="7"
+                                                    class="form-control">
+                                            </div>
+                                        </div>
+                                        <small><b>(III)वित्तीय वर्ष 2023-24</b></small>
+                                        <div class="row">
+                                            <div class="col-sm-3 form-group">
+                                                <label>वार्षिक लाभ/हानि की स्थिति</label>
+                                                <select name="sec_1_profit_loss_2024" id="sec_1_profit_loss_2024"
+                                                    tabindex="8" class="form-control"
+                                                    onchange="color_change(this, 'profit', '#42ecf5', 'loss', '#f28546');">
+                                                    <option value="">--Select--</option>
+                                                    <option value="profit">लाभ</option>
+                                                    <option value="loss">हानि</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-3 form-group">
+                                                <label>(धनराशि रु० लाख मे)</label>
+                                                <input type="text" name="sec_1_profit_loss_amount_2024"
+                                                    id="sec_1_profit_loss_amount_2024" tabindex="9"
+                                                    class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-3 form-group">
+                                                <label>आडिट किस वित्तीय वर्ष तक हुआ है</label>
+                                                <select name="sec2_audit_year" class="form-control">
+                                                    <option value="">
+                                                        <?php echo '--Select--'; ?>
+                                                    </option>
+                                                    <?php
+                                                    if (date('m') > 3) {
+                                                        $select_start_session = date('Y');
+                                                    } else {
+                                                        $select_start_session = date('Y') - 1;
+                                                    }
+                                                    $session_start = date('Y') - 7;
+                                                    for ($i = $session_start; $i <= $session_start + 7; $i++) {
+                                                        $end_session = $i + 1;
+                                                        ?>
+                                                    <option value="<?php echo $i . '-' . $end_session; ?>" <?php
+                                                           if (isset($_POST['sec2_audit_year']) && $_POST['sec2_audit_year'] == $i . '-' . $end_session) {
                                                                echo 'selected';
                                                            }
                                                            ?>
@@ -990,116 +1027,67 @@ if (mysqli_num_rows($result_rejection) != 0) {
                                                 </select>
                                             </div>
                                             <div class="col-sm-2 form-group">
-                                                <label>लाभांश किस वर्ष का दिया गया</label>
-                                                <select name="sec2_financial_audit" class="form-control"
-                                                    onchange="hide_show(this.value, '#sec_2_dividend_per', 'yes'); hide_show(this.value, '#sec_2_dividend', 'yes');">
-                                                    <option value="">--Select--</option>
-                                                    <option value="yes">2017-2018</option>
-                                                    <option value="yes">2018-2019</option>
-                                                    <option value="yes">2019-2020</option>
-                                                    <option value="yes">2020-2021</option>
-                                                    <option value="yes">2021-2022</option>
-                                                    <option value="yes">2022-2023</option>
-                                                    <option value="yes">2023-2024</option>
-                                                    <option value="yes">2024-2025</option>
-                                                    <option value="no">नहीं दिया गया</option>
+                                                <label>ऑडिट वर्गीकरण</label>
+                                                <select name="sec_2_audit_grading" class="form-control">
+                                                    <option value="">--select-- </option>
+                                                    <option value="A">A</option>
+                                                    <option value="B">B</option>
+                                                    <option value="C">C</option>
+                                                    <option value="D">D</option>
                                                 </select>
                                             </div>
-                                            <div class="col-sm-2 form-group" id="sec_2_dividend_per"
-                                                style="display:none">
-                                                <label>लाभांश का प्रतिशत (0-20 तक)</label>
-                                                <input type="text" name="sec_2_dividend_per" id="sec_2_dividend_per"
-                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                    value="<?php echo $row_2_1['investment']; ?>">
-                                            </div>
-                                            <div class="col-sm-2 form-group" id="sec_2_dividend" style="display:none">
-                                                <label>लाभांश की धनराशि (लाख मे)</label>
-                                                <input type="text" name="sec_2_dividend_money" id="sec_2_dividend_money"
-                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                    value="<?php echo $row_2_1['investment']; ?>">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <label> कुल आय (धनराशि रु० लाख मे)</label>
-                                                <input name="sec_3_building_rent" id="sec_3_building_rent"
-                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                    value="<?php echo $row_invoice['society_building_rent_amount']; ?>">
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <label> कुल व्यय (धनराशि रु० लाख मे)</label>
-                                                <input name="sec_3_building_rent" id="sec_3_building_rent"
-                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                    value="<?php echo $row_invoice['society_building_rent_amount']; ?>">
-                                            </div>
-                                            <div class="col-sm-3 form-group">
-                                                <label>क्या ट्रैडिंग स्टॉक का बीमा हुआ है ?</label>
-                                                <select name="sec_2_stock_insurance" class="form-control"
+                                            <div class="col-sm-2 form-group">
+                                                <label>अनुपालन की स्थिति</label>
+                                                <select name="sec_2_compliance" class="form-control"
                                                     onchange="color_change(this, 'yes', '#42ecf5', 'no', '#f28546');">
                                                     <option value="">--select-- </option>
-                                                    <option value="yes">शिक्षण-प्रशिक्षण</option>
-                                                    <option value="no">व्यावसायिक बीमा</option>
-                                                    <option value="no">मूल्य समर्थन योजना</option>
+                                                    <option value="yes">हाँ</option>
+                                                    <option value="no">नहीं</option>
                                                 </select>
                                             </div>
                                         </div>
 
                                     </div>
-                                    <h4><img src="images/logo/4.png" alt="text" class="img-fluid stat-icon"
-                                            style="height:50px; width:50px;"> 3. अन्य कार्य व व्यवसाय</h4>
-                                           
+                                    <div class="row">
+											<div class="col-12">
+												<h5><img src="images/logo/4.png" alt="text" class="img-fluid stat-icon"
+														style="height:50px; width:50px;"> 2.3. अन्य कार्य व व्यवसाय</h5>
+											</div>
+										</div>
+										<div id="other_business">
+                                            <!-- First Row -->
+                                            <div class="row" id="business_row_1">
+                                                <div class="col-sm-4 form-group">
+                                                    <label>व्यवसाय का विवरण</label>
+                                                    <select name="sec_2_1_2_business_description_1"
+                                                            id="sec_2_1_2_business_description_1"
+                                                            class="form-control">
+                                                        <option value="">--select--</option>
+                                                        <option value="cattle_feed">कैटल फीड</option>
+                                                        <option value="any_other">अन्य</option>
+                                                    </select>
+                                                </div>
 
-                                    <div style="display: flex; justify-content: space-between; margin-top: 5px;">
-                                    <div style="width: 30%; border: 1px solid #efd9d9ff; padding: 10px; text-align: center;">
-                                        <p>व्यवसाय का विवरण </p>
-                                    </div>
+                                                <div class="col-sm-4 form-group">
+                                                    <label>वार्षिक टर्नोवर</label>
+                                                    <input type="text"
+                                                        name="sec_2_1_2_value_1"
+                                                        id="sec_2_1_2_value_1"
+                                                        class="form-control chk_decimal"
+                                                        placeholder="रु० लाख में">
+                                                </div>
 
-                                    <div style="width: 30%; border: 1px solid #f3e5e5ff; padding: 10px; text-align: center;">
-                                        
-                                        <p>वार्षिक टर्नओवर </p>
-                                    </div>
-
-                                    <div style="width: 30%; border: 1px solid #ebd4d4ff; padding: 10px; text-align: center;">
-
-                                        <p>लाभ/हानि </p>
-                                    </div>
-                                    </div>
-
-                                    <div class="col-sm-12">
-                                        <?php
-                                        for ($i = 1; $i <= $row_2_1_2['count']; $i++) {
-                                            ?>
-                                        <div class="row">
-                                            <div class="col-sm-3 form-group">
-                                                <label>व्यवसाय का विवरण </label>
-                                                <input type="text"
-                                                    name="sec_2_1_2_business_description_<?php echo $i; ?>"
-                                                    id="sec_2_1_2_business_description_<?php echo $i; ?>"
-                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                    value="<?php echo $row_2_1_2['sec_2_1_2_business_description_' . $i]; ?>">
+                                                <div class="col-sm-2 form-group my-auto">
+                                                    <button type="button"
+                                                            class="btn btn-info"
+                                                            onclick="add_more_business();">
+                                                        नईं पंक्ति जोड़े [+]
+                                                    </button>
+                                                    <input type="hidden" name="other_business_id" id="other_business_id" value="1">
+                                                </div>
                                             </div>
 
-                                            <div class="col-sm-3 form-group">
-                                                <label>वार्षिक टर्नोवर</label>
-                                                <input type="text" name="sec_2_1_2_value_<?php echo $i; ?>"
-                                                    id="sec_2_1_2_value_<?php echo $i; ?>"
-                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                    value="<?php echo $row_2_1_2['sec_2_1_2_value_' . $i]; ?>">
-                                            </div>
-                                            <?php
-                                            if ($i == $row_2_1_2['count']) {
-                                                ?>
-                                            <div class="col-sm-2 form-group my-auto" id="add_business_row">
-                                                <button type="button" class="btn btn-info"
-                                                    onClick="add_more_business();">नईं पंक्ति
-                                                    जोड़े [+]</button>
-                                                <input type="hidden" name="other_business_id" id="other_business_id"
-                                                    value="<?php echo $row_2_1_2['count']; ?>">
-                                            </div>
-                                            <?php } ?>
                                         </div>
-                                        <?php } ?>
-                                    </div>
                                 </div>
                                 <!----------------5th start-------------------------------------------------------->
                                             <div class="step">
@@ -1201,9 +1189,9 @@ if (mysqli_num_rows($result_rejection) != 0) {
 
                                                     <br>
                                                     <h5><img src="images/logo/7.png" alt="text" class="img-fluid stat-icon"
-                                                            style="height:50px; width:50px;"> (II) प्रबंध कमेटी</h5>
+                                                            style="height:50px; width:50px;"> (II) प्रबंध कमेटी/संचालक मण्डल</h5>
                                                     <div class="row">
-                                                        <div class="col-md-3"><label for="">प्रबंध कमेटी निर्वाचित है?</label>
+                                                        <div class="col-md-3"><label for="">प्रबंध कमेटी/संचालक मण्डल निर्वाचित है?</label>
                                                             <select name="" id="" class="form-control"
                                                                 onChange="hide_show(this.value, '#guard_count123', '0');hide_show(this.value, '#guard_count2', '0');hide_show(this.value, '#guard_count3', '0');">
                                                                 <option value="">--Select--</option>
@@ -1234,27 +1222,11 @@ if (mysqli_num_rows($result_rejection) != 0) {
                                                                 tabindex="<?php echo $tab++; ?>" class="form-control"
                                                                 tabindex="<?php echo $tab++; ?>" value="">
                                                         </div>
-                                                        <div class="col-md-3"><label for="">सहकारी प्रबंध प्रशिक्षण केंद्र</label>
-                                                            <select name="" id="" class="form-control">
-                                                                <option value="">--Select--</option>
-                                                                <option value="0">मेरठ </option>
-                                                                <option value="1">वाराणसी</option>
-                                                                <option value="1">महोबा</option>
-                                                                <option value="1">हेवरा (ईटवा)</option>
-                                                                <option value="1">अयोध्या (फैजाबाद)</option>
-                                                                <option value="1">बिलारी (मोरादाबाद)</option>
-                                                            </select>
-                                                        </div>
-                                                        <!-- <div class="col-sm-3 form-group" id="guard_count3" style="display:none;">
-                                                <label>प्रबंध कमेटी प्रस्ताव दिनांक</label>
-                                                <input type="text" name="sec_2_guard_count" id="sec_2_guard_count" 
-                                                    tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                    tabindex="<?php echo $tab++; ?>" value="">
-                                            </div> -->
+                                                        
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-sm-2 form-group">
-                                                            <label>पदनाम</label>
+                                                            <label>पद</label>
                                                             <select class="form-control " type="checkbox" id="sec_2_guard"
                                                                 name="sec_2_guard" value="yes" tabindex="<?php echo $tab++; ?>">
                                                                 <option value="">--Select--</option>
@@ -1294,12 +1266,6 @@ if (mysqli_num_rows($result_rejection) != 0) {
                                                                 tabindex="<?php echo $tab++; ?>" value="">
                                                         </div>
                                                         <div class="col-sm-2 form-group">
-                                                            <label>कार्यकाल</label>
-                                                            <input type="text" name="sec_2_guard_count" id="sec_2_guard_count"
-                                                                tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                                tabindex="<?php echo $tab++; ?>" value="">
-                                                        </div>
-                                                        <div class="col-sm-2 form-group" id="guard_count">
                                                             <label>पिता का नाम</label>
                                                             <input type="text" name="sec_2_guard_count" id="sec_2_guard_count"
                                                                 tabindex="<?php echo $tab++; ?>" class="form-control"
@@ -1307,6 +1273,12 @@ if (mysqli_num_rows($result_rejection) != 0) {
                                                         </div>
                                                         <div class="col-sm-2 form-group" id="guard_count">
                                                             <label>मोबाईल नंबर</label>
+                                                            <input type="text" name="sec_2_guard_count" id="sec_2_guard_count"
+                                                                tabindex="<?php echo $tab++; ?>" class="form-control"
+                                                                tabindex="<?php echo $tab++; ?>" value="">
+                                                        </div>
+                                                        <div class="col-sm-2 form-group" id="guard_count">
+                                                            <label>आधार नंबर</label>
                                                             <input type="text" name="sec_2_guard_count" id="sec_2_guard_count"
                                                                 tabindex="<?php echo $tab++; ?>" class="form-control"
                                                                 tabindex="<?php echo $tab++; ?>" value="">
@@ -1384,7 +1356,7 @@ if (mysqli_num_rows($result_rejection) != 0) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="row" id="sec_3" style="display: <?php echo $sec_3_display; ?>;">
+                                            <!-- <div class="row" id="sec_3" style="display: <?php echo $sec_3_display; ?>;">
                                                 <div class="col-sm-12">
                                                     <h5> (I) भूखंड स्वामित्व का विवरण </h5>
                                                     <div class="row">
@@ -1403,30 +1375,14 @@ if (mysqli_num_rows($result_rejection) != 0) {
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> -->
 
                                             <div class="row" id="sec_3" style="display: <?php echo $sec_3_display; ?>;">
                                                 <div class="col-sm-12">
                                                     <h5> (II) भूखंड का विवरण </h5>
                                                     <div class="row">
                                                         <div class="col-sm-3 form-group">
-                                                            <label>भूखण्ड में भुजा कि संख्या</label>
-                                                            <label><small>(उदाहरण के लिये - यदि भूखण्ड आयताकार है तो
-                                                                    भुजाओं
-                                                                    कि संख्या 4 लिखें)</small></label>
-                                                            <select name="sec_3_a_land_length" id="sec_3_a_land_length"
-                                                                tabindex="<?php echo $tab++; ?>" class="form-control"
-                                                                onChange="show_sides_of_land(this.value);">
-                                                                <option value="">--Select--</option>
-                                                                <option value="3" <?php echo $row_3_1['number_of_sides'] == '3' ? ' selected="selected" ' : ''; ?>>3</option>
-                                                                <option value="4" <?php echo $row_3_1['number_of_sides'] == '4' ? ' selected="selected" ' : ''; ?>>4</option>
-                                                                <option value="5" <?php echo $row_3_1['number_of_sides'] == '5' ? ' selected="selected" ' : ''; ?>>5</option>
-                                                                <option value="6" <?php echo $row_3_1['number_of_sides'] == '6' ? ' selected="selected" ' : ''; ?>>6</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-sm-3 form-group">
-                                                            <label>क्षेत्रफल (हेक्टेयर में)</label><br />
-                                                            <label><small>&nbsp;</small></label>
+                                                            <label>क्षेत्रफल (हेक्टेयर में)</label>
                                                             <input type="text" name="sec_3_a_area" id="sec_3_a_area"
                                                                 tabindex="<?php echo $tab++; ?>" class="form-control"
                                                                 value="<?php echo $row_3_1['total_area']; ?>">
@@ -1656,7 +1612,7 @@ if (mysqli_num_rows($result_rejection) != 0) {
                                                                     ?>
                                                                 </select>
                                                             </div>
-                                                            <div class="col-sm-2 form-group">
+                                                            <!-- <div class="col-sm-2 form-group">
                                                                 <label>टिप्पणी</label>
                                                                 <input type="text"
                                                                     name="sec_3_b_comment_<?php echo $i; ?>"
@@ -1664,7 +1620,7 @@ if (mysqli_num_rows($result_rejection) != 0) {
                                                                     tabindex="<?php echo $tab++; ?>"
                                                                     class="form-control"
                                                                     value="<?php echo $row_3_3['sec_3_b_comment_' . $i]; ?>">
-                                                            </div>
+                                                            </div> -->
                                                             <?php
                                                             if ($i == $row_3_3['count']) {
                                                                 ?>
@@ -1737,7 +1693,7 @@ if (mysqli_num_rows($result_rejection) != 0) {
                                                                     </option>
                                                                 </select>
                                                             </div>
-                                                            <div class="col-sm-2  form-group">
+                                                            <!-- <div class="col-sm-2  form-group">
                                                                 <label>गोदाम के लिए उपयुक्त है या नहीं ?</label>
                                                                 <select class="form-control " type="checkbox"
                                                                     value="yes" id="sec_2_accountant"
@@ -1761,7 +1717,7 @@ if (mysqli_num_rows($result_rejection) != 0) {
                                                             <div class="col-sm-2  form-group">
                                                                 <label>जनपद से रैक की दूरी</label>
                                                                 <input type="text" class="form-control">
-                                                            </div>
+                                                            </div> -->
                                                             <div class="col-sm-2 form-group"
                                                                 id="land_connectivity<?php echo $i; ?>"
                                                                 style="display: <?php echo $land_location_display; ?>">
@@ -1896,8 +1852,8 @@ if (mysqli_num_rows($result_rejection) != 0) {
                                                                 value="<?php echo $row_2_1['sec_6_2_truck_not_reach']; ?>">
                                                         </div>
                                                     </div>
-                                                    <h5>(VII)अन्य</h5>
-                                                    <div class="row">
+                                                    <!-- <h5>(VII)अन्य</h5> -->
+                                                    <!-- <div class="row">
                                                         <div class="col-sm-4 form-group" id="access_road_truck">
                                                             <label>खाली पड़ी भूमि मे हरे पेड़ों की संख्या</label>
                                                             <input type="number" name="sec_6_2_truck_not_reach"
@@ -1925,7 +1881,7 @@ if (mysqli_num_rows($result_rejection) != 0) {
                                                                     नहीं</option>
                                                             </select>
                                                         </div>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                             </div>
                                         </div>
@@ -2684,8 +2640,53 @@ if (mysqli_num_rows($result_rejection) != 0) {
                     $("#sec_3_b").append(txt);
                 }
             </script> -->
+            <script>
+let business_row = 1;
 
-            <script type="text/javascript" src="js/multistepform.js?v=1">
+function add_more_business() {
+    business_row++;
+
+    let html = `
+    <div class="row mt-2" id="business_row_${business_row}">
+        <div class="col-sm-4 form-group">
+            <label>व्यवसाय का विवरण</label>
+            <select name="sec_2_1_2_business_description_${business_row}"
+                    class="form-control">
+                <option value="">--select--</option>
+                <option value="cattle_feed">कैटल फीड</option>
+                <option value="any_other">अन्य</option>
+            </select>
+        </div>
+
+        <div class="col-sm-4 form-group">
+            <label>वार्षिक टर्नोवर</label>
+            <input type="text"
+                   name="sec_2_1_2_value_${business_row}"
+                   class="form-control chk_decimal"
+                   placeholder="रु० लाख में">
+        </div>
+
+        <div class="col-sm-2 form-group my-auto">
+            <button type="button"
+                    class="btn btn-danger"
+                    onclick="remove_business(${business_row});">
+                हटाएं [-]
+            </button>
+        </div>
+    </div>
+    `;
+
+    document.getElementById('other_business').insertAdjacentHTML('beforeend', html);
+    document.getElementById('other_business_id').value = business_row;
+}
+
+function remove_business(id) {
+    document.getElementById('business_row_' + id).remove();
+}
+</script>
+
+
+            <script type="text/javascript" src="js/multistepform_pcu.js?v=1">
                 <!-- Light Bootstrap Table Core javascript and methods for Demo purpose -->
                 < script src="js/light-bootstrap-dashboard.js?v=1.4.0">
             </script>

@@ -1,6 +1,6 @@
 <?php
 include("scripts/settings.php");
-error_reporting(E_ALL);
+// error_reporting(E_ALL);
 page_header_start();
 ?>
 <style>
@@ -11,13 +11,13 @@ page_header_start();
     font-family: "Noto Sans Devanagari", sans-serif;
     background: linear-gradient(135deg, #e3f2fd, #fce4ec);
     margin: 0;
-    padding: 30px 15px;
+    /* padding: 30px 15px; */
   }
 
   h2 {
     text-align: center;
     color: #1a237e;
-    margin-bottom: 30px;
+    margin: 25px 0 15px 0;
     font-weight: 700;
     font-size: 1.8rem;
     text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
@@ -30,6 +30,13 @@ page_header_start();
     max-width: 1200px;
     margin: 0 auto;
   }
+  /* .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  } */
 
   .card {
     background: white;
@@ -50,8 +57,9 @@ page_header_start();
     color: #2c3e50;
     font-size: 1rem;
     font-weight: 600;
-    display: block;
-    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .card a:hover {
@@ -61,7 +69,6 @@ page_header_start();
   .icon {
     font-size: 1.8rem;
     color: white;
-    background: linear-gradient(45deg, #42a5f5, #478ed1);
     width: 50px;
     height: 50px;
     display: flex;
@@ -72,72 +79,77 @@ page_header_start();
     box-shadow: 0 3px 10px rgba(0,0,0,0.15);
   }
 
-  /* Individual accent colors */
-  .card:nth-child(1) .icon { background: linear-gradient(45deg,#42a5f5,#1e88e5); }
-  .card:nth-child(2) .icon { background: linear-gradient(45deg,#66bb6a,#43a047); }
-  .card:nth-child(3) .icon { background: linear-gradient(45deg,#ef5350,#e53935); }
-  .card:nth-child(4) .icon { background: linear-gradient(45deg,#ab47bc,#8e24aa); }
-  .card:nth-child(5) .icon { background: linear-gradient(45deg,#ffa726,#fb8c00); }
-  .card:nth-child(6) .icon { background: linear-gradient(45deg,#26c6da,#00acc1); }
-  .card:nth-child(7) .icon { background: linear-gradient(45deg,#8d6e63,#6d4c41); }
-  .card:nth-child(8) .icon { background: linear-gradient(45deg,#5c6bc0,#3949ab); }
-  .card:nth-child(9) .icon { background: linear-gradient(45deg,#f06292,#ec407a); }
-  .card:nth-child(10) .icon { background: linear-gradient(45deg,#9ccc65,#7cb342); }
-  .card:nth-child(11) .icon { background: linear-gradient(45deg,#26a69a,#00897b); }
-  .card:nth-child(12) .icon { background: linear-gradient(45deg,#ff7043,#f4511e); }
-  .card:nth-child(13) .icon { background: linear-gradient(45deg,#7e57c2,#5e35b1); }
-  .card:nth-child(14) .icon { background: linear-gradient(45deg,#78909c,#546e7a); }
-  .card:nth-child(15) .icon { background: linear-gradient(45deg,#ec407a,#ad1457); }
-  .card:nth-child(16) .icon { background: linear-gradient(45deg,#29b6f6,#0288d1); }
+  .card:nth-child(odd) .icon { background: linear-gradient(45deg,#42a5f5,#1e88e5); }
+  .card:nth-child(even) .icon { background: linear-gradient(45deg,#66bb6a,#43a047); }
 
-  /* Make card clickable entirely */
-  .card a {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
 </style>
 <?php
 page_header_end();
 page_sidebar();
 ?>
+
 <body>
-  <h2>सहकारी संस्थान</h2>
 
-  <div class="grid">
-    <?php
-    
-    // if(isset($_SESSION['apex_id']) && $_SESSION['apex_id']!=""){
-    //   $sql = "SELECT `sno`, `apex_name`, `apex_icon`, `apex_link` FROM `apex` where sno ='".$_SESSION['apex_id']."' ORDER BY `sno` ASC";
-    // }else{
-    //  $sql = "SELECT `sno`, `apex_name`, `apex_icon`, `apex_link` FROM `apex` ORDER BY `sno` ASC";
-    // }
-    $sql = "SELECT `sno`, `apex_name`, `apex_icon`, `apex_link1` FROM `apex` ORDER BY `sno` ASC";
-    
-    $result = execute_query($sql);
+<div class="grid">
 
-    if ($result && mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            $sno  = htmlspecialchars($row['sno']);
-            $name = htmlspecialchars($row['apex_name']);
-            $link = htmlspecialchars($row['apex_link1']);
-            $icon = htmlspecialchars($row['apex_icon']);
+<?php
+// ===== SQL Query (with sort field) =====
+if(isset($_SESSION['apex_id']) && $_SESSION['apex_id']!=""){
+    $sql = "SELECT sno, apex_name, apex_icon, apex_link1, sort 
+            FROM apex 
+            WHERE sno ='".$_SESSION['apex_id']."' 
+            ORDER BY sort ASC";
+}else{
+    $sql = "SELECT sno, apex_name, apex_icon, apex_link1, sort 
+            FROM apex 
+            ORDER BY sort ASC";
+}
 
-            $final_link = $link . '?exdid=' . $sno;
-            
-            echo '
-            <div class="card">
-                <a href="'.$final_link.'" target="_blank">
-                    <div class="icon"><i class="fa-solid '.$icon.'"></i></div>
-                    '.$name.'
-                </a>
-            </div>';
+$result = execute_query($sql);
+
+if ($result && mysqli_num_rows($result) > 0) {
+
+    $heading1_printed = false;
+    $heading2_printed = false;
+
+    while ($row = mysqli_fetch_assoc($result)) {
+
+        $sno   = htmlspecialchars($row['sno']);
+        $name  = htmlspecialchars($row['apex_name']);
+        $link  = htmlspecialchars($row['apex_link1']);
+        $icon  = htmlspecialchars($row['apex_icon']);
+        $sort  = (int)$row['sort'];
+
+        $final_link = $link . '?exdid=' . $sno;
+
+        // ===== Heading 1 (Sort 1–11) =====
+        if ($sort <= 11 && !$heading1_printed) {
+            echo '<div style="grid-column:1/-1;"><h2>शीर्ष सहकारी संस्थान</h2></div>';
+            $heading1_printed = true;
         }
-    } else {
-        echo '<p>कोई संस्था नहीं मिली</p>';
+
+        // ===== Heading 2 (Sort 12+) =====
+        if ($sort >= 12 && !$heading2_printed) {
+            echo '<div style="grid-column:1/-1;"><h2>सहकारिता के अन्य अनुसांगिक विभाग</h2></div>';
+            $heading2_printed = true;
+        }
+
+        // ===== Card =====
+        echo '
+        <div class="card">
+            <a href="'.$final_link.'" target="_blank">
+                <div class="icon"><i class="fa-solid '.$icon.'"></i></div>
+                '.$name.'
+            </a>
+        </div>';
     }
-    ?>
-  </div>
+
+} else {
+    echo '<p>कोई संस्था नहीं मिली</p>';
+}
+?>
+
+</div>
 
 <?php
 page_footer_start();

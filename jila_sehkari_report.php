@@ -1,50 +1,68 @@
 <?php
 include("scripts/settings.php");
-// session_start();
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
 
 page_header_start();
 page_header_end();
 page_sidebar();
 
 /* Helpers */
-function h($v) { return htmlspecialchars((string)($v ?? ''), ENT_QUOTES, 'UTF-8'); }
-function e($db, $v) { return mysqli_real_escape_string($db, trim((string)($v ?? ''))); }
+function h($v)
+{
+  return htmlspecialchars((string) ($v ?? ''), ENT_QUOTES, 'UTF-8');
+}
+function e($db, $v)
+{
+  return mysqli_real_escape_string($db, trim((string) ($v ?? '')));
+}
 
 /* Status normalization + label */
-function status_code($v) {
-  $v = trim((string)$v);
-  if ($v === '') return '';
-  $active_syn = ['सक्रिय','सक्रिय ','सक्रिया','active'];
-  $non_syn = ['निष्क्रिय','non-active','non active','non_active'];
-  $closed_syn = ['परिसमापनाधीन','परिसमापनाधीन ','परिसमापन','closed'];
-  $na_syn = ['स्थापित नही है','स्थापित नहीं है','स्थापित नही','not_applicable'];
-  if (in_array($v,$active_syn,true)) return 'active';
-  if (in_array($v,$non_syn,true)) return 'non-active';
-  if (in_array($v,$closed_syn,true)) return 'closed';
-  if (in_array($v,$na_syn,true)) return 'not_applicable';
+function status_code($v)
+{
+  $v = trim((string) $v);
+  if ($v === '')
+    return '';
+  $active_syn = ['सक्रिय', 'सक्रिय ', 'सक्रिया', 'active'];
+  $non_syn = ['निष्क्रिय', 'non-active', 'non active', 'non_active'];
+  $closed_syn = ['परिसमापनाधीन', 'परिसमापनाधीन ', 'परिसमापन', 'closed'];
+  $na_syn = ['स्थापित नही है', 'स्थापित नहीं है', 'स्थापित नही', 'not_applicable'];
+  if (in_array($v, $active_syn, true))
+    return 'active';
+  if (in_array($v, $non_syn, true))
+    return 'non-active';
+  if (in_array($v, $closed_syn, true))
+    return 'closed';
+  if (in_array($v, $na_syn, true))
+    return 'not_applicable';
   $vl = mb_strtolower($v);
-  if ($vl==='active'||$vl==='सक्रिय') return 'active';
-  if ($vl==='non-active'||$vl==='non active'||$vl==='निष्क्रिय') return 'non-active';
-  if ($vl==='closed'||$vl==='परिसमापनाधीन') return 'closed';
-  if ($vl==='not_applicable'||$vl==='na'||strpos($vl,'स्थापित नहीं है')===0) return 'not_applicable';
+  if ($vl === 'active' || $vl === 'सक्रिय')
+    return 'active';
+  if ($vl === 'non-active' || $vl === 'non active' || $vl === 'निष्क्रिय')
+    return 'non-active';
+  if ($vl === 'closed' || $vl === 'परिसमापनाधीन')
+    return 'closed';
+  if ($vl === 'not_applicable' || $vl === 'na' || strpos($vl, 'स्थापित नहीं है') === 0)
+    return 'not_applicable';
   return $v;
 }
 
-function status_label($v) {
+function status_label($v)
+{
   $code = status_code($v);
   return [
-    'active'=>'सक्रिय',
-    'non-active'=>'निष्क्रिय',
-    'closed'=>'परिसमापनाधीन',
-    'not_applicable'=>'स्थापित नही है'
+    'active' => 'सक्रिय',
+    'non-active' => 'निष्क्रिय',
+    'closed' => 'परिसमापनाधीन',
+    'not_applicable' => 'स्थापित नही है'
   ][$code] ?? h($v);
 }
 
 /* LAND AREA + GODOWN FILTERS */
 $land_from = isset($_GET['land_area_from']) ? trim($_GET['land_area_from']) : '';
-$land_to   = isset($_GET['land_area_to'])   ? trim($_GET['land_area_to'])   : '';
+$land_to = isset($_GET['land_area_to']) ? trim($_GET['land_area_to']) : '';
 $land_from_val = ($land_from === '') ? null : floatval(str_replace(',', '.', $land_from));
-$land_to_val   = ($land_to === '')   ? null : floatval(str_replace(',', '.', $land_to));
+$land_to_val = ($land_to === '') ? null : floatval(str_replace(',', '.', $land_to));
 $godown_filter = isset($_GET['godown_suitable']) ? trim($_GET['godown_suitable']) : '';
 ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -227,7 +245,27 @@ $godown_filter = isset($_GET['godown_suitable']) ? trim($_GET['godown_suitable']
     opacity: 0.8;
   }
 </style>
+<style>
+  .blink-red {
+    animation: blinkAnim 3s infinite;
+    color: #c62828;
+    font-weight: 700;
+  }
 
+  @keyframes blinkAnim {
+    0% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+</style>
 <!-- ✅ Styles skipped for brevity, keep your existing CSS as-is -->
 
 <div class="card" style="margin-top: 40px;">
@@ -236,17 +274,18 @@ $godown_filter = isset($_GET['godown_suitable']) ? trim($_GET['godown_suitable']
   <div style="margin:12px 0 18px 0; display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
     <form method="get" style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
       <label style="font-weight:700;">भूमि क्षेत्र (From)</label>
-      <input name="land_area_from" class="form-control" style="width:110px;" value="<?=h($land_from)?>">
+      <input name="land_area_from" class="form-control" style="width:110px;" value="<?= h($land_from) ?>">
       <label style="font-weight:700;">(To)</label>
-      <input name="land_area_to" class="form-control" style="width:110px;" value="<?=h($land_to)?>">
+      <input name="land_area_to" class="form-control" style="width:110px;" value="<?= h($land_to) ?>">
       <label style="font-weight:700;">गोदाम उपयुक्त</label>
       <select name="godown_suitable" class="form-control" style="width:150px;">
         <option value="">All</option>
-        <option value="हाँ"  <?=($godown_filter==='हाँ'?'selected':'')?>>हाँ</option>
-        <option value="नहीं" <?=($godown_filter==='नहीं'?'selected':'')?>>नहीं</option>
+        <option value="हाँ" <?= ($godown_filter === 'हाँ' ? 'selected' : '') ?>>हाँ</option>
+        <option value="नहीं" <?= ($godown_filter === 'नहीं' ? 'selected' : '') ?>>नहीं</option>
       </select>
       <button class="btn-primary" type="submit">Filter</button>
-      <a href="?" style="margin-left:8px; padding:8px 10px; display:inline-block; background:#eee; border-radius:5px;">Reset</a>
+      <a href="?"
+        style="margin-left:8px; padding:8px 10px; display:inline-block; background:#eee; border-radius:5px;">Reset</a>
     </form>
   </div>
 
@@ -286,87 +325,135 @@ $godown_filter = isset($_GET['godown_suitable']) ? trim($_GET['godown_suitable']
           </tr>
         </thead>
         <tbody>
-        <?php
-        $sql = "SELECT j.*, dt.district_name, dv.division_name FROM jila_sehkari j LEFT JOIN master_district dt ON j.janpad_name = dt.sno LEFT JOIN master_division dv ON j.mandal_name = dv.sno WHERE 1=1";
+          <?php
+          $sql = "SELECT j.*, dt.district_name, dv.division_name FROM jila_sehkari j LEFT JOIN master_district dt ON j.janpad_name = dt.sno LEFT JOIN master_division dv ON j.mandal_name = dv.sno WHERE 1=1 and society_status !='not_applicable' and is_deleted=0";
 
-        if (!empty($_SESSION['division_id'])) {
-          $div_ids = array_map('intval', (array)$_SESSION['division_id']);
-          if ($div_ids) $sql .= " AND j.mandal_name IN (".implode(',',$div_ids).")";
-        }
-        if (!empty($_SESSION['district_id'])) {
-          $dis_ids = array_map('intval', (array)$_SESSION['district_id']);
-          if ($dis_ids) $sql .= " AND j.janpad_name IN (".implode(',',$dis_ids).")";
-        }
+          $user_type = $_SESSION['user_type'] ?? '';
+          if ($user_type === 'ar_dr') {
+            // Fetch division for this DR user from ar_dr table
+            $uid = (int) $_SESSION['user_id'];
+            $dr_res = mysqli_query($db, "SELECT master_division.sno as division_sno FROM ar_dr LEFT JOIN master_division ON ar_dr.division_name = master_division.sno WHERE ar_dr.sno = $uid");
+            $dr_div_ids = [];
+            if ($dr_res) {
+              while ($dr_row = mysqli_fetch_assoc($dr_res)) {
+                if (!empty($dr_row['division_sno'])) {
+                  $dr_div_ids[] = (int) $dr_row['division_sno'];
+                }
+              }
+            }
+            if (!empty($dr_div_ids)) {
+              $sql .= " AND j.mandal_name IN (" . implode(',', $dr_div_ids) . ")";
+            } else {
+              $sql .= " AND 1=0"; // no division found, show nothing
+            }
+          } else {
+            // Admin or other roles — apply session filters if set
+            if (!empty($_SESSION['division_id'])) {
+              $div_ids = array_map('intval', (array) $_SESSION['division_id']);
+              if ($div_ids)
+                $sql .= " AND j.mandal_name IN (" . implode(',', $div_ids) . ")";
+            }
+            if (!empty($_SESSION['district_id'])) {
+              $dis_ids = array_map('intval', (array) $_SESSION['district_id']);
+              if ($dis_ids)
+                $sql .= " AND j.janpad_name IN (" . implode(',', $dis_ids) . ")";
+            }
+          }
 
-        if ($land_from_val !== null && $land_to_val !== null) {
-          $sql .= " AND (j.bhumi_area+0) BETWEEN ".(float)$land_from_val." AND ".(float)$land_to_val;
-        } elseif ($land_from_val !== null) {
-          $sql .= " AND (j.bhumi_area+0) >= ".(float)$land_from_val;
-        } elseif ($land_to_val !== null) {
-          $sql .= " AND (j.bhumi_area+0) <= ".(float)$land_to_val;
-        }
+          if ($land_from_val !== null && $land_to_val !== null) {
+            $sql .= " AND (j.bhumi_area+0) BETWEEN " . (float) $land_from_val . " AND " . (float) $land_to_val;
+          } elseif ($land_from_val !== null) {
+            $sql .= " AND (j.bhumi_area+0) >= " . (float) $land_from_val;
+          } elseif ($land_to_val !== null) {
+            $sql .= " AND (j.bhumi_area+0) <= " . (float) $land_to_val;
+          }
 
-        if ($godown_filter !== '') {
-          $sql .= " AND TRIM(j.godown_suitable) = '" . e($db, $godown_filter) . "'";
-        }
+          if ($godown_filter !== '') {
+            $sql .= " AND TRIM(j.godown_suitable) = '" . e($db, $godown_filter) . "'";
+          }
 
-        $sql .= " ORDER BY dv.division_name, dt.district_name, j.sno DESC";
-        if ($res = execute_query($sql)) {
-          $i = 1;
-          while ($row = mysqli_fetch_assoc($res)) {
+          $sql .= " ORDER BY dv.division_name, dt.district_name, j.sno DESC";
 
-            $creation = trim($r['created_at'] ?? '');
-            $edition  = trim($r['updated_at'] ?? '');
-            $status_label = '';
-            $status_color = '';
 
-            if ($creation && !$edition) {
+          if ($res = execute_query($sql)) {
+            $i = 1;
+            while ($row = mysqli_fetch_assoc($res)) {
+
+              $creation = trim($r['created_at'] ?? '');
+              $edition = trim($r['updated_at'] ?? '');
+              $status_label = '';
+              $status_color = '';
+              $bhumi = isset($row['bhumi_area']) ? floatval($row['bhumi_area']) : 0;
+              $is_confirmed = (int) ($row['land_conf'] ?? 0);
+              $should_blink = ($bhumi > 0.5 && $is_confirmed == 0);
+
+              if ($creation && !$edition) {
                 $status_label = 'New Feeded';
                 $status_color = 'green';
-            } elseif (!$creation && $edition) {
+              } elseif (!$creation && $edition) {
                 $status_label = 'Data Verified';
                 $status_color = 'orange';
-            } elseif (!$creation && !$edition) {
+              } elseif (!$creation && !$edition) {
                 $status_label = 'Previous Feeded';
                 $status_color = 'blue';
-            } elseif ($creation && $edition) {
+              } elseif ($creation && $edition) {
                 $status_label = 'New Feeded';
                 $status_color = 'gray';
+              }
+              ?>
+              <tr>
+                <td style="white-space:nowrap;"><?= $i++ ?></td>
+                <td style="color:<?= $status_color ?>; font-weight:600;"><?= $status_label ?></td>
+                <td><?= h($row['division_name'] ?? '') ?></td>
+                <td><?= strtoupper($row['district_name'] ?? '') ?></td>
+                <td><?= h($row['ncd_id']) ?></td>
+                <td><?= h(status_label($row['society_status'] ?? '')) ?></td>
+                <td><?= h($row['society_chairman_name'] ?? $row['samiti_adhyaksh_name'] ?? '') ?></td>
+                <td><?= h($row['sachiv_type']) ?></td>
+                <td id="land_cell_<?php echo $row['sno']; ?>">
+                  <?php if ($should_blink) { ?>
+                    <span class="blink-red">
+                      <?= h($row['bhumi_area']) ?>
+                    </span>
+                    <br>
+                    <button onclick="confirmLand(<?php echo $row['sno']; ?>,1)"
+                      style="margin-top:4px;padding:3px 6px;font-size:11px;background:#e6208d;color:#fff;border:none;border-radius:4px;">
+                      Correct Land Area
+                    </button>
+                  <?php } else { ?>
+                    <?= h($row['bhumi_area']) ?>
+                    <?php if ($is_confirmed == 1) { ?>
+                      <br>
+                      <span
+                        style="background:#c8e6c9;color:#1b5e20;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:600;">
+                        ✔
+                      </span>
+                    <?php } ?>
+                  <?php } ?>
+                </td>
+                <td><?= h($row['arrived_road'] ?? $row['pahuch_marg_prakar'] ?? '') ?></td>
+                <td><?= h($row['land_status']) ?></td>
+                <td><?= h($row['land_type']) ?></td>
+                <td><?= h($row['godown_suitable']) ?></td>
+                <td><?= h($row['raik_distance_km']) ?></td>
+                <td><?= h($row['kabja_vivadit']) ?></td>
+                <td><?= h($row['business_status'] ?? $row['business_sthiti'] ?? '') ?></td>
+                <td><?= h($row['business_status_amt'] ?? $row['business_sthiti_rupees'] ?? '') ?></td>
+                <td><?= h($row['balance_sheet_year'] ?? $row['santulan_patra_year'] ?? '') ?></td>
+                <td><?= h($row['last_audit_date'] ?? $row['antim_audit_date'] ?? '') ?></td>
+                <td><?= h($row['liquidation_type'] ?? $row['parismapti_type'] ?? '') ?></td>
+                <td><?= h($row['samiti_sthiti']) ?></td>
+                <td><?= h($row['any_sampatti_details']) ?></td>
+                <td><?= h($row['liquidator_name']) ?></td>
+                <td><?= h($row['liquidation_from_date']) ?></td>
+              </tr>
+              <?php
             }
-        ?>
-        <tr>
-          <td style="white-space:nowrap;"><?= $i++ ?></td>
-          <td style="color:<?= $status_color ?>; font-weight:600;"><?= $status_label ?></td>
-          <td><?= h($row['division_name'] ?? '') ?></td>
-          <td><?= strtoupper($row['district_name'] ?? '') ?></td>
-          <td><?= h($row['ncd_id']) ?></td>
-          <td><?= h(status_label($row['society_status'] ?? '')) ?></td>
-          <td><?= h($row['society_chairman_name'] ?? $row['samiti_adhyaksh_name'] ?? '') ?></td>
-          <td><?= h($row['sachiv_type']) ?></td>
-          <td><?= h($row['bhumi_area']) ?></td>
-          <td><?= h($row['arrived_road'] ?? $row['pahuch_marg_prakar'] ?? '') ?></td>
-          <td><?= h($row['land_status']) ?></td>
-          <td><?= h($row['land_type']) ?></td>
-          <td><?= h($row['godown_suitable']) ?></td>
-          <td><?= h($row['raik_distance_km']) ?></td>
-          <td><?= h($row['kabja_vivadit']) ?></td>
-          <td><?= h($row['business_status'] ?? $row['business_sthiti'] ?? '') ?></td>
-          <td><?= h($row['business_status_amt'] ?? $row['business_sthiti_rupees'] ?? '') ?></td>
-          <td><?= h($row['balance_sheet_year'] ?? $row['santulan_patra_year'] ?? '') ?></td>
-          <td><?= h($row['last_audit_date'] ?? $row['antim_audit_date'] ?? '') ?></td>
-          <td><?= h($row['liquidation_type'] ?? $row['parismapti_type'] ?? '') ?></td>
-          <td><?= h($row['samiti_sthiti']) ?></td>
-          <td><?= h($row['any_sampatti_details']) ?></td>
-          <td><?= h($row['liquidator_name']) ?></td>
-          <td><?= h($row['liquidation_from_date']) ?></td>
-        </tr>
-        <?php
+            mysqli_free_result($res);
+          } else {
+            echo '<tr><td colspan="23" style="text-align:center;">कोई रिकॉर्ड नहीं मिला</td></tr>';
           }
-          mysqli_free_result($res);
-        } else {
-          echo '<tr><td colspan="23" style="text-align:center;">कोई रिकॉर्ड नहीं मिला</td></tr>';
-        }
-        ?>
+          ?>
         </tbody>
       </table>
     </div>
@@ -404,93 +491,118 @@ $godown_filter = isset($_GET['godown_suitable']) ? trim($_GET['godown_suitable']
       });
     }).draw();
   });
-</script>
 
-<script>
-function getTableHeaders() {
-  const headers = [];
-  document.querySelectorAll('#general_stat_table thead th').forEach(th => {
-    headers.push((th.innerText || th.textContent || '').trim());
-  });
-  return headers;
-}
-
-function getDataTableRows() {
-  var dt = null;
-  try {
-    dt = $('#general_stat_table').DataTable();
-  } catch (e) {
-    dt = null;
+  function getTableHeaders() {
+    const headers = [];
+    document.querySelectorAll('#general_stat_table thead th').forEach(th => {
+      headers.push((th.innerText || th.textContent || '').trim());
+    });
+    return headers;
   }
 
-  if (dt) {
-    const rows = dt.rows({ search: 'applied', order: 'applied' }).nodes().toArray();
-    const rowData = dt.rows({ search: 'applied', order: 'applied' }).data().toArray();
+  function getDataTableRows() {
+    var dt = null;
+    try {
+      dt = $('#general_stat_table').DataTable();
+    } catch (e) {
+      dt = null;
+    }
+
+    if (dt) {
+      const rows = dt.rows({ search: 'applied', order: 'applied' }).nodes().toArray();
+      const rowData = dt.rows({ search: 'applied', order: 'applied' }).data().toArray();
+
+      const out = [];
+      for (let i = 0; i < rowData.length; i++) {
+        const node = rows[i];
+        const cells = [];
+        if (node && node.querySelectorAll) {
+          node.querySelectorAll('td').forEach(td => {
+            cells.push((td.innerText || td.textContent || '').trim());
+          });
+        } else {
+          if (Array.isArray(rowData[i])) {
+            rowData[i].forEach(c => cells.push(String(c)));
+          } else if (typeof rowData[i] === 'object' && rowData[i] !== null) {
+            Object.values(rowData[i]).forEach(v => cells.push(String(v)));
+          } else {
+            cells.push(String(rowData[i]));
+          }
+        }
+        out.push(cells);
+      }
+      return out;
+    }
 
     const out = [];
-    for (let i = 0; i < rowData.length; i++) {
-      const node = rows[i];
-      const cells = [];
-      if (node && node.querySelectorAll) {
-        node.querySelectorAll('td').forEach(td => {
-          cells.push((td.innerText || td.textContent || '').trim());
-        });
-      } else {
-        if (Array.isArray(rowData[i])) {
-          rowData[i].forEach(c => cells.push(String(c)));
-        } else if (typeof rowData[i] === 'object' && rowData[i] !== null) {
-          Object.values(rowData[i]).forEach(v => cells.push(String(v)));
-        } else {
-          cells.push(String(rowData[i]));
-        }
-      }
-      out.push(cells);
-    }
+    document.querySelectorAll('#general_stat_table tbody tr').forEach(tr => {
+      const r = [];
+      tr.querySelectorAll('td').forEach(td => r.push((td.innerText || td.textContent || '').trim()));
+      if (r.length) out.push(r);
+    });
     return out;
   }
 
-  const out = [];
-  document.querySelectorAll('#general_stat_table tbody tr').forEach(tr => {
-    const r = [];
-    tr.querySelectorAll('td').forEach(td => r.push((td.innerText || td.textContent || '').trim()));
-    if (r.length) out.push(r);
-  });
-  return out;
-}
+  function downloadExcel() {
+    const headers = getTableHeaders();
+    const rows = getDataTableRows();
 
-function downloadExcel() {
-  const headers = getTableHeaders();
-  const rows = getDataTableRows();
-
-  const aoa = [];
-  aoa.push(headers);
-  for (let r of rows) {
-    const row = [];
-    for (let i = 0; i < headers.length; i++) {
-      row.push(r[i] !== undefined ? r[i] : '');
+    const aoa = [];
+    aoa.push(headers);
+    for (let r of rows) {
+      const row = [];
+      for (let i = 0; i < headers.length; i++) {
+        row.push(r[i] !== undefined ? r[i] : '');
+      }
+      aoa.push(row);
     }
-    aoa.push(row);
+    const ws = XLSX.utils.aoa_to_sheet(aoa);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Report');
+    const fname = 'report_' + new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-') + '.xlsx';
+    XLSX.writeFile(wb, fname);
   }
-  const ws = XLSX.utils.aoa_to_sheet(aoa);
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, 'Report');
-  const fname = 'report_' + new Date().toISOString().slice(0,19).replace(/[:T]/g,'-') + '.xlsx';
-  XLSX.writeFile(wb, fname);
-}
 
-function downloadPDF() {
-  const element = document.getElementById('general_stat_table');
-  var opt = {
-    margin:       0.2,
-    filename:     'report_' + new Date().toISOString().slice(0,19).replace(/[:T]/g,'-') + '.pdf',
-    image:        { type: 'jpeg', quality: 0.98 },
-    html2canvas:  { scale: 2 },
-    jsPDF:        { unit: 'in', format: 'a4', orientation: 'landscape' }
-  };
-  html2pdf().set(opt).from(element).save();
+  function downloadPDF() {
+    const element = document.getElementById('general_stat_table');
+    var opt = {
+      margin: 0.2,
+      filename: 'report_' + new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-') + '.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' }
+    };
+    html2pdf().set(opt).from(element).save();
+  }
+</script>
+<script>
+  function confirmLand(id, value){
+
+    if(!confirm("Confirm land data?")) return;
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST","scripts/update_land_status.php",true);
+    xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+
+    xhr.onload = function(){
+        if(this.status == 200 && this.responseText.trim() == "success"){
+
+            var cell = document.getElementById("land_cell_"+id);
+
+            var span = cell.querySelector(".blink-red");
+            if(span){ span.classList.remove("blink-red"); }
+
+            var btn = cell.querySelector("button");
+            if(btn){ btn.remove(); }
+
+            cell.innerHTML += 
+                "<br><span style='background:#c8e6c9;color:#1b5e20;padding:2px 6px;border-radius:4px;font-size:11px;font-weight:600;'>✔</span>";
+        }
+    };
+
+    xhr.send("id="+id+"&value="+value+"&table=jila_sehkari");
 }
 </script>
-
 <?php
 page_footer_start();
 page_footer_end();

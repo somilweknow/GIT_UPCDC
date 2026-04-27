@@ -17,7 +17,7 @@ let succcessDiv = document.getElementById('success');
 form.onsubmit = () => { return false }
 
 let current_step = 0;
-let stepCount = 5;
+let stepCount = 3
 step[current_step].classList.add('d-block');
 if(current_step == 0){
 	prevBtn.classList.add('d-none');

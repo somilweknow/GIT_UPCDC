@@ -72,7 +72,7 @@ if (isset($_GET['delete_id']) && ctype_digit($_GET['delete_id'])) {
 
 if (isset($_GET['edit_id']) && ctype_digit($_GET['edit_id'])) {
   $id = (int) $_GET['edit_id'];
-    $res = mysqli_query($db, "SELECT * FROM marketing WHERE sno=" . $id . " AND (is_deleted IS NULL OR is_deleted = 0)");
+  $res = mysqli_query($db, "SELECT * FROM marketing WHERE sno=" . $id . " AND (is_deleted IS NULL OR is_deleted = 0)");
   if ($res && mysqli_num_rows($res)) {
     $edit_row = mysqli_fetch_assoc($res);
     $form = $edit_row;
@@ -144,8 +144,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $last_audit_date = $_POST['last_audit_date'] ?? '';
   $property_type = $_POST['property_type'] ?? '';
   $other_property = $_POST['other_property'] ?? '';
-  $latitude = $_POST['latitude'] ?? '';
-  $longitude = $_POST['longitude'] ?? '';
+  $latitude  = round((float)($_POST['latitude']  ?? 0), 8);
+  $longitude = round((float)($_POST['longitude'] ?? 0), 8);
 
   // if ($isLiqCode && ($society_name === '' || $parisampak_name === '' || $parisampak_from === '')) {
   //   $save_msg = 'परिसमापनाधीन के लिए: समिति का नाम, परिसमापक का नाम, और तारीख आवश्यक है.';
@@ -314,29 +314,12 @@ if ($DIV_ID) {
             <th>जनपद</th>
             <th>NCD ID</th>
             <th>समिति का नाम</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
             <th>ADO / सचिव का प्रकार</th>
             <th>समिति के अध्यक्ष का नाम</th>
             <th>सचिव का नाम</th>
-            <th>सचिव का मो० न०</th>
-            <th>सचिव का मेल-आईडी</th>
-            <th>परिसमापक का नाम</th>
-            <th>कब से परिसमापक है</th>
-            <th>भूमि का क्षेत्रफल (हेक्टेयर में)</th>
-            <th>कब्जा / विवादित</th>
-            <th>समिति की स्थिति</th>
-            <th>क्या समिति सक्रिय है?</th>
-            <th>राजस्व अभिलेखों की स्थिति</th>
-            <th>भूमि की स्थिति</th>
-            <th>स्थान (समिति प्रांगण)</th>
-            <th>गोदाम उपयुक्त</th>
-            <th>जनपद रैक दूरी (कि०मी० में)</th>
-            <th>पहुंच मार्ग</th>
-            <th>व्यवसाय का प्रकार</th>
-            <th>व्यवसाय की स्थिति</th>
-            <th>संतुलन वर्ष</th>
-            <th>अन्तिम आडिट</th>
-            <th>परिसम्पत्ति का प्रकार</th>
-            <th>अन्य सम्पत्ति</th>
+            <th>Details</th>
           </tr>
         </thead>
         <tbody>
@@ -354,52 +337,168 @@ if ($DIV_ID) {
               // }
               ?>
               <tr>
-                <!-- <td><a href="?edit_id=<?= (int) $r['sno'] ?>">Edit</a></td> -->
-                 <td style="display:flex;gap:6px;">
-                    <a href="?edit_id=<?= (int) $r['sno'] ?>"
-                      style="background:#1565c0;color:#fff;padding:4px 5px;border-radius:4px;
+                <td style="display:flex;gap:6px;">
+                  <a href="?edit_id=<?= (int) $r['sno'] ?>" style="background:#1565c0;color:#fff;padding:4px 5px;border-radius:4px;
                               text-decoration:none;font-weight:600;font-size:12px;">✏️ Edit</a>
 
-                    <?php if (empty($r['is_deleted']) || $r['is_deleted'] == 0) { ?>
-                      <a href="?delete_id=<?= (int) $r['sno'] ?>"
-                        onclick="return confirm('Are You Sure ?');"
-                        style="background:#b00020;color:#fff;padding:4px 5px;border-radius:4px;
+                  <?php if (empty($r['is_deleted']) || $r['is_deleted'] == 0) { ?>
+                    <a href="?delete_id=<?= (int) $r['sno'] ?>" onclick="return confirm('Are You Sure ?');" style="background:#b00020;color:#fff;padding:4px 5px;border-radius:4px;
                                 text-decoration:none;font-weight:600;font-size:12px;">🗑️ Delete</a>
-                    <?php } else { ?>
-                      <span style="background:#ccc;color:#555;padding:4px 5px;border-radius:4px;
+                  <?php } else { ?>
+                    <span style="background:#ccc;color:#555;padding:4px 5px;border-radius:4px;
                                   font-weight:600;font-size:12px;">(Deleted)</span>
-                    <?php } ?>
-                  </td>
+                  <?php } ?>
+                </td>
+
                 <td><?= $i++ ?></td>
                 <td><?= h($r['division_name'] ?? '') ?></td>
                 <td><?= h($r['district_name'] ?? '') ?></td>
                 <td><?= h($r['ncd_id'] ?? '') ?></td>
                 <td><?= h($r['society_name'] ?? '') ?></td>
+                <td>
+                  <?= h($r['latitude'] ?? '') ?>
+                  <?php if (empty($r['latitude'])): ?>
+                    <span class="gps-missing">📍 खाली</span>
+                  <?php endif; ?>
+                </td>
+                <td>
+                  <?= h($r['longitude'] ?? '') ?>
+                  <?php if (empty($r['longitude'])): ?>
+                    <span class="gps-missing">📍 खाली</span>
+                  <?php endif; ?>
+                </td>
                 <td><?= h($r['ado_name'] ?? '') ?></td>
                 <td><?= h($r['chairmain_name'] ?? '') ?></td>
                 <td><?= h($r['secretary_name'] ?? '') ?></td>
-                <td><?= h($r['secretary_mob'] ?? '') ?></td>
-                <td><?= h($r['secretary_email'] ?? '') ?></td>
-                <td><?= h($r['liquidator_name'] ?? '') ?></td>
-                <td><?= h($r['liquidato_from_date'] ?? '') ?></td>
-                <td><?= h($r['land_area'] ?? '') ?></td>
-                <td><?= h($r['is_kabja_vivadit'] ?? $r['possession_status'] ?? '') ?></td>
-                <td><?= h($r['samiti_status'] ?? '') ?></td>
-                <td><?= h(map_status_code_to_label($r['is_active'] ?? '')) ?></td>
-                <td><?= h($r['revenue_records_status'] ?? '') ?></td>
-                <td><?= h($r['land_status'] ?? '') ?></td>
-                <td><?= h($r['society_land'] ?? '') ?></td>
-                <td><?= h($r['godown_suitable'] ?? '') ?></td>
-                <td><?= h($r['raik_distance_km'] ?? '') ?></td>
-                <td><?= h(arrived_label($r['arrived_land_type'] ?? '')) ?></td>
-                <td><?= h($r['business_type'] ?? '') ?></td>
-                <td><?= h($r['business_status'] ?? '') ?></td>
-                <td><?= h($r['balance_year'] ?? '') ?></td>
-                <td><?= h($r['last_audit_date'] ?? '') ?></td>
-                <td><?= h($r['property_type'] ?? '') ?></td>
-                <td><?= h($r['other_property'] ?? '') ?></td>
+
+                <td>
+                  <button onclick="toggleRow(<?= $r['sno'] ?>)"
+                    style="padding:4px 8px;background:#0a7f3f;color:#fff;border:none;border-radius:4px;cursor:pointer;">
+                    View
+                  </button>
+                </td>
               </tr>
-            <?php
+              <!-- Hidden Detail Row -->
+              <tr id="detail_<?= $r['sno'] ?>" style="display:none;background:#f4f8ff;">
+                <td colspan="12" style="padding:15px;">
+
+                  <table style="width:100%;border-collapse:collapse;font-size:14px;">
+                    <tr style="background:#e9f1ff;">
+                      <th style="padding:6px;border:1px solid #ccc;">Field</th>
+                      <th style="padding:6px;border:1px solid #ccc;">Details</th>
+                    </tr>
+
+                    <tr>
+                      <td style="padding:6px;border:1px solid #ccc;">सचिव का मोबाइल</td>
+                      <td style="padding:6px;border:1px solid #ccc;"><?= h($r['secretary_mob'] ?? '') ?></td>
+                    </tr>
+
+                    <tr>
+                      <td style="padding:6px;border:1px solid #ccc;">सचिव का मेल</td>
+                      <td style="padding:6px;border:1px solid #ccc;"><?= h($r['secretary_email'] ?? '') ?></td>
+                    </tr>
+
+                    <tr>
+                      <td style="padding:6px;border:1px solid #ccc;">परिसमापक का नाम</td>
+                      <td style="padding:6px;border:1px solid #ccc;"><?= h($r['liquidator_name'] ?? '') ?></td>
+                    </tr>
+
+                    <tr>
+                      <td style="padding:6px;border:1px solid #ccc;">कब से परिसमापक</td>
+                      <td style="padding:6px;border:1px solid #ccc;"><?= h($r['liquidato_from_date'] ?? '') ?></td>
+                    </tr>
+
+                    <tr>
+                      <td style="padding:6px;border:1px solid #ccc;">भूमि क्षेत्रफल (हेक्टेयर)</td>
+                      <td style="padding:6px;border:1px solid #ccc;"><?= h($r['land_area'] ?? '') ?></td>
+                    </tr>
+
+                    <tr>
+                      <td style="padding:6px;border:1px solid #ccc;">कब्जा / विवादित</td>
+                      <td style="padding:6px;border:1px solid #ccc;">
+                        <?= h($r['is_kabja_vivadit'] ?? $r['possession_status'] ?? '') ?>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td style="padding:6px;border:1px solid #ccc;">समिति की स्थिति</td>
+                      <td style="padding:6px;border:1px solid #ccc;"><?= h($r['samiti_status'] ?? '') ?></td>
+                    </tr>
+
+                    <tr>
+                      <td style="padding:6px;border:1px solid #ccc;">क्या समिति सक्रिय है?</td>
+                      <td style="padding:6px;border:1px solid #ccc;">
+                        <?= h(map_status_code_to_label($r['is_active'] ?? '')) ?>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td style="padding:6px;border:1px solid #ccc;">राजस्व अभिलेख स्थिति</td>
+                      <td style="padding:6px;border:1px solid #ccc;"><?= h($r['revenue_records_status'] ?? '') ?></td>
+                    </tr>
+
+                    <tr>
+                      <td style="padding:6px;border:1px solid #ccc;">भूमि की स्थिति</td>
+                      <td style="padding:6px;border:1px solid #ccc;"><?= h($r['land_status'] ?? '') ?></td>
+                    </tr>
+
+                    <tr>
+                      <td style="padding:6px;border:1px solid #ccc;">स्थान (समिति प्रांगण)</td>
+                      <td style="padding:6px;border:1px solid #ccc;"><?= h($r['society_land'] ?? '') ?></td>
+                    </tr>
+
+                    <tr>
+                      <td style="padding:6px;border:1px solid #ccc;">गोदाम उपयुक्त</td>
+                      <td style="padding:6px;border:1px solid #ccc;"><?= h($r['godown_suitable'] ?? '') ?></td>
+                    </tr>
+
+                    <tr>
+                      <td style="padding:6px;border:1px solid #ccc;">जनपद रैक दूरी (कि०मी०)</td>
+                      <td style="padding:6px;border:1px solid #ccc;"><?= h($r['raik_distance_km'] ?? '') ?></td>
+                    </tr>
+
+                    <tr>
+                      <td style="padding:6px;border:1px solid #ccc;">पहुंच मार्ग</td>
+                      <td style="padding:6px;border:1px solid #ccc;">
+                        <?= h(arrived_label($r['arrived_land_type'] ?? '')) ?>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td style="padding:6px;border:1px solid #ccc;">व्यवसाय का प्रकार</td>
+                      <td style="padding:6px;border:1px solid #ccc;"><?= h($r['business_type'] ?? '') ?></td>
+                    </tr>
+
+                    <tr>
+                      <td style="padding:6px;border:1px solid #ccc;">व्यवसाय की स्थिति</td>
+                      <td style="padding:6px;border:1px solid #ccc;"><?= h($r['business_status'] ?? '') ?></td>
+                    </tr>
+
+                    <tr>
+                      <td style="padding:6px;border:1px solid #ccc;">संतुलन वर्ष</td>
+                      <td style="padding:6px;border:1px solid #ccc;"><?= h($r['balance_year'] ?? '') ?></td>
+                    </tr>
+
+                    <tr>
+                      <td style="padding:6px;border:1px solid #ccc;">अन्तिम आडिट</td>
+                      <td style="padding:6px;border:1px solid #ccc;"><?= h($r['last_audit_date'] ?? '') ?></td>
+                    </tr>
+
+                    <tr>
+                      <td style="padding:6px;border:1px solid #ccc;">परिसम्पत्ति का प्रकार</td>
+                      <td style="padding:6px;border:1px solid #ccc;"><?= h($r['property_type'] ?? '') ?></td>
+                    </tr>
+
+                    <tr>
+                      <td style="padding:6px;border:1px solid #ccc;">अन्य सम्पत्ति</td>
+                      <td style="padding:6px;border:1px solid #ccc;"><?= h($r['other_property'] ?? '') ?></td>
+                    </tr>
+
+                  </table>
+
+                </td>
+              </tr>
+              <?php
             }
           }
           ?>
@@ -410,7 +509,7 @@ if ($DIV_ID) {
 
   <?php
 } else {
-  echo '<div class="msg" style="color:#b00020;">Division scope नहीं मिला, रिपोर्ट नहीं दिखाई जा सकती।</div>';
+  echo '<div class="msg" style="color:#b00020;"></div>';
 }
 ?>
 <style>
@@ -529,8 +628,33 @@ if ($DIV_ID) {
   }
 
   @keyframes blinker {
-    50% { opacity: 0; }
+    50% {
+      opacity: 0;
+    }
   }
+
+  .gps-missing {
+        display: inline-block;
+        background: #b00020;
+        color: #fff;
+        font-size: 11px;
+        font-weight: 700;
+        padding: 2px 6px;
+        border-radius: 4px;
+        animation: blk 1s linear infinite;
+    }
+
+    @keyframes blk {
+
+        0%,
+        100% {
+            opacity: 1
+        }
+
+        50% {
+            opacity: 0
+        }
+    }
 </style>
 
 <form method="post" action="">
@@ -538,36 +662,43 @@ if ($DIV_ID) {
     style="text-align:center;font-size:28px;color:#357ab8;font-weight:600;padding:10px;border-radius:5px;margin-bottom:10px;">
     क्रय-विक्रय सहकारी समितियों से संबंधित सूचना
   </h2>
-
   <?php if ($save_msg): ?>
     <div class="msg" style="<?= $save_class ?>"><?= $save_msg ?></div>
   <?php endif; ?>
-
   <input type="hidden" name="sno" value="<?= h($form['sno'] ?? '') ?>">
-
   <div class="card">
     <h3 class="section-heading">📍 लोकेशन</h3>
     <div class="form-grid" style="grid-template-columns: 1fr 3fr;">
       <div>
-        <label>Latitude</label>
-        <input type="text" id="lat_show" class="form-control" value="<?= h($form['latitude'] ?? '') ?>" readonly>
-        <label style="margin-top:10px;">Longitude</label>
-        <input type="text" id="long_show" class="form-control" value="<?= h($form['longitude'] ?? '') ?>" readonly>
-
-        <!-- ये hidden inputs ही DB में जाएँगे -->
-        <input type="hidden" name="latitude" id="lat" value="<?= h($form['latitude'] ?? '') ?>">
-        <input type="hidden" name="longitude" id="long" value="<?= h($form['longitude'] ?? '') ?>">
-
-        <button type="button" class="btn btn-info" style="margin-top:10px;" onClick="getLocation();">
-          लोकेशन रिफ्रेश करें
-        </button>
-        <div class="blinking-text">(लोकेशन मोबाईल से भरे)*</div>
+        <label class="form-label">लोकेशन भरने का तरीका</label>
+        <select id="geo_type" class="form-select" onchange="toggleGeoType()">
+          <option value="">-- चुनें --</option>
+          <option value="button">मोबाईल से (GPS)</option>
+          <option value="self">स्वयं से भरें</option>
+        </select>
+        <div style="margin-top:10px;">
+          <label>Latitude</label>
+          <input type="text" id="lat_show" class="form-control"
+            value="<?= h(round((float) ($form['latitude'] ?? 0), 8)) ?>" readonly>
+          <label style="margin-top:10px;">Longitude</label>
+          <input type="text" id="long_show" class="form-control"
+            value="<?= h(round((float) ($form['longitude'] ?? 0), 8)) ?>" readonly>
+        </div>
+        <div id="gps_section" style="display:none; margin-top:10px;">
+          <button type="button" class="btn btn-info" onclick="getLocation();">
+            📍 लोकेशन रिफ्रेश करें
+          </button>
+          <div class="blinking-text">(लोकेशन मोबाईल से भरे)*</div>
+        </div>
+        <input type="hidden" name="latitude" id="lat" value="<?= h(round((float) ($form['latitude'] ?? 0), 8)) ?>">
+        <input type="hidden" name="longitude" id="long" value="<?= h(round((float) ($form['longitude'] ?? 0), 8)) ?>">
       </div>
       <div id="map_container" style="height:280px;">
         <iframe id="googlemap"
-          src="https://maps.google.com/maps?q=<?= h($form['latitude'] ?? '0') . ',' . h($form['longitude'] ?? '0') ?>&hl=hi&z=13&output=embed"
-          width="100%" height="100%" style="border:1px solid; border-radius:10px;" allowfullscreen="" loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"></iframe>
+          src="https://maps.google.com/maps?q=<?= h($form['latitude'] ?? '') . ',' . h($form['longitude'] ?? '') ?>&hl=hi&z=13&output=embed"
+          width="100%" height="100%" style="border:1px solid; border-radius:10px;" allowfullscreen loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
       </div>
     </div>
   </div>
@@ -868,7 +999,53 @@ if ($DIV_ID) {
     toggleSamiti(initStatus);
   });
 
-  // Geolocation
+  // Hide/show extra fields for disputed land
+  function hide_show(val, selector, showIf) {
+    const el = document.querySelector(selector);
+    if (!el) return;
+    if (val === showIf) {
+      el.style.display = 'block';
+    } else {
+      el.style.display = 'none';
+    }
+  }
+
+  // Initialize disputed land field visibility
+  document.addEventListener('DOMContentLoaded', () => {
+    const kabjaVal = document.querySelector("[name='kabja_vivadit']").value;
+    hide_show(kabjaVal, '#is_kabja_vivadit_is', 'yes');
+  });
+</script>
+<script>
+  function toggleRow(id) {
+    var row = document.getElementById("detail_" + id);
+    if (row.style.display === "none") {
+      row.style.display = "table-row";
+    } else {
+      row.style.display = "none";
+    }
+  }
+
+  function toggleGeoType() {
+    var type = document.getElementById("geo_type").value;
+
+    if (type === "button") {
+      document.getElementById("gps_section").style.display = "block";
+      document.getElementById("lat_show").setAttribute("readonly", true);
+      document.getElementById("long_show").setAttribute("readonly", true);
+    }
+    else if (type === "self") {
+      document.getElementById("gps_section").style.display = "none";
+      document.getElementById("lat_show").removeAttribute("readonly");
+      document.getElementById("long_show").removeAttribute("readonly");
+    }
+    else {
+      document.getElementById("gps_section").style.display = "none";
+      document.getElementById("lat_show").setAttribute("readonly", true);
+      document.getElementById("long_show").setAttribute("readonly", true);
+    }
+  }
+
   function getLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(showPosition, showError, { enableHighAccuracy: true });
@@ -878,11 +1055,39 @@ if ($DIV_ID) {
   }
 
   function showPosition(position) {
-    document.getElementById('lat').value = position.coords.latitude;
-    document.getElementById('long').value = position.coords.longitude;
-    document.getElementById('lat_show').value = position.coords.latitude;
-    document.getElementById('long_show').value = position.coords.longitude;
-    document.getElementById('googlemap').src = `https://maps.google.com/maps?q=${position.coords.latitude},${position.coords.longitude}&hl=hi&z=13&output=embed`;
+    var lat = position.coords.latitude;
+    var long = position.coords.longitude;
+
+    document.getElementById('lat_show').value = lat;
+    document.getElementById('long_show').value = long;
+
+    document.getElementById('lat').value = lat;
+    document.getElementById('long').value = long;
+
+    updateMap(lat, long);
+  }
+
+  document.getElementById("lat_show").addEventListener("input", manualUpdate);
+  document.getElementById("long_show").addEventListener("input", manualUpdate);
+
+  function manualUpdate() {
+    var type = document.getElementById("geo_type").value;
+    if (type !== "self") return;
+
+    var lat = document.getElementById("lat_show").value.trim();
+    var long = document.getElementById("long_show").value.trim();
+
+    if (lat !== "" && long !== "") {
+      document.getElementById('lat').value = lat;
+      document.getElementById('long').value = long;
+      updateMap(lat, long);
+    }
+  }
+
+  function updateMap(lat, long) {
+    document.getElementById('googlemap').src =
+      "https://maps.google.com/maps?q=" + lat + "," + long +
+      "&hl=hi&z=13&output=embed";
   }
 
   function showError(error) {
@@ -902,22 +1107,17 @@ if ($DIV_ID) {
     }
   }
 
-  // Hide/show extra fields for disputed land
-  function hide_show(val, selector, showIf) {
-    const el = document.querySelector(selector);
-    if (!el) return;
-    if (val === showIf) {
-      el.style.display = 'block';
-    } else {
-      el.style.display = 'none';
-    }
-  }
+  window.onload = function () {
+    var lat = document.getElementById('lat').value;
+    var long = document.getElementById('long').value;
 
-  // Initialize disputed land field visibility
-  document.addEventListener('DOMContentLoaded', () => {
-    const kabjaVal = document.querySelector("[name='kabja_vivadit']").value;
-    hide_show(kabjaVal, '#is_kabja_vivadit_is', 'yes');
-  });
+    if (lat && long) {
+      document.getElementById('lat_show').value = lat;
+      document.getElementById('long_show').value = long;
+      document.getElementById('lat_show').setAttribute("readonly", true);
+      document.getElementById('long_show').setAttribute("readonly", true);
+    }
+  };
 </script>
 <?php
 page_footer_start();

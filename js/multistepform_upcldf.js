@@ -17,7 +17,8 @@ let succcessDiv = document.getElementById('success');
 form.onsubmit = () => { return false }
 
 let current_step = 0;
-let stepCount = 4;
+// total steps are dynamic; last index = step.length - 1
+const getStepCount = () => document.getElementsByClassName('step').length - 1;
 step[current_step].classList.add('d-block');
 if(current_step == 0){
 	prevBtn.classList.add('d-none');
@@ -26,6 +27,7 @@ if(current_step == 0){
 }
 
 nextBtn.addEventListener('click', () => {
+	const stepCount = getStepCount();
 	current_step++;
 	let previous_step = current_step - 1;
 	if(( current_step > 0) && (current_step <= stepCount)){
@@ -47,10 +49,11 @@ nextBtn.addEventListener('click', () => {
 			form.onsubmit = () => { return true }
 		}
 	}
-	progress((100 / stepCount) * current_step);
+	if (stepCount > 0) progress((100 / stepCount) * current_step);
 });
 
 prevBtn.addEventListener('click', () => {
+	const stepCount = getStepCount();
 	if(current_step > 0){
 		current_step--;
 		let previous_step = current_step + 1; 
@@ -73,11 +76,12 @@ prevBtn.addEventListener('click', () => {
 		prevBtn.classList.remove('d-inline-block');
 		prevBtn.classList.add('d-none');
 	}
-	progress((100 / stepCount) * current_step);
+	if (stepCount > 0) progress((100 / stepCount) * current_step);
 });
 
 
 submitBtn.addEventListener('click', () => {
+	const stepCount = getStepCount();
     preloader.classList.add('d-block');
 
     const timer = ms => new Promise(res => setTimeout(res, ms));

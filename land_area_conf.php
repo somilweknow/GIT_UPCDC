@@ -61,7 +61,8 @@ page_sidebar();
 
     echo "<h3>Land Area Correction Status Report</h3>";
 
-    echo "<table>
+    echo "<div class='table-responsive'>
+<table class='table table-bordered table-striped'>
 <thead>
 
 <tr>
@@ -189,7 +190,7 @@ ORDER BY dv.division_name,md.district_name");
 <td>{$tot['cc']}</td>
 </tr>
 </tfoot>
-</table>";
+</table></div>";
     ?>
 
 </div>

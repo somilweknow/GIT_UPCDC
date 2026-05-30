@@ -1,0 +1,104 @@
+other changes
+--------------
+login changes in index_3.php
+navigation changes in the settings.php
+
+
+REATE TABLE ncd_user_type (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    type_name VARCHAR(50) NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO ncd_user_type (type_name) VALUES
+('ncd_admin'),
+('ncd_checker'),
+('ncd_maker');
+
+
+CREATE TABLE ncd_users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+
+    type_id INT NOT NULL,   -- FK to ncd_user_type
+
+    name VARCHAR(100) NOT NULL UNIQUE,
+    u_name VARCHAR(100) NOT NULL UNIQUE,
+    u_pass VARCHAR(255) NOT NULL,
+
+    division_id INT NULL,
+    division_name VARCHAR(150) NULL,
+
+    district_id INT NULL,
+    district_name VARCHAR(150) NULL,
+
+    is_active TINYINT(1) DEFAULT 1,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (type_id) REFERENCES ncd_user_type(id)
+);
+
+ALTER TABLE ncd_users DROP INDEX name;
+
+ALTER TABLE ncd_users
+MODIFY name VARCHAR(100) NOT NULL,
+MODIFY u_name VARCHAR(100) NOT NULL,
+MODIFY u_pass VARCHAR(255) NOT NULL,
+MODIFY division_id VARCHAR(50) NULL,
+MODIFY division_name VARCHAR(150) NULL,
+MODIFY district_id VARCHAR(50) NULL,
+MODIFY district_name VARCHAR(150) NULL,
+MODIFY is_active VARCHAR(10) DEFAULT '1';
+
+
+
+CREATE TABLE ncd_cooperatives_validation (
+
+    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+
+    ncd_cooperative_id INT NOT NULL,
+
+    request_id INT NOT NULL DEFAULT 1,  -- version / attempt number
+
+    -- =========================
+    -- STATUS FLAGS
+    -- =========================
+    maker_status TINYINT NOT NULL DEFAULT 0 COMMENT '0=not submitted,1=submitted',
+
+    checker_status TINYINT NOT NULL DEFAULT 0 COMMENT '0=pending,1=approved,2=rejected',
+
+    admin_status TINYINT NOT NULL DEFAULT 0 COMMENT '0=pending,1=approved,2=rejected',
+
+    -- =========================
+    -- REMARKS
+    -- =========================
+    checker_remark TEXT NULL,
+    admin_remark TEXT NULL,
+
+    -- =========================
+    -- WORKFLOW TRACKING
+    -- =========================
+    current_stage ENUM('maker','checker','admin','completed')
+        NOT NULL DEFAULT 'maker',
+
+    final_status ENUM('in_progress','approved','rejected')
+        NOT NULL DEFAULT 'in_progress',
+
+    -- =========================
+    -- TIMESTAMPS
+    -- =========================
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    -- =========================
+    -- INDEXES
+    -- =========================
+    INDEX idx_cooperative (ncd_cooperative_id),
+    INDEX idx_request (ncd_cooperative_id, request_id),
+    INDEX idx_stage (current_stage),
+    INDEX idx_final_status (final_status)
+
+);
+
+ALTER TABLE ncd_cooperatives_validation
+ADD UNIQUE KEY uniq_request (ncd_cooperative_id, request_id);

@@ -29,7 +29,9 @@ foreach ($_POST as $k => $v) {
 
 $data = array();
 
-$sql = 'select * from apex_si_1_1 where sno="' . $_POST['survey_id'] . '"';
+if (isset($_POST['survey_id'])) {
+	$sql = 'select * from apex_si_1_1 where sno="' . $_POST['survey_id'] . '"';
+}
 $survey_invoice = mysqli_fetch_assoc(execute_query($sql));
 
 if ($id == 'type') {
@@ -83,8 +85,8 @@ if ($id == 'type') {
 	if ($_POST['survey_id'] == '') {
 
 		$sql = 'INSERT INTO apex_si_1_1 
-        (apex_id, longitude, latitude, email_id, society_registration_no, society_registration_date, pan_no, tan_no, gst_no, mobile_number, website) 
-        VALUES ("' . $_POST['apex_code'] . '","' . $_POST['longitude'] . '","' . $_POST['latitude'] . '","' . $_POST['email_id'] . '","' . $_POST['society_registration_no'] . '","' . $_POST['society_registration_date'] . '","' . $_POST['pan_no'] . '","' . $_POST['tan_no'] . '","' . $_POST['gst_no'] . '","' . $_POST['mobile_number'] . '","' . $_POST['website'] . '")';
+        (apex_id, longitude, latitude, committee_status, email_id, photo_id, society_registration_no, society_registration_date, pan_no, tan_no, gst_no, mobile_number, website) 
+        VALUES ("' . $_POST['apex_code'] . '","' . $_POST['longitude'] . '","' . $_POST['latitude'] . '","' . $_POST['committee_status'] . '","' . $_POST['email_id'] . '","' . $_POST['photo_id'] . '","' . $_POST['society_registration_no'] . '","' . $_POST['society_registration_date'] . '","' . $_POST['pan_no'] . '","' . $_POST['tan_no'] . '","' . $_POST['gst_no'] . '","' . $_POST['mobile_number'] . '","' . $_POST['website'] . '")';
 		execute_query($sql);
 
 		if (mysqli_error($db)) {
@@ -94,131 +96,27 @@ if ($id == 'type') {
 			$data[] = array("id" => $id);
 		}
 
-		$sql = 'select * from apex_si_1_1 where sno="' . $id . '"';
-        $survey_invoice = mysqli_fetch_assoc(execute_query($sql));
+		$sql = 'select * from apex_si_1_1 where sno="' . $_POST['survey_id'] . '"';
+		$apex_si_1_1 = mysqli_fetch_assoc(execute_query($sql));
 
-        $sql = 'select * from apex where sno="' . $survey_invoice['apex_id'] . '"';
-        $apex = mysqli_fetch_assoc(execute_query($sql));
-        if (isset($_FILES['society_photo']) && !empty($_FILES['society_photo']['name'])) {
-            $society_image = upload_img($_FILES['society_photo'], $apex, "society_name_" . $id);
-            //print_r($society_image);
-            if ($society_image['error'] == 1) {
-                $sql = 'update apex_si_1_1 set 
-				photo_id="' . $society_image['file_name'] . '"
-				where sno="' . $id . '"';
-                execute_query($sql);
-                $data[] = array("id" => "Update", "msg" => $society_image['msg']);
-            } else {
-                $data[] = array("id" => "error", "error" => $society_image['msg']);
-            }
-        }
-        if (isset($_POST['survey_id']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
+		$sql = 'select * from apex where sno="' . $survey_invoice['apex_id'] . '"';
+		$society = mysqli_fetch_assoc(execute_query($sql));
+		if ($_FILES['society_photo']['name'] != '') {
+			$original = pathinfo($_FILES['society_photo']['name'], PATHINFO_FILENAME);
+			$ext = pathinfo($_FILES['society_photo']['name'], PATHINFO_EXTENSION);
+			$final_name = $original . "_" . $survey_invoice['sno'] . "." . $ext;
+			$society_image = upload_img($_FILES['society_photo'], $society, $final_name);
 
-            $survey_id = $_POST['survey_id'];
-
-            /* ===== DELETE OLD DATA ===== */
-            execute_query('DELETE FROM apex_zone_details WHERE survey_id="' . $survey_id . '"');
-            execute_query('DELETE FROM apex_prakhand_details WHERE survey_id="' . $survey_id . '"');
-
-            /* ===== FETCH APEX FOR IMAGE PATH ===== */
-            $sql = 'SELECT apex.* 
-							FROM apex_si_1_1 
-							LEFT JOIN apex ON apex.sno = apex_si_1_1.apex_id 
-							WHERE apex_si_1_1.sno="' . $survey_id . '"';
-
-            $res = execute_query($sql);
-            $apex = mysqli_fetch_assoc($res);
-
-            /* ================= ZONE INSERT ================= */
-            if (isset($_POST['zone_name']) && is_array($_POST['zone_name'])) {
-
-                foreach ($_POST['zone_name'] as $k => $v) {
-
-                    $zone_name = trim($_POST['zone_name'][$k]);
-                    $zone_mobile = trim($_POST['zone_mobile'][$k]);
-                    $zone_email = trim($_POST['zone_email'][$k]);
-                    $zone_address = trim($_POST['zone_address'][$k]);
-
-                    // Skip fully empty row
-                    if ($zone_name == '' && $zone_mobile == '' && $zone_email == '' && $zone_address == '') {
-                        continue;
-                    }
-
-                    $zone_image_name = '';
-
-                    if (isset($_FILES['zone_image']['name'][$k]) && $_FILES['zone_image']['name'][$k] != '') {
-
-                        $file_array = [
-                            'name' => $_FILES['zone_image']['name'][$k],
-                            'type' => $_FILES['zone_image']['type'][$k],
-                            'tmp_name' => $_FILES['zone_image']['tmp_name'][$k],
-                            'error' => $_FILES['zone_image']['error'][$k],
-                            'size' => $_FILES['zone_image']['size'][$k],
-                        ];
-
-                        $zone_image = upload_img($file_array, $apex, "zone_" . $survey_id . "_" . $k);
-
-                        if ($zone_image['error'] == 1) {
-                            $zone_image_name = $zone_image['file_name'];
-                        }
-                    }
-
-                    execute_query('INSERT INTO apex_zone_details (survey_id,zone_name,zone_mobile,zone_email,zone_address,zone_image)
-						VALUES
-						("' . $survey_id . '",
-						"' . $zone_name . '",
-						"' . $zone_mobile . '",
-						"' . $zone_email . '",
-						"' . $zone_address . '",
-						"' . $zone_image_name . '")');
-                }
-            }
-
-            /* ================= PRAKHAND INSERT ================= */
-            if (isset($_POST['prakhand_name']) && is_array($_POST['prakhand_name'])) {
-
-                foreach ($_POST['prakhand_name'] as $k => $v) {
-
-                    $name = trim($_POST['prakhand_name'][$k]);
-                    $mobile = trim($_POST['prakhand_mobile'][$k]);
-                    $email = trim($_POST['prakhand_email'][$k]);
-                    $address = trim($_POST['prakhand_address'][$k]);
-
-                    if ($name == '' && $mobile == '' && $email == '' && $address == '') {
-                        continue;
-                    }
-
-                    $prakhand_image_name = '';
-
-                    if (isset($_FILES['prakhand_image']['name'][$k]) && $_FILES['prakhand_image']['name'][$k] != '') {
-
-                        $file_array = [
-                            'name' => $_FILES['prakhand_image']['name'][$k],
-                            'type' => $_FILES['prakhand_image']['type'][$k],
-                            'tmp_name' => $_FILES['prakhand_image']['tmp_name'][$k],
-                            'error' => $_FILES['prakhand_image']['error'][$k],
-                            'size' => $_FILES['prakhand_image']['size'][$k],
-                        ];
-
-                        $prakhand_image = upload_img($file_array, $apex, "prakhand_" . $survey_id . "_" . $k);
-
-                        if ($prakhand_image['error'] == 1) {
-                            $prakhand_image_name = $prakhand_image['file_name'];
-                        }
-                    }
-
-                    execute_query('INSERT INTO apex_prakhand_details
-								(survey_id,prakhand_name,prakhand_mobile,prakhand_email,prakhand_address,prakhand_image)
-								VALUES
-								("' . $survey_id . '",
-								"' . $name . '",
-								"' . $mobile . '",
-								"' . $email . '",
-								"' . $address . '",
-								"' . $prakhand_image_name . '")');
-                }
-            }
-        }
+			if ($society_image['error'] == 1) {
+				$sql = 'update apex_si_1_1 set 
+						photo_id="' . $society_image['file_name'] . '"
+						where sno="' . $id . '"';
+				execute_query($sql);
+				$data[] = array("id" => "Update", "msg" => $society_image['msg']);
+			} else {
+				$data[] = array("id" => "error", "error" => $society_image['msg']);
+			}
+		}
 	} else {
 		switch ($_POST['current_step_count']) {
 			case 0: {
@@ -239,7 +137,8 @@ if ($id == 'type') {
 //                    }
 //                }
 
-				$uppcfImageName = $_FILES['society_photo']['name'];
+
+				$uppcfImageName = $_FILES['society_photo']['name'] ? $_FILES['society_photo']['name'] : $_POST['existing_society_photo'];
 				savepcfsocietyimage($_POST, $_FILES);
 
 
@@ -249,6 +148,7 @@ if ($id == 'type') {
                     apex_id = "' . $_POST['apex_code'] . '",
                     latitude = "' . $_POST['latitude'] . '",
                     longitude = "' . $_POST['longitude'] . '",
+					committee_status = "' . (isset($_POST['committee_status']) ? $_POST['committee_status'] : '') . '",  
                 	email_id = "' . $_POST['email_id'] . '",
                     photo_id = "' . $uppcfImageName . '",
                     society_registration_no = "' . $_POST['society_registration_no'] . '",
@@ -273,6 +173,7 @@ if ($id == 'type') {
 
 				save_zone_details($_POST['survey_id']);
 				save_prakhand_details($_POST['survey_id']);
+				save_outer_office_details($_POST['survey_id']);
 				break;
 			}
 			case 1: {
@@ -411,12 +312,22 @@ if ($id == 'type') {
 					$data[] = ["id" => "update", "msg" => "District position details saved successfully."];
 				}
 
+				break;
+			}
+			case 2: {
+				$sql = 'select * from apex_si_1_1 where sno="' . $_POST['survey_id'] . '"';
+				$apex_si_1_1 = mysqli_fetch_assoc(execute_query($sql));
+
+				$sql = 'select * from apex where sno="' . $survey_invoice['apex_id'] . '"';
+				$society = mysqli_fetch_assoc(execute_query($sql));
+
 				$sql = 'DELETE FROM apex_si_7_3 WHERE survey_id="' . $_POST['survey_id'] . '"';
 				execute_query($sql);
 
 				if (isset($_POST['purchase_sale_row_count'])) {
 					for ($i = 1; $i <= $_POST['purchase_sale_row_count']; $i++) {
 						$wheat = $_POST['wheat_purchase_' . $i] ?? '';
+						$fin_year = $_POST['fin_year_' . $i] ?? '';
 						$rice = $_POST['rice_purchase_' . $i] ?? '';
 						$seed = $_POST['seed_' . $i] ?? '';
 						$fertilizer = $_POST['fertilizer_' . $i] ?? '';
@@ -425,7 +336,7 @@ if ($id == 'type') {
 						$fsc = $_POST['farmer_service_center_' . $i] ?? '';
 						$other = $_POST['other_business_' . $i] ?? '';
 
-						$sql = 'INSERT INTO apex_si_7_3 (wheat_purchase, rice_purchase, seed, fertilizer, godown_rent, nefed,  farmer_service_center, other_business, survey_id) VALUES ("' . $wheat . '","' . $rice . '","' . $seed . '","' . $fertilizer . '", "' . $rent . '","' . $nefed . '","' . $fsc . '","' . $other . '", "' . $_POST['survey_id'] . '")';
+						$sql = 'INSERT INTO apex_si_7_3 (wheat_purchase, fin_year, rice_purchase, seed, fertilizer, godown_rent, nefed,  farmer_service_center, other_business, survey_id) VALUES ("' . $wheat . '","' . $fin_year . '","' . $rice . '","' . $seed . '","' . $fertilizer . '", "' . $rent . '","' . $nefed . '","' . $fsc . '","' . $other . '", "' . $_POST['survey_id'] . '")';
 						execute_query($sql);
 					}
 				}
@@ -435,19 +346,20 @@ if ($id == 'type') {
 
 				// INSERT new rows
 				$total = intval($_POST['sec_7_row_count']);
-
+				
 				for ($i = 1; $i <= $total; $i++) {
 
 					$business = $_POST["sec_7_business_name_$i"];
+					$fin_year_busi = $_POST["sec_7_fin_year_busi_$i"];
 					$target = $_POST["sec_7_annual_target_$i"];
 					$achv = $_POST["sec_7_achievement_$i"];
 
-					if ($business == '' && $target == '' && $achv == '') {
+					if ($business == '' && $fin_year_busi == '' && $target == '' && $achv == '') {
 						continue;
 					}
 
-					$sql = "INSERT INTO apex_si_7_4 (survey_id, business_name, annual_target, achievement)
-							VALUES ('" . $_POST['survey_id'] . "', '$business', '$target', '$achv')";
+					$sql = "INSERT INTO apex_si_7_4 (survey_id, business_name, fin_year_busi, annual_target, achievement)
+							VALUES ('" . $_POST['survey_id'] . "', '$business', '$fin_year_busi', '$target', '$achv')";
 					execute_query($sql);
 				}
 
@@ -466,17 +378,9 @@ if ($id == 'type') {
 					$row_3_new_1['sno'] = mysqli_insert_id($db);
 				}
 
-				saveApexHumanResource($_POST['survey_id']);
-
-				break;
-			}
-			case 2: {
-				$sql = 'select * from apex_si_1_1 where sno="' . $_POST['survey_id'] . '"';
-				$apex_si_1_1 = mysqli_fetch_assoc(execute_query($sql));
-
-
-				$sql = 'select * from apex where sno="' . $survey_invoice['apex_id'] . '"';
-				$society = mysqli_fetch_assoc(execute_query($sql));
+				if (isset($_POST['survey_id']) && $_POST['survey_id'] != '') {
+					saveApexHumanResource($_POST['survey_id']);
+				}
 
 				$sql = 'DELETE FROM apex_si_7_5 WHERE survey_id="' . $_POST['survey_id'] . '"';
 				execute_query($sql);
@@ -560,21 +464,52 @@ if ($id == 'type') {
 				}
 
 				$sql = 'UPDATE survey_invoice_sec_3_new_1 SET
-                        financial_audit_year = "' . $_POST['sec_3_financial_audit_year'] . '",
-                        audit_grading = "' . $_POST['sec_3_audit_grading'] . '",
-                        compliance_status = "' . $_POST['sec_3_compliance_status'] . '",
-                        agm_year = "' . $_POST['sec_3_agm_year'] . '",
-                        dividend_year = "' . $_POST['sec_3_dividend_year'] . '",
-                        dividend_per = "' . $_POST['sec_3_dividend_per'] . '",
-                        dividend_amt = "' . $_POST['sec_3_dividend_amt'] . '",
+                        profit_loss_1 = "' . ($_POST['sec_3_profit_loss_1'] ?? '') . '",
+                        profit_loss_amount_1 = "' . ($_POST['sec_3_profit_loss_amount_1'] ?? '') . '",
+                        accumulated_1 = "' . ($_POST['sec_3_accumulated_1'] ?? '') . '",
+                        accumulated_amount_1 = "' . ($_POST['sec_3_accumulated_amount_1'] ?? '') . '",
+                        profit_loss_2 = "' . ($_POST['sec_3_profit_loss_2'] ?? '') . '",
+                        profit_loss_amount_2 = "' . ($_POST['sec_3_profit_loss_amount_2'] ?? '') . '",
+                        accumulated_2 = "' . ($_POST['sec_3_accumulated_2'] ?? '') . '",
+                        accumulated_amount_2 = "' . ($_POST['sec_3_accumulated_amount_2'] ?? '') . '",
+                        profit_loss_3 = "' . ($_POST['sec_3_profit_loss_3'] ?? '') . '",
+                        profit_loss_amount_3 = "' . ($_POST['sec_3_profit_loss_amount_3'] ?? '') . '",
+                        accumulated_3 = "' . ($_POST['sec_3_accumulated_3'] ?? '') . '",
+                        accumulated_amount_3 = "' . ($_POST['sec_3_accumulated_amount_3'] ?? '') . '",
+                        financial_audit_year = "' . ($_POST['sec_3_financial_audit_year'] ?? '') . '",
+                        audit_grading = "' . ($_POST['sec_3_audit_grading'] ?? '') . '",
+                        compliance_status = "' . ($_POST['sec_3_compliance_status'] ?? '') . '",
+                        agm_year = "' . ($_POST['sec_3_agm_year'] ?? '') . '",
+                        dividend_year = "' . ($_POST['sec_3_dividend_year'] ?? '') . '",
+                        dividend_per = "' . ($_POST['sec_3_dividend_per'] ?? '') . '",
+                        dividend_amt = "' . ($_POST['sec_3_dividend_amt'] ?? '') . '",
                         edition_time = "' . date("Y-m-d H:i:s") . '"
                         WHERE sno="' . $row_3_new_1['sno'] . '"';
 				execute_query($sql);
 
+				// Save financial matrix rows into apex_financial_info
+				$survey_id = $_POST['survey_id'];
+				$sql = 'DELETE FROM apex_financial_info WHERE survey_id="' . $survey_id . '"';
+				execute_query($sql);
+				$i = 1;
+				while (isset($_POST['financial_year_label_' . $i])) {
+					$financial_year = $_POST['financial_year_label_' . $i];
+					$annual_status = $_POST['sec_3_profit_loss_' . $i] ?? '';
+					$annual_gross = $_POST['sec_3_gross_amount_' . $i] ?? '';
+					$annual_net = $_POST['sec_3_net_amount_' . $i] ?? '';
+					$acc_status = $_POST['sec_3_accumulated_' . $i] ?? '';
+					$acc_gross = $_POST['sec_3_acc_gross_amount_' . $i] ?? '';
+					$acc_net = $_POST['sec_3_acc_net_amount_' . $i] ?? '';
+					$sql = 'INSERT INTO apex_financial_info (survey_id, financial_year, annual_status, annual_gross, annual_net, accumulated_status, accumulated_gross, accumulated_net, created_at) 
+                            VALUES ("' . $survey_id . '","' . $financial_year . '","' . $annual_status . '","' . $annual_gross . '","' . $annual_net . '","' . $acc_status . '","' . $acc_gross . '","' . $acc_net . '","' . date("Y-m-d H:i:s") . '")';
+					execute_query($sql);
+					$i++;
+				}
+
 				if (mysqli_error($db)) {
-					$data[] = array("id" => "error", "error" => "Audit data: Unable to save.");
+					$data[] = array("id" => "error", "error" => "Financial data: Unable to save.");
 				} else {
-					$data[] = array("id" => "Update", "msg" => "Audit data saved.");
+					$data[] = array("id" => "Update", "msg" => "Financial data saved.");
 				}
 
 				break;
@@ -638,28 +573,28 @@ if ($id == 'type') {
 				if (mysqli_num_rows($res_check) > 0) {
 					// UPDATE
 					$sql = 'UPDATE survey_invoice_sec_3_1 SET
-						east_side = "' . $_POST['sec_3_a_land_chauhaddi_east'] . '",
-						west_side = "' . $_POST['sec_3_a_land_chauhaddi_west'] . '",
-						north_side = "' . $_POST['sec_3_a_land_chauhaddi_north'] . '",
-						south_side = "' . $_POST['sec_3_a_land_chauhaddi_south'] . '",
-						on_road_land = "' . $_POST['sec_3_a_land_on_road'] . '",
-						front_side = "' . $_POST['sec_3_a_land_frontage'] . '",
-						remarks = "' . $_POST['sec_3_a_comment'] . '",
+						east_side = "' . ($_POST['sec_3_a_land_chauhaddi_east'] ?? '') . '",
+						west_side = "' . ($_POST['sec_3_a_land_chauhaddi_west'] ?? '') . '",
+						north_side = "' . ($_POST['sec_3_a_land_chauhaddi_north'] ?? '') . '",
+						south_side = "' . ($_POST['sec_3_a_land_chauhaddi_south'] ?? '') . '",
+						on_road_land = "' . ($_POST['sec_3_a_land_on_road'] ?? '') . '",
+						front_side = "' . ($_POST['sec_3_a_land_frontage'] ?? '') . '",
+						remarks = "' . ($_POST['sec_3_a_comment'] ?? '') . '",
 						edition_time = "' . date('Y-m-d H:i:s') . '"
-						WHERE survey_id="' . $_POST['survey_id'] . '"';
+						WHERE survey_id="' . ($_POST['survey_id'] ?? '') . '"';
 				} else {
 					$sql = 'INSERT INTO survey_invoice_sec_3_1 (
 						survey_id, east_side, west_side, north_side, south_side,
 						on_road_land, front_side, remarks, edition_time
 					) VALUES (
-						"' . $_POST['survey_id'] . '",
-						"' . $_POST['sec_3_a_land_chauhaddi_east'] . '",
-						"' . $_POST['sec_3_a_land_chauhaddi_west'] . '",
-						"' . $_POST['sec_3_a_land_chauhaddi_north'] . '",
-						"' . $_POST['sec_3_a_land_chauhaddi_south'] . '",
-						"' . $_POST['sec_3_a_land_on_road'] . '",
-						"' . $_POST['sec_3_a_land_frontage'] . '",
-						"' . $_POST['sec_3_a_comment'] . '",
+						"' . ($_POST['survey_id'] ?? '') . '",
+						"' . ($_POST['sec_3_a_land_chauhaddi_east'] ?? '') . '",
+						"' . ($_POST['sec_3_a_land_chauhaddi_west'] ?? '') . '",
+						"' . ($_POST['sec_3_a_land_chauhaddi_north'] ?? '') . '",
+						"' . ($_POST['sec_3_a_land_chauhaddi_south'] ?? '') . '",
+						"' . ($_POST['sec_3_a_land_on_road'] ?? '') . '",
+						"' . ($_POST['sec_3_a_land_frontage'] ?? '') . '",
+						"' . ($_POST['sec_3_a_comment'] ?? '') . '",
 						"' . date('Y-m-d H:i:s') . '"
 					)';
 				}
@@ -675,8 +610,10 @@ if ($id == 'type') {
 				$sql = 'DELETE FROM survey_invoice_sec_3_4 WHERE survey_id="' . $_POST['survey_id'] . '"';
 				execute_query($sql);  // Function to execute the query
 
-				for ($i = 1; $i <= $_POST['sec_2_nirmit_godown_id']; $i++) {
+				$nirmit_godown_count = isset($_POST['sec_2_nirmit_godown_id']) ? intval($_POST['sec_2_nirmit_godown_id']) : 0;
+				for ($i = 1; $i <= $nirmit_godown_count; $i++) {
 					$storage_capacity = isset($_POST['sec_3_b_storage_capacity_' . $i]) ? $_POST['sec_3_b_storage_capacity_' . $i] : '';
+					$storage_capacity = is_numeric($storage_capacity) ? $storage_capacity : 0;
 					$godown_year = isset($_POST['sec_3_b_godown_year_' . $i]) ? $_POST['sec_3_b_godown_year_' . $i] : '';
 					$wdra_certified = isset($_POST['sec_3_b_wdra_certified_' . $i]) ? $_POST['sec_3_b_wdra_certified_' . $i] : '';
 					$type_of_fund = isset($_POST['sec_3_b_godown_type_of_fund_' . $i]) ? $_POST['sec_3_b_godown_type_of_fund_' . $i] : '';
@@ -691,8 +628,10 @@ if ($id == 'type') {
 
 				$sql = 'delete from survey_invoice_sec_3_5 where survey_id="' . $_POST['survey_id'] . '"';
 				execute_query($sql);
-				for ($i = 1; $i <= $_POST['sec_3_c_id']; $i++) {
-					if ($_POST['sec_3_c_length_1'] != "" && $_POST['sec_3_c_length_1'] != "0") {
+				$sec_3_c_id_count = isset($_POST['sec_3_c_id']) ? intval($_POST['sec_3_c_id']) : 0;
+				for ($i = 1; $i <= $sec_3_c_id_count; $i++) {
+					$sec_3_c_len_check = $_POST['sec_3_c_length_1'] ?? '';
+					if ($sec_3_c_len_check != "" && $sec_3_c_len_check != "0") {
 						$sql = 'insert into survey_invoice_sec_3_5 (survey_id, land_type, location, total_area, approach_road,suitable_godown, rak_distance,  edition_time) values("' . $_POST['survey_id'] . '", "' . $_POST['sec_3_c_vacant_land_status_' . $i] . '", "' . $_POST['sec_3_c_land_location_' . $i] . '", "' . $_POST['sec_3_c_length_' . $i] . '", "' . $_POST['sec_3_c_paved_road_' . $i] . '", "' . $_POST['sec_3_c_suitable_godown_' . $i] . '", "' . $_POST['sec_3_c_rak_distance_' . $i] . '", "' . date("Y-m-d H:i:s") . '")';
 						execute_query($sql);
 						if (mysqli_error($db)) {
@@ -702,7 +641,7 @@ if ($id == 'type') {
 						}
 					}
 					$row_3_5['sno'] = mysqli_insert_id($db);
-					if ($_FILES['sec_3_c_food_scheme_image_' . $i]['name'] != '') {
+					if (isset($_FILES['sec_3_c_food_scheme_image_' . $i]) && $_FILES['sec_3_c_food_scheme_image_' . $i]['name'] != '') {
 						$food_scheme = upload_img($_FILES['sec_3_c_food_scheme_image_' . $i], $society, "food_scheme_" . $row_3_5['sno']);
 						if ($food_scheme['error'] == 1) {
 							$sql = 'UPDATE survey_invoice_sec_3_5 SET 
@@ -739,10 +678,10 @@ if ($id == 'type') {
 				}
 
 				$sql = 'update survey_invoice_sec_2_1 set 
-				sec_6_road="' . $_POST['sec_6_access_road'] . '",
-				distance_from_approach_road="' . $_POST['sec_6_2_truck_not_reach'] . '",
-				approach_road="' . $_POST['sec_6_paved_road'] . '",
-				plot_frontage="' . $_POST['sec_8_plot_frontage'] . '"
+				sec_6_road="' . ($_POST['sec_6_access_road'] ?? '') . '",
+				distance_from_approach_road="' . (is_numeric($_POST['sec_6_2_truck_not_reach'] ?? '') ? $_POST['sec_6_2_truck_not_reach'] : 0) . '",
+				approach_road="' . ($_POST['sec_6_paved_road'] ?? '') . '",
+				plot_frontage="' . (is_numeric($_POST['sec_8_plot_frontage'] ?? '') ? $_POST['sec_8_plot_frontage'] : 0) . '"
 				where sno=' . $row_2_1['sno'];
 				execute_query($sql);
 				if (mysqli_error($db)) {
@@ -808,52 +747,8 @@ if ($id == 'type') {
 				break;
 			}
 			case 5: {
-				$sql = 'select * from survey_invoice_sec_3_new_1 where survey_id="' . $_POST['survey_id'] . '"';
-				$res_3_new_1 = execute_query($sql);
-				if (mysqli_num_rows($res_3_new_1) == 1) {
-					$row_3_new_1 = mysqli_fetch_assoc($res_3_new_1);
-					// print_r($row_3_new_1);
-				} else {
-					$sql = 'insert into survey_invoice_sec_3_new_1 (survey_id) values("' . $_POST['survey_id'] . '")';
-					execute_query($sql);
-					if (mysqli_error($db)) {
-						//echo mysqli_error($db);
-						$data[] = array("id" => "error", "error" => "3.1.Unable to save data.");
-					} else {
-						$data[] = array("id" => "Update", "msg" => "sec-3.1.Data Saved");
-					}
-					$row_3_new_1['sno'] = mysqli_insert_id($db);
-				}
 
-				$sql = 'update survey_invoice_sec_3_new_1 set
-				profit_loss_1 = "' . $_POST['sec_3_profit_loss_1'] . '",
-				profit_loss_amount_1 = "' . $_POST['sec_3_profit_loss_amount_1'] . '",
-				accumulated_1 = "' . $_POST['sec_3_accumulated_1'] . '",
-				accumulated_amount_1 = "' . $_POST['sec_3_accumulated_amount_1'] . '",
-				profit_loss_2 = "' . $_POST['sec_3_profit_loss_2'] . '",
-				profit_loss_amount_2 = "' . $_POST['sec_3_profit_loss_amount_2'] . '",
-				accumulated_2 = "' . $_POST['sec_3_accumulated_2'] . '",
-				accumulated_amount_2 = "' . $_POST['sec_3_accumulated_amount_2'] . '",
-				profit_loss_3 = "' . $_POST['sec_3_profit_loss_3'] . '",
-				profit_loss_amount_3 = "' . $_POST['sec_3_profit_loss_amount_3'] . '",
-				accumulated_3 = "' . $_POST['sec_3_accumulated_3'] . '",
-				accumulated_amount_3 = "' . $_POST['sec_3_accumulated_amount_3'] . '",
-				financial_audit_year = "' . $_POST['sec_3_financial_audit_year'] . '",
-				audit_grading = "' . $_POST['sec_3_audit_grading'] . '",
-				compliance_status = "' . $_POST['sec_3_compliance_status'] . '",
-				agm_year = "' . $_POST['sec_3_agm_year'] . '",
-				dividend_year = "' . $_POST['sec_3_dividend_year'] . '",
-				dividend_per = "' . $_POST['sec_3_dividend_per'] . '",
-				dividend_amt = "' . $_POST['sec_3_dividend_amt'] . '",
-				santulan_patra = "' . $_POST['sec_3_santulan_patra'] . '",
-				edition_time = "' . date("Y-m-d H:i:s") . '"
-				where sno="' . $row_3_new_1['sno'] . '"';
-				execute_query($sql);
-				if (mysqli_error($db)) {
-					$data[] = array("id" => "error", "error" => "3.1.Unable to save data.");
-				} else {
-					$data[] = array("id" => "Update", "msg" => "sec-3.1. Data Saved");
-				}
+
 
 				$sql = 'delete from survey_invoice_sec_2_1_2 where survey_id="' . $_POST['survey_id'] . '"';
 				execute_query($sql);
@@ -1134,29 +1029,28 @@ function save_prakhand_details($survey_id)
 }
 function saveApexHumanResource($survey_id)
 {
-	if (!$survey_id) {
-		return false;
-	}
+	//    return true;
 	if (!isset($_POST['staff_name']))
 		return;
 
 	$apex_code = intval($_POST['apex_code']);
 
-	/* ===============================
-	   Delete Old Records
-	================================ */
-
+	// DELETE OLD
 	execute_query('DELETE FROM apex_human_resource_info WHERE survey_id="' . $survey_id . '"');
 
-	/* ===============================
-	   Collect POST Arrays
-	================================ */
-
+	// MAIN ARRAYS
 	$staff_type = $_POST['staff_type'] ?? [];
 	$hr_post_id = $_POST['post_id'] ?? [];
+
 	$sanctioned_post = $_POST['sanctioned_post'] ?? [];
+	$karyarat_post = $_POST['karyarat_post'] ?? [];
 	$vacant_post = $_POST['vacant_post'] ?? [];
 
+	$direct_bharti = $_POST['direct_bharti'] ?? [];
+	$promotion_bharti = $_POST['promotion_bharti'] ?? [];
+	$compassionate_bharti = $_POST['compassionate_bharti'] ?? [];
+
+	// STAFF ARRAYS
 	$staff_post_id = $_POST['staff_post_name'] ?? [];
 	$staff_name = $_POST['staff_name'] ?? [];
 	$staff_sthiti = $_POST['staff_sthiti'] ?? [];
@@ -1166,102 +1060,60 @@ function saveApexHumanResource($survey_id)
 	$staff_qualification = $_POST['staff_qualification'] ?? [];
 
 	$existing_images = $_POST['existing_staff_image'] ?? [];
-
 	$staff_images = $_FILES['staff_image'] ?? [];
 
-	/* ===============================
-	   Image Upload Path
-	================================ */
-
 	$upload_dir = dirname(__DIR__) . "/user_data/staff_" . $survey_id . "/";
-
-	if (!is_dir($upload_dir)) {
+	if (!is_dir($upload_dir))
 		mkdir($upload_dir, 0777, true);
-	}
 
 	$totalStaff = count($staff_name);
 
 	$hrIndex = 0;
 	$staffCounter = 0;
 
-	/* ===============================
-	   Insert Loop
-	================================ */
-
 	for ($i = 0; $i < $totalStaff; $i++) {
 
 		if (empty($staff_name[$i]))
 			continue;
 
-		if ($staffCounter >= ($sanctioned_post[$hrIndex] ?? 0)) {
+		// ✅ IMPORTANT FIX → use karyarat_post
+		if ($staffCounter >= ($karyarat_post[$hrIndex] ?? 0)) {
 			$staffCounter = 0;
 			$hrIndex++;
 		}
 
 		$imageName = $existing_images[$i] ?? "";
 
-		/* ===============================
-		   Upload New Image
-		================================ */
-
+		// IMAGE UPLOAD
 		if (!empty($staff_images['name'][$i]) && $staff_images['error'][$i] == 0) {
 
-			$allowed = ['jpg', 'jpeg', 'png'];
 			$ext = strtolower(pathinfo($staff_images['name'][$i], PATHINFO_EXTENSION));
+			$tmpPath = $staff_images['tmp_name'][$i];
 
-			if (in_array($ext, $allowed)) {
+			$newName = time() . '_' . rand(1000, 9999) . '.jpg';
+			$targetPath = $upload_dir . $newName;
 
-				$tmpPath = $staff_images['tmp_name'][$i];
+			$image = ($ext == 'png') ? imagecreatefrompng($tmpPath) : imagecreatefromjpeg($tmpPath);
 
-				$newName = time() . '_' . rand(1000, 9999) . '.jpg';
-				$targetPath = $upload_dir . $newName;
+			$width = imagesx($image);
+			$height = imagesy($image);
 
-				if ($ext == 'png') {
-					$image = imagecreatefrompng($tmpPath);
-				} else {
-					$image = imagecreatefromjpeg($tmpPath);
-				}
+			$newWidth = 400;
+			$newHeight = ($height / $width) * $newWidth;
 
-				$width = imagesx($image);
-				$height = imagesy($image);
+			$newImage = imagecreatetruecolor($newWidth, $newHeight);
 
-				$newWidth = 400;
-				$newHeight = ($height / $width) * $newWidth;
+			imagecopyresampled($newImage, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
 
-				$newImage = imagecreatetruecolor($newWidth, $newHeight);
+			imagejpeg($newImage, $targetPath, 80);
 
-				imagecopyresampled(
-					$newImage,
-					$image,
-					0,
-					0,
-					0,
-					0,
-					$newWidth,
-					$newHeight,
-					$width,
-					$height
-				);
+			imagedestroy($image);
+			imagedestroy($newImage);
 
-				$quality = 85;
-
-				do {
-					imagejpeg($newImage, $targetPath, $quality);
-					$fileSize = filesize($targetPath);
-					$quality -= 5;
-				} while ($fileSize > (120 * 1024) && $quality > 40);
-
-				imagedestroy($image);
-				imagedestroy($newImage);
-
-				$imageName = $newName;
-			}
+			$imageName = $newName;
 		}
 
-		/* ===============================
-		   Insert Record
-		================================ */
-
+		// INSERT
 		$sql = 'INSERT INTO apex_human_resource_info
         (
             survey_id,
@@ -1269,6 +1121,10 @@ function saveApexHumanResource($survey_id)
             staff_type,
             hr_post_id,
             sanctioned_post,
+            karyarat_pad,
+            seedhi_bharti,
+            paddonati_bharti,
+            pratipurti_bharti,
             vacant_post,
             staff_post_id,
             staff_name,
@@ -1286,6 +1142,10 @@ function saveApexHumanResource($survey_id)
             "' . ($staff_type[$hrIndex] ?? '') . '",
             "' . ($hr_post_id[$hrIndex] ?? '') . '",
             "' . ($sanctioned_post[$hrIndex] ?? '') . '",
+            "' . ($karyarat_post[$hrIndex] ?? '') . '",
+            "' . ($direct_bharti[$hrIndex] ?? '') . '",
+            "' . ($promotion_bharti[$hrIndex] ?? '') . '",
+            "' . ($compassionate_bharti[$hrIndex] ?? '') . '",
             "' . ($vacant_post[$hrIndex] ?? '') . '",
             "' . ($staff_post_id[$i] ?? '') . '",
             "' . ($staff_name[$i] ?? '') . '",
@@ -1301,8 +1161,6 @@ function saveApexHumanResource($survey_id)
 
 		$staffCounter++;
 	}
-
-
 }
 function save_apex_agro_work_professions($survey_id)
 {
@@ -1326,6 +1184,7 @@ function save_apex_agro_work_professions($survey_id)
 	for ($i = 1; $i <= $row_count; $i++) {
 
 		$wheat_purchase = $_POST['wheat_purchase_' . $i] ?? '';
+		$fin_year = $_POST['fin_year_' . $i] ?? '';
 		$rice_purchase = $_POST['rice_purchase_' . $i] ?? '';
 		$seed = $_POST['seed_' . $i] ?? '';
 		$fertilizer = $_POST['fertilizer_' . $i] ?? '';
@@ -1336,6 +1195,7 @@ function save_apex_agro_work_professions($survey_id)
 
 		if (
 			$wheat_purchase == '' &&
+			$fin_year == '' &&
 			$rice_purchase == '' &&
 			$seed == '' &&
 			$fertilizer == '' &&
@@ -1350,6 +1210,7 @@ function save_apex_agro_work_professions($survey_id)
         (
             survey_id,
             row_no,
+            fin_year,
             wheat_purchase,
             rice_purchase,
             seed,
@@ -1364,6 +1225,7 @@ function save_apex_agro_work_professions($survey_id)
         (
             "' . $survey_id . '",
             "' . $i . '",
+            "' . $fin_year . '",
             "' . $wheat_purchase . '",
             "' . $rice_purchase . '",
             "' . $seed . '",
@@ -1397,10 +1259,15 @@ function saveApexEmptyLandInfo($survey_id)
 	for ($i = 1; $i <= $totalRows; $i++) {
 		$district = $_POST['sec_3_c_district_' . $i] ?? '';
 		$area = $_POST['sec_3_c_area_' . $i] ?? '';
+		$add = $_POST['sec_3_c_add_' . $i] ?? '';
+		$area = is_numeric($area) ? $area : 0;
 		$road = $_POST['sec_3_c_paved_road_' . $i] ?? '';
 		$location = $_POST['sec_3_c_land_location_' . $i] ?? '';
+		$property_type = $_POST['sec_3_c_property_type_' . $i] ?? '';
+		$building_type = $_POST['sec_3_c_building_type_' . $i] ?? '';
+		$building_desc = $_POST['sec_3_c_building_desc_' . $i] ?? '';
 
-		if ($district == '' && $area == '' && $road == '' && $location == '')
+		if ($district == '' && $area == 0 && $road == '' && $location == '' && $property_type == '')
 			continue;
 
 		$existingImage = $_POST['sec_3_c_existing_image_' . $i] ?? '';
@@ -1451,24 +1318,102 @@ function saveApexEmptyLandInfo($survey_id)
 			}
 		}
 
-		$sql = 'INSERT INTO apex_empty_land_info
+	 $sql = 'INSERT INTO apex_empty_land_info
         (
             survey_id,
             sec_3_c_district,
             sec_3_c_area,
+			sec_3_c_add,
             sec_3_c_paved_road,
             sec_3_c_land_location,
+            sec_3_c_property_type,
+            sec_3_c_building_type,
+            sec_3_c_building_desc,
             sec_3_c_image
-        )
-        VALUES
-        (
+        ) VALUES (
             "' . $survey_id . '",
             "' . $district . '",
             "' . $area . '",
+            "' . $add . '",
             "' . $road . '",
             "' . $location . '",
+            "' . $property_type . '",
+            "' . $building_type . '",
+            "' . $building_desc . '",
             "' . $imageName . '"
         )';
+
+		execute_query($sql);
+	}
+}
+
+function save_outer_office_details($survey_id)
+{
+	if (!$survey_id) {
+		return false;
+	}
+	if (!isset($_POST['outer_office_name']))
+		return;
+
+	$names = $_POST['outer_office_name'];
+	$districts = $_POST['outer_office_district'] ?? [];
+	$mobiles = $_POST['outer_office_mobile'] ?? [];
+	$emails = $_POST['outer_office_email'] ?? [];
+	$addresses = $_POST['outer_office_address'] ?? [];
+	$existing_images = $_POST['existing_outer_image'] ?? [];
+
+	$row_count = count($names);
+
+	execute_query('DELETE FROM apex_outer_office_details WHERE survey_id="' . $survey_id . '"');
+
+	$upload_dir = dirname(__DIR__) . "/user_data/society_img/";
+
+	if (!is_dir($upload_dir)) {
+		mkdir($upload_dir, 0777, true);
+	}
+
+	for ($i = 0; $i < $row_count; $i++) {
+
+		$office_name = trim($names[$i] ?? '');
+		$office_district = trim($districts[$i] ?? '');
+		$office_mobile = trim($mobiles[$i] ?? '');
+		$office_email = trim($emails[$i] ?? '');
+		$office_address = trim($addresses[$i] ?? '');
+
+		if ($office_name == '' && $office_district == '' && $office_mobile == '' && $office_email == '' && $office_address == '') {
+			continue;
+		}
+
+		$office_image = $existing_images[$i] ?? '';
+
+		if (!empty($_FILES['outer_office_image']['name'][$i])) {
+
+			$original = $_FILES['outer_office_image']['name'][$i];
+			$tmp = $_FILES['outer_office_image']['tmp_name'][$i];
+
+			$ext = strtolower(pathinfo($original, PATHINFO_EXTENSION));
+
+			if (in_array($ext, ['jpg', 'jpeg', 'png', 'gif'])) {
+
+				$file_name = time() . '_' . $survey_id . '_outer_office_' . $i . '.' . $ext;
+
+				if (move_uploaded_file($tmp, $upload_dir . $file_name)) {
+					$office_image = $file_name;
+				}
+			}
+		}
+
+		$sql = 'INSERT INTO apex_outer_office_details
+        (survey_id,outer_office_name,outer_office_district,outer_office_mobile,outer_office_email,outer_office_address,outer_office_image,created_at)
+        VALUES
+        ("' . $survey_id . '",
+        "' . $office_name . '",
+        "' . $office_district . '",
+        "' . $office_mobile . '",
+        "' . $office_email . '",
+        "' . $office_address . '",
+        "' . $office_image . '",
+        "' . date("Y-m-d H:i:s") . '")';
 
 		execute_query($sql);
 	}

@@ -1,6 +1,6 @@
 <?php
 include("scripts/settings.php");
-// error_reporting(E_ALL);
+//  error_reporting(E_ALL);
 $msg = '';
 $tab = 1;
 
@@ -10,6 +10,66 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 if (isset($_POST['submit'])) {
+
+
+
+// ================= NCD LOGIN START =================
+
+    $username = trim($_POST['username'] ?? '');
+    $password = trim($_POST['userpwd'] ?? '');
+
+    if ($username !== '' && $password !== '') {
+
+        $sql = "SELECT u.*, t.type_name 
+            FROM ncd_users u
+            JOIN ncd_user_type t ON u.type_id = t.id
+            WHERE u.u_name = '$username'
+            AND u.u_pass = '$password'
+            AND u.is_active = 1
+            LIMIT 1";
+
+        $result = execute_query($sql);
+
+        if ($result && mysqli_num_rows($result) > 0) {
+
+            $row = mysqli_fetch_assoc($result);
+
+            // -------- SESSION COMMON --------
+            $_SESSION['ncd_user']     = true;
+            $_SESSION['usersno']  = $row['id'];
+            $_SESSION['username']     = $row['u_name'];
+            $_SESSION['name']    = $row['name'];
+            $_SESSION['usertype']     = $row['type_name'];
+            $_SESSION['user_type']     = $row['type_name'];
+
+            // ⭐ IMPORTANT (MISSING BEFORE)
+            $_SESSION['admin_session'] = 1;
+            $_SESSION['show_links_page'] = 1;
+
+            // -------- ROLE BASED --------
+            if ($row['type_name'] === 'ncd_checker') {
+                $_SESSION['division_id']   = $row['division_id'];
+                $_SESSION['division_name'] = $row['division_name'];
+            }
+
+            if ($row['type_name'] === 'ncd_maker') {
+                $_SESSION['district_id']   = $row['district_id'];
+                $_SESSION['district_name'] = $row['district_name'];
+            }
+
+            // -------- REDIRECT --------
+//            header("Location: index_3.php");
+            header("Location: Ncd_Reports/dashboard_cooperatives.php");
+            exit;
+        } else {
+            $msg = '<h4 class="alert alert-danger">Invalid NCD Username or Password</h4>';
+        }
+    }
+
+// ================= NCD LOGIN END =================
+
+
+
     if (isset($_POST['mobile_number'])) {
         $sql = 'select * from session where sno="' . $_SESSION['session_insert_id'] . '"';
         $session_row = mysqli_fetch_assoc(execute_query($sql));

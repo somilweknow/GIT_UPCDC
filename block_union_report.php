@@ -447,7 +447,7 @@ $godown_filter = isset($_GET['godown_suitable']) ? trim($_GET['godown_suitable']
     </div>
 
     <div class="table-container">
-        <div class="table-wrap">
+    <div class="table-wrap table-responsive">
             <table id="general_stat_table" class="report-table">
                 <thead>
                     <tr>

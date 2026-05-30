@@ -375,7 +375,7 @@ $res = mysqli_query($db, $sql);
     <!-- <button onclick="downloadPDF()">Download PDF</button> -->
   </div>
 
-  <div class="table-wrap">
+  <div class="table-wrap table-responsive">
     <table id="general_stat_table" class="report-table concise">
       <thead>
         <tr>

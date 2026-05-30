@@ -34,7 +34,8 @@ tfoot{display:table-footer-group;}
 
 echo "<h3>Society Geo Location Status Report</h3>";
 
-echo "<table>
+echo "<div class='table-responsive'>
+<table class='table table-bordered table-striped'>
 <thead>
 <tr>
 <th>S.No</th>
@@ -114,7 +115,7 @@ echo "</tbody>
 <td>{$tot['cll']}</td>
 </tr>
 </tfoot>
-</table>";
+</table></div>";
 ?>
 
 </div>
@@ -135,3 +136,8 @@ function downloadPDF() {
     html2pdf().set(opt).from(element).save();
 }
 </script>
+
+<?php
+page_footer_start();
+page_footer_end();
+?>

@@ -1,0 +1,1282 @@
+[15-May-2026 10:15:25 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[15-May-2026 10:15:25 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[15-May-2026 15:45:25 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 15:45:25 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 15:45:25 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 15:45:25 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 15:45:25 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 15:45:25 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 15:45:25 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 15:45:25 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 15:45:25 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 15:45:25 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 15:45:25 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 15:45:25 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 15:45:25 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 15:45:25 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 15:45:25 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 15:45:25 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 15:45:25 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 15:45:25 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 15:45:25 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 509
+[15-May-2026 15:45:25 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 519
+[15-May-2026 10:19:30 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[15-May-2026 10:19:30 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[15-May-2026 15:49:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 15:49:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 15:49:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 15:49:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 15:49:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 15:49:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 15:49:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 15:49:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 15:49:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 15:49:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 15:49:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 15:49:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 15:49:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 15:49:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 15:49:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 15:49:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 15:49:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 15:49:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 15:49:30 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 509
+[15-May-2026 15:49:30 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 519
+[15-May-2026 10:34:41 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[15-May-2026 10:34:41 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[15-May-2026 16:04:41 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:04:41 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:04:41 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:04:41 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:04:41 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:04:41 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:04:41 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:04:41 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:04:41 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:04:41 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:04:41 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:04:41 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:04:41 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:04:41 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:04:41 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:04:41 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:04:41 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:04:41 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:04:41 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 509
+[15-May-2026 16:04:41 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 519
+[15-May-2026 16:07:40 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[15-May-2026 16:07:40 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[15-May-2026 16:07:46 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[15-May-2026 16:07:46 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[15-May-2026 16:07:57 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[15-May-2026 16:07:57 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[15-May-2026 16:07:58 Asia/Calcutta] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'upcdc_2025.ncd_cooperatives_validation' doesn't exist in /home1/upcdc/public_html/scripts/settings_dbase.php:20
+Stack trace:
+#0 /home1/upcdc/public_html/scripts/settings_dbase.php(20): mysqli_query(Object(mysqli), '\r\n        SELEC...')
+#1 /home1/upcdc/public_html/Ncd_Reports/helpers/ncd_status_helper.php(106): execute_query('\r\n        SELEC...')
+#2 /home1/upcdc/public_html/Ncd_Reports/fetch_cooperatives.php(63): getValidationStatus(186)
+#3 {main}
+  thrown in /home1/upcdc/public_html/scripts/settings_dbase.php on line 20
+[15-May-2026 10:38:14 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[15-May-2026 10:38:14 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[15-May-2026 16:08:14 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:08:14 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:08:14 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:08:14 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:08:14 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:08:14 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:08:14 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:08:14 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:08:14 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:08:14 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:08:14 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:08:14 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:08:14 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:08:14 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:08:14 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:08:14 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:08:14 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:08:14 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:08:14 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 509
+[15-May-2026 16:08:14 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 519
+[15-May-2026 10:39:27 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[15-May-2026 10:39:27 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[15-May-2026 16:09:27 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:09:27 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:09:27 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:09:27 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:09:27 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:09:27 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:09:27 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:09:27 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:09:27 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:09:27 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:09:27 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:09:27 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:09:27 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:09:27 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:09:27 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:09:27 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:09:27 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:09:27 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:09:27 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 509
+[15-May-2026 16:09:27 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 519
+[15-May-2026 10:39:54 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[15-May-2026 10:39:54 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[15-May-2026 10:40:47 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[15-May-2026 10:40:47 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[15-May-2026 16:10:47 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:10:47 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:10:47 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:10:47 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:10:47 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:10:47 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:10:47 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:10:47 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:10:47 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:10:47 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:10:47 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:10:47 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:10:47 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:10:47 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:10:47 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:10:47 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:10:47 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:10:47 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:10:47 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 509
+[15-May-2026 16:10:47 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 519
+[15-May-2026 10:41:09 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[15-May-2026 10:41:09 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[15-May-2026 16:11:09 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:11:09 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:11:09 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:11:09 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:11:09 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:11:09 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:11:09 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:11:09 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:11:09 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:11:09 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:11:09 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:11:09 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:11:09 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:11:09 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:11:09 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:11:09 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:11:09 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:11:09 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:11:09 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 509
+[15-May-2026 16:11:09 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 519
+[15-May-2026 10:42:00 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[15-May-2026 10:42:00 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[15-May-2026 16:12:00 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:12:00 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:12:00 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:12:00 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:12:00 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:12:00 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:12:00 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:12:00 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:12:00 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:12:00 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:12:00 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:12:00 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:12:00 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:12:00 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:12:00 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:12:00 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:12:00 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:12:00 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:12:00 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 509
+[15-May-2026 16:12:00 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 519
+[15-May-2026 10:42:29 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[15-May-2026 10:42:29 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[15-May-2026 16:12:29 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:12:29 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:12:29 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:12:29 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:12:29 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:12:29 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:12:29 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:12:29 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:12:29 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:12:29 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:12:29 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:12:29 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:12:29 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:12:29 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:12:29 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:12:29 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:12:29 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:12:29 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:12:29 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 509
+[15-May-2026 16:12:29 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 519
+[15-May-2026 10:42:50 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[15-May-2026 10:42:50 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[15-May-2026 16:12:50 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:12:50 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:12:50 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:12:50 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:12:50 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:12:50 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:12:50 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:12:50 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:12:50 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:12:50 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:12:50 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:12:50 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:12:50 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:12:50 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:12:50 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:12:50 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:12:50 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:12:50 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:12:50 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 509
+[15-May-2026 16:12:50 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 519
+[15-May-2026 10:43:08 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[15-May-2026 10:43:08 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[15-May-2026 16:13:08 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:13:08 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:13:08 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:13:08 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:13:08 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:13:08 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:13:08 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:13:08 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:13:08 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:13:08 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:13:08 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:13:08 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:13:08 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:13:08 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:13:08 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:13:08 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:13:08 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:13:08 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:13:08 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 509
+[15-May-2026 16:13:08 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 519
+[15-May-2026 16:14:24 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[15-May-2026 16:14:24 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[15-May-2026 16:15:30 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[15-May-2026 16:15:30 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[15-May-2026 16:15:41 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[15-May-2026 16:15:41 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[15-May-2026 16:16:46 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[15-May-2026 16:16:46 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[15-May-2026 10:47:54 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[15-May-2026 10:47:54 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[15-May-2026 16:17:54 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:17:54 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:17:54 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:17:54 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:17:54 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:17:54 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:17:54 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:17:54 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:17:54 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:17:54 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:17:54 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:17:54 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:17:54 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:17:54 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:17:54 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:17:54 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:17:54 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:17:54 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:17:54 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 509
+[15-May-2026 16:17:54 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 519
+[15-May-2026 10:49:03 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[15-May-2026 10:49:03 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[15-May-2026 16:19:03 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:19:03 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:19:03 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:19:03 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:19:03 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:19:03 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:19:03 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:19:03 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:19:03 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:19:03 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:19:03 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:19:03 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:19:03 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:19:03 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:19:03 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:19:03 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:19:03 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:19:03 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:19:03 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 509
+[15-May-2026 16:19:03 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 519
+[15-May-2026 16:19:03 Asia/Calcutta] PHP Warning:  Undefined variable $dept_id in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 561
+[15-May-2026 16:19:03 Asia/Calcutta] PHP Warning:  Undefined array key "user_type" in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 911
+[15-May-2026 16:19:24 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[15-May-2026 16:19:24 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[15-May-2026 10:49:25 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[15-May-2026 10:49:25 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[15-May-2026 16:19:25 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:19:25 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:19:25 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:19:25 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:19:25 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:19:25 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:19:25 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:19:25 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:19:25 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:19:25 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:19:25 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:19:25 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:19:25 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:19:25 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:19:25 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:19:25 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:19:25 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:19:25 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:19:25 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 509
+[15-May-2026 16:19:25 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 519
+[15-May-2026 16:20:12 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[15-May-2026 16:20:12 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[15-May-2026 16:20:37 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[15-May-2026 16:20:37 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[15-May-2026 16:21:17 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[15-May-2026 16:21:17 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[15-May-2026 16:22:00 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[15-May-2026 16:22:00 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[15-May-2026 10:54:10 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[15-May-2026 10:54:10 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[15-May-2026 16:24:10 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:24:10 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:24:10 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:24:10 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:24:10 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:24:10 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:24:10 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:24:10 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:24:10 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:24:10 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:24:10 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:24:10 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:24:10 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:24:10 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:24:10 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:24:10 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:24:10 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:24:10 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:24:10 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 509
+[15-May-2026 16:24:10 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 519
+[15-May-2026 10:54:22 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[15-May-2026 10:54:22 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[15-May-2026 10:54:37 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[15-May-2026 10:54:37 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[15-May-2026 16:24:37 Asia/Calcutta] PHP Warning:  Undefined array key "user_type" in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 4
+[15-May-2026 10:54:48 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[15-May-2026 10:54:48 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[15-May-2026 16:24:48 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:24:48 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:24:48 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:24:48 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:24:48 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:24:48 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:24:48 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:24:48 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:24:48 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:24:48 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:24:48 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:24:48 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:24:48 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:24:48 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:24:48 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:24:48 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:24:48 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:24:48 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:24:48 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 509
+[15-May-2026 16:24:48 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 519
+[15-May-2026 16:40:46 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[15-May-2026 16:40:46 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[15-May-2026 11:15:35 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[15-May-2026 11:15:35 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[15-May-2026 16:45:35 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:45:35 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:45:35 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:45:35 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:45:35 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:45:35 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:45:35 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:45:35 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:45:35 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:45:35 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:45:35 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:45:35 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:45:35 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:45:35 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:45:35 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:45:35 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:45:35 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:45:35 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:45:35 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 509
+[15-May-2026 16:45:35 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 519
+[15-May-2026 11:17:07 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[15-May-2026 11:17:07 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[15-May-2026 16:47:07 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:47:07 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:47:07 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:47:07 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:47:07 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:47:07 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:47:07 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:47:07 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:47:07 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:47:07 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:47:07 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:47:07 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:47:07 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:47:07 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:47:07 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:47:07 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:47:07 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:47:07 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:47:07 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 509
+[15-May-2026 16:47:07 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 519
+[15-May-2026 16:47:07 Asia/Calcutta] PHP Warning:  Undefined variable $dept_id in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 562
+[15-May-2026 16:47:07 Asia/Calcutta] PHP Warning:  Undefined array key "user_type" in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 912
+[15-May-2026 11:17:34 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[15-May-2026 11:17:34 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[15-May-2026 16:47:34 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:47:34 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:47:34 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:47:34 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:47:34 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:47:34 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:47:34 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:47:34 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:47:34 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:47:34 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:47:34 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:47:34 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:47:34 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:47:34 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:47:34 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:47:34 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:47:34 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:47:34 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:47:34 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 509
+[15-May-2026 16:47:34 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 519
+[15-May-2026 16:47:34 Asia/Calcutta] PHP Warning:  Undefined variable $dept_id in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 562
+[15-May-2026 16:47:34 Asia/Calcutta] PHP Warning:  Undefined array key "user_type" in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 912
+[15-May-2026 11:17:37 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[15-May-2026 11:17:37 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[15-May-2026 16:47:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:47:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:47:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:47:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:47:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:47:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:47:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:47:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:47:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:47:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:47:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:47:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:47:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:47:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:47:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:47:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 16:47:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 16:47:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 16:47:37 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 509
+[15-May-2026 16:47:37 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 519
+[15-May-2026 16:47:37 Asia/Calcutta] PHP Warning:  Undefined variable $dept_id in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 562
+[15-May-2026 16:47:37 Asia/Calcutta] PHP Warning:  Undefined array key "user_type" in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 912
+[15-May-2026 12:38:49 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[15-May-2026 12:38:49 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[15-May-2026 18:08:49 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 18:08:49 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 18:08:49 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 18:08:49 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 18:08:49 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 18:08:49 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 18:08:49 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 18:08:49 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 18:08:49 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 18:08:49 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 18:08:49 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 18:08:49 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 18:08:49 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 18:08:49 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 18:08:49 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 18:08:49 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 18:08:49 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 18:08:49 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 18:08:49 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 509
+[15-May-2026 18:08:49 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 519
+[15-May-2026 18:08:49 Asia/Calcutta] PHP Warning:  Undefined variable $dept_id in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 562
+[15-May-2026 18:08:49 Asia/Calcutta] PHP Warning:  Undefined array key "user_type" in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 912
+[15-May-2026 12:42:14 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[15-May-2026 12:42:14 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[15-May-2026 18:12:14 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 18:12:14 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 18:12:14 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 18:12:14 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 18:12:14 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 18:12:14 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 18:12:14 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 18:12:14 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 18:12:14 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 18:12:14 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 18:12:14 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 18:12:14 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 18:12:14 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 18:12:14 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 18:12:14 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 18:12:14 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 18:12:14 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 18:12:14 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 18:12:14 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 509
+[15-May-2026 18:12:14 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 519
+[15-May-2026 18:12:14 Asia/Calcutta] PHP Warning:  Undefined variable $dept_id in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 562
+[15-May-2026 18:12:14 Asia/Calcutta] PHP Warning:  Undefined array key "user_type" in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 912
+[15-May-2026 18:12:22 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[15-May-2026 18:12:22 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[15-May-2026 18:12:27 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[15-May-2026 18:12:27 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[15-May-2026 18:12:29 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[15-May-2026 18:12:29 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[15-May-2026 12:42:37 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[15-May-2026 12:42:37 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[15-May-2026 18:12:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 18:12:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 18:12:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 18:12:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 18:12:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 18:12:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 18:12:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 18:12:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 18:12:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 18:12:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 18:12:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 18:12:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 18:12:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 18:12:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 18:12:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 18:12:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 18:12:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 18:12:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 18:12:37 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 509
+[15-May-2026 18:12:37 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 519
+[15-May-2026 18:12:37 Asia/Calcutta] PHP Warning:  Undefined variable $dept_id in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 562
+[15-May-2026 18:12:37 Asia/Calcutta] PHP Warning:  Undefined array key "user_type" in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 912
+[15-May-2026 18:12:47 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[15-May-2026 18:12:47 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[15-May-2026 18:12:48 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[15-May-2026 18:12:48 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[15-May-2026 18:12:52 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[15-May-2026 18:12:52 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[15-May-2026 18:13:07 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[15-May-2026 18:13:07 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[15-May-2026 18:13:09 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[15-May-2026 18:13:09 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[15-May-2026 12:43:21 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[15-May-2026 12:43:21 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[15-May-2026 18:13:21 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 18:13:21 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 18:13:21 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 18:13:21 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 18:13:21 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 18:13:21 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 18:13:21 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 18:13:21 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 18:13:21 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 18:13:21 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 18:13:21 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 18:13:21 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 18:13:21 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 18:13:21 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 18:13:21 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 18:13:21 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[15-May-2026 18:13:21 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[15-May-2026 18:13:21 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[15-May-2026 18:13:21 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 509
+[15-May-2026 18:13:21 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 519
+[15-May-2026 18:13:21 Asia/Calcutta] PHP Warning:  Undefined variable $dept_id in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 562
+[15-May-2026 18:13:21 Asia/Calcutta] PHP Warning:  Undefined array key "user_type" in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 912
+[16-May-2026 09:11:15 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[16-May-2026 09:11:15 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[16-May-2026 14:41:15 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[16-May-2026 14:41:15 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[16-May-2026 14:41:15 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[16-May-2026 14:41:15 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[16-May-2026 14:41:15 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[16-May-2026 14:41:15 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[16-May-2026 14:41:15 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[16-May-2026 14:41:15 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[16-May-2026 14:41:15 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[16-May-2026 14:41:15 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[16-May-2026 14:41:15 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[16-May-2026 14:41:15 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[16-May-2026 14:41:15 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[16-May-2026 14:41:15 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[16-May-2026 14:41:15 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[16-May-2026 14:41:15 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[16-May-2026 14:41:15 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[16-May-2026 14:41:15 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[16-May-2026 14:41:15 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 509
+[16-May-2026 14:41:15 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 519
+[16-May-2026 14:41:15 Asia/Calcutta] PHP Warning:  Undefined variable $dept_id in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 562
+[16-May-2026 14:41:15 Asia/Calcutta] PHP Warning:  Undefined array key "user_type" in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 912
+[16-May-2026 10:37:28 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[16-May-2026 10:37:28 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[16-May-2026 16:07:28 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[16-May-2026 16:07:28 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[16-May-2026 16:07:28 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[16-May-2026 16:07:28 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[16-May-2026 16:07:28 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[16-May-2026 16:07:28 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[16-May-2026 16:07:28 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[16-May-2026 16:07:28 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[16-May-2026 16:07:28 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[16-May-2026 16:07:28 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[16-May-2026 16:07:28 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[16-May-2026 16:07:28 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[16-May-2026 16:07:28 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[16-May-2026 16:07:28 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[16-May-2026 16:07:28 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[16-May-2026 16:07:28 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[16-May-2026 16:07:28 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[16-May-2026 16:07:28 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[16-May-2026 16:07:28 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 509
+[16-May-2026 16:07:28 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 519
+[16-May-2026 16:07:28 Asia/Calcutta] PHP Warning:  Undefined variable $dept_id in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 562
+[16-May-2026 16:07:28 Asia/Calcutta] PHP Warning:  Undefined array key "user_type" in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 912
+[16-May-2026 16:15:03 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:15:03 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 10:45:06 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[16-May-2026 10:45:06 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[16-May-2026 16:15:06 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[16-May-2026 16:15:06 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[16-May-2026 16:15:06 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[16-May-2026 16:15:06 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[16-May-2026 16:15:06 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[16-May-2026 16:15:06 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[16-May-2026 16:15:06 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[16-May-2026 16:15:06 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[16-May-2026 16:15:06 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[16-May-2026 16:15:06 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[16-May-2026 16:15:06 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[16-May-2026 16:15:06 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[16-May-2026 16:15:06 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[16-May-2026 16:15:06 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[16-May-2026 16:15:06 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[16-May-2026 16:15:06 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 434
+[16-May-2026 16:15:06 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 429
+[16-May-2026 16:15:06 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 466
+[16-May-2026 16:15:06 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 509
+[16-May-2026 16:15:06 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 519
+[16-May-2026 16:15:06 Asia/Calcutta] PHP Warning:  Undefined variable $dept_id in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 562
+[16-May-2026 16:15:06 Asia/Calcutta] PHP Warning:  Undefined array key "user_type" in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 912
+[16-May-2026 10:46:57 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[16-May-2026 10:46:57 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[16-May-2026 16:16:57 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:16:57 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:16:57 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:16:57 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:16:57 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:16:57 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:16:57 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:16:57 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:16:57 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:16:57 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:16:57 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:16:57 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:16:57 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:16:57 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:16:57 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:16:57 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:16:57 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:16:57 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:16:57 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 510
+[16-May-2026 16:16:57 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 520
+[16-May-2026 16:16:57 Asia/Calcutta] PHP Warning:  Undefined variable $dept_id in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 562
+[16-May-2026 16:16:57 Asia/Calcutta] PHP Warning:  Undefined array key "user_type" in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 912
+[16-May-2026 16:17:08 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 59
+[16-May-2026 16:17:08 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 231
+[16-May-2026 10:47:12 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[16-May-2026 10:47:12 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[16-May-2026 16:17:12 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:17:12 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:17:12 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:17:12 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:17:12 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:17:12 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:17:12 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:17:12 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:17:12 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:17:12 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:17:12 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:17:12 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:17:12 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:17:12 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:17:12 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:17:12 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:17:12 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:17:12 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:17:12 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 510
+[16-May-2026 16:17:12 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 520
+[16-May-2026 16:17:12 Asia/Calcutta] PHP Warning:  Undefined variable $dept_id in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 562
+[16-May-2026 16:17:12 Asia/Calcutta] PHP Warning:  Undefined array key "user_type" in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 912
+[16-May-2026 10:47:30 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[16-May-2026 10:47:30 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[16-May-2026 16:17:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:17:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:17:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:17:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:17:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:17:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:17:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:17:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:17:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:17:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:17:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:17:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:17:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:17:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:17:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:17:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:17:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:17:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:17:30 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 510
+[16-May-2026 16:17:30 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 520
+[16-May-2026 16:17:30 Asia/Calcutta] PHP Warning:  Undefined variable $dept_id in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 562
+[16-May-2026 16:17:30 Asia/Calcutta] PHP Warning:  Undefined array key "user_type" in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 912
+[16-May-2026 10:49:05 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[16-May-2026 10:49:05 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[16-May-2026 16:19:05 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:19:05 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:19:05 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:19:05 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:19:05 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:19:05 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:19:05 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:19:05 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:19:05 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:19:05 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:19:05 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:19:05 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:19:05 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:19:05 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:19:05 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:19:05 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:19:05 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:19:05 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:19:05 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 510
+[16-May-2026 16:19:05 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 520
+[16-May-2026 16:19:05 Asia/Calcutta] PHP Warning:  Undefined variable $dept_id in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 562
+[16-May-2026 16:19:05 Asia/Calcutta] PHP Warning:  Undefined array key "user_type" in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 912
+[16-May-2026 10:50:04 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[16-May-2026 10:50:04 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[16-May-2026 16:20:04 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:20:04 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:20:04 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:20:04 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:20:04 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:20:04 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:20:04 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:20:04 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:20:04 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:20:04 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:20:04 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:20:04 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:20:04 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:20:04 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:20:04 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:20:04 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:20:04 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:20:04 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:20:04 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 510
+[16-May-2026 16:20:04 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 520
+[16-May-2026 16:20:04 Asia/Calcutta] PHP Warning:  Undefined variable $dept_id in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 562
+[16-May-2026 16:20:04 Asia/Calcutta] PHP Warning:  Undefined array key "user_type" in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 912
+[16-May-2026 10:50:27 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[16-May-2026 10:50:27 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[16-May-2026 16:20:27 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:20:27 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:20:27 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:20:27 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:20:27 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:20:27 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:20:27 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:20:27 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:20:27 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:20:27 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:20:27 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:20:27 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:20:27 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:20:27 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:20:27 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:20:27 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:20:27 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:20:27 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:20:27 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 510
+[16-May-2026 16:20:27 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 520
+[16-May-2026 16:20:27 Asia/Calcutta] PHP Warning:  Undefined variable $dept_id in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 562
+[16-May-2026 16:20:27 Asia/Calcutta] PHP Warning:  Undefined array key "user_type" in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 912
+[16-May-2026 10:51:01 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[16-May-2026 10:51:01 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[16-May-2026 16:21:01 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:21:01 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:21:01 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:21:01 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:21:01 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:21:01 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:21:01 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:21:01 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:21:01 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:21:01 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:21:01 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:21:01 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:21:01 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:21:01 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:21:01 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:21:01 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:21:01 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:21:01 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:21:01 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 510
+[16-May-2026 16:21:01 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 520
+[16-May-2026 10:51:28 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[16-May-2026 10:51:28 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[16-May-2026 16:21:28 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:21:28 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:21:28 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:21:28 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:21:28 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:21:28 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:21:28 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:21:28 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:21:28 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:21:28 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:21:28 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:21:28 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:21:28 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:21:28 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:21:28 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:21:28 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:21:28 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:21:28 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:21:28 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 510
+[16-May-2026 16:21:28 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 520
+[16-May-2026 10:51:37 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[16-May-2026 10:51:37 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[16-May-2026 16:21:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:21:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:21:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:21:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:21:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:21:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:21:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:21:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:21:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:21:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:21:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:21:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:21:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:21:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:21:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:21:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:21:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:21:37 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:21:37 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 510
+[16-May-2026 16:21:37 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 520
+[16-May-2026 10:52:30 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[16-May-2026 10:52:30 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[16-May-2026 16:22:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:22:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:22:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:22:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:22:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:22:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:22:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:22:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:22:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:22:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:22:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:22:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:22:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:22:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:22:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:22:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:22:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:22:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:22:30 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 510
+[16-May-2026 16:22:30 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 520
+[16-May-2026 10:52:39 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[16-May-2026 10:52:39 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[16-May-2026 16:22:39 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:22:39 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:22:39 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:22:39 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:22:39 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:22:39 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:22:39 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:22:39 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:22:39 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:22:39 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:22:39 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:22:39 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:22:39 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:22:39 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:22:39 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:22:39 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:22:39 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:22:39 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:22:39 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 510
+[16-May-2026 16:22:39 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 520
+[16-May-2026 10:53:17 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[16-May-2026 10:53:17 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[16-May-2026 16:23:17 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:23:17 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:23:17 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:23:17 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:23:17 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:23:17 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:23:17 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:23:17 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:23:17 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:23:17 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:23:17 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:23:17 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:23:17 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:23:17 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:23:17 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:23:17 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:23:17 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:23:17 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:23:17 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 510
+[16-May-2026 16:23:17 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 520
+[16-May-2026 10:57:02 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[16-May-2026 10:57:02 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[16-May-2026 16:27:02 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:27:02 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:27:02 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:27:02 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:27:02 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:27:02 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:27:02 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:27:02 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:27:02 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:27:02 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:27:02 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:27:02 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:27:02 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:27:02 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:27:02 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:27:02 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:27:02 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:27:02 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:27:02 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 510
+[16-May-2026 16:27:02 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 520
+[16-May-2026 16:27:21 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 59
+[16-May-2026 16:27:21 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 231
+[16-May-2026 16:27:23 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 59
+[16-May-2026 16:27:23 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 231
+[16-May-2026 16:27:25 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 59
+[16-May-2026 16:27:25 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 231
+[16-May-2026 16:27:41 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 59
+[16-May-2026 16:27:41 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 231
+[16-May-2026 10:57:45 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[16-May-2026 10:57:45 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[16-May-2026 16:27:45 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:27:45 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:27:45 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:27:45 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:27:45 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:27:45 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:27:45 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:27:45 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:27:45 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:27:45 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:27:45 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:27:45 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:27:45 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:27:45 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:27:45 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:27:45 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:27:45 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:27:45 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:27:45 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 510
+[16-May-2026 16:27:45 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 520
+[16-May-2026 10:58:38 UTC] PHP Parse error:  syntax error, unexpected token "<", expecting end of file in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 8
+[16-May-2026 10:58:59 UTC] PHP Parse error:  syntax error, unexpected token "<", expecting end of file in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 10
+[16-May-2026 10:59:01 UTC] PHP Parse error:  syntax error, unexpected token "<", expecting end of file in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 10
+[16-May-2026 11:02:59 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[16-May-2026 11:02:59 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[16-May-2026 16:32:59 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:32:59 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:32:59 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:32:59 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:32:59 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:32:59 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:32:59 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:32:59 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:32:59 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:32:59 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:32:59 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:32:59 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:32:59 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:32:59 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:32:59 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:32:59 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 435
+[16-May-2026 16:32:59 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 430
+[16-May-2026 16:32:59 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 467
+[16-May-2026 16:32:59 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 510
+[16-May-2026 16:32:59 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 520
+[16-May-2026 16:32:59 Asia/Calcutta] PHP Warning:  Undefined variable $dept_id in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 561
+[16-May-2026 16:32:59 Asia/Calcutta] PHP Warning:  Undefined array key "user_type" in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 911
+[16-May-2026 11:04:10 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[16-May-2026 11:04:10 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[16-May-2026 16:34:10 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 431
+[16-May-2026 16:34:10 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 468
+[16-May-2026 16:34:10 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 431
+[16-May-2026 16:34:10 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 468
+[16-May-2026 16:34:10 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 431
+[16-May-2026 16:34:10 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 436
+[16-May-2026 16:34:10 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 431
+[16-May-2026 16:34:10 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 436
+[16-May-2026 16:34:10 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 431
+[16-May-2026 16:34:10 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 436
+[16-May-2026 16:34:10 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 431
+[16-May-2026 16:34:10 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 468
+[16-May-2026 16:34:10 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 431
+[16-May-2026 16:34:10 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 436
+[16-May-2026 16:34:10 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 431
+[16-May-2026 16:34:10 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 436
+[16-May-2026 16:34:10 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 431
+[16-May-2026 16:34:10 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 468
+[16-May-2026 16:34:10 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 511
+[16-May-2026 16:34:10 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 521
+[16-May-2026 16:34:10 Asia/Calcutta] PHP Warning:  Undefined variable $dept_id in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 561
+[16-May-2026 16:34:10 Asia/Calcutta] PHP Warning:  Undefined array key "user_type" in /home1/upcdc/public_html/Ncd_Reports/add_ncd_user.php on line 911
+[16-May-2026 11:04:30 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[16-May-2026 11:04:30 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[16-May-2026 16:34:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 431
+[16-May-2026 16:34:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 468
+[16-May-2026 16:34:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 431
+[16-May-2026 16:34:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 468
+[16-May-2026 16:34:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 431
+[16-May-2026 16:34:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 436
+[16-May-2026 16:34:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 431
+[16-May-2026 16:34:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 436
+[16-May-2026 16:34:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 431
+[16-May-2026 16:34:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 436
+[16-May-2026 16:34:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 431
+[16-May-2026 16:34:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 468
+[16-May-2026 16:34:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 431
+[16-May-2026 16:34:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 436
+[16-May-2026 16:34:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 431
+[16-May-2026 16:34:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 436
+[16-May-2026 16:34:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 431
+[16-May-2026 16:34:30 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 468
+[16-May-2026 16:34:30 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 511
+[16-May-2026 16:34:30 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 521
+[16-May-2026 11:05:41 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[16-May-2026 11:05:41 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[16-May-2026 16:35:41 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 431
+[16-May-2026 16:35:41 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 468
+[16-May-2026 16:35:41 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 431
+[16-May-2026 16:35:41 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 468
+[16-May-2026 16:35:41 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 431
+[16-May-2026 16:35:41 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 436
+[16-May-2026 16:35:41 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 431
+[16-May-2026 16:35:41 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 436
+[16-May-2026 16:35:41 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 431
+[16-May-2026 16:35:41 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 436
+[16-May-2026 16:35:41 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 431
+[16-May-2026 16:35:41 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 468
+[16-May-2026 16:35:41 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 431
+[16-May-2026 16:35:41 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 436
+[16-May-2026 16:35:41 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 431
+[16-May-2026 16:35:41 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 436
+[16-May-2026 16:35:41 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 431
+[16-May-2026 16:35:41 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 468
+[16-May-2026 16:35:41 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 511
+[16-May-2026 16:35:41 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 521
+[16-May-2026 11:07:34 UTC] PHP Warning:  session_cache_limiter(): Session cache limiter cannot be changed after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 3
+[16-May-2026 11:07:34 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home1/upcdc/public_html/scripts/settings.php on line 4
+[16-May-2026 16:37:34 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 431
+[16-May-2026 16:37:34 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 468
+[16-May-2026 16:37:34 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 431
+[16-May-2026 16:37:34 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 468
+[16-May-2026 16:37:34 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 431
+[16-May-2026 16:37:34 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 436
+[16-May-2026 16:37:34 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 431
+[16-May-2026 16:37:34 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 436
+[16-May-2026 16:37:34 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 431
+[16-May-2026 16:37:34 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 436
+[16-May-2026 16:37:34 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 431
+[16-May-2026 16:37:34 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 468
+[16-May-2026 16:37:34 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 431
+[16-May-2026 16:37:34 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 436
+[16-May-2026 16:37:34 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 431
+[16-May-2026 16:37:34 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 436
+[16-May-2026 16:37:34 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 431
+[16-May-2026 16:37:34 Asia/Calcutta] PHP Warning:  Undefined array key "usertype" in /home1/upcdc/public_html/scripts/settings.php on line 468
+[16-May-2026 16:37:34 Asia/Calcutta] PHP Warning:  Undefined global variable $title in /home1/upcdc/public_html/scripts/settings.php on line 511
+[16-May-2026 16:37:34 Asia/Calcutta] PHP Warning:  Undefined array key "username" in /home1/upcdc/public_html/scripts/settings.php on line 521
+[16-May-2026 16:38:00 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 59
+[16-May-2026 16:38:00 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 232
+[16-May-2026 16:38:49 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 59
+[16-May-2026 16:38:49 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 232
+[16-May-2026 16:38:49 Asia/Calcutta] PHP Fatal error:  Cannot redeclare dbconnect() (previously declared in /home1/upcdc/public_html/scripts/settings.php:37) in /home1/upcdc/public_html/scripts/settings.php on line 37
+[16-May-2026 16:39:27 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 59
+[16-May-2026 16:39:27 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 232
+[16-May-2026 16:40:23 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 59
+[16-May-2026 16:40:23 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 232
+[16-May-2026 16:40:38 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 59
+[16-May-2026 16:40:38 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 232
+[16-May-2026 16:40:57 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:40:57 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:41:10 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:41:10 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:41:19 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:41:19 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:41:26 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:41:26 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:41:30 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:41:30 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:41:58 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:41:58 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:42:03 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:42:03 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:42:08 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:42:08 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:42:34 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:42:34 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:42:37 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:42:37 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:43:27 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:43:27 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:44:25 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:44:25 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:44:39 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:44:39 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:44:47 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:44:47 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:44:48 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:44:48 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:44:55 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:44:55 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:45:47 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:45:47 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:47:59 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:47:59 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:48:24 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:48:24 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:48:32 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:48:32 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:48:46 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:48:46 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:49:11 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:49:11 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:49:42 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:49:42 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:49:59 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:49:59 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:50:03 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:50:03 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:51:31 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:51:31 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:51:34 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:51:34 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:51:36 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:51:36 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:51:39 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:51:39 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:51:39 Asia/Calcutta] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'upcdc_2025.area_of_operations_master' doesn't exist in /home1/upcdc/public_html/scripts/settings_dbase.php:20
+Stack trace:
+#0 /home1/upcdc/public_html/scripts/settings_dbase.php(20): mysqli_query(Object(mysqli), 'SELECT id, name...')
+#1 /home1/upcdc/public_html/Ncd_Reports/cooperative_view.php(311): execute_query('SELECT id, name...')
+#2 /home1/upcdc/public_html/Ncd_Reports/cooperative_view.php(836): getOptionsFromDB('area_of_operati...', 'id', 'name')
+#3 {main}
+  thrown in /home1/upcdc/public_html/scripts/settings_dbase.php on line 20
+[16-May-2026 16:51:49 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:51:49 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:51:55 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:51:55 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:51:55 Asia/Calcutta] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'upcdc_2025.area_of_operations_master' doesn't exist in /home1/upcdc/public_html/scripts/settings_dbase.php:20
+Stack trace:
+#0 /home1/upcdc/public_html/scripts/settings_dbase.php(20): mysqli_query(Object(mysqli), 'SELECT id, name...')
+#1 /home1/upcdc/public_html/Ncd_Reports/cooperative_view.php(311): execute_query('SELECT id, name...')
+#2 /home1/upcdc/public_html/Ncd_Reports/cooperative_view.php(836): getOptionsFromDB('area_of_operati...', 'id', 'name')
+#3 {main}
+  thrown in /home1/upcdc/public_html/scripts/settings_dbase.php on line 20
+[16-May-2026 16:52:10 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:52:10 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:52:15 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:52:15 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:52:15 Asia/Calcutta] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'upcdc_2025.area_of_operations_master' doesn't exist in /home1/upcdc/public_html/scripts/settings_dbase.php:20
+Stack trace:
+#0 /home1/upcdc/public_html/scripts/settings_dbase.php(20): mysqli_query(Object(mysqli), 'SELECT id, name...')
+#1 /home1/upcdc/public_html/Ncd_Reports/cooperative_view.php(311): execute_query('SELECT id, name...')
+#2 /home1/upcdc/public_html/Ncd_Reports/cooperative_view.php(836): getOptionsFromDB('area_of_operati...', 'id', 'name')
+#3 {main}
+  thrown in /home1/upcdc/public_html/scripts/settings_dbase.php on line 20
+[16-May-2026 16:52:46 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:52:46 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:52:47 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:52:47 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:52:49 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:52:49 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:52:58 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:52:58 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:52:58 Asia/Calcutta] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'upcdc_2025.area_of_operations_master' doesn't exist in /home1/upcdc/public_html/scripts/settings_dbase.php:20
+Stack trace:
+#0 /home1/upcdc/public_html/scripts/settings_dbase.php(20): mysqli_query(Object(mysqli), 'SELECT id, name...')
+#1 /home1/upcdc/public_html/Ncd_Reports/cooperative_view.php(311): execute_query('SELECT id, name...')
+#2 /home1/upcdc/public_html/Ncd_Reports/cooperative_view.php(836): getOptionsFromDB('area_of_operati...', 'id', 'name')
+#3 {main}
+  thrown in /home1/upcdc/public_html/scripts/settings_dbase.php on line 20
+[16-May-2026 16:53:23 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:53:23 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:53:26 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:53:26 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:53:28 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:53:28 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:53:33 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:53:33 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:54:06 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:54:06 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:54:06 Asia/Calcutta] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'upcdc_2025.area_of_operations_master' doesn't exist in /home1/upcdc/public_html/scripts/settings_dbase.php:20
+Stack trace:
+#0 /home1/upcdc/public_html/scripts/settings_dbase.php(20): mysqli_query(Object(mysqli), 'SELECT id, name...')
+#1 /home1/upcdc/public_html/Ncd_Reports/cooperative_view.php(313): execute_query('SELECT id, name...')
+#2 /home1/upcdc/public_html/Ncd_Reports/cooperative_view.php(838): getOptionsFromDB('area_of_operati...', 'id', 'name')
+#3 {main}
+  thrown in /home1/upcdc/public_html/scripts/settings_dbase.php on line 20
+[16-May-2026 16:54:50 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:54:50 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:54:52 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:54:52 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:54:55 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:54:55 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:54:59 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:54:59 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:54:59 Asia/Calcutta] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'upcdc_2025.area_of_operations_master' doesn't exist in /home1/upcdc/public_html/scripts/settings_dbase.php:20
+Stack trace:
+#0 /home1/upcdc/public_html/scripts/settings_dbase.php(20): mysqli_query(Object(mysqli), 'SELECT id, name...')
+#1 /home1/upcdc/public_html/Ncd_Reports/cooperative_view.php(313): execute_query('SELECT id, name...')
+#2 /home1/upcdc/public_html/Ncd_Reports/cooperative_view.php(838): getOptionsFromDB('area_of_operati...', 'id', 'name')
+#3 {main}
+  thrown in /home1/upcdc/public_html/scripts/settings_dbase.php on line 20
+[16-May-2026 16:55:25 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:55:25 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:55:34 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:55:34 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:56:50 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:56:50 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:57:58 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:57:58 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:58:07 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:58:07 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:58:08 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:58:08 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 16:59:47 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 16:59:47 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230
+[16-May-2026 17:04:37 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 58
+[16-May-2026 17:04:37 Asia/Calcutta] PHP Warning:  Trying to access array offset on null in /home1/upcdc/public_html/scripts/settings.php on line 230

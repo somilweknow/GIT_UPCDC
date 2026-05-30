@@ -4,6 +4,7 @@ $msg = '';
 $response = 1;
 $tab = 1;
 // error_reporting(E_ALL);
+// ini_set('display_errors', 1);
 
 // Helper to safely get value from potential array or string
 function get_val($source, $key, $index)
@@ -61,8 +62,8 @@ if (isset($_GET['exdid'])) {
         $row_invoice['hq_ownership'] = $row_invoice['hq_ownership'] ?? '';
         $row_invoice['sec_4_total_personnel'] = $row_invoice['sec_4_total_personnel'] ?? '';
     }
-
-    $existingSocietyPhoto  = $row_invoice['photo_id'] ?? '';
+}
+    $existingSocietyPhoto = $row_invoice['photo_id'] ?? '';
 
     $sql = 'SELECT * FROM survey_regional_offices WHERE survey_id="' . $row_invoice['sno'] . '"';
     $res_offices = execute_query($sql);
@@ -224,6 +225,7 @@ if (isset($_GET['exdid'])) {
         while ($row = mysqli_fetch_assoc($res_purchase)) {
 
             $purchase_sale['wheat_purchase_' . $i] = $row['wheat_purchase'];
+            $purchase_sale['fin_year_' . $i] = $row['fin_year'];
             $purchase_sale['rice_purchase_' . $i] = $row['rice_purchase'];
             $purchase_sale['seed_' . $i] = $row['seed'];
             $purchase_sale['fertilizer_' . $i] = $row['fertilizer'];
@@ -241,6 +243,7 @@ if (isset($_GET['exdid'])) {
         $i = 1;
 
         $purchase_sale['wheat_purchase_' . $i] = '';
+        $purchase_sale['fin_year_' . $i] = '';
         $purchase_sale['rice_purchase_' . $i] = '';
         $purchase_sale['seed_' . $i] = '';
         $purchase_sale['fertilizer_' . $i] = '';
@@ -258,6 +261,7 @@ if (isset($_GET['exdid'])) {
     while ($row = mysqli_fetch_assoc($res_yearly)) {
         $yearly_rows[$i] = [
             'business_name' => $row['business_name'],
+            'fin_year_busi' => $row['fin_year_busi'],
             'annual_target' => $row['annual_target'],
             'achievement' => $row['achievement']
         ];
@@ -268,6 +272,7 @@ if (isset($_GET['exdid'])) {
         $count = 1;
         $yearly_rows[1] = [
             'business_name' => '',
+            'fin_year_busi' => '',
             'annual_target' => '',
             'achievement' => ''
         ];
@@ -518,6 +523,7 @@ if (isset($_GET['exdid'])) {
         while ($row_3_5_side = mysqli_fetch_assoc($res_3_5_side)) {
             $row_3_5['sec_3_c_length_' . $i] = $row_3_5_side['total_area'];
             $row_3_5['sec_3_c_vacant_land_status_' . $i] = $row_3_5_side['land_type'];
+            $row_3_5['sec_3_c_add_' . $i] = $row_3_5_side['land_add'];
             $row_3_5['sec_3_c_land_location_' . $i] = $row_3_5_side['location'];
             $row_3_5['sec_3_c_suitable_godown_' . $i] = $row_3_5_side['suitable_godown'];
             $row_3_5['sec_3_c_rak_distance_' . $i] = $row_3_5_side['rak_distance'];
@@ -584,7 +590,7 @@ if (isset($_GET['exdid'])) {
         $row_2_1['sec_6_paved_road'] = '';
     }
     $sql = 'select * from survey_invoice_new_sec_8 where survey_id="' . $row_invoice['sno'] . '"';
-     $res_8 = execute_query($sql);
+    $res_8 = execute_query($sql);
     if (mysqli_num_rows($res_8) != 0) {
         $row_8 = mysqli_fetch_assoc($res_8);
 
@@ -642,7 +648,7 @@ if (isset($_GET['exdid'])) {
         $row_8['sec_8_samarsabel'] = '';
         $row_8['sec_8_handpump'] = '';
     }
-}
+
 
 if (empty($row_invoice['apex_id']) && isset($_GET['exdid'])) {
     $row_invoice['apex_id'] = $_GET['exdid'];
@@ -655,60 +661,30 @@ $survey_id = $row_invoice['sno'];
 $zone_data = [];
 $sql = "SELECT * FROM apex_zone_details WHERE survey_id='$survey_id'";
 $res = execute_query($sql);
-while($row = mysqli_fetch_assoc($res)){
+while ($row = mysqli_fetch_assoc($res)) {
     $zone_data[] = $row;
 }
 $other_office_data = [];
 $sql2 = "SELECT * FROM apex_prakhand_details WHERE survey_id='$survey_id'";
 $res2 = execute_query($sql2);
-while($row = mysqli_fetch_assoc($res2)){
+while ($row = mysqli_fetch_assoc($res2)) {
     $other_office_data[] = $row;
 }
 
-//<--Human Resource Data for Prefilled-->
-
-$existing_hr = [];
-$sql_hr = "SELECT * FROM apex_human_resource_info WHERE survey_id='" . $row_invoice['sno'] . "'";
-$res_hr = execute_query($sql_hr);
-
-if ($res_hr && mysqli_num_rows($res_hr) > 0) {
-    while ($row = mysqli_fetch_assoc($res_hr)) {
-        $existing_hr[] = $row;
-    }
+$outer_office_data = [];
+$sql3 = "SELECT * FROM apex_outer_office_details WHERE survey_id='$survey_id'";
+$res3 = execute_query($sql3);
+while ($row = mysqli_fetch_assoc($res3)) {
+    $outer_office_data[] = $row;
 }
 
-$prefillData = [];
-
-$sql = "SELECT * FROM apex_human_resource_info 
-        WHERE survey_id='" . $row_invoice['sno'] . "'";
-$res = execute_query($sql);
-
-if ($res && mysqli_num_rows($res) > 0) {
-
-    while ($row = mysqli_fetch_assoc($res)) {
-
-        $post_id = $row['hr_post_id'];
-
-        if (!isset($prefillData[$post_id])) {
-            $prefillData[$post_id] = [
-                'staff_type' => $row['staff_type'],
-                'hr_post_id' => $row['hr_post_id'],
-                'sanctioned_post' => $row['sanctioned_post'],
-                'vacant_post' => $row['vacant_post'],
-                'staff_members' => []
-            ];
-        }
-
-        $prefillData[$post_id]['staff_members'][] = $row;
-    }
-}
 //purchase sale work profession agro
 $purchase_sale_rows = [];
 
 $res = execute_query("
     SELECT *
     FROM apex_agro_work_professions_details
-    WHERE survey_id = '".$survey_id."'
+    WHERE survey_id = '" . $survey_id . "'
     ORDER BY row_no ASC
 ");
 
@@ -740,7 +716,61 @@ if ($res && mysqli_num_rows($res) > 0) {
 
 }
 ?>
+<!--Manav Sampada Data for Prefilled-->
+<?php
+$existing_hr = [];
+$sql_hr = "SELECT * FROM apex_human_resource_info WHERE survey_id='" . $row_invoice['sno'] . "'";
+$res_hr = execute_query($sql_hr);
 
+if ($res_hr && mysqli_num_rows($res_hr) > 0) {
+    while ($row = mysqli_fetch_assoc($res_hr)) {
+        $existing_hr[] = $row;
+    }
+}
+
+$prefillData = [];
+
+$sql = "SELECT * FROM apex_human_resource_info 
+        WHERE survey_id='" . $row_invoice['sno'] . "'";
+$res = execute_query($sql);
+
+if ($res && mysqli_num_rows($res) > 0) {
+
+    while ($row = mysqli_fetch_assoc($res)) {
+
+        $post_id = $row['hr_post_id'];
+
+        if (!isset($prefillData[$post_id])) {
+            $prefillData[$post_id] = [
+                'staff_type' => $row['staff_type'],
+                'hr_post_id' => $row['hr_post_id'],
+                'sanctioned_post' => $row['sanctioned_post'],
+                'karyarat_post' => $row['karyarat_pad'],
+                'vacant_post' => $row['vacant_post'],
+                'direct_bharti' => $row['seedhi_bharti'],
+                'promotion_bharti' => $row['paddonati_bharti'],
+                'compassionate_bharti' => $row['pratipurti_bharti'],
+                'staff_members' => []
+            ];
+        }
+        $prefillData[$post_id]['staff_members'][] = $row;
+    }
+}
+
+//Apex business data
+$business_data = [];
+
+$sql = "SELECT * FROM apex_work_profession_info 
+        WHERE survey_id='" . $row_invoice['sno'] . "'";
+
+$res = execute_query($sql);
+
+if ($res && mysqli_num_rows($res) > 0) {
+    while ($row = mysqli_fetch_assoc($res)) {
+        $business_data[] = $row;
+    }
+}
+?>
 
 <?php
 page_header_start();
@@ -1044,7 +1074,7 @@ page_sidebar();
                                                     value="<?php echo htmlspecialchars($row_invoice['address'] ?? ''); ?>">
                                             </div> -->
 
-                                            <!-- <div class="col-sm-3 form-group">
+                                            <div class="col-sm-3 form-group">
                                                 <label>मुख्यालय का स्वामित्व</label>
                                                 <select name="hq_ownership" id="hq_ownership" class="form-control"
                                                     tabindex="<?php echo $tab++; ?>">
@@ -1054,7 +1084,7 @@ page_sidebar();
                                                     <option value="kiraye_pe" <?php if (($row_invoice['hq_ownership'] ?? '') == 'kiraye_pe')
                                                         echo 'selected'; ?>>किराये का</option>
                                                 </select>
-                                            </div> -->
+                                            </div>
                                             <div class="col-sm-3 form-group">
                                                 <label>मुख्यालय की फोटो संलग्न करें</label>
 
@@ -1062,15 +1092,13 @@ page_sidebar();
                                                     name="society_photo" id="society_photo"
                                                     tabindex="<?php echo $tab++; ?>" class="form-control">
 
-                                                <input type="hidden"
-                                                       name="existing_society_photo"
-                                                       value="<?php echo $existingSocietyPhoto; ?>">
+                                                <input type="hidden" name="existing_society_photo"
+                                                    value="<?php echo $existingSocietyPhoto; ?>">
 
                                                 <!-- Preview -->
                                                 <div style="margin-left:15px;">
-                                                    <img id="society_photo_preview"
-                                                         src=""
-                                                         style="display:none;width:120px;height:auto;border:1px solid #ccc;padding:4px;border-radius:5px;">
+                                                    <img id="society_photo_preview" src=""
+                                                        style="display:none;width:120px;height:auto;border:1px solid #ccc;padding:4px;border-radius:5px;">
                                                 </div>
 
                                             </div>
@@ -1095,14 +1123,15 @@ page_sidebar();
 
                                     <h5
                                         style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 12px 20px; border-radius: 8px; font-weight: bold; color: #1565c0; margin: 20px 0 15px 0; border-left: 4px solid #1976d2;">
-                                        1.1. प्रदेश एवं प्रदेश के बाहर क्षेत्रीय</h5>
+                                        1.1. प्रदेश एवं प्रदेश के बाहर क्षेत्रीय
+                                    </h5>
                                     <br>
 
                                     <div class="card shadow-sm mb-3">
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-3 form-group">
-                                                    <label>शाखाओं की संख्या</label>
+                                                    <label>जिला कार्यालयों की संख्या</label>
                                                     <input type="text" name="no_of_zones" id="no_of_zones"
                                                         tabindex="<?php echo $tab++; ?>" class="form-control"
                                                         value="<?php echo htmlspecialchars($row_invoice['no_of_zones'] ?? ''); ?>"
@@ -1110,10 +1139,16 @@ page_sidebar();
                                                 </div>
 
                                                 <div class="col-md-3 form-group">
-                                                    <label>अन्य कार्यालयों की संख्या</label>
+                                                    <label>क्षेत्रीय कार्यालयों की संख्या</label>
                                                     <input type="text" id="global_other_office_count"
                                                         class="form-control"
                                                         oninput="updateOtherOfficeRows(this.value)">
+                                                </div>
+                                                <div class="col-md-3 form-group">
+                                                    <label>प्रदेश के बाहर कार्यालयों की संख्या</label>
+                                                    <input type="text" id="global_outer_office_count"
+                                                        class="form-control"
+                                                        oninput="updateOuterOfficeRows(this.value)">
                                                 </div>
 
                                             </div>
@@ -1123,7 +1158,7 @@ page_sidebar();
                                     <div class="table-responsive" id="zoneTableWrapper" style="display:none;">
                                         <h5
                                             style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 12px 20px; border-radius: 8px; font-weight: bold; color: #1565c0; margin: 20px 0 15px 0; border-left: 4px solid #1976d2;">
-                                            शाखाओं का विवरण</h5>
+                                            जिला कार्यालयों का विवरण</h5>
                                         <table class="table table-bordered" id="officeContainer"
                                             style="width: 100%; table-layout: fixed;">
                                             <thead>
@@ -1175,9 +1210,12 @@ page_sidebar();
                                                             placeholder="शाखाओं का पता">
                                                     </td>
                                                     <td style="padding: 5px;">
-                                                        <input type="file" name="zone_image[]" class="form-control"  onchange="previewImage(this)">
-                                                        <img class="image-preview" style="display:none; margin-top:5px; max-width:120px;">
-                                                        <input type="hidden" name="existing_zone_image[]" value="">                                                    </td>
+                                                        <input type="file" name="zone_image[]" class="form-control"
+                                                            onchange="previewImage(this)">
+                                                        <img class="image-preview"
+                                                            style="display:none; margin-top:5px; max-width:120px;">
+                                                        <input type="hidden" name="existing_zone_image[]" value="">
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -1187,7 +1225,7 @@ page_sidebar();
                                         style="display:none; margin-top: 15px;">
                                         <h5
                                             style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 12px 20px; border-radius: 8px; font-weight: bold; color: #1565c0; margin: 20px 0 15px 0; border-left: 4px solid #1976d2;">
-                                            अन्य कार्यालयों का विवरण</h5>
+                                            क्षेत्रीय कार्यालयों का विवरण</h5>
                                         <table class="table table-bordered" id="otherOfficeContainer"
                                             style="width: 100%; table-layout: fixed;">
                                             <thead>
@@ -1230,14 +1268,75 @@ page_sidebar();
                                                     </td>
                                                     <td><input type="file" name="other_office_image[]"
                                                             class="form-control" onchange="previewImage(this)">
-                                                        <img class="image-preview" style="display:none; margin-top:5px; max-width:120px;">
-                                                        <input type="hidden" name="existing_other_image[]" value="<?= $office['prakhand_image'] ?? '' ?>">
+                                                        <img class="image-preview"
+                                                            style="display:none; margin-top:5px; max-width:120px;">
+                                                        <input type="hidden" name="existing_other_image[]"
+                                                            value="<?= $office['prakhand_image'] ?? '' ?>">
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
+                                    <div class="table-responsive" id="outerOfficeTableWrapper"
+                                        style="display:none; margin-top: 15px;">
+                                        <h5
+                                            style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 12px 20px; border-radius: 8px; font-weight: bold; color: #1565c0; margin: 20px 0 15px 0; border-left: 4px solid #1976d2;">
+                                            प्रदेश के बाहर कार्यालयों की संख्या</h5>
+                                        <table class="table table-bordered" id="outerOfficeContainer"
+                                            style="width: 100%; table-layout: fixed;">
+                                            <thead>
+                                                <tr class="bg-light">
+                                                    <th width="15%"
+                                                        style="color: black; font-size:14px; font-weight: bold;"> नाम
+                                                    </th>
+                                                    <th width="15%"
+                                                        style="color: black; font-size:14px; font-weight: bold;">
+                                                        जनपद</th>
+                                                    <th width="15%"
+                                                        style="color: black; font-size:14px; font-weight: bold;"> दूरभाष
+                                                        न०</th>
+                                                    <th width="20%"
+                                                        style="color: black; font-size:14px; font-weight: bold;">ई-मेल
+                                                        आई.डी.</th>
+                                                    <th width="20%"
+                                                        style="color: black; font-size:14px; font-weight: bold;">पता
+                                                    </th>
+                                                    <th width="100%"
+                                                        style="color: black; font-size:14px; font-weight: bold;">अन्य
+                                                        कार्यालयों का फोटो GPS टैग के साथ संलग्न करे</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="outer-office-main-tbody">
+                                                <tr class="outer-office-row-template">
+                                                    <td><input type="text" name="outer_office_name[]"
+                                                            class="form-control" placeholder="अन्य कार्यालयों का नाम">
+                                                    </td>
+                                                    <td><input type="text" name="outer_office_district[]"
+                                                            class="form-control" placeholder="जनपद"></td>
+                                                    <td><input type="text" name="outer_office_mobile[]"
+                                                            class="form-control"
+                                                            placeholder="अन्य कार्यालयों का दूरभाष"></td>
+                                                    <td><input type="text" name="outer_office_email[]"
+                                                            class="form-control" placeholder="अन्य कार्यालयों का ई-मेल">
+                                                    </td>
+                                                    <td><input type="text" name="outer_office_address[]"
+                                                            class="form-control" placeholder="अन्य कार्यालयों का पता">
+                                                    </td>
+                                                    <td><input type="file" name="outer_office_image[]"
+                                                            class="form-control" onchange="previewImage(this)">
+                                                        <img class="image-preview"
+                                                            style="display:none; margin-top:5px; max-width:120px;">
+                                                        <input type="hidden" name="existing_outer_image[]"
+                                                            value="<?= $office['prakhand_image'] ?? '' ?>">
                                                     </td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
+
                                 <!----------------2.1 start-------------------------------------------------------->
 
                                 <div class="step">
@@ -1359,7 +1458,7 @@ page_sidebar();
                                             value="<?php echo $row_6_2['count']; ?>">
                                     </div>
 
-                                    <h5
+                                    <!-- <h5
                                         style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 12px 20px; border-radius: 8px; font-weight: bold; color: #1565c0; margin: 20px 0 15px 0; border-left: 4px solid #1976d2;">
                                         2.1. संस्था में कार्यरत कुल अधिकारी / कार्मिकों का विवरण </h5>
 
@@ -1423,95 +1522,129 @@ page_sidebar();
                                             </div>
 
                                         </div>
-                                    </div>
+                                    </div> -->
 
-                                    <h5 style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 12px 20px; border-radius: 8px; font-weight: bold; color: #1565c0; margin: 20px 0 15px 0; border-left: 4px solid #1976d2;">
+                                    <h5
+                                        style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 12px 20px; border-radius: 8px; font-weight: bold; color: #1565c0; margin: 20px 0 15px 0; border-left: 4px solid #1976d2;">
                                         2.1.मानव सम्पदा </h5>
+
+
                                     <?php
-                                        // Fetch posts for the dropdown
-                                        $posts = [];
-                                        $apex_id = $_GET['exdid'];
-                                        $sql_posts = "SELECT post_id, post_name FROM survey_invoice_apex_designation WHERE apex_id = '$apex_id' ORDER BY post_id";
+                                    // Fetch posts for the dropdown
+                                    $posts = [];
+                                    $apex_id = $_GET['exdid'];
+                                    $sql_posts = "SELECT post_id, post_name FROM survey_invoice_apex_designation WHERE apex_id = '$apex_id' ORDER BY post_id";
 
-                                        $res_posts = execute_query($sql_posts);
-                                        $posts = [];
+                                    $res_posts = execute_query($sql_posts);
+                                    $posts = [];
 
-                                        if ($res_posts && mysqli_num_rows($res_posts) > 0) {
-                                            while ($row = mysqli_fetch_assoc($res_posts)) {
-                                                $posts[] = $row;
-                                            }
+                                    if ($res_posts && mysqli_num_rows($res_posts) > 0) {
+                                        while ($row = mysqli_fetch_assoc($res_posts)) {
+                                            $posts[] = $row;
                                         }
+                                    }
 
-                                        $postOptionsHTML = '';
-                                        foreach ($posts as $p) {
-                                            $postOptionsHTML .= '<option value="' . $p['post_id'] . '">' . ($p['post_name']) . '</option>';
-                                        }
+                                    $postOptionsHTML = '';
+                                    foreach ($posts as $p) {
+                                        $postOptionsHTML .= '<option value="' . $p['post_id'] . '">' . ($p['post_name']) . '</option>';
+                                    }
                                     ?>
 
                                     <div class="table-responsive">
                                         <table class="table table-bordered table-hover" id="human_resource_table">
                                             <thead class="table-light" style="background-color: #b8daff;">
-                                            <tr>
-                                                <th style="width: 25%; color: #000;">कर्मचारी प्रकार</th>
-                                                <th style="width: 25%; color: #000;">पद</th>
-                                                <th style="width: 20%; color: #000;">स्वीकृत पद</th>
-                                                <th style="width: 20%; color: #000;">रिक्त पद</th>
-                                                <th style="width: 10%; color: #000; white-space: nowrap;">Action
-                                                </th>
-                                            </tr>
+                                                <tr>
+                                                    <th style="width: 20%; color: #000;">कर्मचारी प्रकार</th>
+                                                    <th style="width: 10%; color: #000;">पद</th>
+                                                    <th style="width: 10%; color: #000;">स्वीकृत पद</th>
+                                                    <th style="width: 10%; color: #000;">कार्यरत पद</th>
+                                                    <th style="width: 10%; color: #000;">रिक्त पद</th>
+                                                    <th style="width: 10%; color: #000;">सीधी भर्ती पद</th>
+                                                    <th style="width: 10%; color: #000;">पदोन्नति पद</th>
+                                                    <th style="width: 10%; color: #000;">प्रतिपूर्ति पद</th>
+                                                    <th style="width: 10%; color: #000; white-space: nowrap;">Action
+                                                    </th>
+                                                </tr>
                                             </thead>
                                             <tbody id="human_resource_rows">
 
-                                            <tr class="human_row">
-                                                <td>
-                                                    <select name="staff_type[]" class="form-control"
+                                                <tr class="human_row">
+                                                    <td>
+                                                        <select name="staff_type[]" class="form-control"
                                                             onchange="updateStaffSection(this)">
-                                                        <option value="">--Select--</option>
-                                                        <option value="tech">Technical</option>
-                                                        <option value="nontech">Non-Technical</option>
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <select name="post_id[]" class="form-control post-select"
+                                                            <option value="">--Select--</option>
+                                                            <option value="tech">Technical</option>
+                                                            <option value="nontech">Non-Technical</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <select name="post_id[]" class="form-control post-select"
                                                             onchange="updateStaffSection(this)">
-                                                        <option value="">--Select--</option>
-                                                        <?php foreach ($posts as $p) { ?>
-                                                            <option value="<?php echo $p['sno']; ?>">
-                                                                <?php echo ($p['post_name']); ?>
-                                                            </option>
-                                                        <?php } ?>
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <input type="number" name="sanctioned_post[]"
-                                                           class="form-control" onchange="updateStaffSection(this)">
-                                                </td>
-                                                <td>
-                                                    <input type="number" name="vacant_post[]" class="form-control">
-                                                </td>
-                                                <td class="text-center">
-                                                    <button type="button" class="btn btn-info btn-sm"
+                                                            <option value="">--Select--</option>
+                                                            <?php foreach ($posts as $p) { ?>
+                                                                <option value="<?php echo $p['post_id']; ?>">
+                                                                    <?php echo ($p['post_name']); ?>
+                                                                </option>
+                                                            <?php } ?>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="sanctioned_post[]" class="form-control"
+                                                            onchange="updateStaffSection(this)"
+                                                            placeholder="स्वीकृत पद">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" name="karyarat_post[]" class="form-control"
+                                                            onchange="updateStaffSection(this)"
+                                                            placeholder="कार्यरत पद">
+                                                    </td>
+                                                    <!-- रिक्त पद -->
+                                                    <td>
+                                                        <input type="text" name="vacant_post[]" class="form-control"
+                                                            placeholder="रिक्त पद">
+                                                    </td>
+
+                                                    <!-- ✅ NEW 3 FIELDS -->
+                                                    <td>
+                                                        <input type="text" name="direct_bharti[]" class="form-control"
+                                                            placeholder="सीधी भर्ती पद">
+                                                    </td>
+
+                                                    <td>
+                                                        <input type="text" name="promotion_bharti[]"
+                                                            class="form-control" placeholder="पदोन्नति भर्ती">
+                                                    </td>
+
+                                                    <td>
+                                                        <input type="text" name="compassionate_bharti[]"
+                                                            class="form-control" placeholder="प्रतिपूर्ति भर्ती">
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <button type="button" class="btn btn-info btn-sm"
                                                             onclick="addHumanResourceRow();">नई
-                                                        पंक्ति जोड़े [+]</button>
-                                                </td>
-                                            </tr>
+                                                            पंक्ति जोड़े [+]
+                                                        </button>
+                                                    </td>
+                                                </tr>
 
                                             </tbody>
                                         </table>
                                     </div>
                                     <div id="staff_section" style="display:none;" class="mt-3">
                                         <h5
-                                                style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 12px 20px; border-radius: 8px; font-weight: bold; color: #1565c0; margin: 20px 0 15px 0; border-left: 4px solid #1976d2;">
+                                            style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 12px 20px; border-radius: 8px; font-weight: bold; color: #1565c0; margin: 20px 0 15px 0; border-left: 4px solid #1976d2;">
                                             कर्मचारी विवरण</h5>
                                         <div id="staff_rows"></div>
 
                                         <div class="d-flex justify-content-end mt-3">
                                             <button type="button" class="btn btn-primary btn-sm me-3"
-                                                    onclick="uploadDocument()" style="margin-right:1rem;">Upload
-                                                Document</button>
+                                                onclick="uploadDocument()" style="margin-right:1rem; display:none;">
+                                                Upload Document
+                                            </button>
                                             <button type="button" class="btn btn-success btn-sm"
-                                                    onclick="downloadExcel(<?php echo $row_invoice['sno']; ?>)"
-                                                    style="height: 40px;">Download Excel</button>
+                                                onclick="downloadExcel(<?php echo $row_invoice['sno']; ?>)"
+                                                style="height: 40px;">Download Excel
+                                            </button>
                                         </div>
                                     </div>
 
@@ -1521,7 +1654,7 @@ page_sidebar();
                                                 <div class="col-md-3 form-group">
                                                     <label>पद</label>
                                                     <select name="staff_post_name[]"
-                                                            class="form-control staff_post_name">
+                                                        class="form-control staff_post_name">
                                                         <option value="">--Select--</option>
                                                         <?php foreach ($posts as $p) { ?>
                                                             <option value="<?php echo $p['post_id']; ?>">
@@ -1570,22 +1703,18 @@ page_sidebar();
 
                                                         <!-- Image Preview -->
 
-                                                        <a href="#" target="_blank" class="image-link" style="display:none;">
-                                                            <img class="img-preview"
-                                                                 src=""
-                                                                 style="width:85px; height:85px; object-fit:cover;
+                                                        <a href="#" target="_blank" class="image-link"
+                                                            style="display:none;">
+                                                            <img class="img-preview" src="" style="width:85px; height:85px; object-fit:cover;
                                                                      border:1px solid #ddd; padding:3px;">
                                                         </a>
 
                                                         <div style="flex:1;">
-                                                            <input type="file"
-                                                                   name="staff_image[]"
-                                                                   class="form-control staff-image-input"
-                                                                   accept="image/*">
+                                                            <input type="file" name="staff_image[]"
+                                                                class="form-control staff-image-input" accept="image/*">
 
-                                                            <input type="hidden"
-                                                                   name="existing_staff_image[]"
-                                                                   class="existing-staff-image">
+                                                            <input type="hidden" name="existing_staff_image[]"
+                                                                class="existing-staff-image">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1594,6 +1723,7 @@ page_sidebar();
                                         </div>
                                     </div>
                                 </div>
+
 
                                 <!-- -----------------------------------step ----------------------- -->
                                 <div class="step">
@@ -1608,22 +1738,28 @@ page_sidebar();
                                                 <thead>
                                                     <tr>
                                                         <th>क्रमांक</th>
-                                                        <th>गेहूँ खरीद</th>
-                                                        <th>धान खरीद</th>
-                                                        <th>बीज</th>
-                                                        <th>उर्वरक</th>
-                                                        <th>गोदाम किराया</th>
-                                                        <th>नेफेड (दलहन, तिलहन)</th>
-                                                        <th>कृषक सेवा केंद्र</th>
-                                                        <th>अन्य व्यवसाय</th>
+                                                        <th>वित्तीय वर्ष</th>
+                                                        <th>गेहूँ खरीद <br>(मात्रा मैट्रिक टन में)</th>
+                                                        <th>धान खरीद <br>(मात्रा मैट्रिक टन में)</th>
+                                                        <th>बीज <br>(मात्रा मैट्रिक टन में)</th>
+                                                        <th>उर्वरक <br>(मात्रा मैट्रिक टन में)</th>
+                                                        <th>गोदाम किराया <br>(धनराशि लाख में)</th>
+                                                        <th>नेफेड (दलहन, तिलहन) <br>(मात्रा मैट्रिक टन में)</th>
+                                                        <th>कृषक सेवा केंद्र <br>(धनराशि लाख में)</th>
+                                                        <th>अन्य व्यवसाय <br>(धनराशि लाख में)</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody id="purchase_sale_tbody">
+                                                <tbody id="purchase_sale_tbody" style="color:black;">
                                                     <?php
                                                     for ($i = 1; $i <= $purchase_sale['count']; $i++) { ?>
                                                         <tr id="purchase_sale_row_<?php echo $i; ?>">
                                                             <td><?php echo $i; ?></td>
 
+                                                            <td><input type="text" name="fin_year_<?php echo $i; ?>"
+                                                                    class="form-control"
+                                                                    value="<?php echo $purchase_sale['fin_year_' . $i]; ?>">
+                                                            </td>
+                                                            
                                                             <td><input type="text" name="wheat_purchase_<?php echo $i; ?>"
                                                                     class="form-control"
                                                                     value="<?php echo $purchase_sale['wheat_purchase_' . $i]; ?>">
@@ -1674,13 +1810,15 @@ page_sidebar();
                                                     नई पंक्ति जोड़े [+]
                                                 </button>
 
-                                                <input type="hidden" id="employees_row_count" name="employees_row_count"
-                                                    value="<?php echo $employees['count']; ?>">
+                                                <input type="hidden" id="purchase_sale_row_count"
+                                                    name="purchase_sale_row_count"
+                                                    value="<?php echo $purchase_sale['count']; ?>">
                                             </div>
                                         </div>
                                     </div>
 
-                                    <h5 style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 12px 20px; border-radius: 8px; font-weight: bold; color: #1565c0; margin: 20px 0 15px 0; border-left: 4px solid #1976d2;">
+                                    <h5
+                                        style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 12px 20px; border-radius: 8px; font-weight: bold; color: #1565c0; margin: 20px 0 15px 0; border-left: 4px solid #1976d2;">
                                         3.1. वर्षवार व्यवसाय विवरण </h5>
                                     <div class="col-sm-12">
                                         <div class="table-responsive">
@@ -1689,6 +1827,7 @@ page_sidebar();
                                                 <thead>
                                                     <tr>
                                                         <th style="width: 80px;">क्रमांक</th>
+                                                        <th>वित्तीय वर्ष</th>
                                                         <th>व्यवसाय नाम</th>
                                                         <th>वार्षिक लक्ष्य</th>
                                                         <th>उपलब्धि</th>
@@ -1702,6 +1841,12 @@ page_sidebar();
                                                         ?>
                                                         <tr class="yearly_business_row">
                                                             <td><?php echo $i; ?></td>
+                                                            <td>
+                                                                <input type="text"
+                                                                    name="sec_7_fin_year_busi_<?php echo $i; ?>"
+                                                                    class="form-control"
+                                                                    value="<?php echo $y['fin_year_busi'] ?? ''; ?>">
+                                                            </td>
                                                             <td>
                                                                 <input type="text"
                                                                     name="sec_7_business_name_<?php echo $i; ?>"
@@ -1737,13 +1882,158 @@ page_sidebar();
                                                 </tbody>
                                             </table>
                                         </div>
+                                        <div class="col-sm-12">
+                                            <h5
+                                                style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 12px 20px; border-radius: 8px; font-weight: bold; color: #1565c0; margin: 20px 0 15px 0; border-left: 4px solid #1976d2;">
+                                                3.2. संस्था की वित्तीय सूचना</h5>
+
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered table-striped"
+                                                    id="financialMatrixTable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>वर्ष</th>
+                                                            <th>प्रकार</th>
+                                                            <th>स्थिति</th>
+                                                            <th>सकल लाभ/हानि <br>(धनराशि लाख में)</th>
+                                                            <th>शुद्ध लाभ/हानि <br>(धनराशि लाख में)</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody>
+                                                        <!-- Starting 3 rows -->
+                                                        <?php
+
+                                                        // Fetch financial rows for this survey
+                                                        $sql_fin = "select * from apex_financial_info where survey_id='" . $row_invoice['sno'] . "' order by financial_year ASC";
+                                                        $res_fin = execute_query($sql_fin);
+                                                        $financial_rows = [];
+                                                        while ($frow = mysqli_fetch_assoc($res_fin)) {
+                                                            $financial_rows[] = $frow;
+                                                        }
+                                                        if (empty($financial_rows)) {
+                                                            // No saved rows, generate default 3 rows starting from 2022
+                                                            $startYear = 2022;
+                                                            for ($i = 0; $i < 3; $i++) {
+                                                                $yearLabel = $startYear + $i . '-' . substr(($startYear + $i + 1), -2);
+                                                                ?>
+                                                                <!--Counter to manage save in db-->
+                                                                <input type="hidden" name="financial_year_label_<?= $i + 1 ?>"
+                                                                    value="<?= $yearLabel ?>">
+                                                                <tr>
+                                                                    <td rowspan="2"><?= $yearLabel ?></td>
+                                                                    <td>वार्षिक लाभ/हानि</td>
+                                                                    <td>
+                                                                        <select name="sec_3_profit_loss_<?= $i + 1 ?>"
+                                                                            class="form-control"
+                                                                            onchange="handleDropdownColorChange(this,'profit','#42ecf5','loss','#f28546');">
+                                                                            <option value="">--Select--</option>
+                                                                            <option value="profit">लाभ</option>
+                                                                            <option value="loss">हानि</option>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td><input type="text" name="sec_3_gross_amount_<?= $i + 1 ?>"
+                                                                            class="form-control chk_decimal"
+                                                                            placeholder="धनराशि (Lakh)"></td>
+                                                                    <td><input type="text" name="sec_3_net_amount_<?= $i + 1 ?>"
+                                                                            class="form-control chk_decimal"
+                                                                            placeholder="धनराशि (Lakh)"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>संचित लाभ/हानि</td>
+                                                                    <td>
+                                                                        <select name="sec_3_accumulated_<?= $i + 1 ?>"
+                                                                            class="form-control"
+                                                                            onchange="handleDropdownColorChange(this,'profit','#42ecf5','loss','#f28546');">
+                                                                            <option value="">--Select--</option>
+                                                                            <option value="profit">लाभ</option>
+                                                                            <option value="loss">हानि</option>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td><input type="text"
+                                                                            name="sec_3_acc_gross_amount_<?= $i + 1 ?>"
+                                                                            class="form-control chk_decimal"
+                                                                            placeholder="धनराशि (Lakh)"></td>
+                                                                    <td><input type="text"
+                                                                            name="sec_3_acc_net_amount_<?= $i + 1 ?>"
+                                                                            class="form-control chk_decimal"
+                                                                            placeholder="धनराशि (Lakh)"></td>
+                                                                </tr>
+                                                                <?php
+                                                            }
+                                                        } else {
+                                                            $i = 0;
+                                                            foreach ($financial_rows as $row) {
+                                                                $i++;
+                                                                $yearLabel = $row['financial_year'];
+                                                                ?>
+                                                                <!--Counter to manage save in db-->
+                                                                <input type="hidden" name="financial_year_label_<?= $i ?>"
+                                                                    value="<?= $yearLabel ?>">
+                                                                <tr>
+                                                                    <td rowspan="2"><?= $yearLabel ?></td>
+                                                                    <td>वार्षिक लाभ/हानि</td>
+                                                                    <td>
+                                                                        <select name="sec_3_profit_loss_<?= $i ?>"
+                                                                            class="form-control"
+                                                                            onchange="handleDropdownColorChange(this,'profit','#42ecf5','loss','#f28546');">
+                                                                            <option value="">--Select--</option>
+                                                                            <option value="profit"
+                                                                                <?= ($row['annual_status'] == 'profit') ? 'selected' : '' ?>>लाभ</option>
+                                                                            <option value="loss"
+                                                                                <?= ($row['annual_status'] == 'loss') ? 'selected' : '' ?>>हानि</option>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td><input type="text" name="sec_3_gross_amount_<?= $i ?>"
+                                                                            class="form-control chk_decimal"
+                                                                            value="<?= $row['annual_gross'] ?? '' ?>"></td>
+                                                                    <td><input type="text" name="sec_3_net_amount_<?= $i ?>"
+                                                                            class="form-control chk_decimal"
+                                                                            value="<?= $row['annual_net'] ?? '' ?>"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>संचित लाभ/हानि</td>
+                                                                    <td>
+                                                                        <select name="sec_3_accumulated_<?= $i ?>"
+                                                                            class="form-control"
+                                                                            onchange="handleDropdownColorChange(this,'profit','#42ecf5','loss','#f28546');">
+                                                                            <option value="">--Select--</option>
+                                                                            <option value="profit"
+                                                                                <?= ($row['accumulated_status'] == 'profit') ? 'selected' : '' ?>>लाभ</option>
+                                                                            <option value="loss"
+                                                                                <?= ($row['accumulated_status'] == 'loss') ? 'selected' : '' ?>>हानि</option>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td><input type="text"
+                                                                            name="sec_3_acc_gross_amount_<?= $i ?>"
+                                                                            class="form-control chk_decimal"
+                                                                            value="<?= $row['accumulated_gross'] ?? '' ?>"></td>
+                                                                    <td><input type="text" name="sec_3_acc_net_amount_<?= $i ?>"
+                                                                            class="form-control chk_decimal"
+                                                                            value="<?= $row['accumulated_net'] ?? '' ?>"></td>
+                                                                </tr>
+                                                                <?php
+                                                            }
+                                                        }
+                                                        ?>
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-2 text-right">
+                                            <button type="button" class="btn btn-info" id="addYearRowBtn">
+                                                नई पंक्ति जोड़ें [+]
+                                            </button>
+                                        </div>
                                     </div>
 
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <h5
                                                 style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 12px 20px; border-radius: 8px; font-weight: bold; color: #1565c0; margin: 20px 0 15px 0; border-left: 4px solid #1976d2;">
-                                                3.2. आडिट</h5>
+                                                3.3. आडिट</h5>
                                         </div>
                                         <div class="col-sm-3 form-group">
                                             <label>आडिट किस वित्तीय वर्ष तक हुआ है</label>
@@ -2118,7 +2408,7 @@ page_sidebar();
                                                 }
                                                 $district_options = '<option value="">--Select--</option>';
                                                 foreach ($districts as $d) {
-                                                    $district_options .= '<option value="'.$d['sno'].'">'.$d['district_name'].'</option>';
+                                                    $district_options .= '<option value="' . $d['sno'] . '">' . $d['district_name'] . '</option>';
                                                 }
                                                 ?>
 
@@ -2127,28 +2417,35 @@ page_sidebar();
                                                     (IV) खाली पड़ी भूमि का विवरण
                                                 </h5>
 
-                                                    <div id="sec_3_c">
+                                                <div id="sec_3_c">
                                                     <?php for ($i = 1; $i <= $row_3_5['sec_3_c_id']; $i++) { ?>
                                                         <div class="row mb-2 sec3c_row">
                                                             <!-- District -->
                                                             <div class="col-sm-2 form-group">
                                                                 <label>जनपद</label>
-                                                                <select name="sec_3_c_district_<?php echo $i; ?>" class="form-control">
+                                                                <select name="sec_3_c_district_<?php echo $i; ?>"
+                                                                    class="form-control">
                                                                     <?php echo $district_options; ?>
                                                                 </select>
+                                                            </div>
+
+                                                            <div class="col-sm-2 form-group">
+                                                                <label>पता</label>
+                                                                <input type="text" name="sec_3_c_add_<?php echo $i; ?>"
+                                                                    class="form-control">
                                                             </div>
 
                                                             <!-- Area -->
                                                             <div class="col-sm-2 form-group">
                                                                 <label>क्षेत्रफल (हेक्टेयर में)</label>
                                                                 <input type="text" name="sec_3_c_area_<?php echo $i; ?>"
-                                                                       class="form-control">
+                                                                    class="form-control">
                                                             </div>
                                                             <div class="col-sm-2 form-group">
                                                                 <label>पहुच मार्ग का प्रकार</label>
                                                                 <select name="sec_3_c_paved_road_<?php echo $i; ?>"
-                                                                        id="sec_3_c_paved_road_<?php echo $i; ?>"
-                                                                        class="form-control">
+                                                                    id="sec_3_c_paved_road_<?php echo $i; ?>"
+                                                                    class="form-control">
                                                                     <option value="">--select--</option>
                                                                     <option value="ordinary">कच्ची सड़क</option>
                                                                     <option value="nh">नेशनल हाईवे</option>
@@ -2162,45 +2459,66 @@ page_sidebar();
                                                             <div class="col-sm-2 form-group">
                                                                 <label>स्थान (समिति प्रांगण <br> या अन्य स्थान)</label>
                                                                 <select name="sec_3_c_land_location_<?php echo $i; ?>"
-                                                                        id="sec_3_c_land_location_<?php echo $i; ?>"
-                                                                        class="form-control">
+                                                                    id="sec_3_c_land_location_<?php echo $i; ?>"
+                                                                    class="form-control">
                                                                     <option value="">--select-- </option>
                                                                     <option value="inpremise">समिति प्रांगण </option>
                                                                     <option value="other">अन्य स्थान </option>
                                                                 </select>
                                                             </div>
+                                                            <div class="col-sm-2 form-group">
+                                                                <label>सम्पत्ति का प्रकार</label>
+                                                                <select name="sec_3_c_property_type_<?php echo $i; ?>" class="form-control" onchange="toggleBuildingType(this, <?php echo $i; ?>)">
+                                                                    <option value="">--select--</option>
+                                                                    <option value="bhoomi">भूमि</option>
+                                                                    <option value="bhawan">भवन</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-sm-2 form-group building-type-container-<?php echo $i; ?>" style="display:none;">
+                                                                <label>भवन का प्रकार</label>
+                                                                <select name="sec_3_c_building_type_<?php echo $i; ?>" class="form-control" onchange="toggleBuildingDesc(this, <?php echo $i; ?>)">
+                                                                    <option value="">--select--</option>
+                                                                    <option value="godam">गोदाम</option>
+                                                                    <option value="karaylay">कार्यालय</option>
+                                                                    <option value="sheetghrih">शीतगृह</option>
+                                                                    <option value="dukan">दुकान</option>
+                                                                    <option value="anay">अन्य</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-sm-2 form-group building-desc-container-<?php echo $i; ?>" style="display:none;">
+                                                                <label>विवरण</label>
+                                                                <input type="text" name="sec_3_c_building_desc_<?php echo $i; ?>" class="form-control" value="">
+                                                            </div>
                                                             <!-- Image Upload -->
                                                             <div class="col-sm-2 form-group">
                                                                 <label>संस्था का फोटो GPS <br> टैग के साथ संलग्न करे</label>
 
-                                                                <input type="file"
-                                                                       name="sec_3_c_image_<?php echo $i; ?>"
-                                                                       class="form-control"
-                                                                       accept="image/*"
-                                                                       onchange="emptylanddetailspreviewimage(this)">
+                                                                <input type="file" name="sec_3_c_image_<?php echo $i; ?>"
+                                                                    class="form-control" accept="image/*"
+                                                                    onchange="emptylanddetailspreviewimage(this)">
                                                                 <input type="hidden"
-                                                                       name="sec_3_c_existing_image_<?php echo $i; ?>"
-                                                                       value="<?php echo $row_3_5['sec_3_c_image_'.$i] ?? ''; ?>">
+                                                                    name="sec_3_c_existing_image_<?php echo $i; ?>"
+                                                                    value="<?php echo $row_3_5['sec_3_c_image_' . $i] ?? ''; ?>">
 
                                                                 <img class="img-preview mt-2"
-                                                                     style="max-width:120px;display:none;border:1px solid #ccc;padding:3px;">
+                                                                    style="max-width:120px;display:none;border:1px solid #ccc;padding:3px;">
 
                                                             </div>
                                                             <!-- Add / Remove Button -->
                                                             <div class="col-sm-1 form-group my-auto">
                                                                 <?php if ($i == $row_3_5['sec_3_c_id']) { ?>
                                                                     <button type="button" class="btn btn-info"
-                                                                            onclick="sec_3_c_add_rows();">नई पंक्ति जोड़ें
+                                                                        onclick="sec_3_c_add_rows();">नई पंक्ति जोड़ें
                                                                         [+]</button>
                                                                 <?php } else { ?>
                                                                     <button type="button" class="btn btn-danger"
-                                                                            onclick="$(this).closest('.sec3c_row').remove();">-</button>
+                                                                        onclick="$(this).closest('.sec3c_row').remove();">-</button>
                                                                 <?php } ?>
                                                             </div>
                                                         </div>
                                                     <?php } ?>
                                                     <input type="hidden" name="sec_3_c_id" id="sec_3_c_id"
-                                                           value="<?php echo $row_3_5['sec_3_c_id']; ?>">
+                                                        value="<?php echo $row_3_5['sec_3_c_id']; ?>">
                                                 </div>
 
                                             </div>
@@ -2229,8 +2547,8 @@ page_sidebar();
                                             onClick="if($('#review_ack').prop('checked') == true){$('#verification_button').prop('disabled', false);}else{$('#verification_button').prop('disabled', true);}">
                                         मै एतत्द्वारा घोषित करता/करती हूं कि उपरोक्त प्रपत्र में भरी गयी सभी
                                         सूचनायें मेरी जानकारी अनुसार सत्य एवम सही है । </p>
-                                    <button type="button" class="btn btn-danger" onClick="form_validate()" id="verification_button"
-                                        disabled="disabled">सत्यापन के
+                                    <button type="button" class="btn btn-danger" onClick="form_validate()"
+                                        id="verification_button" disabled="disabled">सत्यापन के
                                         लिये आगे प्रेषित
                                         करें
                                     </button>
@@ -2242,33 +2560,31 @@ page_sidebar();
                                     </button>
                                 </div>
                             </div>
-                        </div>
                     </div>
-
-                    <div id="q-box__buttons">
-                        <button id="prev-btn" class="btn btn-info" type="button"
-                            onClick="save_draft()">Previous</button>
-                        <button id="next-btn" class="btn btn-success" type="button" onClick="save_draft()">Next</button>
-                        <button id="submit-btn" class="btn btn-danger" type="submit"
-                            onClick="validate_input(); save_draft();">Submit</button>
-                    </div>
-                    <button class="btn btn-warning" type="button" onClick="save_draft()"><i class="fas fa-save"></i>
-                        Save
-                        Draft</button>
-                    <input type="hidden" id="term" name="term" value="a">
-                    <input type="hidden" id="latitude" name="latitude" value="<?php echo $row_invoice['latitude']; ?>">
-                    <input type="hidden" id="longitude" name="longitude"
-                        value="<?php echo $row_invoice['longitude']; ?>">
-                    <input type="hidden" id="id" name="id" value="submit_form_pcf">
-                    <input type="hidden" id="current_step_count" name="current_step_count" value="">
-                    <input type="hidden" id="survey_id" name="survey_id" value="<?php echo $row_invoice['sno']; ?>">
-                    </form>
                 </div>
-                <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data"
-                    id="otp_form" name="otp_form"></form>
+
+                <div id="q-box__buttons">
+                    <button id="prev-btn" class="btn btn-info" type="button" onClick="save_draft()">Previous</button>
+                    <button id="next-btn" class="btn btn-success" type="button" onClick="save_draft()">Next</button>
+                    <button id="submit-btn" class="btn btn-danger" type="submit"
+                        onClick="validate_input(); save_draft();">Submit</button>
+                </div>
+                <button class="btn btn-warning" type="button" onClick="save_draft()"><i class="fas fa-save"></i>
+                    Save
+                    Draft</button>
+                <input type="hidden" id="term" name="term" value="a">
+                <input type="hidden" id="latitude" name="latitude" value="<?php echo $row_invoice['latitude']; ?>">
+                <input type="hidden" id="longitude" name="longitude" value="<?php echo $row_invoice['longitude']; ?>">
+                <input type="hidden" id="id" name="id" value="submit_form_pcf">
+                <input type="hidden" id="current_step_count" name="current_step_count" value="">
+                <input type="hidden" id="survey_id" name="survey_id" value="<?php echo $row_invoice['sno']; ?>">
+                </form>
             </div>
+            <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data" id="otp_form"
+                name="otp_form"></form>
         </div>
     </div>
+</div>
 </div>
 </div>
 
@@ -2821,14 +3137,15 @@ page_sidebar();
         var row = `
         <tr id="purchase_sale_row_${newId}">
             <td>${newId}</td>
-            <td><input type="text" name="wheat_purchase_${newId}" class="form-control"></td>
-            <td><input type="text" name="rice_purchase_${newId}" class="form-control"></td>
-            <td><input type="text" name="seed_${newId}" class="form-control"></td>
-            <td><input type="text" name="fertilizer_${newId}" class="form-control"></td>
-            <td><input type="text" name="godown_rent_${newId}" class="form-control"></td>
-            <td><input type="text" name="nefed_${newId}" class="form-control"></td>
-            <td><input type="text" name="farmer_service_center_${newId}" class="form-control"></td>
-            <td><input type="text" name="other_business_${newId}" class="form-control"></td>
+            <td><input type="text" name="fin_year_${newId}" class="form-control" placeholder="वित्तीय वर्ष"></td>
+            <td><input type="text" name="wheat_purchase_${newId}" class="form-control" placeholder="मात्रा (MT)"></td>
+            <td><input type="text" name="rice_purchase_${newId}" class="form-control" placeholder="मात्रा (MT)"></td>
+            <td><input type="text" name="seed_${newId}" class="form-control" placeholder="मात्रा (MT)"></td>
+            <td><input type="text" name="fertilizer_${newId}" class="form-control" placeholder="मात्रा (MT)"></td>
+            <td><input type="text" name="godown_rent_${newId}" class="form-control" placeholder="धनराशि (Lakh)"></td>
+            <td><input type="text" name="nefed_${newId}" class="form-control" placeholder="मात्रा (MT)"></td>
+            <td><input type="text" name="farmer_service_center_${newId}" class="form-control" placeholder="धनराशि (Lakh)"></td>
+            <td><input type="text" name="other_business_${newId}" class="form-control" placeholder="धनराशि (Lakh)"></td>
         </tr>
     `;
 
@@ -3005,6 +3322,7 @@ page_sidebar();
 
         var txt = '<div class="row mb-2 sec3c_row">' +
             '<div class="col-sm-2 form-group"><label>जनपद</label><select name="sec_3_c_district_' + id + '" class="form-control"><option value="">--Select--</option>' + districtOptions + '</select></div>' +
+            '<div class="col-sm-3 form-group"><label>पता</label><input type="text" name="sec_3_c_add_' + id + '" class="form-control"></div>' +
             '<div class="col-sm-3 form-group"><label>क्षेत्रफल (हेक्टेयर में)</label><input type="text" name="sec_3_c_area_' + id + '" class="form-control"></div>' +
             '<div class="col-sm-3 form-group"><label>स्थान (समिति प्रांगण या अन्य स्थान)</label><select name="sec_3_c_land_location_' + id + '" class="form-control"><option value="">--select--</option><option value="inpremise">समिति प्रांगण</option><option value="other">अन्य स्थान</option></select></div>' +
             '<div class="col-sm-3 form-group"><label>पहुच मार्ग का प्रकार</label><select name="sec_3_c_paved_road_' + id + '" class="form-control"><option value="">--select--</option><option value="ordinary">कच्ची सड़क</option><option value="nh">नेशनल हाईवे</option><option value="sh">स्टेट हाईवे</option><option value="mdr">एम.डी.आर.</option><option value="odr">ओ.डी.आर.</option><option value="rural_road">ग्रामीण सड़क</option><option value="other">अन्य</option></select></div>' +
@@ -3145,6 +3463,45 @@ page_sidebar();
 
     });
 
+    function updateOuterOfficeRows(val) {
+        var count = parseInt(val, 10);
+        var wrapper = document.getElementById('outerOfficeTableWrapper');
+        var tbody = document.getElementById('outer-office-main-tbody');
+
+        if (!wrapper || !tbody) return;
+
+        if (isNaN(count) || count < 1) {
+            wrapper.style.display = 'none';
+            return;
+        } else {
+            wrapper.style.display = 'block';
+        }
+
+        var currentRows = tbody.getElementsByClassName('outer-office-row-template');
+        var diff = count - currentRows.length;
+
+        if (diff > 0) {
+            var template = currentRows[0];
+            for (var i = 0; i < diff; i++) {
+                var clone = template.cloneNode(true);
+                var inputs = clone.querySelectorAll('input, select, textarea');
+                inputs.forEach(function (inp) {
+                    if (inp.type === 'file') {
+                        inp.value = '';
+                    } else {
+                        inp.value = '';
+                    }
+                });
+                tbody.appendChild(clone);
+            }
+        } else if (diff < 0) {
+            while (currentRows.length > count) {
+                tbody.removeChild(currentRows[currentRows.length - 1]);
+            }
+        }
+    }
+
+
     function sec_3_c_add_rows() {
 
         let container = document.getElementById('sec_3_c');
@@ -3165,6 +3522,11 @@ page_sidebar();
                     </option>
                 <?php } ?>
             </select>
+        </div>
+
+        <div class="col-sm-2 form-group">
+            <label>पता</label>
+            <input type="text" name="sec_3_c_add_${id}" class="form-control">
         </div>
 
         <div class="col-sm-2 form-group">
@@ -3219,15 +3581,15 @@ style="max-width:120px;display:none;border:1px solid #ccc;padding:3px;">
         container.insertAdjacentHTML('beforeend', html);
     }
 
-    function emptylanddetailspreviewimage(input){
+    function emptylanddetailspreviewimage(input) {
 
         var preview = input.parentElement.querySelector('.img-preview');
 
-        if(input.files && input.files[0]){
+        if (input.files && input.files[0]) {
 
             var reader = new FileReader();
 
-            reader.onload = function(e){
+            reader.onload = function (e) {
                 preview.src = e.target.result;
                 preview.style.display = "block";
             }
@@ -3272,11 +3634,11 @@ page_footer_start();
 ?>
 
 <script>
-    document.getElementById("society_photo").addEventListener("change", function(e){
+    document.getElementById("society_photo").addEventListener("change", function (e) {
         let file = e.target.files[0];
-        if(!file) return;
+        if (!file) return;
         let reader = new FileReader();
-        reader.onload = function(event){
+        reader.onload = function (event) {
             let preview = document.getElementById("society_photo_preview");
             preview.src = event.target.result;
             preview.style.display = "block";
@@ -3284,12 +3646,12 @@ page_footer_start();
         reader.readAsDataURL(file);
     });
 
-    document.addEventListener("DOMContentLoaded", function(){
+    document.addEventListener("DOMContentLoaded", function () {
 
         let existingImage = "<?php echo $existingSocietyPhoto; ?>";
 
-        if(existingImage !== "")
-        {
+        console.log(existingImage);
+        if (existingImage !== "") {
             let preview = document.getElementById("society_photo_preview");
 
             preview.src = "user_data/society_img/" + existingImage;
@@ -3307,7 +3669,7 @@ page_footer_start();
 
         const reader = new FileReader();
 
-        reader.onload = function(e) {
+        reader.onload = function (e) {
             preview.src = e.target.result;
             preview.style.display = "block";
         };
@@ -3317,17 +3679,18 @@ page_footer_start();
 
     let zoneData = <?php echo json_encode($zone_data); ?>;
     let otherOfficeData = <?php echo json_encode($other_office_data); ?>;
+    let outerOfficeData = <?php echo json_encode($outer_office_data); ?>;
 
-    function prefillZones(){
-        if(!zoneData || zoneData.length === 0) return;
+    function prefillZones() {
+        if (!zoneData || zoneData.length === 0) return;
         document.getElementById("no_of_zones").value = zoneData.length;
         updateOfficeRows(zoneData.length);
         let rows = document.querySelectorAll("#officeContainer tbody tr");
 
-        zoneData.forEach(function(zone,index){
+        zoneData.forEach(function (zone, index) {
 
             let row = rows[index];
-            if(!row) return;
+            if (!row) return;
 
             row.querySelector("input[name='zone_name[]']").value = zone.zone_name || "";
             row.querySelector("input[name='zone_district[]']").value = zone.zone_district || "";
@@ -3335,17 +3698,17 @@ page_footer_start();
             row.querySelector("input[name='zone_email[]']").value = zone.zone_email || "";
             row.querySelector("input[name='zone_address[]']").value = zone.zone_address || "";
 
-            if(zone.zone_image){
+            if (zone.zone_image) {
 
                 let preview = row.querySelector(".image-preview");
 
-                if(preview){
+                if (preview) {
                     preview.src = "user_data/society_img/" + zone.zone_image;
                     preview.style.display = "block";
                 }
 
                 let hidden = row.querySelector("input[name='existing_zone_image[]']");
-                if(hidden){
+                if (hidden) {
                     hidden.value = zone.zone_image;
                 }
             }
@@ -3354,9 +3717,9 @@ page_footer_start();
 
     }
 
-    function prefillOtherOffices(){
+    function prefillOtherOffices() {
 
-        if(!otherOfficeData || otherOfficeData.length === 0) return;
+        if (!otherOfficeData || otherOfficeData.length === 0) return;
 
         document.getElementById("global_other_office_count").value = otherOfficeData.length;
 
@@ -3364,10 +3727,10 @@ page_footer_start();
 
         let rows = document.querySelectorAll("#other-office-main-tbody tr");
 
-        otherOfficeData.forEach(function(office,index){
+        otherOfficeData.forEach(function (office, index) {
 
             let row = rows[index];
-            if(!row) return;
+            if (!row) return;
 
             row.querySelector("input[name='other_office_name[]']").value = office.prakhand_name || "";
             row.querySelector("input[name='other_office_district[]']").value = office.prakhand_district || "";
@@ -3375,17 +3738,17 @@ page_footer_start();
             row.querySelector("input[name='other_office_email[]']").value = office.prakhand_email || "";
             row.querySelector("input[name='other_office_address[]']").value = office.prakhand_address || "";
 
-            if(office.prakhand_image){
+            if (office.prakhand_image) {
 
                 let preview = row.querySelector(".image-preview");
 
-                if(preview){
+                if (preview) {
                     preview.src = "user_data/society_img/" + office.prakhand_image;
                     preview.style.display = "block";
                 }
 
                 let hidden = row.querySelector("input[name='existing_other_image[]']");
-                if(hidden){
+                if (hidden) {
                     hidden.value = office.prakhand_image;
                 }
             }
@@ -3393,19 +3756,67 @@ page_footer_start();
         });
 
     }
-    document.addEventListener("DOMContentLoaded", function(){
+    document.addEventListener("DOMContentLoaded", function () {
+        prefillZones();
+        prefillOtherOffices();
+        prefillOuterOffices();
+
+    });
+
+
+    function prefillOuterOffices() {
+
+        if (!outerOfficeData || outerOfficeData.length === 0) return;
+
+        document.getElementById("global_outer_office_count").value = outerOfficeData.length;
+
+        updateOuterOfficeRows(outerOfficeData.length);
+
+        let rows = document.querySelectorAll("#outer-office-main-tbody tr");
+
+        outerOfficeData.forEach(function (office, index) {
+
+            let row = rows[index];
+            if (!row) return;
+
+            row.querySelector("input[name='outer_office_name[]']").value = office.outer_office_name || "";
+            row.querySelector("input[name='outer_office_district[]']").value = office.outer_office_district || "";
+            row.querySelector("input[name='outer_office_mobile[]']").value = office.outer_office_mobile || "";
+            row.querySelector("input[name='outer_office_email[]']").value = office.outer_office_email || "";
+            row.querySelector("input[name='outer_office_address[]']").value = office.outer_office_address || "";
+
+            if (office.outer_office_image) {
+
+                let preview = row.querySelector(".image-preview");
+
+                if (preview) {
+                    preview.src = "user_data/society_img/" + office.outer_office_image;
+                    preview.style.display = "block";
+                }
+
+                let hidden = row.querySelector("input[name='existing_outer_image[]']");
+                if (hidden) {
+                    hidden.value = office.outer_office_image;
+                }
+            }
+
+        });
+
+    }
+    document.addEventListener("DOMContentLoaded", function () {
         prefillZones();
         prefillOtherOffices();
 
     });
 </script>
 
-<script type="text/javascript" src="js/multistepform_upcldf.js?v=1"></script>
-
 <?php
 page_footer_start();
 page_footer_end();
 ?>
+
+<!--Manav Sampada Prefilled Js Works-->
+<script type="text/javascript" src="js/multistepform_upcldf.js?v=1"></script>
 <script>
     function addHumanResourceRow() {
         let tbody = document.getElementById('human_resource_rows');
@@ -3425,13 +3836,12 @@ page_footer_end();
 
         tbody.appendChild(newRow);
     }
-
     function removeHumanResourceRow(btn) {
         let row = btn.closest('tr');
         let rowIndex = Array.from(row.parentNode.children).indexOf(row);
 
         // Remove corresponding staff block
-        let staffBlock = document.querySelector('.staff_block[data-row="'+rowIndex+'"]');
+        let staffBlock = document.querySelector('.staff_block[data-row="' + rowIndex + '"]');
         if (staffBlock) staffBlock.remove();
 
         row.remove();
@@ -3444,7 +3854,7 @@ page_footer_end();
 
         let staffTypeSelect = row.querySelector('select[name="staff_type[]"]');
         let postSelect = row.querySelector('select[name="post_id[]"]');
-        let sanctionedInput = row.querySelector('input[name="sanctioned_post[]"]');
+        let sanctionedInput = row.querySelector('input[name="karyarat_post[]"]');
 
         let staffTypeText = staffTypeSelect.options[staffTypeSelect.selectedIndex]?.text || '';
         let postText = postSelect.options[postSelect.selectedIndex]?.text || '';
@@ -3454,10 +3864,38 @@ page_footer_end();
         let mainContainer = document.getElementById('staff_rows');
         document.getElementById('staff_section').style.display = 'block';
 
-        // Remove old block of this row only
-        let oldBlock = document.querySelector('.staff_block[data-row="'+rowIndex+'"]');
-        if (oldBlock) oldBlock.remove();
+        // ===============================
+        // 🔥 PRESERVE OLD DATA
+        // ===============================
+        let oldBlock = document.querySelector('.staff_block[data-row="' + rowIndex + '"]');
+        let existingData = [];
 
+        if (oldBlock) {
+
+            let oldRows = oldBlock.querySelectorAll('.staff_row');
+
+            oldRows.forEach(function (r) {
+
+                existingData.push({
+                    staff_post: r.querySelector('select[name="staff_post_name[]"]')?.value || '',
+                    name: r.querySelector('input[name="staff_name[]"]')?.value || '',
+                    sthiti: r.querySelector('input[name="staff_sthiti[]"]')?.value || '',
+                    father: r.querySelector('input[name="staff_father[]"]')?.value || '',
+                    dob: r.querySelector('input[name="staff_dob[]"]')?.value || '',
+                    mobile: r.querySelector('input[name="staff_mobile[]"]')?.value || '',
+                    qualification: r.querySelector('select[name="staff_qualification[]"]')?.value || '',
+                    image: r.querySelector('.existing-staff-image')?.value || '',
+                    preview: r.querySelector('.img-preview')?.src || ''
+                });
+
+            });
+
+            oldBlock.remove(); // remove after saving data
+        }
+
+        // ===============================
+        // 🔥 CREATE NEW BLOCK
+        // ===============================
         if (postValue && sanctioned > 0) {
 
             let blockWrapper = document.createElement('div');
@@ -3465,7 +3903,7 @@ page_footer_end();
             blockWrapper.setAttribute('data-row', rowIndex);
             blockWrapper.style.marginBottom = "20px";
 
-            // 🔷 Add Heading
+            // 🔷 Heading
             let heading = document.createElement('div');
             heading.style.background = "#f1f8ff";
             heading.style.padding = "10px 15px";
@@ -3473,19 +3911,50 @@ page_footer_end();
             heading.style.borderRadius = "6px";
             heading.style.marginBottom = "15px";
             heading.style.fontWeight = "600";
-            heading.innerHTML = `
-            ${staffTypeText} | ${postText} | स्वीकृत पद: ${sanctioned}
-        `;
+            heading.innerHTML = `${staffTypeText} | ${postText} | कार्यरत पद: ${sanctioned}`;
 
             blockWrapper.appendChild(heading);
 
-            // Generate Staff Rows
+            // ===============================
+            // 🔥 GENERATE ROWS WITH DATA RESTORE
+            // ===============================
             for (let i = 0; i < sanctioned; i++) {
+
                 let template = document.getElementById('staff_row_template').cloneNode(true);
                 template.style.display = 'block';
                 template.removeAttribute('id');
 
-                template.querySelector('.staff_post_name').value = postValue;
+                let current = template;
+
+                // default post
+                current.querySelector('.staff_post_name').value = postValue;
+
+                // ✅ restore if exists
+                if (existingData[i]) {
+
+                    current.querySelector('select[name="staff_post_name[]"]').value = existingData[i].staff_post;
+                    current.querySelector('input[name="staff_name[]"]').value = existingData[i].name;
+                    current.querySelector('input[name="staff_sthiti[]"]').value = existingData[i].sthiti;
+                    current.querySelector('input[name="staff_father[]"]').value = existingData[i].father;
+                    current.querySelector('input[name="staff_dob[]"]').value = existingData[i].dob;
+                    current.querySelector('input[name="staff_mobile[]"]').value = existingData[i].mobile;
+                    current.querySelector('select[name="staff_qualification[]"]').value = existingData[i].qualification;
+
+                    // image restore
+                    if (existingData[i].image) {
+                        let preview = current.querySelector(".img-preview");
+                        let link = current.querySelector(".image-link");
+                        let hidden = current.querySelector(".existing-staff-image");
+
+                        preview.src = existingData[i].preview;
+                        preview.style.display = "block";
+
+                        link.href = existingData[i].preview;
+                        link.style.display = "inline-block";
+
+                        hidden.value = existingData[i].image;
+                    }
+                }
 
                 blockWrapper.appendChild(template);
             }
@@ -3493,35 +3962,30 @@ page_footer_end();
             mainContainer.appendChild(blockWrapper);
         }
 
-        // Hide section if empty
+        // ===============================
+        // 🔥 HIDE IF EMPTY
+        // ===============================
         if (mainContainer.children.length === 0) {
             document.getElementById('staff_section').style.display = 'none';
         }
     }
-
-    function uploadDocument() {
-        alert('Upload Document functionality can be implemented here!');
-    }
-
     function downloadExcel() {
         var survey_id = "<?php echo $row_invoice['sno']; ?>";
         window.location.href = "download_hr_excel.php?survey_id=" + survey_id;
-        // alert('Download Excel functionality can be implemented here!22222');
     }
 </script>
-
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
 
         let rows = document.querySelectorAll('#human_resource_rows .human_row');
-        rows.forEach(function(row){
+        rows.forEach(function (row) {
 
-            console.log (rows);
+            console.log(rows);
 
             let postSelect = row.querySelector('select[name="post_id[]"]');
-            let sanctionedInput = row.querySelector('input[name="sanctioned_post[]"]');
+            let sanctionedInput = row.querySelector('input[name="karyarat_post[]"]');
 
-            if(postSelect.value && sanctionedInput.value > 0){
+            if (postSelect.value && sanctionedInput.value > 0) {
                 updateStaffSection(postSelect);
             }
 
@@ -3529,145 +3993,156 @@ page_footer_end();
 
     });
 </script>
-
 <script>
     var existingHRData = <?php echo json_encode(array_values($prefillData)); ?>;
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
 
-        if (typeof existingHRData !== 'undefined' && existingHRData.length > 0) {
+        if (!existingHRData || existingHRData.length === 0) return;
 
-            let tbody = document.getElementById('human_resource_rows');
-            tbody.innerHTML = ''; // clear default empty row
+        let tbody = document.getElementById('human_resource_rows');
+        tbody.innerHTML = '';
 
-            existingHRData.forEach(function(hr, index){
+        existingHRData.forEach(function (hr, index) {
 
-                // ---- CREATE MAIN ROW ----
-                let row = document.createElement('tr');
-                row.classList.add('human_row');
+            let row = document.createElement('tr');
+            row.classList.add('human_row');
 
-                row.innerHTML = `
-                <td>
-                    <select name="staff_type[]" class="form-control"
-                        onchange="updateStaffSection(this)">
-                        <option value="">--Select--</option>
-                        <option value="tech" ${hr.staff_type=='tech'?'selected':''}>Technical</option>
-                        <option value="nontech" ${hr.staff_type=='nontech'?'selected':''}>Non-Technical</option>
-                    </select>
-                </td>
+            row.innerHTML = `
+        <td>
+            <select name="staff_type[]" class="form-control" onchange="updateStaffSection(this)">
+                <option value="">--Select--</option>
+                <option value="tech" ${hr.staff_type == 'tech' ? 'selected' : ''}>Technical</option>
+                <option value="nontech" ${hr.staff_type == 'nontech' ? 'selected' : ''}>Non-Technical</option>
+            </select>
+        </td>
 
-                <td>
-                    <select name="post_id[]" class="form-control post-select"
-                        onchange="updateStaffSection(this)">
-                        <option value="">--Select--</option>
-                        <?php echo $postOptionsHTML; ?>
-                    </select>
-                </td>
+        <td>
+            <select name="post_id[]" class="form-control post-select" onchange="updateStaffSection(this)">
+                <option value="">--Select--</option>
+                <?php echo $postOptionsHTML; ?>
+            </select>
+        </td>
 
-                <td>
-                    <input type="number" name="sanctioned_post[]"
-                        value="${hr.sanctioned_post}"
-                        class="form-control"
-                        onchange="updateStaffSection(this)">
-                </td>
+        <td>
+            <input type="number" name="sanctioned_post[]" value="${hr.sanctioned_post}" class="form-control">
+        </td>
 
-                <td>
-                    <input type="number" name="vacant_post[]"
-                        value="${hr.vacant_post}"
-                        class="form-control">
-                </td>
+        <td>
+            <input type="number" name="karyarat_post[]" value="${hr.karyarat_post}" class="form-control"
+                onchange="updateStaffSection(this)">
+        </td>
 
-                <td class="text-center">
-                    ${index==0 ?
-                    `<button type="button" class="btn btn-info btn-sm"
-                            onclick="addHumanResourceRow();">
-                            नई पंक्ति जोड़े [+]
-                        </button>`
+        <td>
+            <input type="number" name="vacant_post[]" value="${hr.vacant_post}" class="form-control">
+        </td>
+
+        <td>
+            <input type="number" name="direct_bharti[]" value="${hr.direct_bharti}" class="form-control">
+        </td>
+
+        <td>
+            <input type="number" name="promotion_bharti[]" value="${hr.promotion_bharti}" class="form-control">
+        </td>
+
+        <td>
+            <input type="number" name="compassionate_bharti[]" value="${hr.compassionate_bharti}" class="form-control">
+        </td>
+
+        <td class="text-center">
+            ${index == 0 ?
+                    `<button type="button" class="btn btn-info btn-sm" onclick="addHumanResourceRow()">+</button>`
                     :
-                    `<button type="button" class="btn btn-danger btn-sm"
-                            onclick="removeHumanResourceRow(this)">-</button>`
+                    `<button type="button" class="btn btn-danger btn-sm" onclick="removeHumanResourceRow(this)">-</button>`
                 }
-                </td>
-            `;
+        </td>
+        `;
 
-                tbody.appendChild(row);
+            tbody.appendChild(row);
 
-                // set selected post after adding
-                row.querySelector('select[name="post_id[]"]').value = hr.hr_post_id;
+            row.querySelector('select[name="post_id[]"]').value = hr.hr_post_id;
+        });
 
-            });
+        // ===============================
+        // 🔥 GENERATE STAFF BLOCKS
+        // ===============================
+        setTimeout(function () {
 
-            // ---- NOW GENERATE STAFF BLOCKS ----
-            setTimeout(function(){
+            let rows = document.querySelectorAll('#human_resource_rows .human_row');
 
-                let rows = document.querySelectorAll('#human_resource_rows .human_row');
+            existingHRData.forEach(function (hr, index) {
 
-                existingHRData.forEach(function(hr, index){
+                let row = rows[index];
+                let postSelect = row.querySelector('select[name="post_id[]"]');
 
-                    let row = rows[index];
-                    let postSelect = row.querySelector('select[name="post_id[]"]');
+                updateStaffSection(postSelect);
 
-                    updateStaffSection(postSelect);
+                let block = document.querySelector('.staff_block[data-row="' + index + '"]');
+                if (!block) return;
 
-                    // Fill staff details
-                    let staffBlocks = document.querySelectorAll('.staff_block')[index];
-                    let staffRows = staffBlocks.querySelectorAll('.staff_row');
+                let staffRows = block.querySelectorAll('.staff_row');
 
-                    hr.staff_members.forEach(function(staff, i){
+                hr.staff_members.forEach(function (staff, i) {
 
-                        let current = staffRows[i];
+                    let current = staffRows[i];
+                    if (!current) return;
 
-                        current.querySelector('select[name="staff_post_name[]"]').value = staff.staff_post_id;
-                        current.querySelector('input[name="staff_name[]"]').value = staff.staff_name;
-                        current.querySelector('input[name="staff_sthiti[]"]').value = staff.staff_sthiti;
-                        current.querySelector('input[name="staff_father[]"]').value = staff.staff_father;
-                        current.querySelector('input[name="staff_dob[]"]').value = staff.staff_dob;
-                        current.querySelector('input[name="staff_mobile[]"]').value = staff.staff_mobile;
-                        current.querySelector('select[name="staff_qualification[]"]').value = staff.staff_qualification;
+                    current.querySelector('select[name="staff_post_name[]"]').value = staff.staff_post_id;
+                    current.querySelector('input[name="staff_name[]"]').value = staff.staff_name;
+                    current.querySelector('input[name="staff_sthiti[]"]').value = staff.staff_sthiti;
+                    current.querySelector('input[name="staff_father[]"]').value = staff.staff_father;
+                    current.querySelector('input[name="staff_dob[]"]').value = staff.staff_dob;
+                    current.querySelector('input[name="staff_mobile[]"]').value = staff.staff_mobile;
+                    current.querySelector('select[name="staff_qualification[]"]').value = staff.staff_qualification;
 
-                        if (staff.staff_image && staff.staff_image !== "") {
+                    if (staff.staff_image) {
+                        let preview = current.querySelector(".img-preview");
+                        let link = current.querySelector(".image-link");
+                        let hidden = current.querySelector(".existing-staff-image");
 
-                            let preview = current.querySelector(".img-preview");
-                            let imageLink = current.querySelector(".image-link");
-                            let hiddenInput = current.querySelector(".existing-staff-image");
+                        let path = "user_data/staff_" + staff.survey_id + "/" + staff.staff_image;
 
-                            var imagePath = "user_data/staff_" + staff.survey_id + "/" + staff.staff_image;
+                        preview.src = path;
+                        link.href = path;
 
-                            preview.src = imagePath;
-                            imageLink.href = imagePath;
+                        preview.style.display = "block";
+                        link.style.display = "inline-block";
 
-                            preview.style.display = "block";
-                            imageLink.style.display = "inline-block";
-
-                            hiddenInput.value = staff.staff_image;
-                        }
-
-                    });
+                        hidden.value = staff.staff_image;
+                    }
 
                 });
 
-            }, 200);
+            });
 
-        }
+        }, 100);
     });
 </script>
-
 <script>
-    document.addEventListener("change", function(e) {
+    document.addEventListener("change", function (e) {
 
         if (e.target.classList.contains("staff-image-input")) {
 
             let input = e.target;
             let file = input.files[0];
 
-            let container = input.closest(".form-group");
-            let preview = container.querySelector(".img-preview");
+            // 🔥 correct parent container
+            let wrapper = input.closest("div").parentNode;
 
-            if (file) {
+            let preview = wrapper.querySelector(".img-preview");
+            let imageLink = wrapper.querySelector(".image-link");
+
+            if (file && preview && imageLink) {
+
                 let reader = new FileReader();
 
-                reader.onload = function(event) {
+                reader.onload = function (event) {
+
                     preview.src = event.target.result;
                     preview.style.display = "block";
+
+                    // ✅ make clickable preview
+                    imageLink.href = event.target.result;
+                    imageLink.style.display = "inline-block";
                 };
 
                 reader.readAsDataURL(file);
@@ -3675,6 +4150,78 @@ page_footer_end();
         }
     });
 </script>
+<script>
+
+    // 🔥 store previous value BEFORE change
+    document.addEventListener("focusin", function (e) {
+        if (e.target.matches('input[type="number"]')) {
+            e.target.dataset.prev = e.target.value;
+        }
+    });
+
+    document.addEventListener("input", function (e) {
+
+        if (
+            e.target.name === "sanctioned_post[]" ||
+            e.target.name === "karyarat_post[]" ||
+            e.target.name === "vacant_post[]" ||
+            e.target.name === "direct_bharti[]" ||
+            e.target.name === "promotion_bharti[]" ||
+            e.target.name === "compassionate_bharti[]"
+        ) {
+            validateHRRow(e.target);
+
+            if (e.target.name === "karyarat_post[]") {
+                updateStaffSection(e.target);
+            }
+        }
+
+    });
+
+    function validateHRRow(elem) {
+
+        let row = elem.closest('.human_row');
+
+        let sanctioned = parseInt(row.querySelector('[name="sanctioned_post[]"]').value) || 0;
+        let karyarat = parseInt(row.querySelector('[name="karyarat_post[]"]').value) || 0;
+        let vacant = parseInt(row.querySelector('[name="vacant_post[]"]').value) || 0;
+        let direct = parseInt(row.querySelector('[name="direct_bharti[]"]').value) || 0;
+        let promotion = parseInt(row.querySelector('[name="promotion_bharti[]"]').value) || 0;
+        let compassionate = parseInt(row.querySelector('[name="compassionate_bharti[]"]').value) || 0;
+
+        // 🔁 helper to revert value
+        function revert() {
+            elem.value = elem.dataset.prev || '';
+        }
+
+        // 1
+        if (karyarat > sanctioned) {
+            alert("कार्यरत पद स्वीकृत पद से अधिक नहीं हो सकता");
+            revert();
+            return;
+        }
+
+        // 2
+        // if ((vacant + direct + promotion + compassionate) > sanctioned) {
+        //     alert("रिक्त + सीधी भर्ती + पदोन्नति + प्रतिपूर्ति कुल स्वीकृत पद से अधिक नहीं हो सकता");
+        //     revert();
+        //     return;
+        // }
+
+        // 3
+        // if ((direct + promotion + compassionate) > karyarat) {
+        //     alert("भर्ती कुल कार्यरत पद से अधिक नहीं हो सकती");
+        //     revert();
+        //     return;
+        // }
+
+        // ✅ if valid → update prev value
+        elem.dataset.prev = elem.value;
+    }
+
+</script>
+<!--Manav Sampada Prefilled Ended-->
+
 <script>
     let purchaseData = <?php echo json_encode($purchase_sale_rows ?? []); ?>;
 
@@ -3684,7 +4231,7 @@ page_footer_end();
 
     let rowNo = 0;
 
-    purchaseData.forEach((row,index)=>{
+    purchaseData.forEach((row, index) => {
 
         rowNo = index + 1;
 
@@ -3693,6 +4240,7 @@ page_footer_end();
 
 <td>${rowNo}</td>
 
+<td><input type="text" name="fin_year_${rowNo}" class="form-control" value="${row.fin_year ?? ''}"></td>
 <td><input type="text" name="wheat_purchase_${rowNo}" class="form-control" value="${row.wheat_purchase ?? ''}"></td>
 
 <td><input type="text" name="rice_purchase_${rowNo}" class="form-control" value="${row.rice_purchase ?? ''}"></td>
@@ -3710,14 +4258,14 @@ page_footer_end();
 <td><input type="text" name="other_business_${rowNo}" class="form-control" value="${row.other_business ?? ''}"></td>
 
 </tr>`;
-        tbody.insertAdjacentHTML("beforeend",html);
+        tbody.insertAdjacentHTML("beforeend", html);
     });
 </script>
 <script>
     let emptyLandData = <?php echo json_encode($empty_land_data ?? []); ?>;
     let surveyId = "<?php echo $row_invoice['sno']; ?>";
 
-    let rowCount = 1;
+    let rowCount = <?php echo $row_3_5['sec_3_c_id'] ?? 1; ?>;
 
     /* ===============================
        CREATE ROW
@@ -3729,8 +4277,12 @@ page_footer_end();
         document.getElementById("sec_3_c_id").value = rowCount;
         let district = data.sec_3_c_district ?? "";
         let area = data.sec_3_c_area ?? "";
+        let add = data.sec_3_c_add ?? "";
         let road = data.sec_3_c_paved_road ?? "";
         let location = data.sec_3_c_land_location ?? "";
+        let property_type = data.sec_3_c_property_type ?? "";
+        let building_type = data.sec_3_c_building_type ?? "";
+        let building_desc = data.sec_3_c_building_desc ?? "";
         let image = data.sec_3_c_image ?? "";
 
         let imagePath = image
@@ -3749,6 +4301,12 @@ page_footer_end();
             </option>
             <?php } ?>
             </select>
+            </div>
+            <div class="col-sm-2 form-group">
+                <label>पता</label>
+                <input type="text" name="sec_3_c_add_${rowCount}"
+                    class="form-control"
+                    value="${add}">
             </div>
             <div class="col-sm-2 form-group">
             <label>क्षेत्रफल (हेक्टेयर में)</label>
@@ -3779,6 +4337,29 @@ page_footer_end();
             </select>
             </div>
             <div class="col-sm-2 form-group">
+            <label>सम्पत्ति का प्रकार</label>
+            <select name="sec_3_c_property_type_${rowCount}" class="form-control" onchange="toggleBuildingType(this, ${rowCount})">
+            <option value="">--select--</option>
+            <option value="bhoomi">भूमि</option>
+            <option value="bhawan">भवन</option>
+            </select>
+            </div>
+            <div class="col-sm-2 form-group building-type-container-${rowCount}" style="display:none;">
+            <label>भवन का प्रकार</label>
+            <select name="sec_3_c_building_type_${rowCount}" class="form-control" onchange="toggleBuildingDesc(this, ${rowCount})">
+            <option value="">--select--</option>
+            <option value="godam">गोदाम</option>
+            <option value="karaylay">कार्यालय</option>
+            <option value="sheetghrih">शीतगृह</option>
+            <option value="dukan">दुकान</option>
+            <option value="anay">अन्य</option>
+            </select>
+            </div>
+            <div class="col-sm-2 form-group building-desc-container-${rowCount}" style="display:none;">
+            <label>विवरण</label>
+            <input type="text" name="sec_3_c_building_desc_${rowCount}" class="form-control" value="${building_desc}">
+            </div>
+            <div class="col-sm-2 form-group">
             <label>संस्था का फोटो GPS टैग के साथ संलग्न करे</label>
             <input type="file"
             name="sec_3_c_image_${rowCount}"
@@ -3807,7 +4388,39 @@ page_footer_end();
         if (row) {
             row.querySelector(`select[name="sec_3_c_district_${rowCount}"]`).value = district;
             row.querySelector(`select[name="sec_3_c_paved_road_${rowCount}"]`).value = road;
+            row.querySelector(`select[name="sec_3_c_add_${rowCount}"]`).value = add;
             row.querySelector(`select[name="sec_3_c_land_location_${rowCount}"]`).value = location;
+            row.querySelector(`select[name="sec_3_c_property_type_${rowCount}"]`).value = property_type;
+            row.querySelector(`select[name="sec_3_c_building_type_${rowCount}"]`).value = building_type;
+            
+            toggleBuildingType(row.querySelector(`select[name="sec_3_c_property_type_${rowCount}"]`), rowCount);
+            toggleBuildingDesc(row.querySelector(`select[name="sec_3_c_building_type_${rowCount}"]`), rowCount);
+        }
+    }
+
+    function toggleBuildingType(select, rowCount) {
+        let buildingTypeContainer = document.querySelector(`.building-type-container-${rowCount}`);
+        let buildingDescContainer = document.querySelector(`.building-desc-container-${rowCount}`);
+        if (select && select.value === 'bhawan') {
+            buildingTypeContainer.style.display = 'block';
+        } else if(buildingTypeContainer) {
+            buildingTypeContainer.style.display = 'none';
+            if(buildingDescContainer) buildingDescContainer.style.display = 'none';
+            let btSelect = document.querySelector(`select[name="sec_3_c_building_type_${rowCount}"]`);
+            if(btSelect) btSelect.value = '';
+            let bdInput = document.querySelector(`input[name="sec_3_c_building_desc_${rowCount}"]`);
+            if(bdInput) bdInput.value = '';
+        }
+    }
+
+    function toggleBuildingDesc(select, rowCount) {
+        let buildingDescContainer = document.querySelector(`.building-desc-container-${rowCount}`);
+        if (select && select.value === 'anay') {
+            buildingDescContainer.style.display = 'block';
+        } else if(buildingDescContainer) {
+            buildingDescContainer.style.display = 'none';
+            let bdInput = document.querySelector(`input[name="sec_3_c_building_desc_${rowCount}"]`);
+            if(bdInput) bdInput.value = '';
         }
     }
 
@@ -3871,4 +4484,132 @@ page_footer_end();
         }
 
     }
+    /* ===============================
+       ADD ROW FOR FINANCIAL MATRIX
+    ================================ */
+    let financialRowCount = 3;
+
+    if (document.getElementById('addYearRowBtn')) {
+        document.getElementById('addYearRowBtn').addEventListener('click', function () {
+            financialRowCount++;
+            let tbody = document.querySelector('#financialMatrixTable tbody');
+
+            let startYear = 2022 + financialRowCount - 1;
+            let yearLabel = startYear + '-' + ((startYear + 1) % 100).toString().padStart(2, '0');
+
+            let html = `
+                <input type="hidden" name="financial_year_label_${financialRowCount}" value="${yearLabel}">
+                <tr>
+                    <td rowspan="2">${yearLabel}</td>
+                    <td>वार्षिक लाभ/हानि</td>
+                    <td>
+                        <select name="sec_3_profit_loss_${financialRowCount}" class="form-control"
+                                onchange="handleDropdownColorChange(this,'profit','#42ecf5','loss','#f28546');">
+                            <option value="">--Select--</option>
+                            <option value="profit">लाभ</option>
+                            <option value="loss">हानि</option>
+                        </select>
+                    </td>
+                    <td><input type="text" name="sec_3_gross_amount_${financialRowCount}" class="form-control chk_decimal" placeholder="धनराशि (Lakh)"></td>
+                    <td><input type="text" name="sec_3_net_amount_${financialRowCount}" class="form-control chk_decimal" placeholder="धनराशि (Lakh)"></td>
+                </tr>
+                <tr>
+                    <td>संचित लाभ/हानि</td>
+                    <td>
+                        <select name="sec_3_accumulated_${financialRowCount}" class="form-control"
+                                onchange="handleDropdownColorChange(this,'profit','#42ecf5','loss','#f28546');">
+                            <option value="">--Select--</option>
+                            <option value="profit">लाभ</option>
+                            <option value="loss">हानि</option>
+                        </select>
+                    </td>
+                    <td><input type="text" name="sec_3_acc_gross_amount_${financialRowCount}" class="form-control chk_decimal" placeholder="धनराशि (Lakh)"></td>
+                    <td><input type="text" name="sec_3_acc_net_amount_${financialRowCount}" class="form-control chk_decimal" placeholder="धनराशि (Lakh)"></td>
+                </tr>
+            `;
+            tbody.insertAdjacentHTML('beforeend', html);
+        });
+    }
 </script>
+<script>
+function addYearlyBusinessRow() {
+
+    // Existing rows count
+    var id = $("#sec_7_yearly_business_table tbody tr").length;
+
+    // Validation before adding new row
+    for (var i = 1; i <= id; i++) {
+
+        if (
+            $("input[name='sec_7_fin_year_busi_" + i + "']").val() === "" ||
+            $("input[name='sec_7_business_name_" + i + "']").val() === "" ||
+            $("input[name='sec_7_annual_target_" + i + "']").val() === "" ||
+            $("input[name='sec_7_achievement_" + i + "']").val() === ""
+        ) {
+            alert("पंक्ति संख्या " + i + " में डेटा खाली है");
+            return;
+        }
+    }
+
+    // Next serial number
+    var newId = id + 1;
+
+    var row = `
+        <tr class="yearly_business_row" id="yearly_business_row_${newId}">
+            <td>${newId}</td>
+
+            <td>
+                <input type="text"
+                    name="sec_7_fin_year_busi_${newId}"
+                    class="form-control"
+                    placeholder="वित्तीय वर्ष">
+            </td>
+
+            <td>
+                <input type="text"
+                    name="sec_7_business_name_${newId}"
+                    class="form-control"
+                    placeholder="व्यवसाय नाम">
+            </td>
+
+            <td>
+                <input type="text"
+                    name="sec_7_annual_target_${newId}"
+                    class="form-control"
+                    placeholder="वार्षिक लक्ष्य">
+            </td>
+
+            <td>
+                <input type="text"
+                    name="sec_7_achievement_${newId}"
+                    class="form-control"
+                    placeholder="उपलब्धि">
+            </td>
+
+            <td class="text-center">
+                <button type="button"
+                    class="btn btn-danger btn-sm"
+                    onclick="$('#yearly_business_row_${newId}').remove(); updateYearlyBusinessCount();">
+                    -
+                </button>
+            </td>
+        </tr>
+    `;
+
+    $("#sec_7_yearly_business_table tbody").append(row);
+    $("#sec_7_row_count").val(newId);
+}
+
+function updateYearlyBusinessCount() {
+    var total = $("#sec_7_yearly_business_table tbody tr").length;
+    $("#sec_7_row_count").val(total);
+
+    $("#sec_7_yearly_business_table tbody tr").each(function(index){
+        $(this).find("td:first").text(index + 1);
+    });
+}
+</script>
+
+<?php
+page_footer_start();
+?>

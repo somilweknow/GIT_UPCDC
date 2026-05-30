@@ -1,0 +1,73 @@
+body {
+    font-family: Arial;
+    background: #f4f7fb;
+}
+
+/* Card */
+.card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* Heading */
+.section-heading {
+    font-size: 22px;
+    font-weight: bold;
+    color: #1e3c72;
+    border-left: 6px solid #FF8E00;
+    padding-left: 12px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Button */
+.btn {
+    background: linear-gradient(135deg,#FF8E00,#ffb347);
+    color: #fff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* Table wrapper */
+.table-wrapper {
+    overflow: auto;
+}
+
+/* Header styling */
+table.dataTable thead th {
+    background: linear-gradient(135deg,#1e3c72,#2a5298) !important;
+    color: #fff !important;
+    white-space: nowrap;
+}
+
+/* Fix scroll header */
+.dataTables_scrollHead {
+    background: #1e3c72;
+}
+
+.dataTables_scrollHeadInner {
+    background: #1e3c72;
+}
+
+/* Rows */
+table.dataTable tbody tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+.dataTables_processing {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    background: rgba(0,0,0,0.7) !important;
+    color: #fff !important;
+    padding: 10px 20px !important;
+    border-radius: 5px;
+    z-index: 9999 !important;
+}

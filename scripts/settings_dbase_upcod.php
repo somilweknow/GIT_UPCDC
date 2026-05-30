@@ -2,7 +2,7 @@
 date_default_timezone_set("Asia/Kolkata");
 
 // $db_upcod = mysqli_connect("localhost", "root", "mysql", "upcod");
-$db_upcod = mysqli_connect("localhost", "root", "mysql", "upcod_10_2_26");
+$db_upcod = mysqli_connect("localhost", "root", "mysql", "upcod");
 if(!$db_upcod){
     die("UPCOD DB Error : Contact Administrator.");
 }

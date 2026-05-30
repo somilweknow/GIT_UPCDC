@@ -69,34 +69,11 @@ if ($district_id > 0) {
             $res = execute_query("SELECT bp.*,md.division_name,mdt.district_name FROM bpacs_progress bp LEFT JOIN master_division md ON md.sno=bp.mandal_id LEFT JOIN master_district mdt ON mdt.sno=bp.district_id WHERE bp.id='$prog_id'");
             $row = mysqli_fetch_assoc($res);
         }
-        if (isset($_POST['update_loan'])) {
-            $l_dist_1_4 = mysqli_real_escape_string($GLOBALS['con'] ?? $GLOBALS['conn'] ?? $GLOBALS['db'] ?? null, $_POST['loan_distributed_1_4_26']);
-            $l_dist_apr = mysqli_real_escape_string($GLOBALS['con'] ?? $GLOBALS['conn'] ?? $GLOBALS['db'] ?? null, $_POST['loan_distributed_april']);
-            $l_rec_31_3 = mysqli_real_escape_string($GLOBALS['con'] ?? $GLOBALS['conn'] ?? $GLOBALS['db'] ?? null, $_POST['loan_recovery_31_3_26']);
-            $l_rec_1_4  = mysqli_real_escape_string($GLOBALS['con'] ?? $GLOBALS['conn'] ?? $GLOBALS['db'] ?? null, $_POST['loan_recovery_1_4_26']);
-            $l_rec_apr  = mysqli_real_escape_string($GLOBALS['con'] ?? $GLOBALS['conn'] ?? $GLOBALS['db'] ?? null, $_POST['loan_recovery_april']);
-            
-            execute_query("UPDATE bpacs_progress SET 
-                loan_distributed_1_4_26 = '$l_dist_1_4',
-                loan_distributed_april = '$l_dist_apr',
-                loan_recovery_31_3_26 = '$l_rec_31_3',
-                loan_recovery_1_4_26 = '$l_rec_1_4',
-                loan_recovery_april = '$l_rec_apr'
-                WHERE id='$prog_id'");
-            
-            $msg = "<div class='alert alert-success'>✔ Data Updated Successfully</div>";
-            $res = execute_query("SELECT bp.*,md.division_name,mdt.district_name FROM bpacs_progress bp LEFT JOIN master_division md ON md.sno=bp.mandal_id LEFT JOIN master_district mdt ON mdt.sno=bp.district_id WHERE bp.id='$prog_id'");
-            $row = mysqli_fetch_assoc($res);
-        }
     }
 }
 
 /* ── Always fetch ALL divisions with their districts ── */
-$div_cond = "";
-if ($session_division_id > 0) {
-    $div_cond = " WHERE sno = '{$session_division_id}' ";
-}
-$divisions_res = execute_query("SELECT sno, division_name FROM master_division {$div_cond} ORDER BY division_name");
+$divisions_res = execute_query("SELECT sno, division_name FROM master_division ORDER BY division_name");
 $all_divisions = [];
 while ($dv = mysqli_fetch_assoc($divisions_res)) {
     $all_divisions[$dv['sno']] = [
@@ -105,11 +82,7 @@ while ($dv = mysqli_fetch_assoc($divisions_res)) {
     ];
 }
 
-$dist_cond = "";
-if ($session_division_id > 0) {
-    $dist_cond = " WHERE division_id = '{$session_division_id}' ";
-}
-$all_dist_res = execute_query("SELECT sno, district_name, division_id FROM master_district {$dist_cond} ORDER BY district_name");
+$all_dist_res = execute_query("SELECT sno, district_name, division_id FROM master_district ORDER BY district_name");
 while ($dd = mysqli_fetch_assoc($all_dist_res)) {
     $dvid = $dd['division_id'];
     if (isset($all_divisions[$dvid])) {
@@ -156,7 +129,7 @@ page_sidebar();
         margin: 0 auto 30px;
     }
 
-    .page-title {
+    .dashboard-page-title {
         font-size: 24px;
         font-weight: 800;
         text-align: center;
@@ -279,37 +252,11 @@ page_sidebar();
 
     .division-block { margin-bottom: 35px; }
 
-    .loan-sub-title {
-        font-size: 20px;
-        font-weight: 700;
-        color: #5a67d8;
-        margin-bottom: 10px;
-        padding-bottom: 5px;
-        border-bottom: 2px solid #e2e8f0;
-    }
-
-    .edit-field {
-        height: 50px; font-size: 16px; border-radius: 8px;
-        border: 2px solid #e2e8f0; padding: 10px 16px;
-        background-color: #fff; color: #2d3748; width: 100%; box-sizing: border-box;
-        transition: border-color 0.2s;
-    }
-    .edit-field:focus { border-color: #667eea; outline: none; box-shadow: 0 0 0 3px rgba(102,126,234,0.1); }
-
-    .btn-update-loan {
-        background: linear-gradient(135deg, #4299e1, #3182ce);
-        color:white; border:none; padding:10px 25px; font-size:15px; font-weight:700;
-        border-radius:8px; cursor:pointer; transition:all 0.3s;
-        box-shadow:0 4px 12px rgba(66,153,225,0.3);
-        margin-top: 15px;
-    }
-    .btn-update-loan:hover { transform:translateY(-1px); box-shadow:0 6px 18px rgba(66,153,225,0.4); }
-
     @media (max-width:768px) {
         .main-box { padding: 16px; }
-        .page-title { font-size: 17px; }
+        .dashboard-page-title { font-size: 17px; }
         .section-title { font-size: 13px; }
-        .ro-field, .edit-field { height: 44px; font-size: 14px; }
+        .ro-field { height: 44px; font-size: 14px; }
         .btn-approve, .btn-reject { padding:10px 16px; font-size:14px; margin-bottom:8px; }
         .dist-table thead th, .dist-table tbody td { padding:8px 9px; font-size:12px; }
     }
@@ -320,7 +267,7 @@ page_sidebar();
         <div class="col-md-12">
             <div class="main-box">
 
-                <div class="page-title">जिले कि प्रगति सुचना</div>
+                <div class="dashboard-page-title">जिले कि प्रगति सुचना</div>
 
 <?php if ($district_id == 0): ?>
 
@@ -335,6 +282,7 @@ page_sidebar();
             <div class="section-title">
                 मण्डल: <?= htmlspecialchars($division['division_name']) ?>
             </div>
+            <div class="table-responsive">
             <table class="dist-table">
                 <thead>
                     <tr>
@@ -365,6 +313,7 @@ page_sidebar();
                     <?php endforeach; ?>
                 </tbody>
             </table>
+            </div>
         </div>
     <?php endforeach; ?>
 
@@ -416,38 +365,13 @@ page_sidebar();
                 <input class="ro-field" type="text" value="<?= htmlspecialchars($row['pending_review'] ?? '') ?>" readonly></div></div>
         </div>
 
-        <form method="post" action="pacs_info_dr.php?district_id=<?= $district_id ?>">
-            <div class="section-title">फसली ऋण</div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="loan-sub-title">वितरित धनराशि</div>
-                    <div class="form-group">
-                        <label>01-04-2026 से अद्यतन (रु)</label>
-                        <input class="edit-field" type="text" name="loan_distributed_1_4_26" value="<?= htmlspecialchars($row['loan_distributed_1_4_26'] ?? '') ?>" placeholder="राशि दर्ज करें">
-                    </div>
-                    <div class="form-group">
-                        <label>माह अप्रैल में वितरित</label>
-                        <input class="edit-field" type="text" name="loan_distributed_april" value="<?= htmlspecialchars($row['loan_distributed_april'] ?? '') ?>" placeholder="राशि दर्ज करें">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="loan-sub-title">वसूली</div>
-                    <div class="form-group">
-                        <label>31-03-2026 को कुल बकाया</label>
-                        <input class="edit-field" type="text" name="loan_recovery_31_3_26" value="<?= htmlspecialchars($row['loan_recovery_31_3_26'] ?? '') ?>" placeholder="राशि दर्ज करें">
-                    </div>
-                    <div class="form-group">
-                        <label>01-04-2026 से अद्यतन वसूली</label>
-                        <input class="edit-field" type="text" name="loan_recovery_1_4_26" value="<?= htmlspecialchars($row['loan_recovery_1_4_26'] ?? '') ?>" placeholder="राशि दर्ज करें">
-                    </div>
-                    <div class="form-group">
-                        <label>माह अप्रैल में वसूली</label>
-                        <input class="edit-field" type="text" name="loan_recovery_april" value="<?= htmlspecialchars($row['loan_recovery_april'] ?? '') ?>" placeholder="राशि दर्ज करें">
-                    </div>
-                </div>
-            </div>
-            
-        </form>
+        <div class="section-title">फसली ऋण</div>
+        <div class="row row-gap">
+            <div class="col-md-6"><div class="form-group"><label>वितरित धनराशि</label>
+                <input class="ro-field" type="text" value="<?= htmlspecialchars($row['loan_distributed'] ?? '') ?>" readonly></div></div>
+            <div class="col-md-6"><div class="form-group"><label>वसूली</label>
+                <input class="ro-field" type="text" value="<?= htmlspecialchars($row['loan_recovery'] ?? '') ?>" readonly></div></div>
+        </div>
 
         <div class="section-title">सोलर रूफटॉप (बी-पैक्स स०)</div>
         <div class="row row-gap">
@@ -496,7 +420,13 @@ page_sidebar();
 
 <?php endif; ?>
 
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<?php
+page_footer_start();
+page_footer_end();
+?>

@@ -435,7 +435,7 @@ if ($DIV_ID) {
     <div class="card" style="margin-top:30px;">
         <h3 class="section-heading" style="text-align:center;">📋 रिपोर्ट</h3>
 
-        <div class="table-wrap">
+        <div class="table-responsive">
             <table class="report-table">
                 <thead>
                     <tr>
@@ -595,8 +595,7 @@ if ($DIV_ID) {
 ?>
 
 <form method="post" action="">
-    <h2
-        style="text-align:center;font-size:28px;color:#357ab8;font-weight:600;padding:10px;border-radius:5px;margin-bottom:20px;">
+    <h2 class="module-title">
         सहकारी संघों (ब्लॉक यूनियन) का जनपदवार विवरण
     </h2>
 

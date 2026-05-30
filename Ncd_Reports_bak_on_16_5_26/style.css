@@ -1,0 +1,327 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f7fb;
+    margin: 0;
+    padding: 0;
+}
+
+/* Card */
+.card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    margin: 20px;
+}
+
+/* Heading */
+.section-heading {
+    font-size: 22px;
+    font-weight: bold;
+    color: #1e3c72;
+    border-left: 6px solid #FF8E00;
+    padding-left: 12px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* ========== FILTERS STYLING ========== */
+.filters-panel {
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+/* Filter Toggle Button */
+.filter-toggle {
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: white;
+    padding: 12px 15px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+    user-select: none;
+}
+
+.filter-toggle:hover {
+    background: linear-gradient(135deg, #2a5298, #3a6db8);
+}
+
+/* Filters Container */
+.filters-container {
+    padding: 20px;
+    background: #fafafa;
+    display: none;
+}
+
+.filters-container.open {
+    display: block;
+}
+
+/* Filters Grid */
+.filters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+/* Individual Filter Group */
+.filter-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-group label {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 6px;
+    font-size: 13px;
+}
+
+.filter-input {
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 13px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.filter-input:hover {
+    border-color: #FF8E00;
+    box-shadow: 0 0 4px rgba(255, 142, 0, 0.2);
+}
+
+.filter-input:focus {
+    outline: none;
+    border-color: #1e3c72;
+    box-shadow: 0 0 6px rgba(30, 60, 114, 0.3);
+}
+
+/* Filter Actions */
+.filter-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+    padding-top: 10px;
+    border-top: 1px solid #e0e0e0;
+}
+
+/* ========== BUTTONS ========== */
+.btn {
+    background: linear-gradient(135deg, #FF8E00, #ffb347);
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+    white-space: nowrap;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(255, 142, 0, 0.3);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #2a5298, #3a6db8);
+    box-shadow: 0 6px 12px rgba(30, 60, 114, 0.3);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #666, #888);
+}
+
+.btn-secondary:hover {
+    background: linear-gradient(135deg, #777, #999);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* ========== TABLE STYLING ========== */
+.table-wrapper {
+    overflow: auto;
+    border-radius: 8px;
+    background: white;
+}
+
+/* DataTable Header */
+table.dataTable thead th {
+    background: linear-gradient(135deg, #1e3c72, #2a5298) !important;
+    color: #fff !important;
+    white-space: nowrap;
+    font-weight: bold;
+    border: none !important;
+    padding: 12px 8px !important;
+}
+
+/* DataTable Body */
+table.dataTable tbody td {
+    padding: 8px 6px !important;
+    font-size: 13px;
+    border-bottom: 1px solid #f0f0f0 !important;
+}
+
+/* Alternate Row Colors */
+table.dataTable tbody tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+table.dataTable tbody tr:hover {
+    background: #f0f7ff !important;
+}
+
+/* Fixed Header */
+.dataTables_scrollHead {
+    background: #1e3c72 !important;
+}
+
+.dataTables_scrollHeadInner {
+    background: #1e3c72 !important;
+}
+
+/* Processing Indicator */
+.dataTables_processing {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    background: rgba(0, 0, 0, 0.8) !important;
+    color: #fff !important;
+    padding: 20px 40px !important;
+    border-radius: 8px;
+    z-index: 9999 !important;
+    font-weight: bold;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* ========== PAGINATION ========== */
+.dataTables_paginate {
+    margin-top: 15px;
+}
+
+.paginate_button {
+    padding: 6px 12px !important;
+    margin: 0 2px !important;
+    border-radius: 4px !important;
+    background: #f0f0f0 !important;
+    border: 1px solid #ddd !important;
+    cursor: pointer !important;
+    transition: all 0.2s !important;
+}
+
+.paginate_button:hover {
+    background: #1e3c72 !important;
+    color: white !important;
+}
+
+.paginate_button.current {
+    background: #1e3c72 !important;
+    color: white !important;
+}
+
+/* ========== INFO & LENGTH ========== */
+.dataTables_info {
+    color: #666;
+    font-size: 13px;
+    margin-top: 10px;
+}
+
+.dataTables_length {
+    margin-bottom: 15px;
+}
+
+.dataTables_length select {
+    padding: 6px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* ========== SEARCH ========== */
+.dataTables_filter {
+    margin-bottom: 15px;
+}
+
+.dataTables_filter input {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 200px;
+}
+
+.dataTables_filter input:focus {
+    outline: none;
+    border-color: #1e3c72;
+    box-shadow: 0 0 6px rgba(30, 60, 114, 0.2);
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+    .filters-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section-heading {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .card {
+        margin: 10px;
+        padding: 15px;
+    }
+}
+
+/* ========== PRINT ========== */
+@media print {
+    body {
+        background: white;
+    }
+
+    .filters-panel,
+    .section-heading .btn,
+    .dataTables_filter,
+    .dataTables_length,
+    .dataTables_info,
+    .dataTables_paginate {
+        display: none !important;
+    }
+
+    table.dataTable {
+        font-size: 10px;
+    }
+
+    table.dataTable thead th {
+        background: #1e3c72 !important;
+        color: white !important;
+        padding: 6px 4px !important;
+    }
+
+    table.dataTable tbody td {
+        padding: 4px 3px !important;
+    }
+}

@@ -76,7 +76,7 @@ page_sidebar();
                      <select name="designation" class="form-control">
                         <option value="">Select</option>
                         <?php
-                        $sql = "select * from master_post_upcldf order by id";
+                        $sql = "select * from master_designation_apex_new order by id";
                         $res = execute_query($sql);
                         while ($r = mysqli_fetch_assoc($res)) {
                            ?>

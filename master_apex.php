@@ -88,7 +88,6 @@ page_header_end();
 page_sidebar();
 ?>
 
-<body>
 
 <div class="grid">
 
@@ -153,4 +152,5 @@ if ($result && mysqli_num_rows($result) > 0) {
 
 <?php
 page_footer_start();
+page_footer_end();
 ?>

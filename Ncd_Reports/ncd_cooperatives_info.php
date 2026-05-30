@@ -1,6 +1,10 @@
 <?php
 // session_start();
 include("../scripts/settings.php");
+echo '<base href="../">';
+page_header_start();
+page_header_end();
+page_sidebar();
 include("helpers/filter_builder.php");
 
 $authority_id = isset($_GET['authority_id']) ? intval($_GET['authority_id']) : 0;
@@ -16,11 +20,11 @@ $priorityCols = [
 
 // 🔥 Get all columns
 $allCols = [];
-$res = execute_query("SHOW COLUMNS FROM cooperatives");
+$res = execute_query("SHOW COLUMNS FROM ncd_cooperative_registrations");
 
 while ($c = mysqli_fetch_assoc($res)) {
-    if (in_array($c['Field'], ['created_at', 'updated_at', 'sno'])) {
-        continue; // ❌ remove sno completely
+    if (in_array($c['Field'], ['created_at', 'updated_at', 'id'])) {
+        continue;
     }
     $allCols[] = $c['Field'];
 }
@@ -31,15 +35,87 @@ $remainingCols = array_diff($allCols, $priorityCols);
 // ✅ FINAL ORDER
 $cols = array_merge($priorityCols, $remainingCols);
 
+
+//District Code Filter
+$user_type = $_SESSION['user_type'] ?? '';
+
+$session_district_filter = ''; // final filter string
+$district_ids = [];
+
+// ✅ MAKER → single district
+if ($user_type === 'ncd_maker') {
+
+    $district_id = (int)($_SESSION['district_id'] ?? 0);
+
+    if ($district_id > 0) {
+        $session_district_filter = " AND c.district_code = $district_id ";
+    }
+}
+
+// CHECKER → multiple districts (division based)
+elseif ($user_type === 'ncd_checker') {
+
+    $division_id = $_SESSION['division_id'] ?? '';
+
+    $districts = [];
+
+    if (!empty($division_id)) {
+
+        $sql = "SELECT nd.district_code
+                FROM master_district md
+                LEFT JOIN ncd_districts nd 
+                ON LOWER(md.district_name) = LOWER(nd.district_name)
+                WHERE md.division_id = '$division_id'";
+
+        $resDist = execute_query($sql);
+
+        while ($row = mysqli_fetch_assoc($resDist)) {
+            if (!empty($row['district_code'])) {
+                $districts[] = (int)$row['district_code'];
+            }
+        }
+    }
+
+    if (!empty($districts)) {
+        $district_list = implode(",", $districts);
+        $session_district_filter = " AND c.district_code IN ($district_list) ";
+    }
+
+    $district_ids = $districts ?? [];
+}
+
+
+// ✅ ADMIN / OTHERS → no filter
+else {
+    $session_district_filter = "";
+}
+
+
+//echo $division_id;
+//
+//echo '==========';
+//
+//echo '<pre>';
+//
+//print_r($session_district_filter); exit;
+
 function formatColumnName($col){
 
     $map = [
-            'cooperative_society_name' => 'Cooperative Name', // 🔥 renamed
+            'cooperative_society_name' => 'Cooperative Name',
             'cooperative_id' => 'Cooperative Id',
             'registration_authoritie_id' => 'Registration Authority',
             'cooperative_society_type_id' => 'Cooperative Society Type',
             'area_of_operation_id' => 'Area of Operation',
-            'pacs_id' => 'PACS Id'
+            'pacs_id' => 'PACS Id',
+            'state_code' => 'State',
+            'district_code' => 'District',
+            'block_code' => 'Block',
+            'gram_panchayat_code' => 'Gram Panchayat',
+            'village_code' => 'Village',
+            'urban_local_body_type_code' => 'Urban Local Body Type',
+            'urban_local_body_code' => 'Urban Local Body District',
+            'locality_ward_code' => 'Locality Ward (no)',
     ];
 
     if (isset($map[$col])) {
@@ -64,7 +140,7 @@ $stateOptions = getFilterOptions('state_code');
 // Get authority name if filtered
 $authorityName = '';
 if ($authority_id > 0) {
-    $res = execute_query("SELECT authority_name FROM registration_authorities_master WHERE id = $authority_id");
+    $res = execute_query("SELECT authority_name FROM ncd_registration_authorities WHERE id = $authority_id");
     if ($row = mysqli_fetch_assoc($res)) {
         $authorityName = $row['authority_name'];
     }
@@ -152,34 +228,6 @@ if ($authority_id > 0) {
             color: #1a5276;
         }
 
-        .nav {
-            background: #1a5276;
-            display: flex;
-            padding: 0 16px;
-            padding: 10px 18px;
-            align-items: center;
-        }
-
-
-
-        .nav a:hover,
-        .nav a.active {
-            background: #154360;
-        }
-
-        .nav .login-btn {
-            background: #e74c3c;
-            border-radius: 4px;
-            margin: 6px 0 6px 8px;
-            padding: 5px 16px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .nav .login-btn:hover {
-            background: #c0392b;
-        }
-
         .dashboard {
             padding: 24px 20px;
         }
@@ -198,12 +246,12 @@ if ($authority_id > 0) {
             background: #ffffff;
             border-radius: 12px;
             border: 1px solid #e2e8f0;
-            padding: 18px 14px 14px;
+            padding: 18px 18px 14px;
             margin-bottom: 20px;
         }
 
         .section-heading {
-            font-size: 18px;
+            font-size: 28px;
             font-weight: bold;
             color: #1a5276;
             margin-bottom: 18px;
@@ -429,7 +477,7 @@ if ($authority_id > 0) {
         table.dataTable tbody td {
             padding: 12px;
             border-bottom: 1px solid #f1f5f9;
-            font-size: 13px;
+            font-size: 14px;
             color: #374151;
         }
 
@@ -497,14 +545,11 @@ if ($authority_id > 0) {
             text-align: right;
             margin: 10px;
         }
+
     </style>
 </head>
 
 <body>
-
-<!-- Top Bar -->
-
-
 <!-- Navigation -->
 <nav class="nav">
 
@@ -514,7 +559,7 @@ if ($authority_id > 0) {
 <div class="dashboard">
 
     <!-- Back to dashboard -->
-    <a href="dashboard_cooperative_types.php?authority_id=<?= $authority_id ?>" class="back-btn">&#9668; Back to Dashboard</a>
+    <a href="Ncd_Reports/dashboard_cooperative_types.php?authority_id=<?= $authority_id ?>" class="back-btn">&#9668; Back to Dashboard</a>
 
     <div class="card">
 
@@ -525,7 +570,7 @@ if ($authority_id > 0) {
                 <rect x="3" y="14" width="7" height="7" rx="1"/>
                 <rect x="14" y="14" width="7" height="7" rx="1"/>
             </svg>
-            Cooperatives Data
+            Cooperatives Societies
             <button class="btn" onclick="exportData()">
                 &#128171; Download Excel
             </button>
@@ -709,23 +754,27 @@ if ($authority_id > 0) {
     <div class="table-wrapper">
         <table id="tbl" class="display nowrap" style="width:100%">
             <thead>
-<!--            <tr>-->
-<!--                --><?php //foreach($cols as $c){ ?>
-<!--                    <th>--><?php //= formatColumnName($c) ?><!--</th>-->
-<!--                --><?php //} ?>
-<!--            </tr>-->
+<!--                    <tr>-->
+<!--                        <th>Sr No</th>-->
+<!--                        <th>Status</th>-->
+<!--                        --><?php //foreach($cols as $c){ ?>
+<!--                            <th>--><?//= formatColumnName($c) ?><!--</th>-->
+<!--                        --><?php //} ?>
+<!--                        <th>Action</th>-->
+<!--                    </tr>-->
 
-<tr>
-    <?php foreach($cols as $c){ ?>
-        <th><?= formatColumnName($c) ?></th>
-    <?php } ?>
-    <th>Action</th> <!-- ✅ MUST ADD -->
-</tr>
+                        <tr>
+                            <th>Action</th>
+                            <th>Sr No</th>
+                            <th>Status</th>
+
+                            <?php foreach($cols as $c){ ?>
+                                <th><?= formatColumnName($c) ?></th>
+                            <?php } ?>
+                        </tr>
             </thead>
         </table>
     </div>
-
-</div>
 
 </div>
 
@@ -734,33 +783,90 @@ if ($authority_id > 0) {
     let filtersClosed = false;
 
     $(document).ready(function(){
-
         //let columns = [
+        //
+        //    {
+        //        data: null,
+        //        title: "Sr No",
+        //        orderable: false,
+        //        searchable: false,
+        //        render: function (data, type, row, meta) {
+        //            return meta.row + meta.settings._iDisplayStart + 1;
+        //        }
+        //    },
+        //    {
+        //        data: null,
+        //        title: "Status",
+        //        render: function (data, type, row) {
+        //
+        //            let text = row.status_text || "Not Available";
+        //            let color = row.status_color || "#777";
+        //
+        //            return `<span style="font-weight:600; color:${color};">${text}</span>`;
+        //        }
+        //    },
+        //
         //    <?php //foreach($cols as $c){ ?>
-        //    { data: "<?php //= $c ?>//" },
+        //    { data: "<?//= $c ?>//" },
         //    <?php //} ?>
-        //];
-
+        //    {
+        //        data: "id",
+        //        orderable: false,
+        //        searchable: false,
+        //        render: function(data, type, row) {
+        //            return `
+        //        <a href="cooperative_view.php?id=${data}"
+        //           style="text-decoration:none; font-size:16px;">
+        //           ✏️
+        //        </a>
+        //    `;
+        //        }
+        //    }
+        //]
 
         let columns = [
-            <?php foreach($cols as $c){ ?>
-            { data: "<?= $c ?>" },
-            <?php } ?>
+
             {
                 data: "id",
+                title: "Action",
                 orderable: false,
                 searchable: false,
                 render: function(data, type, row) {
                     return `
-                <a href="cooperative_view.php?id=${data}"
+                <a href="Ncd_Reports/cooperative_view.php?id=${data}"
                    style="text-decoration:none; font-size:16px;">
                    ✏️
                 </a>
             `;
                 }
-            }
-        ];
+            },
 
+            {
+                data: null,
+                title: "Sr No",
+                orderable: false,
+                searchable: false,
+                render: function (data, type, row, meta) {
+                    return meta.row + meta.settings._iDisplayStart + 1;
+                }
+            },
+
+            {
+                data: null,
+                title: "Status",
+                render: function (data, type, row) {
+
+                    let text = row.status_text || "Not Available";
+                    let color = row.status_color || "#777";
+
+                    return `<span style="font-weight:600; color:${color};">${text}</span>`;
+                }
+            },
+
+            <?php foreach($cols as $c){ ?>
+            { data: "<?= $c ?>" },
+            <?php } ?>
+        ];
 
         dataTable = $('#tbl').DataTable({
             processing: true,
@@ -771,7 +877,7 @@ if ($authority_id > 0) {
             pageLength: 25,
             fixedHeader: true,
             ajax: {
-                url: 'fetch_cooperatives.php',
+                url: 'Ncd_Reports/fetch_cooperatives.php',
                 type: 'POST',
                 data: function(d){
                     // Add authority_id
@@ -794,9 +900,24 @@ if ($authority_id > 0) {
                     d.is_profit_making = $('#is_profit_making').val();
                     d.is_dividend_paid = $('#is_dividend_paid').val();
                     d.state_code = $('#state_code').val();
+                    d.session_district_filter = "<?= $session_district_filter ?>";
                 }
             },
             columns: columns
+        });
+
+        $('#tbl tbody').on('click', 'tr', function (e) {
+
+            // ❗ Prevent click if user clicked on actual link/button
+            if ($(e.target).closest('a, button').length) {
+                return;
+            }
+
+            let data = dataTable.row(this).data();
+
+            if (data && data.id) {
+                window.location.href = 'Ncd_Reports/cooperative_view.php?id=' + data.id;
+            }
         });
 
     });
@@ -867,7 +988,8 @@ if ($authority_id > 0) {
             financial_audit: $('#financial_audit').val(),
             is_profit_making: $('#is_profit_making').val(),
             is_dividend_paid: $('#is_dividend_paid').val(),
-            state_code: $('#state_code').val()
+            state_code: $('#state_code').val(),
+            district_ids: "<?= implode(',', $district_ids) ?>"
         });
 
         window.location.href = 'export_excel.php?' + params.toString();
@@ -967,7 +1089,9 @@ if ($authority_id > 0) {
             grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
         }
     }
-
+    .dataTables_wrapper{
+        padding: 10px;
+    }
     .dataTables_wrapper .dataTables_length {
         float: left;
         margin: 10px;
@@ -977,5 +1101,28 @@ if ($authority_id > 0) {
         float: right;
         text-align: right;
         margin: 10px;
+    }
+    #tbl tbody tr {
+        cursor: pointer;
+    }
+
+    #tbl tbody tr:hover {
+        background-color: #eef5ff !important;
+    }
+
+    #tbl thead th,
+    table.dataTable thead th {
+        background: #1a5276 !important;
+        color: #ffffff !important;
+        font-size: 13px !important;
+        font-weight: 600 !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        text-shadow: none !important;
+        border-color: #1a5276 !important;
+    }
+
+    table.dataTable thead {
+        display: table-header-group !important;
     }
 </style>

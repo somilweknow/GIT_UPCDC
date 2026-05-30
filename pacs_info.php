@@ -44,12 +44,7 @@ if (isset($_POST['update']) && isset($_POST['record_id'])) {
         pending_review='{$_POST['pending_review']}',
         grain_society_name='{$_POST['grain_society_name']}',
         loan_distributed='{$_POST['loan_distributed']}',
-        loan_distributed_1_4_26='{$_POST['loan_distributed_1_4_26']}',
-        loan_distributed_april='{$_POST['loan_distributed_april']}',
         loan_recovery='{$_POST['loan_recovery']}',
-        loan_recovery_31_3_26='{$_POST['loan_recovery_31_3_26']}',
-        loan_recovery_1_4_26='{$_POST['loan_recovery_1_4_26']}',
-        loan_recovery_april='{$_POST['loan_recovery_april']}',
         solar='{$_POST['solar']}',
         solar_26='{$_POST['solar_26']}',
         operator='{$_POST['operator']}',
@@ -64,79 +59,33 @@ if (isset($_POST['update']) && isset($_POST['record_id'])) {
 
 // Handle Insert
 if (isset($_POST['save'])) {
-    execute_query("INSERT INTO bpacs_progress(mandal_id,district_id,total_bpacs,new_bpacs,cc_limit,fertilizer,fd,repair,rkvp,upgrade_amt,review_status,pending_review,grain_society_name,loan_distributed,loan_distributed_1_4_26,loan_distributed_april,loan_recovery,loan_recovery_31_3_26,loan_recovery_1_4_26,loan_recovery_april,solar, solar_26,operator,grading,wheat_center,pulse_center,is_deleted) VALUES('{$_POST['mandal_id']}','{$_POST['district_id']}','{$_POST['total_bpacs']}','{$_POST['new_bpacs']}','{$_POST['cc_limit']}','{$_POST['fertilizer']}','{$_POST['fd']}','{$_POST['repair']}','{$_POST['rkvp']}','{$_POST['upgrade']}','{$_POST['review_status']}','{$_POST['pending_review']}','{$_POST['grain_society_name']}','{$_POST['loan_distributed']}','{$_POST['loan_distributed_1_4_26']}','{$_POST['loan_distributed_april']}','{$_POST['loan_recovery']}','{$_POST['loan_recovery_31_3_26']}','{$_POST['loan_recovery_1_4_26']}','{$_POST['loan_recovery_april']}','{$_POST['solar']}', '{$_POST['solar_26']}','{$_POST['operator']}','{$_POST['grading']}','{$_POST['wheat_center']}','{$_POST['pulse_center']}',0)");
+    execute_query("INSERT INTO bpacs_progress(mandal_id,district_id,total_bpacs,new_bpacs,cc_limit,fertilizer,fd,repair,rkvp,upgrade_amt,review_status,pending_review,grain_society_name,loan_distributed,loan_recovery,solar, solar_26,operator,grading,wheat_center,pulse_center,is_deleted) VALUES('{$_POST['mandal_id']}','{$_POST['district_id']}','{$_POST['total_bpacs']}','{$_POST['new_bpacs']}','{$_POST['cc_limit']}','{$_POST['fertilizer']}','{$_POST['fd']}','{$_POST['repair']}','{$_POST['rkvp']}','{$_POST['upgrade']}','{$_POST['review_status']}','{$_POST['pending_review']}','{$_POST['grain_society_name']}','{$_POST['loan_distributed']}','{$_POST['loan_recovery']}','{$_POST['solar']}', '{$_POST['solar_26']}','{$_POST['operator']}','{$_POST['grading']}','{$_POST['wheat_center']}','{$_POST['pulse_center']}',0)");
     $msg = '<div class="alert alert-success">रिकॉर्ड सफलतापूर्वक सहेजा गया</div>';
     header("Location: " . $_SERVER['PHP_SELF']);
     exit();
 }
 
-$session_division_id = 0;
+$div = execute_query("SELECT sno,division_name FROM master_division ORDER BY division_name");
+$dist = execute_query("SELECT sno,district_name FROM master_district ORDER BY district_name");
 
-// Level 1: session
-if (!empty($_SESSION['division_id'])) {
-    $session_division_id = is_array($_SESSION['division_id'])
-        ? intval($_SESSION['division_id'][0])
-        : intval($_SESSION['division_id']);
-}
-
-// Level 2: match by username in master_division
-if ($session_division_id == 0 && !empty($_SESSION['username'])) {
-    $uname = mysqli_real_escape_string($GLOBALS['con'] ?? $GLOBALS['conn'] ?? $GLOBALS['db'] ?? null, $_SESSION['username']);
-    $r = mysqli_fetch_assoc(execute_query(
-        "SELECT sno FROM master_division 
-         WHERE username = '{$uname}' 
-            OR username = '{$_SESSION['user_id']}' 
-         LIMIT 1"
-    ));
-    if ($r) $session_division_id = intval($r['sno']);
-}
-
-// Level 3: usersno directly as division sno
-if ($session_division_id == 0 && !empty($_SESSION['usersno'])) {
-    $session_division_id = intval($_SESSION['usersno']);
-}
-
-$selected_division = $session_division_id ? $session_division_id : '';
+// Get AR user's division and district from session
+$selected_division = '';
 $selected_district = '';
-
-// Get AR user's district from session
 if (isset($_SESSION['user_type']) && $_SESSION['user_type'] == 'ar') {
+    if (isset($_SESSION['division_id']) && is_array($_SESSION['division_id']) && count($_SESSION['division_id']) > 0) {
+        $selected_division = $_SESSION['division_id'][0];
+    }
     if (isset($_SESSION['district_id']) && is_array($_SESSION['district_id']) && count($_SESSION['district_id']) > 0) {
         $selected_district = $_SESSION['district_id'][0];
     }
 }
 
-// Dropdowns for division and district based on user permissions
-$div_query = "SELECT sno,division_name FROM master_division";
-if ($selected_division != '') {
-    $div_query .= " WHERE sno = '{$selected_division}'";
-}
-$div_query .= " ORDER BY division_name";
-
-$dist_query = "SELECT sno,district_name FROM master_district";
-$dist_conditions = [];
-if ($selected_division != '') {
-    $dist_conditions[] = "division_id = '{$selected_division}'";
-}
-if ($selected_district != '') {
-    $dist_conditions[] = "sno = '{$selected_district}'";
-}
-if (count($dist_conditions) > 0) {
-    $dist_query .= " WHERE " . implode(" AND ", $dist_conditions);
-}
-$dist_query .= " ORDER BY district_name";
-
-$div = execute_query($div_query);
-$dist = execute_query($dist_query);
-
-
 // Fetch existing records based on user permissions
 $where_clause = 'WHERE bp.is_deleted = 0';
-if ($selected_division != '') {
-    $where_clause .= " AND bp.mandal_id = '{$selected_division}'";
-}
-if ($selected_district != '') {
-    $where_clause .= " AND bp.district_id = '{$selected_district}'";
+if (isset($_SESSION['user_type']) && $_SESSION['user_type'] == 'ar') {
+    if ($selected_district != '') {
+        $where_clause .= " AND bp.district_id = '{$selected_district}'";
+    }
 }
 
 $records_query = "SELECT bp.*, 
@@ -152,8 +101,8 @@ $records_query = "SELECT bp.*,
 $records = execute_query($records_query);
 
 // Reset query pointers for form dropdowns
-$div = execute_query($div_query);
-$dist = execute_query($dist_query);
+$div = execute_query("SELECT sno,division_name FROM master_division ORDER BY division_name");
+$dist = execute_query("SELECT sno,district_name FROM master_district ORDER BY district_name");
 
 page_header_start();
 page_header_end();
@@ -606,39 +555,17 @@ page_sidebar();
 
                     <div class="section-title">फसली ऋण</div>
 
-                    <div class="row">
+                    <div class="row row-gap">
                         <div class="col-md-6">
-                            <h4 style="color: #667eea; font-weight: 700; margin-bottom: 20px; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">वितरित धनराशि</h4>
-                            <div class="form-group" style="display:none;">
-                                <label>वितरित धनराशि (कुल)</label>
+                            <div class="form-group">
+                                <label>वितरित धनराशि</label>
                                 <input type="text" name="loan_distributed" class="form-control" placeholder="राशि दर्ज करें" value="<?= $edit_mode ? htmlspecialchars($edit_data['loan_distributed']) : '' ?>">
-                            </div>
-                            <div class="form-group">
-                                <label>01-04-2026 से अद्यतन (रु)</label>
-                                <input type="text" name="loan_distributed_1_4_26" class="form-control" placeholder="राशि दर्ज करें" value="<?= $edit_mode ? htmlspecialchars($edit_data['loan_distributed_1_4_26']) : '' ?>">
-                            </div>
-                            <div class="form-group">
-                                <label>माह अप्रैल में वितरित</label>
-                                <input type="text" name="loan_distributed_april" class="form-control" placeholder="राशि दर्ज करें" value="<?= $edit_mode ? htmlspecialchars($edit_data['loan_distributed_april']) : '' ?>">
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <h4 style="color: #667eea; font-weight: 700; margin-bottom: 20px; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">वसूली</h4>
-                            <div class="form-group" style="display:none;">
-                                <label>वसूली (कुल)</label>
+                            <div class="form-group">
+                                <label>वसूली</label>
                                 <input type="text" name="loan_recovery" class="form-control" placeholder="राशि दर्ज करें" value="<?= $edit_mode ? htmlspecialchars($edit_data['loan_recovery']) : '' ?>">
-                            </div>
-                            <div class="form-group">
-                                <label>31-03-2026 को कुल बकाया</label>
-                                <input type="text" name="loan_recovery_31_3_26" class="form-control" placeholder="राशि दर्ज करें" value="<?= $edit_mode ? htmlspecialchars($edit_data['loan_recovery_31_3_26']) : '' ?>">
-                            </div>
-                            <div class="form-group">
-                                <label>01-04-2026 से अद्यतन वसूली</label>
-                                <input type="text" name="loan_recovery_1_4_26" class="form-control" placeholder="राशि दर्ज करें" value="<?= $edit_mode ? htmlspecialchars($edit_data['loan_recovery_1_4_26']) : '' ?>">
-                            </div>
-                            <div class="form-group">
-                                <label>माह अप्रैल में वसूली</label>
-                                <input type="text" name="loan_recovery_april" class="form-control" placeholder="राशि दर्ज करें" value="<?= $edit_mode ? htmlspecialchars($edit_data['loan_recovery_april']) : '' ?>">
                             </div>
                         </div>
                     </div>
@@ -702,12 +629,6 @@ page_sidebar();
                         </div>
                     </div>
 
-                    <!-- <div class="section-title">विश्व की सबसे बड़ी अन्न भंडारण योजना में चयनित सहकारी समितियों के नाम </div>
-                    <div class="form-group">
-                        <label>चयनित समितियों का नाम</label>
-                        <textarea name="grain_society_name" class="form-control" placeholder="चयनित समितियों के नाम यहां दर्ज करें..."><?= $edit_mode ? htmlspecialchars($edit_data['grain_society_name']) : '' ?></textarea>
-                    </div> -->
-
                     <div class="text-center mt-5">
                         <?php if ($edit_mode): ?>
                             <!-- <a href="<?= $_SERVER['PHP_SELF'] ?>" class="btn-cancel">reset</a> -->
@@ -749,11 +670,8 @@ page_sidebar();
                                 <th>उन्नयन राशि</th>
                                 <th>समीक्षा</th>
                                 <th>लंबित</th>
-                                <th>ऋण वितरण (01-04-2026 से)</th>
-                                <th>ऋण वितरण (अप्रैल)</th>
-                                <th>वसूली (31-03-2026 बकाया)</th>
-                                <th>वसूली (01-04-2026 से अद्यतन)</th>
-                                <th>वसूली (अप्रैल)</th>
+                                <th>ऋण वितरण</th>
+                                <th>वसूली</th>
                                 <th>सोलर - पूर्व में हो चुका है</th>
                                 <th>सोलर - मार्च 2026 में होना है</th>
                                 <th>ऑपरेटर</th>
@@ -791,11 +709,8 @@ page_sidebar();
                                     <?php endif; ?>
                                 </td>
                                 <td><?= htmlspecialchars($row['pending_review']) ?></td>
-                                <td><?= htmlspecialchars($row['loan_distributed_1_4_26']) ?></td>
-                                <td><?= htmlspecialchars($row['loan_distributed_april']) ?></td>
-                                <td><?= htmlspecialchars($row['loan_recovery_31_3_26']) ?></td>
-                                <td><?= htmlspecialchars($row['loan_recovery_1_4_26']) ?></td>
-                                <td><?= htmlspecialchars($row['loan_recovery_april']) ?></td>
+                                <td><?= htmlspecialchars($row['loan_distributed']) ?></td>
+                                <td><?= htmlspecialchars($row['loan_recovery']) ?></td>
                                 <td><?= htmlspecialchars($row['solar']) ?></td>
                                 <td><?= htmlspecialchars($row['solar_26']) ?></td>
                                 <td><?= htmlspecialchars($row['operator']) ?></td>
@@ -830,3 +745,8 @@ document.querySelectorAll('.btn-delete').forEach(function(btn) {
     });
 });
 </script>
+
+<?php
+page_footer_start();
+page_footer_end();
+?>

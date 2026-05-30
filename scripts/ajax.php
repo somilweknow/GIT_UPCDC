@@ -67,8 +67,30 @@ elseif($id=='society'){
 	while($row = mysqli_fetch_assoc($result)){
 		$data[] = array("id"=>$row['sno'], "society_name"=>$row['col4']);
 	}
-}
-elseif($id=='submit_form'){
+} elseif ($id == 'maintenance_society') {
+	$type = (int) $_POST['type'];
+	$dist = (int) $_POST['district'];
+	$sql = '';
+
+	if ($type == 1) {
+		$sql = 'SELECT sno as id, samiti_naam as society_name FROM block_union WHERE janpad_name = "' . $dist . '" AND is_deleted = 0 ORDER BY samiti_naam';
+	} elseif ($type == 2) {
+		$sql = 'SELECT sno as id, society_name FROM marketing WHERE district_id = "' . $dist . '" AND is_deleted = 0 ORDER BY society_name';
+	} elseif ($type == 3) {
+		$sql = 'SELECT sno as id, society_name FROM upss WHERE janpad_name = "' . $dist . '" AND is_deleted = 0 ORDER BY society_name';
+	} elseif ($type == 4) {
+		$sql = 'SELECT sno as id, society_name FROM jila_sehkari WHERE janpad_name = "' . $dist . '" AND is_deleted = 0 ORDER BY society_name';
+	} elseif ($type == 5) {
+		$sql = 'SELECT sno as id, col4 as society_name FROM test2 WHERE col2 = "' . $dist . '" AND col3 = 80 ORDER BY col4';
+	}
+
+	if ($sql != '') {
+		$result = execute_query($sql);
+		while ($row = mysqli_fetch_assoc($result)) {
+			$data[] = array("id" => $row['id'], "society_name" => $row['society_name']);
+		}
+	}
+} elseif($id=='submit_form'){
 	
 	//print_r($_POST);
 	//print_r($_SERVER);

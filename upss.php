@@ -301,8 +301,8 @@ if ($USER_TYPE == 2 || !empty($DIV_ID) || !empty($DIS_ID)) {
 
     ?>
     <div class="card" style="margin-top:30px">
-        <h3 class="section-heading" style="text-align:center">उपभोक्ता संघ रिपोर्ट</h3>
-        <div class="table-wrap">
+        <h3 class="module-title">उपभोक्ता संघ रिपोर्ट</h3>
+        <div class="table-responsive">
             <table class="report-table">
                 <thead>
                     <tr>
@@ -526,8 +526,8 @@ if ($USER_TYPE == 2 || !empty($DIV_ID) || !empty($DIS_ID)) {
     <?php if ($is_edit): ?><input type="hidden" name="update_sno" value="<?= (int) $edit_id ?>"><?php endif; ?>
 
     <div class="card">
-        <h3 class="section-heading">📍 लोकेशन</h3>
-        <div class="form-grid" style="grid-template-columns: 1fr 3fr;">
+        <h3 class="section-heading" style="text-align:center">📍 लोकेशन</h3>
+        <div class="form-grid map-grid">
             <div>
                 <label class="form-label">लोकेशन भरने का तरीका</label>
                 <select id="geo_type" class="form-select" onchange="toggleGeoType()">
